@@ -150,7 +150,7 @@ export default function SignUpForm() {
                                             </div> */}
 
                                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                <button type="button" className="btn btn-primary btn-block btn-lg">Crear cuenta</button>
+                                                <button type="button" className="btn btn-primary btn-block">Crear cuenta</button>
                                             </div>
 
                                         </form>
