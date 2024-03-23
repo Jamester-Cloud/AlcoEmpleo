@@ -11,10 +11,18 @@ export default function SignUpForm() {
         email: "",
         password: "",
         username: "",
+        cedula: "",
+        direccion: "",
+        nombres: "",
+        apellidos: "",
+        telefono: ""
     })
     //states
     const [buttonDisabled, setButtonDisabled] = React.useState(false);
+    const [isInvalid, setIsInvalid] = React.useState(false);
+    const [hasTyped, setHasTyped] = React.useState(false);
     const [loading, setLoading] = React.useState(false)
+    const [repeatedPassword, setRepeatedPassword] = React.useState("");
 
     const onSignup = async () => {
         try {
@@ -30,13 +38,14 @@ export default function SignUpForm() {
         }
 
     }
-    useEffect(() => {
-        if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
-            setButtonDisabled(false);
-        } else {
-            setButtonDisabled(true);
-        }
-    }, [user])
+
+    const onHandleInputChange = (event: any) => {
+        const newValue = event.target.value;
+
+        setUser({ ...user, [event.target.name]: newValue });
+        setHasTyped(true);
+        setIsInvalid(event.target.value ? true : false)
+    }
 
     return (
         <section className="vh-100">
@@ -50,12 +59,18 @@ export default function SignUpForm() {
 
                                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Crear cuenta</p>
 
-                                        <form className="mx-1 mx-md-4">
+                                        <form onSubmit={onSignup} className="mx-1 mx-md-4">
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="text" id="form3Example1c" className="form-control" />
+                                                    <input
+                                                        name="nombres"
+                                                        type="text"
+                                                        onChange={onHandleInputChange}
+                                                        id="form3Example1c"
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                    />
                                                     <label className="form-label" htmlFor="form3Example1c">Nombres</label>
                                                 </div>
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -69,7 +84,11 @@ export default function SignUpForm() {
 
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="email" id="form3Example3c" className="form-control" />
+                                                    <input
+                                                        type="email"
+                                                        onChange={onHandleInputChange}
+                                                        id="form3Example3c"
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example3c">Email</label>
                                                 </div>
                                             </div>
@@ -77,12 +96,18 @@ export default function SignUpForm() {
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="email" id="form3Example3c" className="form-control" />
+                                                    <input
+                                                        type="telefono"
+
+                                                        name="telefono"
+                                                        onChange={onHandleInputChange}
+                                                        id="form3Example3c"
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example3c">Telefono de contacto</label>
                                                 </div>
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="email" id="form3Example3c" className="form-control" />
+                                                    <input type="cedula" id="form3Example3c" onChange={(e) => setUser({ ...user, cedula: e.target.value })} className="form-control" />
                                                     <label className="form-label" htmlFor="form3Example3c">Cedula de identidad</label>
                                                 </div>
                                             </div>
@@ -90,28 +115,39 @@ export default function SignUpForm() {
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="password" id="form3Example4c" className="form-control" />
+                                                    <input
+                                                        type="password"
+                                                        id="form3Example4c"
+                                                        onChange={onHandleInputChange}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example4c">Contraseña</label>
                                                 </div>
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="password" id="form3Example4cd" className="form-control" />
-                                                    <label className="form-label" htmlFor="form3Example4cd">Repite tu contraseña</label>
+                                                    <input
+                                                        type="passwordRep"
+                                                        id="form3Example4cd"
+                                                        onChange={(e) => setRepeatedPassword(e.target.value)}
+                                                        className={'form-control'}
+                                                    />
+                                                    <label className={repeatedPassword !== user.password ? "" : "text-danger"} htmlFor="form3Example4cd"> {repeatedPassword === user.password ? "La contraseña no coinciden" : "Repite tu contraseña"}</label>
+
                                                 </div>
                                             </div>
                                             <div className="form-check d-flex justify-content-center mb-5">
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <textarea className="form-control" id="exampleTextarea" rows={3}></textarea>
+                                                    <textarea className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        onChange={onHandleInputChange} id="exampleTextarea" rows={3}></textarea>
                                                     <label className="form-label" htmlFor="exampleTextarea">Direccion de habitación</label>
                                                 </div>
                                             </div>
 
-                                            <div className="form-check d-flex justify-content-center mb-5">
+                                            {/* <div className="form-check d-flex justify-content-center mb-5">
                                                 <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                                                 <label className="form-check-label" htmlFor="form2Example3">
                                                     Estoy de acuerdo a los <a href="#!">Terminos de servicio del GrupoAlco</a>
                                                 </label>
-                                            </div>
+                                            </div> */}
 
                                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                                 <button type="button" className="btn btn-primary btn-block btn-lg">Crear cuenta</button>

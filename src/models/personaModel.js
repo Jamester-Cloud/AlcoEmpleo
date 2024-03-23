@@ -10,7 +10,7 @@ const personaSchema = new mongoose.Schema({
         type: String,
         required: [true, "Por favor introduce un apellido"]
     },
-    correoElectronico: {
+    email: {
         type: String,
         required: [true, "Correo electronico requerido"],
         unique: true

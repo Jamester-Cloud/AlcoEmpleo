@@ -2,11 +2,6 @@ import mongoose from "mongoose";
 
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, "Por favor introduce un nombre de usuario"],
-        unique: true
-    },
     email: {
         type: String,
         required: [true, "Por favor introduce un correo electronico"],
@@ -29,6 +24,10 @@ const userSchema = new mongoose.Schema({
     isPremium:{
         type:Boolean,
         default:false
+    },
+    idPersona:{
+        type:String,
+        required:[true, "IdPersona requerido para relacionar"]
     },
     forgotPasswordToken:String,
     forgotPasswordTokenExpire:Date,
