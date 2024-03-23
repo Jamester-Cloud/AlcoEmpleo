@@ -29,6 +29,6 @@ const personaSchema = new mongoose.Schema({
     fechaNacimiento: Date,
 })
 
-const Persona = mongoose.models.personas || mongoose.model("personas", user, personaSchema)
+const Persona = mongoose.models.personas || mongoose.model("personas", personaSchema)
 
 export default Persona;

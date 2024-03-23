@@ -18,7 +18,6 @@ export default function SignUpForm() {
         telefono: ""
     })
     //states
-    const [buttonDisabled, setButtonDisabled] = React.useState(false);
     const [isInvalid, setIsInvalid] = React.useState(false);
     const [hasTyped, setHasTyped] = React.useState(false);
     const [loading, setLoading] = React.useState(false)

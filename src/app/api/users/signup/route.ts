@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
         const savedPersona = await newPersona.save()
         //then users table
-        const newUser = new User({password: hashedPassword, fechaIngreso: new Date(), idPersona: savedPersona._id})
+        const newUser = new User({password: hashedPassword, fechaIngreso: new Date(), idPersona:savedPersona._id})
         
         const savedUser = await newUser.save()
         //send the confirmation email
@@ -43,8 +43,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'User created succesfully', success: true, savedUser })
 
     } catch (error: any) {
-
         return NextResponse.json({ error: error.message }, { status: 500 })
-
     }
 }
