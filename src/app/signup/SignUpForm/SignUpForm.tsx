@@ -73,7 +73,7 @@ export default function SignUpForm() {
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <InputMask
                                                         name="cedula"
                                                         id="cedula"
@@ -89,7 +89,7 @@ export default function SignUpForm() {
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input
                                                         name="nombres"
                                                         type="text"
@@ -100,7 +100,7 @@ export default function SignUpForm() {
                                                     <label className="form-label" htmlFor="nombres">Nombres</label>
                                                 </div>
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input type="text"
                                                         id="apellidos"
                                                         name="apellidos"
@@ -112,7 +112,7 @@ export default function SignUpForm() {
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input
                                                         type="email"
                                                         onChange={onHandleInputChange}
@@ -123,7 +123,7 @@ export default function SignUpForm() {
                                                 </div>
 
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input
                                                         type="telefono"
                                                         name="telefono"
@@ -136,7 +136,7 @@ export default function SignUpForm() {
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input
                                                         type="password"
                                                         id="password"
@@ -146,7 +146,7 @@ export default function SignUpForm() {
                                                     <label className="form-label" htmlFor="form3Example4c">Contraseña</label>
                                                 </div>
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <input
                                                         type="password"
                                                         name="passwordrep"
@@ -160,7 +160,7 @@ export default function SignUpForm() {
                                                 </div>
                                             </div>
                                             <div className="form-check d-flex justify-content-center mb-5">
-                                                <div className="form-outline flex-fill mb-0">
+                                                <div className=" flex-fill mb-0">
                                                     <textarea
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
                                                         onChange={onHandleInputChange}
