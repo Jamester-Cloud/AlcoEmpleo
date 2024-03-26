@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 import toast from "react-hot-toast";
 import Image from "next/image";
+import InputMask from 'react-input-mask';
 
 export default function SignUpForm() {
     const router = useRouter()
@@ -37,11 +38,12 @@ export default function SignUpForm() {
         }
 
     }
-
+    console.log(repeatedPassword)
     const onHandleInputChange = (event: any) => {
         const newValue = event.target.value;
-
+        //masking the C.I
         setUser({ ...user, [event.target.name]: newValue });
+
         setHasTyped(true);
         setIsInvalid(event.target.value ? true : false)
     }
@@ -61,53 +63,61 @@ export default function SignUpForm() {
                                         <form onSubmit={onSignup} className="mx-1 mx-md-4">
 
                                             <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div className="form-outline flex-fill mb-0">
+                                                    <InputMask
+                                                        name="cedula"
+                                                        id="cedula"
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        mask='V-99999999'
+                                                    />
+                                                    <label className="form-label" htmlFor="cedula">Cedula de identidad</label>
+                                                    <button className="btn btn-primary btn-round">Buscar</button>
+                                                    <hr />
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
                                                     <input
                                                         name="nombres"
                                                         type="text"
                                                         onChange={onHandleInputChange}
-                                                        id="form3Example1c"
+                                                        id="nombres"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
                                                     />
-                                                    <label className="form-label" htmlFor="form3Example1c">Nombres</label>
+                                                    <label className="form-label" htmlFor="nombres">Nombres</label>
                                                 </div>
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="text" id="form3Example1c" className="form-control" />
-                                                    <label className="form-label" htmlFor="form3Example1c">Apellidos</label>
+                                                    <input type="text" id="apellidos" className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                    <label className="form-label" htmlFor="apellidos">Apellidos</label>
                                                 </div>
                                             </div>
 
                                             <div className="d-flex flex-row align-items-center mb-4">
-
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
                                                     <input
                                                         type="email"
                                                         onChange={onHandleInputChange}
-                                                        id="form3Example3c"
+                                                        id="email"
+                                                        name="email"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example3c">Email</label>
                                                 </div>
-                                            </div>
 
-                                            <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
                                                     <input
                                                         type="telefono"
-
                                                         name="telefono"
                                                         onChange={onHandleInputChange}
                                                         id="form3Example3c"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example3c">Telefono de contacto</label>
-                                                </div>
-                                                <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                <div className="form-outline flex-fill mb-0">
-                                                    <input type="cedula" id="form3Example3c" onChange={(e) => setUser({ ...user, cedula: e.target.value })} className="form-control" />
-                                                    <label className="form-label" htmlFor="form3Example3c">Cedula de identidad</label>
                                                 </div>
                                             </div>
 
@@ -116,7 +126,8 @@ export default function SignUpForm() {
                                                 <div className="form-outline flex-fill mb-0">
                                                     <input
                                                         type="password"
-                                                        id="form3Example4c"
+                                                        id="password"
+                                                        name="password"
                                                         onChange={onHandleInputChange}
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example4c">Contraseña</label>
@@ -124,12 +135,14 @@ export default function SignUpForm() {
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
                                                     <input
-                                                        type="passwordRep"
-                                                        id="form3Example4cd"
+                                                        type="password"
+                                                        name="passwordrep"
+                                                        value={repeatedPassword}
+                                                        id="passwordrep"
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
                                                         className={'form-control'}
                                                     />
-                                                    <label className={repeatedPassword !== user.password ? "" : "text-danger"} htmlFor="form3Example4cd"> {repeatedPassword === user.password ? "La contraseña no coinciden" : "Repite tu contraseña"}</label>
+                                                    <label className={repeatedPassword === user.password ? "" : "text-danger"} htmlFor="form3Example4cd"> {repeatedPassword == user.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
 
                                                 </div>
                                             </div>
