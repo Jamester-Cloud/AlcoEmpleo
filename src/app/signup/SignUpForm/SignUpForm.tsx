@@ -179,7 +179,7 @@ export default function SignUpForm() {
                                                 </label>
                                             </div> */}
 
-                                            <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <div className="text-center">
                                                 <button type="submit" disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
                                             </div>
 
