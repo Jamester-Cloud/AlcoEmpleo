@@ -11,7 +11,6 @@ export default function SignUpForm() {
     const [user, setUser] = React.useState({
         email: "",
         password: "",
-        username: "",
         cedula: "",
         direccion: "",
         nombres: "",
@@ -23,12 +22,13 @@ export default function SignUpForm() {
     const [hasTyped, setHasTyped] = React.useState(false);
     const [loading, setLoading] = React.useState(false)
     const [repeatedPassword, setRepeatedPassword] = React.useState("");
-
+    const [buttonDisabled, setButtonDisabled] = React.useState(true)
     const onSignup = async () => {
         try {
             setLoading(true)
             const response = await axios.post("/api/users/signup", user)
             console.log("Signup success", response.data)
+            toast.success("Datos enviados correctamente")
             router.push("/login");
         } catch (error: any) {
             toast.error("Error al iniciar sesion")
@@ -38,15 +38,24 @@ export default function SignUpForm() {
         }
 
     }
-    console.log(repeatedPassword)
-    const onHandleInputChange = (event: any) => {
-        const newValue = event.target.value;
-        //masking the C.I
-        setUser({ ...user, [event.target.name]: newValue });
 
+    const onHandleInputChange = ({ target: { name, value, id } }: any) => {
+        let newValue = value;
+        console.log(name)
+
+        setUser({ ...user, [name]: newValue });
         setHasTyped(true);
-        setIsInvalid(event.target.value ? true : false)
+        setIsInvalid(newValue ? true : false)
     }
+
+    const isFormValid = () => {
+        return Object.values(user).every((value) => value !== '');
+    };
+
+    useEffect(() => {
+        setButtonDisabled(!isFormValid());
+    }, [user]);
+
 
     return (
         <section className="vh-100">
@@ -58,9 +67,9 @@ export default function SignUpForm() {
                                 <div className="row justify-content-center">
                                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Crear cuenta</p>
+                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{loading ? 'Enviando datos...' : 'Crear cuenta'}</p>
 
-                                        <form onSubmit={onSignup} className="mx-1 mx-md-4">
+                                        <form onSubmit={onSignup} method="POST" className="mx-1 mx-md-4">
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -68,14 +77,14 @@ export default function SignUpForm() {
                                                     <InputMask
                                                         name="cedula"
                                                         id="cedula"
+                                                        onChange={onHandleInputChange}
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
                                                         mask='V-99999999'
                                                     />
                                                     <label className="form-label" htmlFor="cedula">Cedula de identidad</label>
-                                                    <button className="btn btn-primary btn-round">Buscar</button>
                                                     <hr />
                                                 </div>
-                                                
+
                                             </div>
 
                                             <div className="d-flex flex-row align-items-center mb-4">
@@ -92,7 +101,11 @@ export default function SignUpForm() {
                                                 </div>
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <input type="text" id="apellidos" className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                    <input type="text"
+                                                        id="apellidos"
+                                                        name="apellidos"
+                                                        onChange={onHandleInputChange}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="apellidos">Apellidos</label>
                                                 </div>
                                             </div>
@@ -115,7 +128,7 @@ export default function SignUpForm() {
                                                         type="telefono"
                                                         name="telefono"
                                                         onChange={onHandleInputChange}
-                                                        id="form3Example3c"
+                                                        id="telefono"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="form3Example3c">Telefono de contacto</label>
                                                 </div>
@@ -148,8 +161,13 @@ export default function SignUpForm() {
                                             </div>
                                             <div className="form-check d-flex justify-content-center mb-5">
                                                 <div className="form-outline flex-fill mb-0">
-                                                    <textarea className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
-                                                        onChange={onHandleInputChange} id="exampleTextarea" rows={3}></textarea>
+                                                    <textarea
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        onChange={onHandleInputChange}
+                                                        id="direccion"
+                                                        name="direccion"
+                                                        rows={3}
+                                                    ></textarea>
                                                     <label className="form-label" htmlFor="exampleTextarea">Direccion de habitación</label>
                                                 </div>
                                             </div>
@@ -162,7 +180,7 @@ export default function SignUpForm() {
                                             </div> */}
 
                                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                <button type="button" className="btn btn-primary btn-block">Crear cuenta</button>
+                                                <button type="submit" disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
                                             </div>
 
                                         </form>
