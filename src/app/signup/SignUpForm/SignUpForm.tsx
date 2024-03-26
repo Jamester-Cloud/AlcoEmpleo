@@ -69,7 +69,7 @@ export default function SignUpForm() {
 
                                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{loading ? 'Enviando datos...' : 'Crear cuenta'}</p>
 
-                                        <form onSubmit={onSignup} method="POST" className="mx-1 mx-md-4">
+                                        <form className="mx-1 mx-md-4">
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -179,12 +179,10 @@ export default function SignUpForm() {
                                                 </label>
                                             </div> */}
 
-                                            <div className="text-center">
-                                                <button type="submit" disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
-                                            </div>
-
                                         </form>
-
+                                        <div className="text-center">
+                                            <button type="button" onClick={onSignup} disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
+                                        </div>
                                     </div>
                                     <div className="col-md-10 p-5 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
                                         <Image width={400} height={400} src="/AlcoSloganLogo.png"
