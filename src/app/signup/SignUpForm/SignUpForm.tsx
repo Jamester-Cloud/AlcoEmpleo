@@ -119,7 +119,7 @@ export default function SignUpForm() {
                                                         id="email"
                                                         name="email"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
-                                                    <label className="form-label" htmlFor="form3Example3c">Email</label>
+                                                    <label className="form-label" htmlFor="email">Email</label>
                                                 </div>
 
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -130,7 +130,7 @@ export default function SignUpForm() {
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
-                                                    <label className="form-label" htmlFor="form3Example3c">Telefono de contacto</label>
+                                                    <label className="form-label" htmlFor="telefono">Telefono de contacto</label>
                                                 </div>
                                             </div>
 
@@ -143,7 +143,7 @@ export default function SignUpForm() {
                                                         name="password"
                                                         onChange={onHandleInputChange}
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
-                                                    <label className="form-label" htmlFor="form3Example4c">Contraseña</label>
+                                                    <label className="form-label" htmlFor="password">Contraseña</label>
                                                 </div>
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
                                                 <div className=" flex-fill mb-0">
@@ -155,7 +155,7 @@ export default function SignUpForm() {
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
                                                         className={'form-control'}
                                                     />
-                                                    <label className={repeatedPassword === user.password ? "" : "text-danger"} htmlFor="form3Example4cd"> {repeatedPassword == user.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
+                                                    <label className={repeatedPassword === user.password ? "" : "text-danger"} htmlFor="passwordrep"> {repeatedPassword == user.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
 
                                                 </div>
                                             </div>
@@ -168,7 +168,7 @@ export default function SignUpForm() {
                                                         name="direccion"
                                                         rows={3}
                                                     ></textarea>
-                                                    <label className="form-label" htmlFor="exampleTextarea">Direccion de habitación</label>
+                                                    <label className="form-label" htmlFor="direccion">Direccion de habitación</label>
                                                 </div>
                                             </div>
 
