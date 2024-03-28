@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast";
 import Image from "next/image";
 import InputMask from 'react-input-mask';
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 export default function SignUpForm() {
     const router = useRouter()
@@ -23,15 +23,36 @@ export default function SignUpForm() {
     const [loading, setLoading] = React.useState(false)
     const [repeatedPassword, setRepeatedPassword] = React.useState("");
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
+    //SignUp Component
     const onSignup = async () => {
         try {
             setLoading(true)
             const response = await axios.post("/api/users/signup", user)
             console.log("Signup success", response.data)
-            toast.success("Datos enviados correctamente")
+            toast.success('Registro exitoso!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             router.push("/login");
         } catch (error: any) {
-            toast.error("Error al iniciar sesion")
+            toast.error(`Error en el registro del usuario: ${error.message} `, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
             console.log("sign up failed", error.message);
         } finally {
             setLoading(false);
@@ -55,6 +76,10 @@ export default function SignUpForm() {
     useEffect(() => {
         setButtonDisabled(!isFormValid());
     }, [user]);
+
+    useEffect(() => {
+
+    }, [])
 
 
     return (
@@ -182,6 +207,19 @@ export default function SignUpForm() {
                                         </form>
                                         <div className="text-center">
                                             <button type="button" onClick={onSignup} disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
+                                            <ToastContainer
+                                                position="top-right"
+                                                autoClose={5000}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                                theme="light"
+                                            />
+
                                         </div>
                                     </div>
                                     <div className="col-md-10 p-5 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
