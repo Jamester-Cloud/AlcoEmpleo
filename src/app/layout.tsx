@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/react-fontawesome'
 import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ["latin"] });
-
+import Header from "./components/Headers/Header";
 export const metadata: Metadata = {
   title: "AlcoEmpleo",
   description: "Encuentra tu proximo candidato ideal!",
@@ -18,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Header></Header>
+        {children}
+      </body>
     </html>
   );
 }

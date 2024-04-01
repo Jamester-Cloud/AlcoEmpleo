@@ -6,10 +6,11 @@ export function middleware(request: NextRequest) {
 
     // request path
     const path = request.nextUrl.pathname
-
+    //rutas publicas
     const isPublicPath = path === '/login' || path === '/signup' || path === '/verifyEmail'
-
+    //token unico basado en una cookie
     const token = request.cookies.get('token')?.value || ''
+
     //Si estamos logueados porque tenemos token, entonces solo veremos inicio
     if (isPublicPath && token) return NextResponse.redirect(new URL('/', request.nextUrl));
     //cuando no estamos logueados
