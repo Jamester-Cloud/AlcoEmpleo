@@ -1,5 +1,5 @@
 
-export default function header() {
+export default function HeaderEnterprise() {
     return (<nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div className="container-fluid">
             <a className="navbar-brand" href="#">Navbar</a>
@@ -20,8 +20,9 @@ export default function header() {
                     <li className="nav-item">
                         <a className="nav-link" href="#">Publicar vacante</a>
                     </li>
+                    
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Ver mi subscripcion</a>
+                        <a className="nav-link" href="#">Subscripción</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#">Salir</a>

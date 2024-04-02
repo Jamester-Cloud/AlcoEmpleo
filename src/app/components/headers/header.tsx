@@ -1,5 +1,5 @@
 
-export default function header() {
+export default function Header() {
     return (<nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div className="container-fluid">
             <a className="navbar-brand" href="#">Navbar</a>
@@ -16,11 +16,12 @@ export default function header() {
                         <span className="visually-hidden">(current)</span>
                     </a>
                 </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Subscripcion</a>
-                </li>
+       
                 <li className="nav-item">
                     <a className="nav-link" href="#">Acerca de AlcoEmpleo</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Iniciar Sesion</a>
                 </li>
             </ul>
         </div>
