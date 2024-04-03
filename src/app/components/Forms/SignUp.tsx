@@ -6,7 +6,8 @@ import Image from "next/image";
 import InputMask from 'react-input-mask';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 
-export default function SignUpForm() {
+export default function SignUpForm(props:any) {
+    let {type} = props;
     const router = useRouter()
     const [user, setUser] = React.useState({
         email: "",
@@ -83,7 +84,7 @@ export default function SignUpForm() {
 
 
     return (
-        <section className="vh-100">
+        <section className="">
             <div className="container h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-lg-12 col-xl-11">
@@ -92,7 +93,7 @@ export default function SignUpForm() {
                                 <div className="row justify-content-center">
                                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{loading ? 'Enviando datos...' : 'Crear cuenta'}</p>
+                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{loading ? 'Enviando datos...' : type}</p>
 
                                         <form className="mx-1 mx-md-4">
 
