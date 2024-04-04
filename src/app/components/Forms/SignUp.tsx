@@ -117,11 +117,15 @@ export default function SignUpForm(props:any) {
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className=" flex-fill mb-0">
                                                     <input
+
                                                         name="nombres"
                                                         type="text"
                                                         onChange={onHandleInputChange}
                                                         id="nombres"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control' }
+                                                        maxLength={26}
+                                                        minLength={3}
+                                                        required={true}
                                                     />
                                                     <label className="form-label" htmlFor="nombres">Nombres</label>
                                                 </div>
@@ -131,7 +135,10 @@ export default function SignUpForm(props:any) {
                                                         id="apellidos"
                                                         name="apellidos"
                                                         onChange={onHandleInputChange}
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        maxLength={26}
+                                                        minLength={3}
+                                                        required />
                                                     <label className="form-label" htmlFor="apellidos">Apellidos</label>
                                                 </div>
                                             </div>
@@ -144,7 +151,12 @@ export default function SignUpForm(props:any) {
                                                         onChange={onHandleInputChange}
                                                         id="email"
                                                         name="email"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        maxLength={50}
+                                                        minLength={5}
+                                                        required
+
+                                                         />
                                                     <label className="form-label" htmlFor="email">Email</label>
                                                 </div>
 
@@ -155,7 +167,11 @@ export default function SignUpForm(props:any) {
                                                         name="telefono"
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} 
+                                                        maxLength={15}
+                                                        
+                                                 
+                                                        />
                                                     <label className="form-label" htmlFor="telefono">Telefono de contacto</label>
                                                 </div>
                                             </div>
@@ -168,7 +184,11 @@ export default function SignUpForm(props:any) {
                                                         id="password"
                                                         name="password"
                                                         onChange={onHandleInputChange}
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} 
+                                                        maxLength={30}
+                                                        minLength={8}
+                                                        required
+                                                        />
                                                     <label className="form-label" htmlFor="password">Contraseña</label>
                                                 </div>
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
@@ -180,6 +200,9 @@ export default function SignUpForm(props:any) {
                                                         id="passwordrep"
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
                                                         className={'form-control'}
+                                                        maxLength={30}
+                                                      
+                                                       
                                                     />
                                                     <label className={repeatedPassword === user.password ? "" : "text-danger"} htmlFor="passwordrep"> {repeatedPassword == user.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
 
@@ -193,6 +216,9 @@ export default function SignUpForm(props:any) {
                                                         id="direccion"
                                                         name="direccion"
                                                         rows={3}
+                                                        minLength={20}
+                                                        maxLength={150}
+                                                        required
                                                     ></textarea>
                                                     <label className="form-label" htmlFor="direccion">Direccion de habitación</label>
                                                 </div>

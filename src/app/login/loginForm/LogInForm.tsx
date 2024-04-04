@@ -41,6 +41,9 @@ export default function LogInForm() {
                     id="form2Example1"
                     className="form-control"
                     value={user.email}
+                    maxLength={50}
+                    min={1}
+                    required
                 />
                 <label className="form-label" htmlFor="form2Example1">Correo electronico</label>
             </div>
@@ -49,8 +52,11 @@ export default function LogInForm() {
                     id="form2Example2"
                     onChange={(e) => setUser({ ...user, password: e.target.value })}
                     value={user.password}
-                    className="form-control" />
+                    className="form-control"
+                    maxLength={30} 
+                    />
                 <label className="form-label" htmlFor="form2Example2">Contraseña</label>
+                
             </div>
 
 
@@ -67,7 +73,7 @@ export default function LogInForm() {
             </div>
 
             <div className="text-center">
-                <p>¿No tienes una cuenta? <Link href="/signup" > Crear cuenta.</Link></p>
+                <p>¿No tienes una cuenta? <Link href="signup/enterprise" > Crear cuenta.</Link></p>
             </div>
          
         </form>
