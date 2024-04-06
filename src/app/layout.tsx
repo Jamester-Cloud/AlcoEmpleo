@@ -5,6 +5,12 @@ import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/react-fontawesome'
 import 'react-toastify/dist/ReactToastify.css';
+
+
+
+
+
+
 // import Header from "./components/headers/headerCandidate";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,8 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="  crossOrigin="anonymous" />
+      
       <body className={inter.className}>
+
+    
+      
         {children}
+    
       </body>
     </html>
   );

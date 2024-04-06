@@ -13,6 +13,7 @@ export default function Header(props: any) {
 
                 </div>
                 <ul className="navbar-nav me-auto">
+                    
                     <li className="nav-item">
                         <a className="nav-link active" href="#">Inicio
                             <span className="visually-hidden">(current)</span>
