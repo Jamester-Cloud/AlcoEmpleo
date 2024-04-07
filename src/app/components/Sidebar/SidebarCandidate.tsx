@@ -1,43 +1,53 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass,faUser,faCog,faCartShopping,faLock } from "@fortawesome/free-solid-svg-icons";
-
 export default function SidebarCandidate() {
+    
     return (
 
-        <div className=" d-flex flex-column " >
-            <div className="bg-primary vh-100  d-md-block col-md-4 col-lg-2 d-flex flex-column align-items-start ">
-          
-                <ul className="navbar-nav flex-column ">
-                
-                    <li className="nav-item aling-items-center">
-                    <button className="btn btn-lg btn-primary"style={{width:"100%"}} >
-                        <a className="nav-link active  flex-row d-flex align-items-center" aria-current="page" href="#"><FontAwesomeIcon icon={faUser} className="me-2 " style={{width:"40px"}} type="button"></FontAwesomeIcon>        Perfil</a> 
-                
-                    </button>
+        <div className="container-fluid ">
+        <div className="row flex-nowrap">
+          <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 navbar-expand-lg bg-dark" data-bs-theme="dark">
+            <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+           
+              {/* Iniciando Lista */}
+              <ul className="navbar   navbar-nav   flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <li className="nav-item  ">
+                <div className=" ">
+                <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
+                  <span className="d-none d-sm-inline mx-1">Perfil</span>
+                </a> 
 
-                    </li>
-                    <li className="nav-item">
-                        <button className="btn btn-lg btn-primary"style={{width:"100%"}} >
-                            <a className="nav-link   d-flex align-items-center"  href="#"><FontAwesomeIcon icon={faMagnifyingGlass} className="me-2 " style={{width:"40px"}}></FontAwesomeIcon>Empleos</a>
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button className="btn btn-lg btn-primary"style={{width:"100%"}} >
-                            <a className="nav-link  d-flex align-items-center" href="#"><FontAwesomeIcon icon={faCartShopping} className="me-2 " style={{width:"40px"}}></FontAwesomeIcon>Subcripción</a>
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button className="btn btn-lg btn-primary"style={{width:"100%"}} >
-                        <a className="nav-link d-flex align-items-center"  href="#"><FontAwesomeIcon icon={faLock} className="me-2 " style={{width:"40px"}}></FontAwesomeIcon>Privacidad</a>
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button className="btn btn-lg btn-primary"style={{width:"100%"}} >
-                        <a className="nav-link  d-flex align-items-center" href="#" ><FontAwesomeIcon icon={faCog} className="me-2 " style={{width:"40px"}}></FontAwesomeIcon>Cuenta</a>
-                        </button>
-                    </li>
-                </ul>
+              </div> {/* Final li */}
+                </li>
+                <li>
+                  <a href="#" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
+                    <i className="fs-4 bi-search"></i> <span className="ms-1 d-none d-sm-inline">Empleos</span> </a>
+                  
+                </li> {/* Final li */}
+                <li>
+                  <a href="#" className="nav-link px-0 align-middle">
+                    <i className="fs-4 bi-cart"></i> <span className="ms-1 d-none d-sm-inline">Subcripción</span></a>
+                </li> {/* Final li */}
+                <li>
+                  <a href="#" data-bs-toggle="collapse" className="nav-link px-0 align-middle ">
+                    <i className="fs-4 bi-shield"></i> <span className="ms-1 d-none d-sm-inline">Privacidad</span></a>
+              
+                </li>{/* Final li */}
+                <li>
+                  <a href="#" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
+                    <i className="fs-4 bi-person"></i> <span className="ms-1 d-none d-sm-inline">Cuenta</span> </a>
+                   
+                </li> {/* Final li */}
+               
+              </ul>
+              <hr />
+             
             </div>
+          </div>
+          <div className="col py-3">
+            En este div Deberia ser el lateral para el contenido
+            {/* Este seria el Lateral */}
+          </div>
         </div>
+      </div>
     );
 }

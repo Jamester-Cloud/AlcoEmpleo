@@ -14,20 +14,24 @@ export default function HeaderCandidato() {
                     <a className="nav-link active" href="#">Inicio
                         <span className="visually-hidden">(current)</span>
                     </a>
-                </li>
+                </li> {/* Final li */}
        
                 <li className="nav-item">
                     <a className="nav-link" href="#">Buscar Empleo</a>
-                </li>
+                </li> {/* Final li */}
+
                 <li className="nav-item">
                         <a className="nav-link" href="#">Subscripción</a>
                     </li>
+                    {/* Final li */}
                 <li className="nav-item">
                     <a className="nav-link" href="#">Perfil</a>
                 </li>
+                {/* Final li */}
                 <li className="nav-item">
                     <a className="nav-link" href="#">Salir</a>
                 </li>
+                {/* Final li */}
             </ul>
         </div>
     </nav>)

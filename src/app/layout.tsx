@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import React, { useState } from "react";
+
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/react-fontawesome'
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
-
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 // import Header from "./components/headers/headerCandidate";
