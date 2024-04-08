@@ -1,34 +1,31 @@
-import React, { useEffect } from "react";
+import React, { Ref, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import Image from "next/image";
-import InputMask from 'react-input-mask';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 
-export default function SignUpForm(props:any) {
-    let {type} = props;
+export default function SignUpForm(props: any) {
+
+    let { type, data } = props;
+
     const router = useRouter()
-    const [user, setUser] = React.useState({
-        email: "",
-        password: "",
-        cedula: "",
-        direccion: "",
-        nombres: "",
-        apellidos: "",
-        telefono: ""
-    })
+
+    const [userData, setUserData] = React.useState(data)
+    //Email
+    const isValidEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     //states
     const [isInvalid, setIsInvalid] = React.useState(false);
     const [hasTyped, setHasTyped] = React.useState(false);
+    const [hasTypedRiff, setHasTypedRiff] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const [repeatedPassword, setRepeatedPassword] = React.useState("");
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
-    //SignUp Component
+    //SignUp function
     const onSignup = async () => {
         try {
             setLoading(true)
-            const response = await axios.post("/api/users/signup", user)
+            const response = await axios.post("/api/users/signup", { ...userData, type })
             console.log("Signup success", response.data)
             toast.success('Registro exitoso!', {
                 position: "top-right",
@@ -43,7 +40,8 @@ export default function SignUpForm(props:any) {
             });
             router.push("/login");
         } catch (error: any) {
-            toast.error(`Error en el registro del usuario: ${error.message} `, {
+            console.log(error);
+            toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -54,33 +52,41 @@ export default function SignUpForm(props:any) {
                 theme: "light",
                 transition: Bounce,
             });
-            console.log("sign up failed", error.message);
+            console.log("sign up failed", error.error);
         } finally {
             setLoading(false);
         }
 
     }
 
-    const onHandleInputChange = ({ target: { name, value, id } }: any) => {
-        let newValue = value;
-        console.log(name)
+    const onHandleInputChange = ({ target: { name, value } }: any) => {
 
-        setUser({ ...user, [name]: newValue });
+        let newValue = value;
+        setUserData({ ...userData, [name]: newValue });
         setHasTyped(true);
         setIsInvalid(newValue ? true : false)
+
+        if (!/^[JGCV][0-9]{9}$/.test(value) && value !== '' && name == "rif" || name == "cedula") {
+            setIsInvalid(false)
+            setHasTypedRiff(true);
+            setHasTyped(true)
+        }
+        if (!isValidEmail.test(value) && name == 'email') {
+            setHasTyped(true);
+            setIsInvalid(false)
+        }
+
     }
 
-    const isFormValid = () => {
-        return Object.values(user).every((value) => value !== '');
+    const isFormUserValid = () => {
+        return type === 'Empresas' ? Object.values(userData).every((value) => value !== '') && userData?.rif !== '' && /^[JGCV][0-9]{9}$/.test(userData?.rif) 
+        : Object.values(userData).every((value) => value !== '' && /^[JGCV][0-9]{9}$/.test(userData?.cedula) && userData?.rif !== '');
     };
 
     useEffect(() => {
-        setButtonDisabled(!isFormValid());
-    }, [user]);
+        setButtonDisabled(!isFormUserValid())
+    }, [userData]);
 
-    useEffect(() => {
-
-    }, [])
 
 
     return (
@@ -97,23 +103,53 @@ export default function SignUpForm(props:any) {
 
                                         <form className="mx-1 mx-md-4">
 
-                                            <div className="d-flex flex-row align-items-center mb-4">
+                                            {type === 'Empresas' ? <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className=" flex-fill mb-0">
-                                                    <InputMask
-                                                        name="cedula"
-                                                        id="cedula"
+                                                    <input
+                                                        type="text"
+                                                        maxLength={13}
+                                                        name="rif"
+                                                        id="rif"
                                                         onChange={onHandleInputChange}
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
-                                                        mask='V-99999999'
                                                     />
-                                                    <label className="form-label" htmlFor="cedula">Cedula de identidad</label>
+                                                    {hasTyped && !isInvalid ? <label htmlFor="rif" className="text-danger">Formato invalido</label> : <label htmlFor="riff">RIF</label>}
+                                                    <br /><span className="text-fade">Formato: J-G: 123456789, Ejemplo: J123456789</span>
                                                     <hr />
                                                 </div>
 
-                                            </div>
+                                            </div> : <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div className=" flex-fill mb-0">
+                                                    <input
+                                                        type="text"
+                                                        name="cedula"
+                                                        id="cedula"
+                                                        maxLength={13}
+                                                        onChange={onHandleInputChange}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
 
-                                            <div className="d-flex flex-row align-items-center mb-4">
+                                                    />
+                                                    {hasTyped && !isInvalid ? <label htmlFor="cedula" className="text-danger">Formato invalido</label> : <label htmlFor="riff">Cédula</label>}
+                                                    <hr />
+                                                </div>
+
+                                            </div>}
+
+                                            {type === 'Empresas' ? <div className="d-flex flex-row align-items-center mb-4">
+                                                <i className="fas fa-user fa-lg me-3 fa-fw"></i>
+                                                <div className=" flex-fill mb-0">
+                                                    <input
+                                                        name="razonSocial"
+                                                        type="text"
+                                                        onChange={onHandleInputChange}
+                                                        id="razonSocial"
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                    />
+                                                    <label className="form-label mt-2" htmlFor="razonSocial">Razon Social</label>
+                                                </div>
+                                            </div> : <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
                                                 <div className=" flex-fill mb-0">
                                                     <input
@@ -134,7 +170,8 @@ export default function SignUpForm(props:any) {
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="apellidos">Apellidos</label>
                                                 </div>
-                                            </div>
+                                            </div>}
+
 
                                             <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
@@ -177,11 +214,12 @@ export default function SignUpForm(props:any) {
                                                         type="password"
                                                         name="passwordrep"
                                                         value={repeatedPassword}
+                                                        autoComplete="true"
                                                         id="passwordrep"
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
                                                         className={'form-control'}
                                                     />
-                                                    <label className={repeatedPassword === user.password ? "" : "text-danger"} htmlFor="passwordrep"> {repeatedPassword == user.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
+                                                    <label className={repeatedPassword == userData?.password ? "" : "text-danger"} htmlFor="passwordrep"> {repeatedPassword == userData?.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
 
                                                 </div>
                                             </div>
@@ -194,7 +232,7 @@ export default function SignUpForm(props:any) {
                                                         name="direccion"
                                                         rows={3}
                                                     ></textarea>
-                                                    <label className="form-label" htmlFor="direccion">Direccion de habitación</label>
+                                                    <label className="form-label" htmlFor="direccion">{type === 'Empresas' ? 'Direccion fiscal' : 'Dirección de habitación'}</label>
                                                 </div>
                                             </div>
 

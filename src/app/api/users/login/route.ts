@@ -22,10 +22,11 @@ export async function POST(request: NextRequest) {
 
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
+        //check if user is candidate or enterprise
+        
         if (!validPassword) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
-        console.log(user);
 
         //create token data
         const tokenData = {

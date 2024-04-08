@@ -1,10 +1,18 @@
-import "./css/styles.css"
+
+import ListCarousel from "../components/carousel/Carousel"
+
 
 export default function CandidateSearch() {
     return (
         <section className="section">
             <div className="container">
                 <div className="justify-content-center row">
+                    <h3>Candidatos destacados</h3>
+                    <ListCarousel />
+                </div>
+                <div className="justify-content-center row">
+                    <h3>Otros candidatos</h3>
+                    <hr />
                     <div className="col-lg-12">
                         <div className="candidate-list-widgets mb-4">
                             <form action="#" className="">

@@ -4,7 +4,6 @@ const personaSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: [true, "Por favor introduce un nombre de usuario"],
-        unique: true
     },
     apellido: {
         type: String,

@@ -10,7 +10,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Por favor introduce una contraseña"],
-        unique: true
     },
   
     isVerified:{
