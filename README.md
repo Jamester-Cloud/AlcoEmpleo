@@ -1,6 +1,14 @@
+
+
+
+
 <<<<<<< HEAD
 # AlcoEmpleo
 Aplicacion para la publicacion de candidatos, ofertas de empleo, y cuestionarios del grupo Alco
+
+# Alcance del software 	
+  Se encargará de tener acceso a todo público para creación de cuentas tanto de usuarios como empleador (empresa), de subir sus documentos ya sean imágenes o PDF para sus perfiles se tendrá una modalidad Gratuita y Premium para los usuarios, estos mismos poseerán su modalidad de pago, se tendrá su historial de pagos para un control, la parte administrativa del Software tendrá visualización de estos pagos que se realizan a la página, los usuarios podrán postular a vacantes de trabajo que se encuentren en la página, y a su vez pueden recibir ofertas de trabajos de los empleadores sin estos tener que publicar la vacante, tendrá su modalidad de pruebas de actitudes (Quiz) que se podrá realizar solo para Usuarios Premium. Poseerá herramienta de censura para evitar subir archivos no aptos para todo público.
+
 =======
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -8,8 +16,14 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, run the development server:
 
+Para iniciarlo, habra que tener instalado Node,Js
+Abrir la consola y buscar la ubicacion en donde este extraido el Software
+
+
 ```bash
-npm run dev
+npm install #Para instalar las dependencias del Software
+
+npm run dev #para iniciarlo y mantenerlo corriendo
 # or
 yarn dev
 # or
