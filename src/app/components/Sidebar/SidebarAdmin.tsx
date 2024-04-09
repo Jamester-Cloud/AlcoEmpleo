@@ -1,8 +1,8 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass,faUser,faCog,faCartShopping,faLock } from "@fortawesome/free-solid-svg-icons";
+import { faMagnifyingGlass,faBuilding,faCog,faCartShopping,faLock,faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 
-export default function SidebarCandidate() {
+export default function SidebarAdmin() {
     
     return (
 
@@ -13,33 +13,36 @@ export default function SidebarCandidate() {
            
               {/* Iniciando Lista */}
               <ul className="navbar   navbar-nav   flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                <li className="nav-item  ">
-     
-                <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+
+              <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
                   <span className="d-none d-sm-inline mx-1">Perfil</span>
                 </a> 
-
-
-                </li>
                 <li>
                   <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
-                    <FontAwesomeIcon icon={faMagnifyingGlass}  width="30" height="30" />      
-                    <span className="ms-1 d-none d-sm-inline ">  Empleos</span> 
+                    <FontAwesomeIcon icon={faPeopleGroup}  width="30" height="30" />      
+                    <span className="ms-1 d-none d-sm-inline ">  Candidatos</span> 
+                  </a>
+                  
+                </li> {/* Final li */}
+                <li>
+                  <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
+                    <FontAwesomeIcon icon={faBuilding}  width="30" height="30" />      
+                    <span className="ms-1 d-none d-sm-inline ">  Empresas</span> 
                   </a>
                   
                 </li> {/* Final li */}
                   <li>
                   <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
                     <FontAwesomeIcon icon={faCartShopping}  width="30" height="30" />      
-                    <span className="ms-1 d-none d-sm-inline ">  Subcripción</span> 
+                    <span className="ms-1 d-none d-sm-inline ">  Historial de Pagos</span> 
                   </a>
                   
                 </li> {/* Final li */}
                   <li>
                   <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
                     <FontAwesomeIcon icon={faLock}  width="30" height="30" />      
-                    <span className="ms-1 d-none d-sm-inline ">  Privacidad</span> 
+                    <span className="ms-1 d-none d-sm-inline ">  Estadisticas</span> 
                   </a>
                   
                 </li> {/* Final li */}

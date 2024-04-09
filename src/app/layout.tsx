@@ -6,7 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/react-fontawesome'
 import 'react-toastify/dist/ReactToastify.css';
 
-import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+
 
 
 // import Header from "./components/headers/headerCandidate";
@@ -29,7 +31,7 @@ export default function RootLayout({
       
       <body className={inter.className}>
 
-    
+ 
       
         {children}
     
