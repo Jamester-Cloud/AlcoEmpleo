@@ -17,7 +17,6 @@ export default function SignUpForm(props: any) {
     //states
     const [isInvalid, setIsInvalid] = React.useState(false);
     const [hasTyped, setHasTyped] = React.useState(false);
-    const [hasTypedRiff, setHasTypedRiff] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
     const [repeatedPassword, setRepeatedPassword] = React.useState("");
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
@@ -66,11 +65,20 @@ export default function SignUpForm(props: any) {
         setHasTyped(true);
         setIsInvalid(newValue ? true : false)
 
-        if (!/^[JGCV][0-9]{9}$/.test(value) && value !== '' && name == "rif" || name == "cedula") {
+        if (!/^[JGCV][0-9]{9}$/.test(value) && value !== '' && name == "rif") {
             setIsInvalid(false)
-            setHasTypedRiff(true);
-            setHasTyped(true)
         }
+
+        if (!/^[JGCVE][0-9]{7,8}$/.test(value) && value !== '' && name == "cedula") {
+            setIsInvalid(false)
+            setHasTyped(true);
+
+        }
+        if ((name == 'nombres' || name == 'apellidos') && !/^[a-zA-Z ]*$/.test(value)) {
+            setIsInvalid(false)
+            setHasTyped(true);
+        }
+
         if (!isValidEmail.test(value) && name == 'email') {
             setHasTyped(true);
             setIsInvalid(false)
@@ -79,12 +87,24 @@ export default function SignUpForm(props: any) {
     }
 
     const isFormUserValid = () => {
-        return type === 'Empresas' ? Object.values(userData).every((value) => value !== '') && userData?.rif !== '' && /^[JGCV][0-9]{9}$/.test(userData?.rif) 
-        : Object.values(userData).every((value) => value !== '' && /^[JGCV][0-9]{9}$/.test(userData?.cedula) && userData?.rif !== '');
+        return type === 'Empresas' ? Object.values(userData).every((value) => value !== '')
+            && userData?.rif !== ''
+            && /^[JGCV][0-9]{9}$/.test(userData?.rif)
+            : Object.values(userData).every((value) => value !== ''
+                && /^[JGCVE][0-9]{7,8}$/.test(userData?.cedula));
     };
 
+    const isOnlyLetters = () => {
+        return /^[a-zA-Z ]*$/.test((userData?.nombre || userData?.apellidos))
+    }
+
+    const isEmailOnly = () => {
+        return isValidEmail.test(userData?.email)
+    }
+
+
     useEffect(() => {
-        setButtonDisabled(!isFormUserValid())
+        setButtonDisabled(!isFormUserValid() || !isOnlyLetters() || !isEmailOnly())
     }, [userData]);
 
 
@@ -186,9 +206,9 @@ export default function SignUpForm(props: any) {
                                                 </div>
 
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                <div className=" flex-fill mb-0">
+                                                <div className=" mb-0">
                                                     <input
-                                                        type="telefono"
+                                                        type="number"
                                                         name="telefono"
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
@@ -205,6 +225,7 @@ export default function SignUpForm(props: any) {
                                                         id="password"
                                                         name="password"
                                                         onChange={onHandleInputChange}
+                                                        autoComplete="current-password"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
                                                     <label className="form-label" htmlFor="password">Contraseña</label>
                                                 </div>
@@ -212,9 +233,9 @@ export default function SignUpForm(props: any) {
                                                 <div className=" flex-fill mb-0">
                                                     <input
                                                         type="password"
+                                                        autoComplete="current-password"
                                                         name="passwordrep"
                                                         value={repeatedPassword}
-                                                        autoComplete="true"
                                                         id="passwordrep"
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
                                                         className={'form-control'}

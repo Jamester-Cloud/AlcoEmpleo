@@ -12,7 +12,20 @@ export default function Header(props: any) {
                     </button>
 
                     <div className="navbar-collapse collapse show" id="navbarColor01">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <a className="nav-link active" href="#">Inicio
+                                    <span className="visually-hidden">(current)</span>
+                                </a>
+                            </li>
 
+                            <li className="nav-item">
+                                <Link href="/signup/enterprise" className="nav-link" > Empresas</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link href="/signup/candidate" className="nav-link" > Candidatos</Link>
+                            </li>
+                        </ul>
                     </div>
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">

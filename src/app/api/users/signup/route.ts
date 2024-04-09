@@ -6,7 +6,7 @@ import UserRol from '@/models/userRolModel'
 import Empresa from '@/models/empresas'
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
-import { sendEmail } from "@/helpers/mailer";
+//import { sendEmail } from "@/helpers/mailer";
 
 connect()
 
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         
         await newEmpresa.save()
         //send the confirmation email
-        await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id })
+       // await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id })
 
         return NextResponse.json({ message: 'User created succesfully', success: true, savedUser })
 

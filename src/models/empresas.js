@@ -7,11 +7,11 @@ const empresaSchema = new mongoose.Schema({
     //     filename: { type: String, required: true },
     //     ext: { type: String, required: true }
     // },
-    actaConstitutiva: {
-        type: string,
-        required: [true, "Acta necesaria para el registro"],
-        unique: true
-    }
+    // actaConstitutiva: {
+    //     type: String,
+    //     required: [true, "Acta necesaria para el registro"],
+    //     unique: true
+    // }
 })
 
 const Empresa = mongoose.models.empresa || mongoose.model("empresa", empresaSchema)
