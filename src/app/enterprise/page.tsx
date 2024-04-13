@@ -7,29 +7,22 @@ export default function CandidateSearch() {
         <section className="section">
             <div className="container">
                 <div className="justify-content-center row">
-                    <h3>Candidatos destacados</h3>
-                    <ListCarousel />
-                </div>
-                <div className="justify-content-center row">
-                    <h3>Otros candidatos</h3>
-                    <hr />
-                    <div className="col-lg-12">
+                    <div className="col-lg-12 mt-2">
                         <div className="candidate-list-widgets mb-4">
+                            <h3>Busqueda personalizada</h3>
+                            <hr />
                             <form action="#" className="">
                                 <div className="g-2 row">
                                     <div className="col-lg-3">
                                         <div className="filler-job-form">
-                                            <i className="uil uil-briefcase-alt"></i><input id="exampleFormControlInput1" placeholder="Job, Company name... " type="search" className="form-control filler-job-input-box form-control" />
+                                            <i className="uil uil-briefcase-alt"></i><input id="exampleFormControlInput1" placeholder="Cargo" type="search" className="form-control filler-job-input-box form-control" />
                                         </div>
                                     </div>
                                     <div className="col-lg-3">
                                         <div className="filler-job-form">
                                             <i className="uil uil-location-point"></i>
                                             <select className="form-select selectForm__inner" data-trigger="true" name="choices-single-location" id="choices-single-location" aria-label="Default select example">
-                                                <option value="AF">Afghanistan</option>
-                                                <option value="AX">Åland Islands</option>
-                                                <option value="AL">Albania</option>
-
+                                                <option value="">Ubicación</option>
                                             </select>
                                         </div>
                                     </div>
@@ -37,10 +30,9 @@ export default function CandidateSearch() {
                                         <div className="filler-job-form">
                                             <i className="uil uil-clipboard-notes"></i>
                                             <select className="form-select selectForm__inner" data-trigger="true" name="choices-single-categories" id="choices-single-categories" aria-label="Default select example">
-                                                <option value="4">Accounting</option>
+                                                <option value="">Especialidad</option>
                                                 <option value="1">IT &amp; Software</option>
-                                                <option value="3">Marketing</option>
-                                                <option value="5">Banking</option>
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -53,6 +45,14 @@ export default function CandidateSearch() {
                             </form>
                         </div>
                     </div>
+                </div>
+                <div className="justify-content-center row">
+                    <h3>Candidatos destacados</h3>
+                    <ListCarousel />
+                </div>
+                <div className="justify-content-center row">
+                    <h3>Otros candidatos</h3>
+                    <hr />
                 </div>
                 <div className="row">
                     <div className="col-lg-12">
@@ -86,6 +86,7 @@ export default function CandidateSearch() {
                                 </div>
                             </div>
                         </div>
+                        {/* Lista de candidatos aca */}
                         <div className="candidate-list">
                             <div className="candidate-list-box card mt-4">
                                 <div className="p-4 card-body">

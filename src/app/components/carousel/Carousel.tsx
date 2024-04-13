@@ -3,8 +3,8 @@ import Carousel from "react-multi-carousel";
 import "./css/style.css"
 import "react-multi-carousel/lib/styles.css";
 import Card from "../cards/card";
-export default function ListCarousel() {
-
+export default function ListCarousel(props:any) {
+    //let {data} = props;
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },

@@ -1,5 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
+import Rol from "@/models/userRolModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -11,8 +12,7 @@ export async function POST(request: NextRequest) {
 
         const reqBody = await request.json()
         const { email, password } = reqBody;
-        console.log(reqBody);
-
+        
         //check if user exists
         const user = await User.findOne({ email })
         if (!user) {
@@ -22,25 +22,27 @@ export async function POST(request: NextRequest) {
 
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
-        //check if user is candidate or enterprise
         
         if (!validPassword) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
 
+        const rol = await Rol.findOne({ _id: user.idRol})
         //create token data
         const tokenData = {
             id: user._id,
             username: user.username,
             email: user.email,
-            idPersona : user.idPersona
+            idPersona : user.idPersona,
+            rol : rol.rol
         }
         //create token
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
-
+        
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
+            userRol:rol.rol
         })
         
         response.cookies.set("token", token, {

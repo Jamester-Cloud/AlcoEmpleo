@@ -14,7 +14,7 @@ export default function Header(props: any) {
                     <div className="navbar-collapse collapse show" id="navbarColor01">
                         <ul className="navbar-nav me-auto">
                             <li className="nav-item">
-                                <a className="nav-link active" href="#">Inicio
+                                <a className="nav-link" href="#">Inicio
                                     <span className="visually-hidden">(current)</span>
                                 </a>
                             </li>
@@ -29,7 +29,7 @@ export default function Header(props: any) {
                     </div>
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <a className="nav-link active" href="#">Inicio
+                            <a className="nav-link" href="#">Inicio
                                 <span className="visually-hidden">(current)</span>
                             </a>
                         </li>

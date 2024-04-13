@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 export default function LogInForm() {
+
     const router = useRouter()
     const [user, setUser] = React.useState({
         email: "",
@@ -22,7 +23,10 @@ export default function LogInForm() {
             // donde sea necesario
             const response = await axios.post("/api/users/login", user)
             console.log("Login successfull", response.data)
-            router.push("/profile");
+            let rol = response.data.userRol
+            
+            rol === 'Empresas' ? router.push("/enterprise") : router.push("/candidate"); 
+            
         } catch (error: any) {
             toast.error(error.message)
             console.log("Login failed", error.message)

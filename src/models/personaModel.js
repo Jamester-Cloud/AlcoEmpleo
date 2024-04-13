@@ -18,7 +18,7 @@ const personaSchema = new mongoose.Schema({
         unique:true
     },
     direccion:String,
-    telefono:String,
+    telefono:Number,
     fechaNacimiento: Date,
 })
 

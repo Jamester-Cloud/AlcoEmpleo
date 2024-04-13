@@ -18,6 +18,7 @@ export default function UserProfile({ params }: any) {
             (async () => {
                 try {
                     const userData = await getUserDetails()
+                    console.log(userData);
                     setUserData(userData);
 
                 } catch (err) {
@@ -41,13 +42,13 @@ export default function UserProfile({ params }: any) {
                             <h4 className="text-right">Edicion de perfil candidato</h4>
                         </div>
                         <div className="row mt-2">
-                            <div className="col-md-6"><label className="labels">Nombre</label><input type="text" className="form-control" placeholder="Nombre" defaultValue={userData.nombre} /></div>
-                            <div className="col-md-6"><label className="labels">Apellido</label><input type="text" className="form-control" placeholder="Apellido"  defaultValue={userData.apellido} /></div>
+                            <div className="col-md-6"><label className="labels">Nombre</label><input type="text" className="form-control" placeholder="Nombre" defaultValue={userData?.nombre || ''} /></div>
+                            <div className="col-md-6"><label className="labels">Apellido</label><input type="text" className="form-control" placeholder="Apellido"  defaultValue={userData?.apellido || ''} /></div>
                         </div>
                         <div className="row mt-3">
-                            <div className="col-md-12"><label className="labels">Telefono</label><input type="text" className="form-control" placeholder="telefono de contacto" defaultValue={userData.telefono} /></div>
-                            <div className="col-md-12"><label className="labels">Direccion</label><input type="text" className="form-control" placeholder="Direccion" defaultValue={userData.direccion}/></div>
-                            <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" defaultValue={userData.email}/></div>
+                            <div className="col-md-12"><label className="labels">Telefono</label><input type="text" className="form-control" placeholder="telefono de contacto" defaultValue={userData?.telefono} /></div>
+                            <div className="col-md-12"><label className="labels">Direccion</label><input type="text" className="form-control" placeholder="Direccion" defaultValue={userData?.direccion}/></div>
+                            <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" defaultValue={userData?.email}/></div>
                         </div>
                         {/* <div className="row mt-3">
                             <div className="col-md-6"><label className="labels">Pais</label><input type="text" className="form-control" placeholder="country" /></div>

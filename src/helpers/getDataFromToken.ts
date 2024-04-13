@@ -3,13 +3,16 @@ import jwt from 'jsonwebtoken'
 
 export const getDataFromToken = (request: NextRequest) => {
     try {
+        
         const token = request.cookies.get("token")?.value || '';
         const decodedToken:any = jwt.verify(token, process.env.TOKEN_SECRET!);
-        console.log(decodedToken)
+        
         return {
             id: decodedToken.id,
-            idPersona : decodedToken.idPersona
+            idPersona : decodedToken.idPersona,
+            idRol:decodedToken.rol
         }
+
     } catch (error: any) {
         throw new Error(error.message);
     }

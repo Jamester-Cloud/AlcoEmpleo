@@ -1,19 +1,17 @@
 import mongoose from 'mongoose'
 
-const userRolSchema = new mongoose.Schema({
-    descripcion: {
-        type: String,
-        required: [true, "Ingrese una descripcion corta del rol"],
-        unique: true
-    },
+const rolSchema = new mongoose.Schema({
     rol: {
         type: String,
-        required: [true, "Ingrese un rol de usuario"],
-        unique: true
+        required: [true, "Por favor introduce un rol para el usuario"],
     },
-    estatus:Boolean
+    descripcion: {
+        type: String,
+        required: [true, "Por favor introduce una descripcion para el usuario"]
+    },
+    status:Boolean
 })
 
-const UserRol = mongoose.models.rol || mongoose.model("rol", userRolSchema)
+const Rol = mongoose.models.rol || mongoose.model("rol", rolSchema)
 
-export default UserRol;
+export default Rol;

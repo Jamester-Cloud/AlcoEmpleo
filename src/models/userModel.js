@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, {Types} from "mongoose";
 
 
 const userSchema = new mongoose.Schema({
@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     idPersona:{
         type:String,
         required:[true, "IdPersona requerido para relacionar"]
+    },
+    idRol:{
+        type:Types.ObjectId,
+        required:[true, "IdRol requerido para relacionar al usuario con un rol especifico"]
     },
     forgotPasswordToken:String,
     forgotPasswordTokenExpire:Date,

@@ -25,7 +25,6 @@ export default function SignUpForm(props: any) {
         try {
             setLoading(true)
             const response = await axios.post("/api/users/signup", { ...userData, type })
-            console.log("Signup success", response.data)
             toast.success('Registro exitoso!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -37,7 +36,8 @@ export default function SignUpForm(props: any) {
                 theme: "light",
                 transition: Bounce,
             });
-            router.push("/login");
+            if (response.status == 200) router.push("/login");
+                
         } catch (error: any) {
             console.log(error);
             toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
