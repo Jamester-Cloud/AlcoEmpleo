@@ -27,7 +27,8 @@ export async function POST(request: NextRequest) {
             rif,
             type
         } = reqBody
-        let idRol:any;
+
+        let idRol: any;
         //Check if user already exists
         const userEmail = await User.findOne({ email: email })
         const persona = await Persona.findOne({ cedula: type === 'Empresas' ? rif : cedula })

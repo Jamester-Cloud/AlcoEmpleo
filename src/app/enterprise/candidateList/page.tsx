@@ -3,15 +3,31 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 export default function CandidateListPage() {
 
+    const [data, setData]:any = useState()
+
     const fetchAllCandidates = async () => {
         //
-        const response = await axios.post("/api/enterprise/candidateList")
+        try {
+            const response = await axios.get("../api/enterprise/candidateList")
+            setData('Hola mundo')
+
+        } catch (error) {
+
+        }
     }
 
-    useEffect(() => {
-
-    })
+    // useEffect(() => {
+    //     if (!data) {
+    //         (async () => {
+    //             try {
+    //                 await fetchAllCandidates()
+    //             } catch (err) {
+    //                 console.log('Error al cargar los datos el usuario');
+    //             }
+    //         })();
+    //     }
+    // }, [data])
     return (
-        <ListCarousel />
+        <ListCarousel data={data} />
     )
 }

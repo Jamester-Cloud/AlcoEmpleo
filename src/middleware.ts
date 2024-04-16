@@ -18,7 +18,6 @@ export async function middleware(request: NextRequest) {
     //Si estamos logueados porque tenemos token y la ruta en la que estamos es publica, entonces solo veremos inicio
     const token = request.cookies.get('token')?.value || ''
     const tokenData: any = await isAuthenticated(request)
-    console.log(tokenData.payload)
     //Espacio candidatos
     if (isEnterprisePath && tokenData.payload?.rol == 'Candidatos') return NextResponse.redirect(new URL('/candidate', request.nextUrl));
     //Espacio empresa

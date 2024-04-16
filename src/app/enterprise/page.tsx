@@ -1,8 +1,34 @@
-
+"use client"
+import React from "react"
+import axios from "axios"
 import ListCarousel from "../components/carousel/Carousel"
 
 
 export default function CandidateSearch() {
+    const [data, setData] = React.useState()
+
+    const fetchAllCandidates = async () => {
+        //
+        try {
+            const response = await axios.get("/api/enterprise/candidateList")
+
+            if (response.status == 200) setData(response.data);
+
+        } catch (error) {
+
+        }
+    }
+
+    React.useEffect(() => {
+        (async () => {
+            try {
+                await fetchAllCandidates()
+            } catch (err) {
+                console.log('Error al cargar los datos el usuario');
+            }
+        })();
+    })
+
     return (
         <section className="section">
             <div className="container">
@@ -32,7 +58,7 @@ export default function CandidateSearch() {
                                             <select className="form-select selectForm__inner" data-trigger="true" name="choices-single-categories" id="choices-single-categories" aria-label="Default select example">
                                                 <option value="">Especialidad</option>
                                                 <option value="1">IT &amp; Software</option>
-                                                
+
                                             </select>
                                         </div>
                                     </div>
@@ -48,7 +74,7 @@ export default function CandidateSearch() {
                 </div>
                 <div className="justify-content-center row">
                     <h3>Candidatos destacados</h3>
-                    <ListCarousel />
+                    <ListCarousel data={data} />
                 </div>
                 <div className="justify-content-center row">
                     <h3>Otros candidatos</h3>
