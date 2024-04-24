@@ -15,6 +15,6 @@ const candidatoExperienciaSchema = new mongoose.Schema({
     // }
 })
 
-const Candidato_experincia = mongoose.models.candidato_experincia || mongoose.model("candidato_experiencia", candidatoExperienciaSchema)
+const Candidato_Experiencia = mongoose.models.candidato_experiencia || mongoose.model("candidato_experiencia", candidatoExperienciaSchema)
 
-export default Candidato_experincia;
+export default Candidato_Experiencia;

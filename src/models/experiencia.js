@@ -1,29 +1,39 @@
 import mongoose from 'mongoose'
 
-const personaSchema = new mongoose.Schema({
-    nombre: {
+const experienciaSchema = new mongoose.Schema({
+    NombreEmpresa: {
         type: String,
-        required: [true, "Por favor introduce un nombre de usuario"],
+        required: [true, "Por favor introduce un nombre de la Empresa"]
     },
-    apellido: {
+    duracion: {
         type: String,
-        required: [true, "Por favor introduce un apellido"]
+        required: [true, "Por favor introduce la duracion"]
     },
-    genero:{
-        type:String,
+    FechaInicio: {
+        type: Date,
     },
-    cedula:{
-        type:String,
-        required:[true, "Introduce tu cedula de identidad"],
-        unique:true
+    cargo: {
+        type: String,
+       
     },
-    logro:Array,
-    direccion:String,
-    telefono:Number,
-    fechaNacimiento: Date,
+    logros: {
+        type:[String],
+       
+    },
+    Referencias: {
+        type:[String],  
+    },
+    descripcion: {
+        type: String,
+       
+    },
+    estatus: {
+        type:Boolean,
+        default:false
+    }
 })
 //Logros va como array
 //Referencia
-const Persona = mongoose.models.personas || mongoose.model("personas", personaSchema)
+const Experiencia = mongoose.models.experiencia || mongoose.model("experiencia", experienciaSchema)
 
-export default Persona;
+export default Experiencia;
