@@ -7,7 +7,6 @@ const perfilSchema = new mongoose.Schema({
     //     filename: { type: String, required: true },
     //     ext: { type: String, required: true }
     // },
-    idCandidato:String,
     descripcionPersonal: {
         type: String,
     },

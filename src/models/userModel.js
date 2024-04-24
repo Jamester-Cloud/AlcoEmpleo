@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         default:false
     },
     idPersona:{
-        type:String,
+        type:Types.ObjectId,
         required:[true, "IdPersona requerido para relacionar"]
     },
     idRol:{

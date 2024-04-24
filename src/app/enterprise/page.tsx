@@ -5,28 +5,34 @@ import ListCarousel from "../components/carousel/Carousel"
 
 
 export default function CandidateSearch() {
-    const [data, setData] = React.useState()
+    const [data, setData]: any = React.useState()
+    const [premiumsData, setPremiumsData]: any = React.useState()
 
     const fetchAllCandidates = async () => {
         //
         try {
-            const response = await axios.get("/api/enterprise/candidateList")
-
-            if (response.status == 200) setData(response.data);
-
+            const response: any = await axios.get("/api/enterprise/candidateList")
+            if (response.status == 200) return {
+                candidatos: response.data.dataCandidatos,
+                candidatosPremiums: response.data.dataCandidatosPremiums
+            }
         } catch (error) {
 
         }
     }
 
     React.useEffect(() => {
-        (async () => {
-            try {
-                await fetchAllCandidates()
-            } catch (err) {
-                console.log('Error al cargar los datos el usuario');
-            }
-        })();
+        if (!data && !premiumsData) {
+            (async () => {
+                try {
+                    const dataCandidates: any = await fetchAllCandidates()
+                    setData(dataCandidates.candidatos)
+                    setPremiumsData(dataCandidates.candidatosPremiums)
+                } catch (err) {
+                    console.log('Error al cargar los datos el usuario');
+                }
+            })();
+        }
     })
 
     return (
@@ -64,7 +70,7 @@ export default function CandidateSearch() {
                                     </div>
                                     <div className="col-lg-3">
                                         <div>
-                                            <a className="btn btn-primary" href="#"><i className="uil uil-filter"></i> Filter</a><a className="btn btn-success ms-2" href="#"><i className="uil uil-cog"></i> Advance</a>
+                                            <a className="btn btn-primary" href="#"><i className="uil uil-filter"></i> Buscar</a><a className="btn btn-success ms-2" href="#"><i className="uil uil-cog"></i> Busqueda Personalizada</a>
                                         </div>
                                     </div>
                                 </div>
@@ -73,19 +79,21 @@ export default function CandidateSearch() {
                     </div>
                 </div>
                 <div className="justify-content-center row">
-                    <h3>Candidatos destacados</h3>
-                    <ListCarousel data={data} />
+                    <h3 className="mb-5">Perfiles Destacados</h3>
+                    {premiumsData === undefined ? <div> Cargando... </div> : <ListCarousel className="h-100 justify-content-center align-items-center" data={premiumsData} />}
                 </div>
-                <div className="justify-content-center row">
+                <div className="justify-content-center row mt-5">
                     <h3>Otros candidatos</h3>
                     <hr />
                 </div>
+                {/* Normal candidates loop */}
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="align-items-center row">
-                            <div className="col-lg-8">
+                            {/* Cantidad total de registros */}
+                            {/* <div className="col-lg-8">
                                 <div className="mb-3 mb-lg-0"><h6 className="fs-16 mb-0">Showing 1 – 8 of 11 results</h6></div>
-                            </div>
+                            </div> */}
                             <div className="col-lg-4">
                                 <div className="candidate-list-widgets">
                                     <div className="row">
@@ -114,38 +122,42 @@ export default function CandidateSearch() {
                         </div>
                         {/* Lista de candidatos aca */}
                         <div className="candidate-list">
-                            <div className="candidate-list-box card mt-4">
-                                <div className="p-4 card-body">
-                                    <div className="align-items-center row">
-                                        <div className="col-auto">
-                                            <div className="candidate-list-images">
-                                                <a href="#"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" className="avatar-md img-thumbnail rounded-circle" /></a>
+
+                            {data?.map((item: any) =>
+
+                                <div className="candidate-list-box card mt-4" key={item.personaData._id}>
+                                    <div className="p-4 card-body">
+                                        <div className="align-items-center row">
+                                            <div className="col-auto">
+                                                <div className="candidate-list-images">
+                                                    <a href="#"><img src="/AlcoLogo.png" alt="" className="avatar-md img-thumbnail rounded-circle" /></a>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-5">
+                                                <div className="candidate-list-content mt-3 mt-lg-0">
+                                                    <h5 className="fs-19 mb-0">
+                                                        <a className="primary-link" href="#">{item.personaData.nombre}</a><span className="badge bg-success ms-1"><i className="mdi mdi-star align-middle"></i>4.8</span>
+                                                    </h5>
+                                                    <p className="text-muted mb-2">{item.perfil.puestoDeseado}</p>
+                                                    <ul className="list-inline mb-0 text-muted">
+                                                        <li className="list-inline-item"><i className="mdi mdi-map-marker"></i> Venezuela</li>
+                                                        <li className="list-inline-item"><i className="mdi mdi-wallet"></i>{item.perfil.salarioDeseado} $</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-4">
+                                                <div className="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
+                                                    <span className="badge bg-soft-secondary fs-14 mt-1">Datos verificados</span><span className="badge bg-soft-secondary fs-14 mt-1">CV anexado</span><span className="badge bg-soft-secondary fs-14 mt-1"></span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="col-lg-5">
-                                            <div className="candidate-list-content mt-3 mt-lg-0">
-                                                <h5 className="fs-19 mb-0">
-                                                    <a className="primary-link" href="#">Charles Dickens</a><span className="badge bg-success ms-1"><i className="mdi mdi-star align-middle"></i>4.8</span>
-                                                </h5>
-                                                <p className="text-muted mb-2">Project Manager</p>
-                                                <ul className="list-inline mb-0 text-muted">
-                                                    <li className="list-inline-item"><i className="mdi mdi-map-marker"></i> Oakridge Lane Richardson</li>
-                                                    <li className="list-inline-item"><i className="mdi mdi-wallet"></i> $650 / hours</li>
-                                                </ul>
-                                            </div>
+                                        <div className="favorite-icon">
+                                            <a href="#"><i className="mdi mdi-heart fs-18"></i></a>
                                         </div>
-                                        <div className="col-lg-4">
-                                            <div className="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                                <span className="badge bg-soft-secondary fs-14 mt-1">Leader</span><span className="badge bg-soft-secondary fs-14 mt-1">Manager</span><span className="badge bg-soft-secondary fs-14 mt-1">Developer</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="favorite-icon">
-                                        <a href="#"><i className="mdi mdi-heart fs-18"></i></a>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="candidate-list-box bookmark-post card mt-4">
+                            )}
+                            {/* <div className="candidate-list-box bookmark-post card mt-4">
                                 <div className="p-4 card-body">
                                     <div className="align-items-center row">
                                         <div className="col-auto">
@@ -357,7 +369,7 @@ export default function CandidateSearch() {
                                         <a href="#"><i className="mdi mdi-heart fs-18"></i></a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose, {Types} from "mongoose";
 
 const candidatoSchema = new mongoose.Schema({
-    idUsuario:String,
+    idUsuario:Types.ObjectId,
     cargoActual:String,
+    esDestacado:Boolean,
 })
 
 const Candidato = mongoose.models.candidato || mongoose.model("candidato", candidatoSchema)

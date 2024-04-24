@@ -1,5 +1,5 @@
 import React from "react"
-import HeaderEnterprise from "../components/Headers/HeaderEnterprise"
+import HeaderCandidate from "../components/Headers/headerCandidate"
 import Footer from "../components/Footer/footer";
 import "./css/styles.css"
 
@@ -10,7 +10,7 @@ export default function layout({
 }>) {
     return (
         <>
-            <HeaderEnterprise />
+            <HeaderCandidate />
             {children}
             <Footer />
         </>

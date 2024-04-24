@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose, {Types} from "mongoose";
 
 const empresaSchema = new mongoose.Schema({
-    idUsuario:String,
+    idUsuario:Types.ObjectId,
     // logo: {
     //     file: { type: Buffer, required: true },
     //     filename: { type: String, required: true },

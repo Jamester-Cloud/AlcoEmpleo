@@ -8,53 +8,11 @@ connect()
 export async function GET(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
-    const candidato: any = await Candidato.aggregate([
-      {
-        $lookup: {
-          from: "perfils",
-          localField: "idPerfil",
-          foreignField: "_id",
-          as: "perfilData"
-        }
-      },
-
-      {
-        $lookup: {
-          from: "users",
-          localField: "idUsuario",
-          foreignField: "_id",
-          as: "usuarioData"
-        }
-      },
-      {
-        $unwind: "$usuarioData"
-      },
-      {
-        $unwind: "$perfilData"
-      },
-      {
-        $project: {
-          idPersona: "$usuarioData.idPersona",
-          perfil: "$perfilData"
-        }
-      },
-      {
-        $lookup: {
-          from: "personas",
-          localField: "idPersona",
-          foreignField: "_id",
-          as: "personaData"
-        }
-      },
-      {
-        $unwind: "$personaData"
-      }
-    ])
-
+    console.log(request);
     const candidatosPremiums: any = await Candidato.aggregate([
       {
         $match: {
-          "esDestacado": true
+          "_id": request
         }
       },
       {
@@ -102,8 +60,6 @@ export async function GET(request: NextRequest) {
     //const candidatosPremiums = await Candidato.aggregate([])
     const response = NextResponse.json({
       message: "Succesfull login",
-      dataCandidatos: candidato,
-      dataCandidatosPremiums: candidatosPremiums,
       success: true,
     })
     //console.log("hello world")

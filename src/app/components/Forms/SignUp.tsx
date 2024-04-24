@@ -36,8 +36,11 @@ export default function SignUpForm(props: any) {
                 theme: "light",
                 transition: Bounce,
             });
-            if (response.status == 200) router.push("/login");
-                
+
+            setTimeout(() => {
+                if (response.status === 200) router.push("/login")
+            }, 2000);
+
         } catch (error: any) {
             console.log(error);
             toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
