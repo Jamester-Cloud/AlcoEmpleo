@@ -17,9 +17,8 @@ const perfilSchema = new mongoose.Schema({
     // },
     puestoDeseado: {type:String},
     salarioDeseado:Number,
-    web: String,
+    redes: [{ enlace: String }],
     linkRedSocial: String,
-
 })
 
 const Perfil = mongoose.models.perfil || mongoose.model("perfil", perfilSchema);

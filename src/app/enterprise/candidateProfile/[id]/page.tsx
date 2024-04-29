@@ -7,6 +7,7 @@ export default function EnterpriseProfilePage({ params }: any) {
 
     let { id } = params;
     const [data, setData] = useState()
+
     const fetchCandidateData = async () => {
         try {
             const response = await axios.post('http://localhost:3000/api/enterprise/candidate', { id: id })
@@ -52,19 +53,22 @@ export default function EnterpriseProfilePage({ params }: any) {
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <img src="/AlcoLogo.png" alt="Admin" className="rounded-circle" width="150" />
                                     <h4>John Doe</h4>
+                                    {/* Cargo */}
                                     <p className="text-secondary mb-1">Full Stack Developer</p>
+                                    {/* Ubicacion */}
                                     <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
                                     <div className="mt-3">
 
                                         <button className="btn btn-primary mr-2">Descargar CV</button>
-
+                                        {/* boton de whatsApp */}
                                         <button className="btn btn-success">Contactar</button>
-                                        
+
                                     </div>
 
                                 </div>
                             </div>
                         </div>
+                        {/* Enlaces a redes sociales */}
                         <div className="card mt-3">
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
