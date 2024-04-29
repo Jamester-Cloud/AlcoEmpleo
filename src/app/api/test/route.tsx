@@ -3,13 +3,14 @@ import Candidato from "@/models/candidato";
 
 import { NextRequest, NextResponse } from "next/server";
 
+connect()
+
 export async function GET(request: NextRequest) {
 
     try {
 
-        const candidato_test = new Candidato({
+        await new Candidato({
             idUsuario: "66201f4f8ffc58933694e09f",
-            cargoActual: "Programador de software",
             esDestacado: true,
             experiencias: [
                 {
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
                     referencias: [
                         { referencia: "Luis" },
                         { referencia: "Jenny" },
-                        { referencia: "Alivensa"}
+                        { referencia: "Alivensa" }
                     ],
                     descripcion: "Fue una experiencia muy enriquecedora en cuanto a conocimientos",
                     estatus: true
@@ -38,23 +39,21 @@ export async function GET(request: NextRequest) {
                     nivelHabilidad: "Novato"
                 }
             ],
-            perfil: {
-                // CV: {
-                //     file: { type: Buffer, required: true },
-                //     filename: { type: String, required: true },
-                //     ext: { type: String, required: true }
-                // },
-                descripcionPersonal: "Soy alguien muy emprendedor",
-                // videoPresentacion: {
-                //     file: { type: Buffer, required: true },
-                //     filename: { type: String, required: true },
-                //     ext: { type: String, required: true }
-                // },
-                puestoDeseado: "Ingeniero en jefe de desarrollo",
-                salarioDeseado: Number,
-                redes: [{ enlace: "facebook" }, { enlace: "Instagram" }, { enlace: "linkID" }],
-                calificacion:Number
-            }
+            perfil: 
+                {
+                    descripcionPersonal: "Soy alguien muy emprendedor",
+                    puestoDeseado: "Ingeniero en jefe de desarrollo",
+                    salarioDeseado: 2500,
+                    calificacion: 4.5
+                }
+            ,
+            redes: [{ enlace: "facebook" }, { enlace: "Instagram" }, { enlace: "linkID" }],
+            formacionesAcademicas: [
+                {
+                    titulo: "Ingeniero en informatica",
+                    institucion: 'Iutepi'
+                }
+            ]
         }).save()
 
         return NextResponse.json({ message: 'Consulta creada exitosamente', success: true })

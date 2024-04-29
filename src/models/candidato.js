@@ -32,14 +32,15 @@ const candidatoSchema = new mongoose.Schema({
             nivelHabilidad: String
         }
     ],
-    perfil: {
+    perfil:
+    {
         // CV: {
         //     file: { type: Buffer, required: true },
         //     filename: { type: String, required: true },
         //     ext: { type: String, required: true }
         // },
         descripcionPersonal: {
-            type: String,
+            type: String
         },
         // videoPresentacion: {
         //     file: { type: Buffer, required: true },
@@ -47,12 +48,20 @@ const candidatoSchema = new mongoose.Schema({
         //     ext: { type: String, required: true }
         // },
         puestoDeseado: { type: String },
-        salarioDeseado: Number,
-        redes: [{ enlace: String }],
-        calificacion:Number
+        salarioDeseado: { type: Number },
+        calificacion: { type: Number }
     }
+    ,
+    redes: [{ enlace: String }],
+    formacionesAcademicas: [
+        {
+            titulo: String,
+            institucion: String
+
+        }
+    ]
 })
 
-const Candidato = mongoose.models.candidato || mongoose.model("candidato", candidatoSchema)
+const Candidato = mongoose.models.candidatoPerfil || mongoose.model("candidatoPerfil", candidatoSchema)
 
 export default Candidato
