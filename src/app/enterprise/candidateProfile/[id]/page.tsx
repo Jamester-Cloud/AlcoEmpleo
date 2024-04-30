@@ -11,6 +11,7 @@ export default function EnterpriseProfilePage({ params }: any) {
     const fetchCandidateData = async () => {
         try {
             const response = await axios.post('http://localhost:3000/api/enterprise/candidate', { id: id })
+            console.log(response.data);
             return response.data
         } catch (error) {
             console.log("Peticion errada")

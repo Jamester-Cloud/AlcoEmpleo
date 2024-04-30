@@ -10,15 +10,6 @@ export async function GET(request: NextRequest) {
     const candidato: any = await Candidato.aggregate([
       {
         $lookup: {
-          from: "perfils",
-          localField: "idPerfil",
-          foreignField: "_id",
-          as: "perfilData"
-        }
-      },
-
-      {
-        $lookup: {
           from: "users",
           localField: "idUsuario",
           foreignField: "_id",
@@ -29,12 +20,9 @@ export async function GET(request: NextRequest) {
         $unwind: "$usuarioData"
       },
       {
-        $unwind: "$perfilData"
-      },
-      {
         $project: {
+          "Candidato": "$$ROOT",
           idPersona: "$usuarioData.idPersona",
-          perfil: "$perfilData"
         }
       },
       {
@@ -58,15 +46,6 @@ export async function GET(request: NextRequest) {
       },
       {
         $lookup: {
-          from: "perfils",
-          localField: "idPerfil",
-          foreignField: "_id",
-          as: "perfilData"
-        }
-      },
-
-      {
-        $lookup: {
           from: "users",
           localField: "idUsuario",
           foreignField: "_id",
@@ -77,12 +56,9 @@ export async function GET(request: NextRequest) {
         $unwind: "$usuarioData"
       },
       {
-        $unwind: "$perfilData"
-      },
-      {
         $project: {
+          "Candidato": "$$ROOT",
           idPersona: "$usuarioData.idPersona",
-          perfil: "$perfilData"
         }
       },
       {
@@ -96,13 +72,14 @@ export async function GET(request: NextRequest) {
       {
         $unwind: "$personaData"
       }
+
     ])
     //Consultamos los premiums y los mandamos tambien a la vista
     //const candidatosPremiums = await Candidato.aggregate([])
     const response = NextResponse.json({
       message: "Succesfull login",
       dataCandidatos: candidato,
-      dataCandidatosPremiums: candidatosPremiums,
+      dataCandidatosPremium:candidatosPremiums,
       success: true,
     })
     //console.log("hello world")

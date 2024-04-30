@@ -44,7 +44,8 @@ export async function GET(request: NextRequest) {
                     descripcionPersonal: "Soy alguien muy emprendedor",
                     puestoDeseado: "Ingeniero en jefe de desarrollo",
                     salarioDeseado: 2500,
-                    calificacion: 4.5
+                    calificacion: 4.5,
+                    esDestacado:true
                 }
             ,
             redes: [{ enlace: "facebook" }, { enlace: "Instagram" }, { enlace: "linkID" }],

@@ -12,6 +12,7 @@ export default function CandidateSearch() {
         //
         try {
             const response: any = await axios.get("/api/enterprise/candidateList")
+            console.log(response.data)
             if (response.status == 200) return {
                 candidatos: response.data.dataCandidatos,
                 candidatosPremiums: response.data.dataCandidatosPremiums
@@ -123,7 +124,7 @@ export default function CandidateSearch() {
                         {/* Lista de candidatos aca */}
                         <div className="candidate-list">
 
-                            {data?.map((item: any) =>
+                            {/* {data?.map((item: any) =>
 
                                 <div className="candidate-list-box card mt-4" key={item.personaData._id}>
                                     <div className="p-4 card-body">
@@ -156,7 +157,7 @@ export default function CandidateSearch() {
                                         </div>
                                     </div>
                                 </div>
-                            )}
+                            )} */}
                             {/* <div className="candidate-list-box bookmark-post card mt-4">
                                 <div className="p-4 card-body">
                                     <div className="align-items-center row">
