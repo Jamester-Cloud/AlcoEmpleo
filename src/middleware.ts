@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
     //rutas publicas
     const isPublicPath = path === '/login' || path === '/signup/enterprise' || path === '/signup/candidate' || path === '/verifyEmail'
     //rutas para usuarios juridicos(empresas)
-    const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium'
+    const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium' || path === 'enterprise/jobOffer'
     //Rutas para candidatos
     const isCandidatePath = path === '/candidate' || path === '/candidate/premium'
     ///
@@ -41,6 +41,7 @@ export const config = {
         '/signup/candidate',
         '/verifyEmail',
         '/enterprise',
+        '/enterprise/jobOffer',
         '/candidate'
     ]
 }

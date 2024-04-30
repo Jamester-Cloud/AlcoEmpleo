@@ -9,6 +9,11 @@ export async function GET(request: NextRequest) {
     //Consulta desde candidatos hasta personas
     const candidato: any = await Candidato.aggregate([
       {
+        $match: {
+          "esDestacado": false
+        }
+      },
+      {
         $lookup: {
           from: "users",
           localField: "idUsuario",
