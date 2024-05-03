@@ -1,6 +1,8 @@
 import React from "react"
 import Header from "../components/Headers/header";
 import Footer from "../components/Footer/footer";
+
+
 export default function layout({
     children,
 }: Readonly<{
@@ -9,6 +11,8 @@ export default function layout({
     return (
         <div className="">
             <Header />
+      
+    
             {children}
             <Footer/>
         </div>
