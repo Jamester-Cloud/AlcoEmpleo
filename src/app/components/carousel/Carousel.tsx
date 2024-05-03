@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Carousel, Stack } from 'react-bootstrap';
 //import "./css/style.css"
 //import "react-multi-carousel/lib/styles.css";
-import Card from "../cards/card";
+import Card from "../cards/CardCandidate";
 export default function ListCarousel(props: any) {
     let { data }: any = props;
     const [index, setIndex] = useState(0);

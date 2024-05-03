@@ -1,20 +1,16 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
-import Perfil from '@/models/perfilModel'
 import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
-    console.log(request);
-    const candidatosPremiums: any = await Candidato.aggregate([
-      {
-        $match: {
-          "_id": request
-        }
-      },
+    const reqJson =  await request.json()
+    
+    const candidato: any = await Candidato.aggregate([
+      { $match: { $expr : { $eq: [ '$_id' , { $toObjectId: reqJson.id } ] } } },
       {
         $lookup: {
           from: "perfils",
@@ -56,11 +52,12 @@ export async function GET(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
-    //Consultamos los premiums y los mandamos tambien a la vista
-    //const candidatosPremiums = await Candidato.aggregate([])
+    
+    console.log(candidato)
     const response = NextResponse.json({
-      message: "Succesfull login",
+      message: "Succesfull data retrieving",
       success: true,
+      data:candidato
     })
     //console.log("hello world")
 

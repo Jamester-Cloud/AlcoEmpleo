@@ -9,6 +9,7 @@ import Link from "next/link"
 // todo conditionate to session status and user status
 export default function card(props: any) {
     let { data } = props
+    console.log(data)
     return (
         <div className="text-center">
             <div className="card text-center p-5" style={{ width: "25rem" }}>
@@ -24,7 +25,7 @@ export default function card(props: any) {
                 <div className="card-body">
 
                     <h4 className="mb-2">{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
-                    <p className="text-muted mb-4">{data?.perfil?.puestoDeseado}</p>
+                    <p className="text-muted mb-4">{data?.Candidato.perfil?.puestoDeseado}</p>
                     <div className="text-muted mb-4">
                         <FontAwesomeIcon icon={faLocation} /> Venezuela
                     </div>

@@ -1,10 +1,6 @@
 import mongoose from 'mongoose'
 
 const experienciaSchema = new mongoose.Schema({
-    NombreEmpresa: {
-        type: String,
-        required: [true, "Por favor introduce un nombre de la Empresa"]
-    },
     duracion: {
         type: String,
         required: [true, "Por favor introduce la duracion"]
@@ -12,7 +8,7 @@ const experienciaSchema = new mongoose.Schema({
     FechaInicio: {
         type: Date,
     },
-    cargo: {
+    tarea: {
         type: String,
        
     },

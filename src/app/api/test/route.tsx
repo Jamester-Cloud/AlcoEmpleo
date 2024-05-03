@@ -1,45 +1,65 @@
 import { connect } from "@/dbConfig/dbConfig";
-import Candidato_Experiencia from "@/models/candidato_experiencia";
-import Candidato_Habilidad from "@/models/candidato_habilidad";
+import Candidato from "@/models/candidato";
+
 import { NextRequest, NextResponse } from "next/server";
+
+connect()
 
 export async function GET(request: NextRequest) {
 
     try {
 
-   
-  
-        const candidato_Experiencia = new Candidato_Experiencia({
-            idExperiencia: "6605d365abb908d9c89c2aef",
-            idCandidato: "66201f1b8ffc58933694e08e"
-        }).save()
-        const candidato_Experiencia2 = new Candidato_Experiencia({
-            idExperiencia: "6605d365abb908d9c89c2aef",
-            idCandidato: "66201f1b8ffc58933694e08e"
-        }).save()
-        const candidato_Experiencia3 = new Candidato_Experiencia({
-            idExperiencia: "6605d391abb908d9c89c2af0",
-            idCandidato: "66201f4f8ffc58933694e0a2"
-        }).save()
+        // await new Candidato({
+        //     idUsuario: "66201f4f8ffc58933694e09f",
+        //     esDestacado: true,
+        //     experiencias: [
+        //         {
+        //             nombreEmpresa: "Arroz Mary",
+        //             duracion: "3 años",
+        //             logros: [
+        //                 { descripcionLogro: "Instale un software de monitoreo" },
+        //                 { descripcionLogro: "Logre realizar una conexion de camaras de circuito cerrado" }
+        //             ],
+        //             referencias: [
+        //                 { referencia: "Luis" },
+        //                 { referencia: "Jenny" },
+        //                 { referencia: "Alivensa" }
+        //             ],
+        //             descripcion: "Fue una experiencia muy enriquecedora en cuanto a conocimientos",
+        //             estatus: true
+        //         },
+        //     ],
+        //     habilidad: [
+        //         {
+        //             nombreHabilidad: "React",
+        //             nivelHabilidad: "Experto"
+        //         },
+        //         {
+        //             nombreHabilidad: "Star UML",
+        //             nivelHabilidad: "Novato"
+        //         }
+        //     ],
+        //     perfil: 
+        //         {
+        //             descripcionPersonal: "Soy alguien muy emprendedor",
+        //             puestoDeseado: "Ingeniero en jefe de desarrollo",
+        //             salarioDeseado: 2500,
+        //             calificacion: 4.5,
+        //             esDestacado:true
+        //         }
+        //     ,
+        //     redes: [{ enlace: "facebook" }, { enlace: "Instagram" }, { enlace: "linkID" }],
+        //     formacionesAcademicas: [
+        //         {
+        //             titulo: "Ingeniero en informatica",
+        //             institucion: 'Iutepi'
+        //         }
+        //     ]
+        // }).save()
 
-        const candidato_Habilidad = new Candidato_Habilidad({
-            idHabilidad: "66047972c52af02c78202a36",
-            idCandidato: "66201efc8ffc58933694e084"
-        }).save()
-        const candidato_Habilidad2 = new Candidato_Habilidad({
-            idHabilidad: "66047aebc52af02c78202a3a" ,
-            idCandidato: "66201f1b8ffc58933694e08e"
-        }).save()
-        const candidato_Habilidad3 = new Candidato_Habilidad({
-            idHabilidad: "66048507c52af02c78202a45",
-            idCandidato: "66201f4f8ffc58933694e0a2"
-        }).save()
-
-        
-
-        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true})
+        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true })
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false})
+        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false })
     }
 }
