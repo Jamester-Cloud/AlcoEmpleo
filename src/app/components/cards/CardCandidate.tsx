@@ -11,7 +11,6 @@ export default function card(props: any) {
     let { data } = props
     console.log(data)
     return (
-        
         <div className="text-center">
             <div className="card text-center p-5" style={{ width: "25rem" }}>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossOrigin="anonymous" />

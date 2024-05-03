@@ -2,6 +2,7 @@
 "use client"
 import axios from "axios"
 import { useRouter } from "next/navigation";
+import Link from "next/link"
 export default function HeaderEnterprise() {
     const router = useRouter()
     const logout = async () => {
@@ -32,7 +33,7 @@ export default function HeaderEnterprise() {
                         <a className="nav-link" href="#">Buscar candidatos</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Publicar vacante</a>
+                        <Link href="/enterprise/jobOffer" className="nav-link" > Publicar oferta</Link>
                     </li>
 
                     <li className="nav-item">
@@ -53,7 +54,7 @@ export default function HeaderEnterprise() {
                     <a className="nav-link" href="#">Buscar candidatos</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Publicar vacante</a>
+                    <Link href="/enterprise/jobOffer" className="nav-link" > Publicar oferta</Link>
                 </li>
 
                 <li className="nav-item">

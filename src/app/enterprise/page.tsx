@@ -72,7 +72,7 @@ export default function CandidateSearch() {
                                     </div>
                                     <div className="col-lg-3">
                                         <div>
-                                            <a className="btn btn-primary" href="#"><i className="uil uil-filter"></i> Buscar</a><a className="btn btn-success ms-2" href="#"><i className="uil uil-cog"></i> Busqueda Personalizada</a>
+                                            <a className="btn btn-primary" href="#"><i className="uil uil-filter"></i> Buscar</a>
                                         </div>
                                     </div>
                                 </div>

@@ -1,16 +1,15 @@
 "use client"
 import axios from "axios"
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export default function EnterpriseProfilePage({ params }: any) {
 
     let { id } = params;
-    const [data, setData] = useState()
+    const [data, setData]: any = useState()
 
     const fetchCandidateData = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/enterprise/candidate', { id: id })
+            const response = await axios.post('/api/enterprise/candidate', { id: id })
             console.log(response.data);
             return response.data
         } catch (error) {
@@ -31,13 +30,11 @@ export default function EnterpriseProfilePage({ params }: any) {
                 }
             })()
         }
-
     })
+
     return (
         <div className="container mt-5">
             <div className="main-body">
-
-
                 {/* <nav aria-label="breadcrumb" className="main-breadcrumb">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -45,27 +42,22 @@ export default function EnterpriseProfilePage({ params }: any) {
                         <li className="breadcrumb-item active" aria-current="page">User Profile</li>
                     </ol>
                 </nav> */}
-
-
                 <div className="row gutters-sm">
                     <div className="col-md-4 mb-3">
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
                                     <img src="/AlcoLogo.png" alt="Admin" className="rounded-circle" width="150" />
-                                    <h4>John Doe</h4>
+                                    <h4>Datos</h4>
                                     {/* Cargo */}
                                     <p className="text-secondary mb-1">Full Stack Developer</p>
                                     {/* Ubicacion */}
                                     <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
                                     <div className="mt-3">
-
                                         <button className="btn btn-primary mr-2">Descargar CV</button>
                                         {/* boton de whatsApp */}
                                         <button className="btn btn-success">Contactar</button>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -147,6 +139,7 @@ export default function EnterpriseProfilePage({ params }: any) {
                             <div className="col-sm-6 mb-3">
                                 <div className="card h-100">
                                     <div className="card-body">
+                                        {/* Array de habilidades */}
                                         <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2"></i>Habilidades</h6>
                                         {/* 
                                         <small>Web Design</small>
@@ -174,8 +167,8 @@ export default function EnterpriseProfilePage({ params }: any) {
                             </div>
                             <div className="col-sm-6 mb-3">
                                 <div className="card h-100">
-
                                     <div className="card-body">
+                                        {/* Array de experiencias */}
                                         <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2"></i>Experiencias</h6>
                                         {/* <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
                                         <small>Web Design</small>
@@ -202,9 +195,6 @@ export default function EnterpriseProfilePage({ params }: any) {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
 

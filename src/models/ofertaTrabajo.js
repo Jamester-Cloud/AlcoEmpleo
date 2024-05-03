@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, {Types} from 'mongoose'
 
 const ofertaTrabajoSchema = new mongoose.Schema({
     tituloOferta:{
@@ -10,10 +10,29 @@ const ofertaTrabajoSchema = new mongoose.Schema({
     },
     beneficios:{
         type:String,
-    }
+    },
+    beneficios: [
+        {
+            beneficio: String,
+        }
+    ],
+    requisitos: [
+        {
+            requisito: String,
+            obligatorio:Boolean
+        }
+    ],
+    idEmpresa:{
+        type:Types.ObjectId,
+        required:[true, "idEmpresa requerido para relacionar oferta"]
+    },
+    modalidadTrabajo:{
+        type:String,
+        required:[true, "Se necesita especificar la modalidad de trabajo"]
+    },
 })
 
-const Perfil = mongoose.models.ofertaTrabajo || mongoose.model("ofertaTrabajo", ofertofertaTrabajoSchemaaTrabajoSchema);
+const ofertaTrabajo = mongoose.models.ofertaTrabajo || mongoose.model("ofertaTrabajo", ofertaTrabajoSchema);
 
 
-export default Perfil
+export default ofertaTrabajo
