@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 export default function LogInForm() {
+
     const router = useRouter()
     const [user, setUser] = React.useState({
         email: "",
@@ -18,9 +19,14 @@ export default function LogInForm() {
     const onLogin = async () => {
         try {
             setLoading(true)
+            //aca debo verificar la existencia de candidatos o empresas y luego mandar 
+            // donde sea necesario
             const response = await axios.post("/api/users/login", user)
             console.log("Login successfull", response.data)
-            router.push("/profile");
+            let rol = response.data.userRol
+            
+            rol === 'Empresas' ? router.push("/enterprise") : router.push("/candidate"); 
+            
         } catch (error: any) {
             toast.error(error.message)
             console.log("Login failed", error.message)
@@ -61,13 +67,9 @@ export default function LogInForm() {
                     <input className="form-check-input" type="checkbox" value="" id="form2Example31" checked />
                     <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
                 </div> */}
-                    <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Inicio de sesion</button>
+                    <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Iniciar sesion</button>
 
                 </div>
-            </div>
-
-            <div className="text-center">
-                <p>¿No tienes una cuenta? <Link href="/signup" > Crear cuenta.</Link></p>
             </div>
          
         </form>
