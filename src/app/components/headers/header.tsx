@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
+import axios from "axios"
+import Link from "next/link"
+
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
@@ -28,22 +32,29 @@ export default function Header() {
           </button>
           {showMenu && (
           <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-          <a href="#inicio" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Inicio</a>
-          <a href="#acerca-de" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none" >Acerca de</a>
-          <a href="#contacto" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none">Contacto</a>
+          <a > <Link href="/signup/candidate" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Candidatos </Link></a>
+          <a   ><Link href="/signup/enterprise" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none">Empresas</Link></a>
+          <a   ><Link href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer">Contacto </Link></a>
         </div>
         
           )}
         </div>
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#inicio">
-            Inicio
+          <a  >
+            <Link href="/signup/candidate" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+          Candidatos
+          </Link>
           </a>
-          <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#acerca-de">
-            Acerca de
-          </a>
+          <a >
+          <Link href="/signup/enterprise" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+          Empresas         
+         </Link>
+           </a>
           <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#contacto">
+
+            <Link href="#" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer" >
             Contacto
+            </Link>
           </a>
         </nav>
       </div>
