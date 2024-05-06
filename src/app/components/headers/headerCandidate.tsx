@@ -44,8 +44,6 @@ export default function HeaderCandidate() {
           </button>
           {showMenu && (
           <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-  
-
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link></a>
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link></a>
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>

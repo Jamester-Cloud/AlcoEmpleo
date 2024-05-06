@@ -51,8 +51,6 @@ export default function HeaderEnterprise() {
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link></a>
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>
           <a  > <Link href="/enterprise/jobOffer" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Publicar Oferta</Link></a>
-         
-     
           <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer"  onClick={logout}>Salir</a>
         </div>
         
