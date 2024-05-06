@@ -16,16 +16,22 @@ export default function JobOffer() {
         descripcionOferta: "",
         beneficios: [],
         requisitos: [],
+        nuevoBeneficio: '',
+        nuevoRequisito: '',
         modalidadTrabajo: "",
         empresa: "",
     })
 
-    const [inputs, setInputs] = useState([]);
+    const [beneficios, setBeneficios] = useState()
+    const [requisitos, setRequisitos] = useState()
 
     const onHandleInputChange = ({ target: { name, value } }: any) => {
         let newValue = value;
         setData({ ...data, [name]: newValue });
-        console.log(data);
+    }
+    const onHandleArrayChange = ({ target: { name, value } }: any) => {
+        let newValue = value;
+        name
     }
     //Getting the data for enterprise user
     const getUserDetails = async () => {
@@ -33,12 +39,6 @@ export default function JobOffer() {
         setData({ ...data, empresa: res.data?.empresaNombre });
     }
 
-    const setNuevoBeneficio = (value: any) => {
-        setData((prevState) => ({
-            ...prevState,
-            nuevoBeneficio: value,
-        }));
-    };
 
     useEffect(() => {
         if (data.empresa === "") (async () => {
@@ -51,7 +51,6 @@ export default function JobOffer() {
     })
 
     return (
-
         <section className="">
             <div className="container-fluid px-0">
                 <div className="row g-0">
@@ -82,10 +81,10 @@ export default function JobOffer() {
                                         {/*  Array */}
                                         <div className="row mt-3">
                                             <div className="col-md-12 text-left"> <label className="form-control-label px-3">Beneficios<span className="text-danger"> *</span></label>
-                                                <input type="text" id="lname" name="lname" className="form-control" placeholder="Beneficios de la oferta" />
+                                                <input type="text" id="beneficios" name="beneficios"  className="form-control" placeholder="Beneficios de la oferta" />
                                             </div>
                                             <div className="col-md-3 text-start justify-content-between mt-2">
-                                                <button className="btn btn-sm btn-success rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
+                                                <div className="btn btn-sm btn-primary rounded" ><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></div>
                                             </div>
 
                                         </div>
@@ -95,7 +94,7 @@ export default function JobOffer() {
                                                 <input type="text" id="lname" name="lname" className="form-control" placeholder="Requisitos de la oferta" />
                                             </div>
                                             <div className="col-md-3 text-start justify-content-between mt-2">
-                                                <button className="btn btn-sm btn-success rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
+                                                <div className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></div>
                                             </div>
                                         </div>
                                     </form>
