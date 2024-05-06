@@ -27,11 +27,18 @@ export default function card(props: any) {
                     <h4 className="mb-2">{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
                     <p className="text-muted mb-4">{data?.Candidato.perfil?.puestoDeseado}</p>
                     <div className="text-muted mb-4">
-                        <FontAwesomeIcon icon={faLocation} /> Venezuela
+                    
+                        <FontAwesomeIcon icon={faLocation} />
+                       
+                        Venezuela
+                        
                     </div>
                     <div className="mb-4 pb-2 p-2">
                         <button type="button" className="btn btn-success btn-sm rounded">
-                            <i className="mdi mdi-whatsapp"></i> Enviar mensaje
+                       
+                           
+                            <Link href={`https://wa.me/${data?.personaData?.telefono}?text=Hola%20te%20estamos%20contactando%20desde%20La%20web%20AlcoEmpleo%20y%20estamos%20Interesados%20en%20tu%20perfil`} className="mdi mdi-whatsapp  text-white text-decoration-none">  Enviar mensaje
+                            </Link>
                         </button>
                     </div>
                     <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary btn-large">
