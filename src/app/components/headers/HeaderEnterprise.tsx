@@ -48,26 +48,25 @@ export default function HeaderEnterprise() {
           </button>
           {showMenu && (
           <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Candidato </Link></a>
+         <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Candidato </Link>
      
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>
-          <a  > <Link href="/enterprise/jobOffer" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Publicar Oferta</Link></a>
+         <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
+         <Link href="/enterprise/jobOffer" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Publicar Oferta</Link>
           <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer"  onClick={logout}>Salir</a>
         </div>
         
           )}
         </div>
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <a >
+       
             <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
             Buscar Candidato
             </Link>
-          </a>
-          <a >
+        
             <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
             Publicar Oferta 
             </Link>
-          </a>
+       
             <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
               Perfil
             </Link>

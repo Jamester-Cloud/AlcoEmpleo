@@ -44,9 +44,9 @@ export default function HeaderCandidate() {
           </button>
           {showMenu && (
           <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link></a>
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link></a>
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>
+           <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link>
+           <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link>
+           <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
          
           <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer"  onClick={logout}>Salir</a>
         </div>
@@ -55,16 +55,16 @@ export default function HeaderCandidate() {
         </div>
      
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <a >
+          
             <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
             Buscar Empleo
             </Link>
-          </a>
-          <a >
+          
+          
             <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
             Subcripción
             </Link>
-          </a>
+          
             <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
               Perfil
             </Link>

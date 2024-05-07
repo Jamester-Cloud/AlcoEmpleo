@@ -1,5 +1,5 @@
 import React from "react"
-import Header from "@/app/components/Headers/header";
+import Header from "@/app/components/Headers/Header";
 import Footer from "../../components/Footer/footer";
 export default function layout({
     children,
