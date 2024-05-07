@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast";
+
 import Image from "next/image";
+import { ToastContainer,toast, Bounce,ToastOptions, ToastPosition } from 'react-toastify';
+
 
 export default function LogInForm() {
 
@@ -19,8 +21,7 @@ export default function LogInForm() {
     const onLogin = async () => {
         try {
             setLoading(true)
-            //aca debo verificar la existencia de candidatos o empresas y luego mandar 
-            // donde sea necesario
+          
             const response = await axios.post("/api/users/login", user)
             console.log("Login successfull", response.data)
             let rol = response.data.userRol
@@ -28,7 +29,32 @@ export default function LogInForm() {
             rol === 'Empresas' ? router.push("/enterprise") : router.push("/candidate"); 
             
         } catch (error: any) {
-            toast.error(error.message)
+            const errorMessage = error.response.data.error.toLowerCase();
+            const toastConfig: ToastOptions<ToastPosition> = {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce as any,
+            };
+        
+            console.log(errorMessage);
+            
+            if (errorMessage==="invalid password") {
+              
+                toast.error(`Contraseña Invalida`, toastConfig);
+
+            }else if(errorMessage==="user does not exist"){
+                toast.error(`El usuario no existe`, toastConfig);
+
+            }
+            else {
+                toast.error(`Hubo un error de Inicio de Sesión`, toastConfig);
+            }
             console.log("Login failed", error.message)
         } finally {
             setLoading(false);
@@ -68,6 +94,18 @@ export default function LogInForm() {
                     <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
                 </div> */}
                     <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Iniciar sesion</button>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+
 
                 </div>
             </div>

@@ -39,6 +39,7 @@ export default function HeaderEnterprise() {
             width={70}
             height={70}
             alt="GrupoAlco"
+           
           />
         </div>
         <div className="md:hidden">
@@ -48,7 +49,7 @@ export default function HeaderEnterprise() {
           {showMenu && (
           <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Candidato </Link></a>
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link></a>
+     
           <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>
           <a  > <Link href="/enterprise/jobOffer" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Publicar Oferta</Link></a>
           <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer"  onClick={logout}>Salir</a>
