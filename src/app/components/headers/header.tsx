@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-primary p-4">
+    <header className="bg-primary p-4  text-sm">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white font-bold text-xl">
           <img
