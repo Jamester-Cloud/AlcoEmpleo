@@ -29,6 +29,7 @@
     "react-hot-toast": "^2.4.1",
     "react-input-mask": "^2.0.4",
     "react-multi-carousel": "^2.8.5",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
     "reactstrap": "^9.2.2"
   },
