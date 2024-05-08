@@ -19,7 +19,6 @@ const ofertaTrabajoSchema = new mongoose.Schema({
     requisitos: [
         {
             requisito: String,
-            obligatorio:Boolean
         }
     ],
     idEmpresa:{
@@ -32,7 +31,7 @@ const ofertaTrabajoSchema = new mongoose.Schema({
     },
 })
 
-const ofertaTrabajo = mongoose.models.ofertaTrabajo || mongoose.model("ofertaTrabajo", ofertaTrabajoSchema);
+const OfertaTrabajo = mongoose.models.ofertaTrabajo || mongoose.model("ofertaTrabajo", ofertaTrabajoSchema);
 
 
-export default ofertaTrabajo
+export default OfertaTrabajo

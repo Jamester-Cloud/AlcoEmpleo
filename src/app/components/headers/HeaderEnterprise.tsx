@@ -8,26 +8,26 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 export default function HeaderEnterprise() {
 
-  
+
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
 
-    
+
   };
   const router = useRouter()
-    const logout = async () => {
-        try {
-            //destruye el token
-            await axios.get('/api/users/logout')
+  const logout = async () => {
+    try {
+      //destruye el token
+      await axios.get('/api/users/logout')
 
-            router.push("/login")
-        } catch (error: any) {
-            console.log(error.message)
-        }
+      router.push("/login")
+    } catch (error: any) {
+      console.log(error.message)
     }
-  
+  }
+
 
   return (
     <header className="bg-primary p-4">
