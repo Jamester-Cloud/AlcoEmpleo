@@ -5,6 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import axios from "axios"
 import Link from "next/link"
+import Image from 'next/image';
 
 
 
@@ -27,17 +28,15 @@ export default function HeaderCandidate() {
     }
 
   return (
-    <header className="bg-primary p-4">
+    <header className="bg-primary p-0">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white font-bold text-xl">
-          <img
-            className="mb-2 rounded text-center"
+      <Image
+          width={140} 
+          height={70}
+            className="img-fluid" 
             src="/AlcoSloganLogo.png"
-            width={70}
-            height={70}
             alt="GrupoAlco"
           />
-        </div>
         <div className="md:hidden">
           <button onClick={toggleMenu} className="text-white focus:outline-none">
             <FontAwesomeIcon icon={faBars} width={30} height={30} />
