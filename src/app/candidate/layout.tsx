@@ -1,7 +1,7 @@
 import React from "react"
-import HeaderCandidate from "../components/Headers/headerCandidate";
+import HeaderCandidate from "../components/headers/headerCandidate";
 import Footer from "../components/Footer/footer";
-import "./css/styles.css"
+//import "./css/styles.css"
 
 export default function layout({
     children,

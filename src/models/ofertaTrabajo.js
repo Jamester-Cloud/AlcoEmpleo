@@ -1,33 +1,22 @@
-import mongoose, {Types} from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 
 const ofertaTrabajoSchema = new mongoose.Schema({
-    tituloOferta:{
-        type:String,
-        required:[true, 'Se necesita especificar un titulo para la oferta de trabajo']
+    tituloOferta: {
+        type: String,
+        required: [true, 'Se necesita especificar un titulo para la oferta de trabajo']
     },
     descripcionOfertaTrabajo: {
         type: String,
     },
-    beneficios:{
-        type:String,
+    beneficios: { type: Array },
+    requisitos: { type: Array },
+    idEmpresa: {
+        type: Types.ObjectId,
+        required: [true, "idEmpresa requerido para relacionar oferta"]
     },
-    beneficios: [
-        {
-            beneficio: String,
-        }
-    ],
-    requisitos: [
-        {
-            requisito: String,
-        }
-    ],
-    idEmpresa:{
-        type:Types.ObjectId,
-        required:[true, "idEmpresa requerido para relacionar oferta"]
-    },
-    modalidadTrabajo:{
-        type:String,
-        required:[true, "Se necesita especificar la modalidad de trabajo"]
+    modalidadTrabajo: {
+        type: String,
+        required: [true, "Se necesita especificar la modalidad de trabajo"]
     },
 })
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CardOffer from "@/app/components/cards/CardJobOffer"
 import "@/app/components/cards/css/styles.css"
 import axios from 'axios'
+import { useRouter } from "next/navigation"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function JobOffer() {
-
+    const router = useRouter()
     const [data, setData] = useState({
         tituloOferta: "",
         descripcionOferta: "",
@@ -21,6 +22,7 @@ export default function JobOffer() {
         nuevoRequisito: '',
         modalidadTrabajo: "",
         empresa: "",
+        idEmpresa: ""
     })
 
     const [beneficio, setBeneficios]: any = useState()
@@ -45,11 +47,13 @@ export default function JobOffer() {
 
     const loadBeneficio = (e: any) => {
         e.preventDefault()
+        
         const newArray = [
             ...data.beneficios,
             beneficio
         ];
-        setData({ ...data, beneficios: newArray });
+        
+        if (beneficio != '') setData({ ...data, beneficios: newArray });
         setBeneficios('');
     }
     const loadRequisito = (e: any) => {
@@ -58,12 +62,16 @@ export default function JobOffer() {
             ...data.requisitos,
             requisito
         ];
-        setData({ ...data, requisitos: newArray });
+        if (requisito != '') setData({ ...data, requisitos: newArray });
         setRequisitos('');
     }
 
     const deleteBeneficio = (e: any) => {
         e.preventDefault()
+        if (beneficio == '') {
+            let arrayNew = data.beneficios.pop()
+            setData({ ...data, beneficios: arrayNew });
+        }
         const newArray = data.beneficios.filter((item: any, index: any) => item !== beneficio);
         setData({ ...data, beneficios: newArray });
 
@@ -71,18 +79,28 @@ export default function JobOffer() {
 
     const deleteRequisito = (e: any) => {
         e.preventDefault()
+        if (beneficio == '') {
+            let arrayNew = data.requisitos.pop()
+            setData({ ...data, requisitos: arrayNew });
+        }
         const newArray = data.requisitos.filter((item: any, index: any) => item !== requisito);
         setData({ ...data, requisitos: newArray });
-        console.log(data)
+
     };
     //Getting the data for enterprise user
     const getUserDetails = async () => {
         const res = await axios.post("/api/enterprise/me");
-        setData({ ...data, empresa: res.data?.empresaNombre });
+        setData({ ...data, empresa: res.data?.empresaNombre, idEmpresa: res?.data.idEmpresa });
     }
 
-    const handleSubmit = (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+        console.log(data);
+        const response = await axios.post('/api/enterprise/jobOffer/save', { data: data })
+        if (response.status === 200) {
+            console.log(response);
+            //router.push('/enterprise/jobOffers')
+        }
 
     }
 
@@ -109,7 +127,7 @@ export default function JobOffer() {
                             <form className="form-card" onSubmit={handleSubmit} >
                                 <div className="row justify-content-between text-left">
                                     <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Titulo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="tituloOferta" name="tituloOferta" onChange={onHandleInputChange} className="form-control" placeholder="Titulo de la oferta de empleo" />
+                                        <input type="text" id="tituloOferta" required name="tituloOferta" onChange={onHandleInputChange} className="form-control" placeholder="Titulo de la oferta de empleo" />
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
@@ -119,11 +137,10 @@ export default function JobOffer() {
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Modalidad de Trabajo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="modalidadTrabajo" name="modalidadTrabajo" onChange={onHandleInputChange} className="form-control" placeholder="Modalidad de la oferta de empleo" />
+                                        <input type="text" id="modalidadTrabajo" required name="modalidadTrabajo" onChange={onHandleInputChange} className="form-control" placeholder="Modalidad de la oferta de empleo" />
                                     </div>
                                 </div>
                                 {/* colocar para el guardado de datos */}
-                                <input type="hidden" id="idEmpresa" name='idEmpresa' />
                                 <hr />
                                 {/*  Array */}
                                 <div className="row mt-3">
@@ -148,7 +165,7 @@ export default function JobOffer() {
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-md-12 flex-column d-flex">
-                                           <button className='btn btn-sm btn-primary' type='submit'> Publicar anuncio</button> 
+                                        <button className='btn btn-sm btn-primary' type='submit'> Publicar anuncio</button>
                                     </div>
                                 </div>
                             </form>

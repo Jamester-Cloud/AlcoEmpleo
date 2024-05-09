@@ -9,7 +9,6 @@ import Link from "next/link"
 // todo conditionate to session status and user status
 export default function card(props: any) {
     let { data } = props
-    console.log(data)
     return (
         <div className="text-center">
             <div className="card text-center p-5" style={{ width: "25rem" }}>

@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios"
 import Link from "next/link"
 
-
-
 export default function HeaderCandidate() {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -15,16 +13,17 @@ export default function HeaderCandidate() {
     setShowMenu(!showMenu);
   };
   const router = useRouter()
-    const logout = async () => {
-        try {
-            //destruye el token
-            await axios.get('/api/users/logout')
+  
+  const logout = async () => {
+    try {
+      //destruye el token
+      await axios.get('/api/users/logout')
 
-            router.push("/login")
-        } catch (error: any) {
-            console.log(error.message)
-        }
+      router.push("/login")
+    } catch (error: any) {
+      console.log(error.message)
     }
+  }
 
   return (
     <header className="bg-primary p-4">
@@ -43,36 +42,35 @@ export default function HeaderCandidate() {
             <FontAwesomeIcon icon={faBars} width={30} height={30} />
           </button>
           {showMenu && (
-          <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link></a>
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link></a>
-          <a  > <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link></a>
-         
-          <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer"  onClick={logout}>Salir</a>
-        </div>
-        
+            <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
+              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link>
+              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link>
+              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
+
+              <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer" onClick={logout}>Salir</a>
+            </div>
+
           )}
         </div>
-     
+
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <a >
-            <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
             Buscar Empleo
-            </Link>
-          </a>
-          <a >
-            <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+          </Link>
+
+
+          <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
             Subcripción
-            </Link>
-          </a>
-            <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
-              Perfil
-            </Link>
-          <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer" 
-          onClick={logout}>
+          </Link>
+
+          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+            Perfil
+          </Link>
+          <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+            onClick={logout}>
             Salir
           </a>
-          </nav>
+        </nav>
       </div>
     </header>
   );

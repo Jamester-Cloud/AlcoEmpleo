@@ -3,8 +3,6 @@
 export default function CandidatePage() {
     return (
         <div className="main-body">
-
-            
             <nav aria-label="breadcrumb" className="main-breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -18,7 +16,7 @@ export default function CandidatePage() {
                     <div className="card">
                         <div className="card-body">
                             <div className="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150"/>
+                                <img src="/alcologo.png" alt="Admin" className="rounded-circle" width="150"/>
                                     <div className="mt-3">
                                         <h4>John Doe</h4>
                                         <p className="text-secondary mb-1">Full Stack Developer</p>
@@ -115,26 +113,7 @@ export default function CandidatePage() {
                             <div className="card h-100">
                                 <div className="card-body">
                                     <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                                    <small>Web Design</small>
-                                    <div className="progress mb-3" style={{ "height": "5px" }}>
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{ "width": "80%" }} ></div>
-                                    </div>
-                                    <small>Website Markup</small>
-                                    <div className="progress mb-3" style={{ "height": "5px" }}>
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{ "width": "72%" }} ></div>
-                                    </div>
-                                    <small>One Page</small>
-                                    <div className="progress mb-3" style={{ "height": "5px" }}>
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{ "width": "89%" }} ></div>
-                                    </div>
-                                    <small>Mobile Template</small>
-                                    <div className="progress mb-3" style={{ "height": "5px" }}>
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{ "width": "55%" }}></div>
-                                    </div>
-                                    <small>Backend API</small>
-                                    <div className="progress mb-3" style={{ "height": "5px" }}>
-                                        <div className="progress-bar bg-primary" role="progressbar" style={{ "width": "66%" }}></div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -142,15 +121,7 @@ export default function CandidatePage() {
                             <div className="card h-100">
                                 <div className="card-body">
                                     <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                                    <small>Web Design</small>
-                                    
-                                    <small>Website Markup</small>
-                                    
-                                    <small>One Page</small>
-                                    
-                                    <small>Mobile Template</small>
-                                    
-                                    <small>Backend API</small>
+                                  
                                     
                                 </div>
                             </div>

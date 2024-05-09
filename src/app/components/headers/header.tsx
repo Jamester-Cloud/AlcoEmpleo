@@ -32,23 +32,23 @@ export default function Header() {
           </button>
           {showMenu && (
             <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-              <a > <Link href="/signup/candidate" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Candidatos </Link></a>
-              <a   ><Link href="/signup/enterprise" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none">Empresas</Link></a>
-              <a   ><Link href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer">Contacto </Link></a>
+              <Link href="/signup/candidate" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Candidatos </Link>
+              <Link href="/signup/enterprise" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none">Empresas</Link>
+              <Link href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer">Contacto </Link>
             </div>
 
           )}
         </div>
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <a  >
-            <Link href="/signup/candidate" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
-              Candidatos
-            </Link>
-          </a>
-            <Link href="/signup/enterprise" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
-              Empresas
-            </Link>
-          
+
+          <Link href="/signup/candidate" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+            Candidatos
+          </Link>
+
+          <Link href="/signup/enterprise" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+            Empresas
+          </Link>
+
           <Link href="#" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer" >
             Contacto
           </Link>

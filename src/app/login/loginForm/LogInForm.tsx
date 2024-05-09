@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import toast from "react-hot-toast";
@@ -24,9 +23,18 @@ export default function LogInForm() {
             const response = await axios.post("/api/users/login", user)
             console.log("Login successfull", response.data)
             let rol = response.data.userRol
-            
-            rol === 'Empresas' ? router.push("/enterprise") : router.push("/candidate"); 
-            
+
+            console.log(rol);
+
+            if (rol == "Candidatos") {
+                console.log("Eres candidato")
+                router.push('/candidate')
+            }
+
+            if (rol == 'Empresas') {
+                router.push('/enterprise')
+            }
+
         } catch (error: any) {
             toast.error(error.message)
             console.log("Login failed", error.message)
@@ -71,7 +79,7 @@ export default function LogInForm() {
 
                 </div>
             </div>
-         
+
         </form>
     )
 }

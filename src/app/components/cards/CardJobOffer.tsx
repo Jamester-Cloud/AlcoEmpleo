@@ -1,9 +1,9 @@
 "use client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faLocation,
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link"
+// import {
+//     faLocation,
+// } from "@fortawesome/free-solid-svg-icons";
+// import Link from "next/link"
 import React, { useState } from 'react'
 
 export default function CardOffer(props: any) {
@@ -28,15 +28,15 @@ export default function CardOffer(props: any) {
                         <div className="mt-5">
                             <p>{data?.descripcionOferta}</p>
                             <hr />
-                            Beneficios
-                            <ul>
+                            Beneficios:
+                            <ul className="list-group">
                                 {data.beneficios.map((beneficio:any) => (
                                     <li key={Math.random()}>{beneficio}</li>
                                 ))}
                             </ul>
                             <hr />
-                            Requisitos
-                            <ul>
+                            Requisitos:
+                            <ul className="list-group">
                                 {data.requisitos.map((requisito:any) => (
                                     <li key={Math.random()}>{requisito}</li>
                                 ))}
