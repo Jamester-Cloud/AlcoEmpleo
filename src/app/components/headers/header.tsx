@@ -21,9 +21,9 @@ export default function Header() {
 
       <a href={window.location.href}>
           <Image
-          width={140} 
-          height={70}
-            className="img-fluid" 
+          width={110} 
+          height={80}
+            className="img-fluid  rounded-2xl  p-1" 
             src="/AlcoSloganLogo.png"
             alt="GrupoAlco"
           />
