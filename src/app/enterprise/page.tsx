@@ -2,6 +2,7 @@
 import React from "react"
 import axios from "axios"
 import ListCarousel from "../components/carousel/Carousel"
+import Image from "next/image"
 
 
 export default function CandidateSearch() {
@@ -131,7 +132,7 @@ export default function CandidateSearch() {
                                         <div className="align-items-center row">
                                             <div className="col-auto">
                                                 <div className="candidate-list-images">
-                                                    <a href="#"><img src="/AlcoLogo.png" alt="" className="avatar-md img-thumbnail rounded-circle" /></a>
+                                                    <a href="#"><Image src="/AlcoLogo.png" alt="" className="avatar-md img-thumbnail rounded-circle" /></a>
                                                 </div>
                                             </div>
                                             <div className="col-lg-5">

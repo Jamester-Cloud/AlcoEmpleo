@@ -2,6 +2,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faCity, faSuitcaseRolling,faHouseSignal,faBuilding  } from '@fortawesome/free-solid-svg-icons'
+import Image from 'next/image'
 
 export default function ListsOffer() {
   return (
@@ -88,7 +89,7 @@ export default function ListsOffer() {
                             <div className=" row d-grid grid-cols-1 sm:grid-cols-2   text-center">
                                 <div className="col-auto">
                                     <div className="candidate-list-images">
-                                        <a href="#"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" className="avatar-md img-thumbnail rounded-circle m-auto" /></a>
+                                        <a href="#"><Image src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" className="avatar-md img-thumbnail rounded-circle m-auto" /></a>
                                     </div>
                                     <div className="candidate-list-content mt-3 mt-lg-0">
                                         <h5 className="fs-19 mb-0 ">

@@ -5,7 +5,7 @@ import CardOffer from "../components/cards/CardJobOffer"
 import "@/app/components/cards/css/styles.css"
 export default function CandidatePage() {
 
-    const [data, setData] = useState()
+    const [data, setData]: any = useState()
 
     const fetchJobs = async () => {
         try {
@@ -23,7 +23,7 @@ export default function CandidatePage() {
             (async () => {
                 try {
                     await fetchJobs()
-                    
+
                     console.log(data);
 
                 } catch (err) {
@@ -37,7 +37,9 @@ export default function CandidatePage() {
         <div className="container mt-5 mb-3">
             <div className="row">
                 {data?.map((oferta: any) => (
-                   <CardOffer data={oferta} />
+                    <div key={oferta._id}>
+                        <CardOffer data={oferta} />
+                    </div>
                 ))}
                 {/* aca empieza el bucle */}
             </div>

@@ -1,6 +1,7 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass,faBuilding,faCog,faCartShopping,faLock,faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 export default function SidebarAdmin() {
     
@@ -15,7 +16,7 @@ export default function SidebarAdmin() {
               <ul className="navbar   navbar-nav   flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
 
               <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
+                  <Image src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
                   <span className="d-none d-sm-inline mx-1">Perfil</span>
                 </a> 
                 <li>

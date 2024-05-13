@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { ToastContainer, toast, Bounce } from 'react-toastify';
+import Image from "next/image";
 
 export default function UserProfile({ params }: any) {
 
@@ -34,7 +35,7 @@ export default function UserProfile({ params }: any) {
             <div className="row">
                 <div className="col-md-3 border-right">
                     {/* Profile photo */}
-                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" /><span className="font-weight-bold">{userData?.nombre || ''} {userData?.apellido || ''}</span><span className="text-black-50">{userData?.email || ''}</span><span> </span></div>
+                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><Image className="rounded-circle mt-5" width={100} src="/alcologo.png" alt="GrupoAlcoLogo" /><span className="font-weight-bold">{userData?.nombre || ''} {userData?.apellido || ''}</span><span className="text-black-50">{userData?.email || ''}</span><span> </span></div>
                 </div>
                 <div className="col-md-5 border-right">
                     <div className="p-3 py-5">

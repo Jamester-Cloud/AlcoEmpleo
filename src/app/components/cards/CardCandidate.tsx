@@ -5,6 +5,7 @@ import {
     faGraduationCap
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link"
+import Image from "next/image";
 
 // todo conditionate to session status and user status
 export default function card(props: any) {
@@ -17,8 +18,8 @@ export default function card(props: any) {
                 <div className="card-header text-center">
 
                     <div className="mt-3 mb-4 text-center">
-                        <img src="/AlcoSloganLogo.png"
-                            className="w-100" style={{ width: "100px" }} />
+                        <Image width={100} alt="GrupoAlcoLogo" src="/AlcoSloganLogo.png"
+                             />
                     </div>
                 </div>
                 <div className="card-body">

@@ -9,7 +9,7 @@ import {
     faChevronRight,
 
 } from "@fortawesome/free-solid-svg-icons";
-
+import Image from "next/image";
 
 export default function ProfileCardsList() {
     const [index, setIndex] = useState(0);
@@ -140,7 +140,7 @@ export default function ProfileCardsList() {
                 >
                     <div className="card-header text-center">
                         <div className="mt-3 mb-4">
-                            <img src={img}
+                            <Image src={img} alt="imagen prueba"
                                 className="rounded" width={30} height={30} />
                         </div>
                     </div>

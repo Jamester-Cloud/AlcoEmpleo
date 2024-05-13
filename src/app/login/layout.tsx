@@ -1,6 +1,8 @@
 import React from "react"
-import Header from "../components/Headers/header";
+import Header from "../components/headers/Header";
 import Footer from "../components/Footer/footer";
+import Spinner from "../components/Spinner/Spinner";
+
 
 
 export default function layout({
@@ -10,9 +12,9 @@ export default function layout({
 }>) {
     return (
         <div className="">
+          <Spinner/>
             <Header />
-      
-    
+            
             {children}
             <Footer/>
         </div>
