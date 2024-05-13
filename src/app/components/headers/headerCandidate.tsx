@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import axios from "axios"
-import Link from "next/link"
 
 export default function HeaderCandidate() {
   const [showMenu, setShowMenu] = useState(false);
@@ -26,14 +25,14 @@ export default function HeaderCandidate() {
   }
 
   return (
-    <header className="bg-primary p-4">
+    <header className="bg-dark">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white font-bold text-xl">
           <img
-            className="mb-2 rounded text-center"
+            className="mb-2 rounded"
             src="/AlcoSloganLogo.png"
-            width={70}
-            height={70}
+            width={50}
+            height={50}
             alt="GrupoAlco"
           />
         </div>
@@ -43,9 +42,9 @@ export default function HeaderCandidate() {
           </button>
           {showMenu && (
             <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link>
+              {/* <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link>
               <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link>
-              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
+              <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link> */}
 
               <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer" onClick={logout}>Salir</a>
             </div>
@@ -54,18 +53,6 @@ export default function HeaderCandidate() {
         </div>
 
         <nav className="md:flex md:flex-column space-x-4 hidden">
-          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
-            Buscar Empleo
-          </Link>
-
-
-          <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
-            Subcripción
-          </Link>
-
-          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
-            Perfil
-          </Link>
           <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
             onClick={logout}>
             Salir

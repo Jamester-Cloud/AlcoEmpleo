@@ -60,7 +60,6 @@ export default function SidebarAdmin() {
             </div>
           </div>
           <div className="col py-3">
-            En este div Deberia ser el lateral para el contenido
             {/* Este seria el Lateral */}
           </div>
         </div>

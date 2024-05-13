@@ -79,8 +79,7 @@ export async function GET(request: NextRequest) {
       }
 
     ])
-    //Consultamos los premiums y los mandamos tambien a la vista
-    //const candidatosPremiums = await Candidato.aggregate([])
+
     const response = NextResponse.json({
       message: "Succesfull login",
       dataCandidatos: candidato,

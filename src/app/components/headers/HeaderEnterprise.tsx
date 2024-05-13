@@ -47,18 +47,26 @@ export default function HeaderEnterprise() {
           </button>
           {showMenu && (
             <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-               <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Candidato </Link>
-               <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link>
-               <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
-               <Link href="/enterprise/jobOffer" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Publicar Oferta</Link>
-              <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer" onClick={logout}>Salir</a>
-            </div>
+              <Link href="/enterprise/" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                Buscar Candidato
+              </Link>
+              <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                Publicar Oferta
+              </Link>
+
+              <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+                Perfil
+              </Link>
+              <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+                onClick={logout}>
+                Salir
+              </a></div>
 
           )}
         </div>
         <nav className="md:flex md:flex-column space-x-4 hidden">
 
-          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+          <Link href="/enterprise/" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50">
             Buscar Candidato
           </Link>
 
@@ -67,7 +75,7 @@ export default function HeaderEnterprise() {
             Publicar Oferta
           </Link>
 
-          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+          <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="/profile/me">
             Perfil
           </Link>
           <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
