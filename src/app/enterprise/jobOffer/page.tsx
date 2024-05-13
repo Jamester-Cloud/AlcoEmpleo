@@ -12,8 +12,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function JobOffer() {
-    const router = useRouter()
-    const [data, setData] = useState({
+    //const router = useRouter()
+    const [data, setData]: any = useState({
         tituloOferta: "",
         descripcionOferta: "",
         beneficios: [],
@@ -47,12 +47,12 @@ export default function JobOffer() {
 
     const loadBeneficio = (e: any) => {
         e.preventDefault()
-        
+
         const newArray = [
             ...data.beneficios,
             beneficio
         ];
-        
+
         if (beneficio != '') setData({ ...data, beneficios: newArray });
         setBeneficios('');
     }
