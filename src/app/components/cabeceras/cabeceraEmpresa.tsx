@@ -28,10 +28,10 @@ export default function CabeceraEmpresa() {
         <header className="bg-primary p-0">
             <div className="container mx-auto flex justify-between items-center">
                 <Image
-                    width={140}
-                    height={70}
+                    width={30}
+                    height={30}
                     className="img-fluid"
-                    src="/AlcoSloganLogo.png"
+                    src="/AlcoLogo.png"
                     alt="GrupoAlco"
                 />
                 <div className="md:hidden">
