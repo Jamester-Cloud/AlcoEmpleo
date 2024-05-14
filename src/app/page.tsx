@@ -1,7 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "./components/Headers/header";
 import Footer from "./components/Footer/footer";
 import Spinner from "./components/Spinner/Spinner";
 import { Card, Carousel } from "react-bootstrap";
