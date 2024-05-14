@@ -9,6 +9,7 @@ export default function layout({
 }>) {
     return (
         <div className="">
+            <Cabecera />
             <Spinner/>
             {children}
             <Footer/>
