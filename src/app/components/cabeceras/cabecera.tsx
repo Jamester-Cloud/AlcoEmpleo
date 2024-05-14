@@ -34,7 +34,7 @@ export default function Cabecera() {
                         <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
                             <Link href="/signup/candidate" className="block px-2 py-1 text-white hover:opacity-50 text-decoration-none">Candidatos </Link>
                             <Link href="/signup/enterprise" className="block px-2 py-1 text-white  hover:opacity-50 text-decoration-none">Empresas</Link>
-                            <Link href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer">Contacto </Link>
+                            <Link href="/" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer">Contacto </Link>
                         </div>
 
                     )}
@@ -52,7 +52,7 @@ export default function Cabecera() {
 
 
 
-                    <Link href="#" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer" >
+                    <Link href="/" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer" >
                         Contacto
                     </Link>
 
