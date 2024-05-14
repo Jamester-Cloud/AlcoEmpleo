@@ -11,9 +11,9 @@ export default function CabeceraEmpresa() {
     const router = useRouter();
     const [showMenu, setShowMenu] = useState(false);
 
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
     const logout = async () => {
         try {
             //destruye el token
@@ -26,14 +26,16 @@ export default function CabeceraEmpresa() {
     }
     return (
         <header className="bg-primary p-0">
-            <div className="container mx-auto flex justify-between items-center">
-                <Image
-                    width={30}
-                    height={30}
-                    className="img-fluid"
-                    src="/AlcoLogo.png"
-                    alt="GrupoAlco"
-                />
+            <div className="container flex justify-between items-center">
+                <a href="/">
+                    <Image
+                        width={110}
+                        height={80}
+                        className="img-fluid rounded-2xl p-1"
+                        src="/AlcoSloganLogo.png"
+                        alt="GrupoAlco"
+                    />
+                </a>
                 <div className="md:hidden">
                     <button onClick={toggleMenu} className="text-white focus:outline-none">
                         <FontAwesomeIcon icon={faBars} width={30} height={30} />
