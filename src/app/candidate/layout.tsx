@@ -1,5 +1,5 @@
 import React from "react"
-import HeaderCandidate from "../components/Headers/HeaderCandidate";
+import HeaderCandidate from "@/app/components/Headers/HeaderCandidate";
 import SidebarCandidate from "../components/Sidebar/SidebarCandidate";
 import Footer from "../components/Footer/footer";
 //import "./css/styles.css"
