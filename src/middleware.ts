@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     // request path
     const path = request.nextUrl.pathname
     //rutas publicas
-    const isPublicPath = path === '/login' || path === '/signup/enterprise' || path === '/signup/candidate' || path === '/verifyEmail'
+    const isPublicPath = path === '/login' || path === '/signup/enterprise' || path === '/signup/candidate' || path === '/verifyEmail' || path === '/'
     //rutas para usuarios juridicos(empresas)
     const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium' || path === 'enterprise/jobOffer'
     //Rutas para candidatos
@@ -23,10 +23,10 @@ export async function middleware(request: NextRequest) {
     //Espacio empresa
     if (isCandidatePath && tokenData.payload?.rol === 'Empresas' && token) return NextResponse.redirect(new URL('/enterprise', request.nextUrl));
     //Veremos solo el landing porque, no podemos ver ni login ni registro
-    if (isPublicPath && token && !isEnterprisePath && !isCandidatePath) return NextResponse.redirect(new URL('/', request.nextUrl));
+    if (isPublicPath && token && isEnterprisePath && isCandidatePath) return NextResponse.redirect(new URL('/', request.nextUrl));
     //if(isEnterprisePath && token) return NextResponse.redirect(new URL('candidate/', request.nextUrl))
     //cuando no estamos logueados
-    if (!isPublicPath && !token) return NextResponse.redirect(new URL('/login', request.nextUrl));
+    if (!isPublicPath && !token) return NextResponse.redirect(new URL('/', request.nextUrl));
     //To do crear para usuarios premium y validar para usuarios tanto empresas como candidatos
 }
 

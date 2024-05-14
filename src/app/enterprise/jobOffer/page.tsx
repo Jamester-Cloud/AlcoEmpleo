@@ -115,7 +115,7 @@ export default function JobOffer() {
             if (response.status === 200) {
                 router.push('/enterprise/jobOffers')
             }
-        }, 3000);
+        }, 2000);
 
 
     }

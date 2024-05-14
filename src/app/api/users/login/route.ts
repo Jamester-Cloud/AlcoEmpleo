@@ -12,9 +12,11 @@ export async function POST(request: NextRequest) {
 
         const reqBody = await request.json()
         const { email, password } = reqBody;
-        
+        console.log(typeof(email));
+
         //check if user exists
         const user = await User.findOne({ email })
+        console.log(user);
         if (!user) {
             return NextResponse.json({ error: "User does not exist" }, { status: 400 })
         }
@@ -22,29 +24,29 @@ export async function POST(request: NextRequest) {
 
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
-        
+
         if (!validPassword) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
 
-        const rol = await Rol.findOne({ _id: user.idRol})
+        const rol = await Rol.findOne({ _id: user.idRol })
         //create token data
         const tokenData = {
             id: user._id,
             username: user.username,
             email: user.email,
-            idPersona : user.idPersona,
-            rol : rol.rol
+            idPersona: user.idPersona,
+            rol: rol.rol
         }
         //create token
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
-        
+
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
-            userRol:rol.rol
+            userRol: rol.rol
         })
-        
+
         response.cookies.set("token", token, {
             httpOnly: true,
         })

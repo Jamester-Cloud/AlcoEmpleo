@@ -6,6 +6,13 @@ import axios from "axios"
 import Link from "next/link"
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Image from 'next/image';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 
 export default function CabeceraEmpresa() {
     const router = useRouter();
