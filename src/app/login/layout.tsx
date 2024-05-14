@@ -1,5 +1,4 @@
 import React from "react"
-import Header from "@/app/components/Headers/Header";
 import Footer from "../components/Footer/footer";
 import Spinner from "../components/Spinner/Spinner";
 
@@ -10,11 +9,10 @@ export default function layout({
 }>) {
     return (
         <div className="">
-          <Spinner/>
-            <Header />
             
+            <Spinner />
             {children}
-            <Footer/>
+            <Footer />
         </div>
 
     )

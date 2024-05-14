@@ -9,7 +9,6 @@ import Image from 'next/image';
 
 export default function HeaderEnterprise() {
 
-
   const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
@@ -58,7 +57,6 @@ export default function HeaderEnterprise() {
                 onClick={logout}>
                 Salir
               </a></div>
-
           )}
         </div>
         <nav className="md:flex md:flex-column space-x-4 hidden">

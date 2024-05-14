@@ -1,6 +1,4 @@
 import React from "react"
-import Footer from "../../components/Footer/footer";
-import Spinner from "@/app/components/Spinner/Spinner";
 export default function layout({
     children,
 }: Readonly<{
@@ -8,9 +6,7 @@ export default function layout({
 }>) {
     return (
         <div className="">
-            <Spinner/>
             {children}
-            <Footer/>
         </div>
 
     )
