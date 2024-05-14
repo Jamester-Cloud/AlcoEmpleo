@@ -4,8 +4,6 @@ import axios from "axios";
 import Footer from "./components/Footer/footer";
 import Spinner from "./components/Spinner/Spinner";
 import { Card, Carousel } from "react-bootstrap";
-
-import Link from "next/link";
 import Image from "next/image";
 import CandidateCarousel from "./components/CarouselMulti/CarouselMulti";
 import { CandidateListResponse } from "./interfaces/types";

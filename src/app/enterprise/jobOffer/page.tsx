@@ -5,6 +5,7 @@ import "@/app/components/cards/css/styles.css"
 import axios from 'axios'
 import { useRouter } from "next/navigation"
 
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlus,
@@ -12,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function JobOffer() {
-    //const router = useRouter()
+    const router = useRouter()
     const [data, setData]: any = useState({
         tituloOferta: "",
         descripcionOferta: "",
@@ -97,10 +98,25 @@ export default function JobOffer() {
         e.preventDefault();
         console.log(data);
         const response = await axios.post('/api/enterprise/jobOffer/save', { data: data })
-        if (response.status === 200) {
-            console.log(response);
-            //router.push('/enterprise/jobOffers')
-        }
+        
+        toast.success('Anuncio publicado', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        });
+        
+        setTimeout(() => {
+            if (response.status === 200) {
+                router.push('/enterprise/jobOffers')
+            }
+        }, 3000);
+
 
     }
 
@@ -166,6 +182,18 @@ export default function JobOffer() {
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-md-12 flex-column d-flex">
                                         <button className='btn btn-sm btn-primary' type='submit'> Publicar anuncio</button>
+                                        <ToastContainer
+                                            position="top-right"
+                                            autoClose={5000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                            theme="light"
+                                        />
                                     </div>
                                 </div>
                             </form>
