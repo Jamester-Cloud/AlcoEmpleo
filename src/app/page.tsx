@@ -1,7 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Header from "@/app/components/headers/Header";
 import Footer from "./components/Footer/footer";
 import Spinner from "./components/Spinner/Spinner";
 import { Card, Carousel } from "react-bootstrap";
@@ -40,7 +39,6 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
       <Carousel className="">
           <Carousel.Item className="h-64 md:h-96 lg:h-128 xl:h-144 ">
             <div className="w-full h-full ">
