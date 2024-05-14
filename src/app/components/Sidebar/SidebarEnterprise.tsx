@@ -15,11 +15,11 @@ export default function SidebarEnterprise() {
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
          
             {/* Iniciando Lista */}
-            <ul className="navbar   navbar-nav   flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+            <ul className="navbar   navbar-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
               <li className="nav-item  ">
    
               <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <Image src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
+                <Image src="/AlcoSloganLogo.png" alt="hugenerd" width={30} height={30} className="rounded-circle" />
                 <span className="d-none d-sm-inline mx-1">Perfil</span>
               </a> 
 

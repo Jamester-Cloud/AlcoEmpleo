@@ -18,7 +18,7 @@ export default function card(props: any) {
                 <div className="card-header text-center">
 
                     <div className="mt-3 mb-4 text-center">
-                        <Image width={100} alt="GrupoAlcoLogo" src="/AlcoSloganLogo.png"
+                        <Image width={100} height={30} alt="GrupoAlcoLogo" src="/AlcoSloganLogo.png"
                              />
                     </div>
                 </div>

@@ -42,7 +42,7 @@ export default function CandidateCarousel({ candidates }: Props) {
           <Card className="w-80 h-64">
             <Card.Header>
               <div className="mt-3 mb-4">
-                <Image src="/AlcoSloganLogo.png" className="w-full" alt="Logo" />
+                <Image src="/AlcoSloganLogo.png" height={30} width={30} className="w-full" alt="Logo" />
               </div>
             </Card.Header>
             <Card.Body className="text-center">

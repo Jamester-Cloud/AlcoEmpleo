@@ -1,5 +1,5 @@
 import React from "react"
-import HeaderEnterprise from "@/app/components/Headers/HeaderEnterprise";
+import HeaderEnterprise from "../components/headers/HeaderEnterprise";
 import Footer from "../components/Footer/footer";
 import "./css/styles.css"
 import Spinner from "../components/Spinner/Spinner";

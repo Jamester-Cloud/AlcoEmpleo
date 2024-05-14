@@ -23,7 +23,7 @@ export default function SidebarCandidate({ children }: any) {
               <li className="nav-item  ">
 
                 <a href="#" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <Image src="/AlcoSloganLogo.png" alt="hugenerd" width="30" height="30" className="rounded-circle" />
+                  <Image src="/AlcoSloganLogo.png" alt="hugenerd" width={30} height={30} className="rounded-circle" />
                   <span className="d-none d-sm-inline mx-1">Perfil</span>
                 </a>
 
