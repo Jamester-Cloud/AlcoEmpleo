@@ -1,7 +1,7 @@
 import React from "react"
 import Footer from "../../components/Footer/footer";
 import Spinner from "@/app/components/Spinner/Spinner";
-import HeaderTest from "@/app/components/Headers/headerTest";
+import Cabecera from "@/app/components/cabeceras/cabecera";
 export default function layout({
     children,
 }: Readonly<{
