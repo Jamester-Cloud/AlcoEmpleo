@@ -7,7 +7,7 @@ import { Card, Carousel } from "react-bootstrap";
 import Image from "next/image";
 import { CandidateListResponse } from "./interfaces/types";
 import Cabecera from "./components/cabeceras/cabecera";
-
+import { CarouselMulti } from "./components/CarouselMulti/CarouselMulti";
 
 export default function Home() {
   const [data, setData] = useState<CandidateListResponse>({ dataCandidatosPremium: [] });
