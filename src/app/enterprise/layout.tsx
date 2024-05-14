@@ -11,7 +11,8 @@ export default function layout({
 }>) {
     return (
         <>
-        <Spinner/>
+            <CabeceraEmpresa />
+            <Spinner />
             {children}
             <Footer />
         </>
