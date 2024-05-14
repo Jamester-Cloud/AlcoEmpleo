@@ -1,4 +1,5 @@
 import React from "react"
+import Header from "../components/Headers/Header";
 import Footer from "../components/Footer/footer";
 import Spinner from "../components/Spinner/Spinner";
 
