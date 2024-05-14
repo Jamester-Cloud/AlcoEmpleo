@@ -1,6 +1,11 @@
 "use client"
+import Link from "next/link"
+import Image from 'next/image';
+
 export default function Cabecera(){
     return (
-        <h1>Hola mundod</h1>
+        <header className="bg-primary p-0  text-sm">
+            Hola mundo
+        </header>
     )
 }
