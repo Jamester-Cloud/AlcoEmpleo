@@ -14,6 +14,7 @@ interface Props {
 }
 
 export function CarouselMulti({ candidates }: Props) {
+  const whatsappMessage = encodeURIComponent("Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil");
   return (
     <Carousel
       responsive={{
@@ -60,7 +61,7 @@ export function CarouselMulti({ candidates }: Props) {
               <div className="mb-4 pb-2">
                 <button type="button" className="btn btn-success btn-sm rounded">
                   <Link
-                    href={`https://wa.me/${candidato.personaData.telefono}?text=Hola%20te%20estamos%20contactando%20desde%20La%20web%20AlcoEmpleo%20y%20estamos%20Interesados%20en%20tu%20perfil`}
+                    href={`https://wa.me/${candidato.personaData.telefono}?text=${whatsappMessage}`}
                     className="mdi mdi-whatsapp  text-white text-decoration-none"
                   >
                     Enviar mensaje

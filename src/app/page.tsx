@@ -8,6 +8,7 @@ import Image from "next/image";
 import { CandidateListResponse } from "./interfaces/types";
 import Cabecera from "./components/cabeceras/cabecera";
 import { CarouselMulti } from "./components/CarouselMulti/CarouselMulti";
+import Contact from "./components/Contact/Contact";
 
 export default function Home() {
   const [data, setData] = useState<CandidateListResponse>({ dataCandidatosPremium: [] });
@@ -77,7 +78,9 @@ export default function Home() {
       </Carousel>
       {/* Usamos el componente CandidateCarousel */}
       <CarouselMulti candidates={data.dataCandidatosPremium} />
-    
+
+    <Contact></Contact>
+    <Footer/>
     </div>
   );
 }
