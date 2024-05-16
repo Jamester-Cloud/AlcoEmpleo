@@ -1,6 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import OfertaTrabajo from "@/models/ofertaTrabajo";
 import { NextRequest, NextResponse } from "next/server";
+
 connect()
 
 

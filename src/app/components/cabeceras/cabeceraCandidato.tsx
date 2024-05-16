@@ -29,53 +29,37 @@ export default function CabeceraCandidato() {
     }
 
     return (
-        <header className="bg-primary p-0">
-            <div className="container mx-auto flex justify-between items-center">
-                <a href="/">
-                    <Image
-                        width={110}
-                        height={80}
-                        className="img-fluid  rounded-2xl  p-1"
-                        src="/AlcoSloganLogo.png"
-                        alt="GrupoAlco"
-                    />
-                </a>
-                <div className="md:hidden">
-                    <button onClick={toggleMenu} className="text-white focus:outline-none">
-                        <FontAwesomeIcon icon={faBars} width={30} height={30} />
-                    </button>
-                    {showMenu && (
-                        <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-                            <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Buscar Empleo </Link>
-                            <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Subcripción</Link>
-                            <Link href="#" className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none">Perfil</Link>
+        <header className=" navbar navbar-expand-lg bg-primary p-3 text-sm justify-content-between">
+            <Link className="text-white" href="/">
+                Inicio
+            </Link>
+            <div className="md:hidden">
+                <button onClick={toggleMenu} className="text-white focus:outline-none">
+                    <FontAwesomeIcon icon={faBars} width={30} height={30} />
+                </button>
+                {showMenu && (
+                    <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
+                        <Link href="/candidate/requests" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+                            Mis solicitudes
+                        </Link>
+                        <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+                            onClick={logout}>
+                            Salir
+                        </a>
+                    </div>
 
-                            <a href="#" className="block px-4 py-2 text-white  hover:opacity-50 text-decoration-none cursor-pointer" onClick={logout}>Salir</a>
-                        </div>
-
-                    )}
-                </div>
-
-                <nav className="md:flex md:flex-column space-x-4 hidden">
-
-                    <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
-                        Buscar Empleo
-                    </Link>
-
-
-                    <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
-                        Subcripción
-                    </Link>
-
-                    <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
-                        Perfil
-                    </Link>
-                    <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
-                        onClick={logout}>
-                        Salir
-                    </a>
-                </nav>
+                )}
             </div>
+            <nav className="md:flex md:flex-column space-x-4 hidden mr-5">
+                <Link href="/candidate/requests" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer">
+                    Mis solicitudes
+                </Link>
+                <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+                    onClick={logout}>
+                    Cerrar Sesion
+                </a>
+            </nav>
+
         </header>
     );
 }
