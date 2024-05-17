@@ -16,7 +16,7 @@ export default function Cabecera() {
 
     return (
         <header className=" navbar navbar-expand-lg bg-primary p-3  text-sm">
-            <a className="navbar-brand text-white" href="#">
+            <Link className="navbar-brand text-white" href="/">
                 <Image
                     width={50}
                     height={80}
@@ -24,8 +24,7 @@ export default function Cabecera() {
                     src="/AlcoSloganLogo.png"
                     alt="GrupoAlco"
                 />
-
-            </a>
+            </Link>
             <div className="md:hidden">
                 <button onClick={toggleMenu} className="text-white focus:outline-none">
                     <FontAwesomeIcon icon={faBars} width={30} height={30} />

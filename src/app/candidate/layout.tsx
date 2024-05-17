@@ -11,8 +11,9 @@ export default function layout({
 }>) {
     return (
         <>
-            <CabeceraCandidato />
+
             <SidebarCandidate>
+                <CabeceraCandidato />
                 {children}
             </SidebarCandidate>
             <Footer />

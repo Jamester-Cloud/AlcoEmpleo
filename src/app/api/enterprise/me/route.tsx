@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
         const userData = getDataFromToken(request);
         const persona = await Persona.findOne({ _id: userData.idPersona })
         const empresa = await Empresa.findOne({ idUsuario: userData.id })
-        console.log(empresa);
+        
         return NextResponse.json({ message: 'User found', empresaNombre: persona.nombre, idEmpresa: empresa._id });
 
     } catch (error: any) {
