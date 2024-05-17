@@ -10,12 +10,9 @@ export async function GET(request: NextRequest) {
     try {
 
         const userData = getDataFromToken(request);
-        console.log(userData);
         const persona = await Persona.findOne({ _id: userData.idPersona })
         const candidato = await Candidato.findOne({ idUsuario: userData.id })
         const usuario = await User.findOne({_id:userData.id})
-        console.log(persona);
-        console.log(candidato);
 
         return NextResponse.json({
             message: 'Candidate found',

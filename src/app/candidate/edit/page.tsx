@@ -94,15 +94,25 @@ export default function UserCandidate() {
             {/* experiencias */}
             <div className="col-md-12 mb-2">
                 <div className="">
-                    <div className="d-flex justify-content-left align-items-left experience"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experiencias Laborales o recomendaciones</span></div><br />
+                    <div className="d-flex justify-content-left align-items-left experience"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experiencias Laborales:</span></div><br />
                     {candidatoData?.experiencias?.map((item: any) => (
                         <div className="row" key={item._id}>
-                            <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="additional details" /></div>
-                            <div className="col-md-3"><label className="labels">Duracion</label><input type="text" className="form-control" placeholder="additional details" /></div>
-                            <div className="col-md-3"><label className="labels">Descripcion experiencia</label><input type="text" className="form-control" placeholder="additional details" /></div>
-                            <div className="col-md-6 mb-3"><label className="labels">Logros</label><input type="text" className="form-control" placeholder="additional details" /></div>
-
-                            <div className="col-md-6 mb-3"><label className="labels">Referencias</label><input type="text" className="form-control" placeholder="additional details" /></div>
+                            <h5>Experiencia:</h5>
+                            <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="Empresa" defaultValue={item.nombreEmpresa} /></div>
+                            <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" defaultValue={item.descripcion} /></div>
+                            <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" defaultValue={item.duracion} className="form-control" placeholder="additional details" /></div>
+                            <h6>Logros:</h6>
+                            {item?.logros.map((subItem: any) => (
+                                <div key={subItem._id}>
+                                    <div className="col-md-12 mb-3"><label className="labels">Logro:</label><input type="text" defaultValue={subItem.descripcionLogro} className="form-control" placeholder="additional details" /></div>
+                                </div>
+                            ))}
+                            <h6>Referencias:</h6>
+                            {item?.referencias.map((subItem: any) => (
+                                <div key={subItem._id}>
+                                    <div className="col-md-12 mb-3"><label className="labels">Recomendado por:</label><input type="text" defaultValue={subItem.referencia} className="form-control" placeholder="additional details" /></div>
+                                </div>
+                            ))}
                             <hr />
                         </div>
                     ))}
@@ -111,11 +121,14 @@ export default function UserCandidate() {
             </div>
             {/* habilidades */}
             <div className="col-md-12">
-                <div className="p-3 py-5">
-                    <div className="d-flex justify-content-left align-items-left experience"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Habilidades</span></div><br />
-                    <div className="col-md-12"><label className="labels">Experience in Designing</label><input type="text" className="form-control" placeholder="experience" /></div> <br />
-                    <div className="col-md-12"><label className="labels">Detalles adicionales</label><input type="text" className="form-control" placeholder="additional details" /></div>
-                </div>
+                {candidatoData?.habilidad?.map((item: any) => (
+                    <div className="row" key={item._id}>
+                        <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control" defaultValue={item.nombreHabilidad} placeholder="experience" /></div> <br />
+                        <div className="col-md-6"><label className="labels">Nivel de habilidad</label><input type="text" className="form-control" defaultValue={item.nivelHabilidad} placeholder="experience" /></div> <br />
+                    
+                    </div>
+                ))}
+
             </div>
             <hr />
             {/* documentos */}

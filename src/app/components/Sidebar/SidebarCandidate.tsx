@@ -13,13 +13,13 @@ import Link from "next/link";
 export default function SidebarCandidate({ children }: any) {
 
   return (
-    <div className="container-fluid ">
+    <div className="container-fluid">
       <div className="row flex-nowrap">
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 navbar-expand-lg bg-primary" data-bs-theme="dark">
-          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+          <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 sticky-top">
             {/* Iniciando Lista */}
             <ul className="navbar   navbar-nav   flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-              <li className="nav-item  ">
+              <li className="nav-item ">
                 <Link href="/candidate/edit" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                   <Image src="/AlcoSloganLogo.png" alt="hugenerd" width={30} height={30} className="rounded-circle" />
                   <span className="d-none d-sm-inline mx-1">Perfil</span>

@@ -29,7 +29,7 @@ export default function CabeceraCandidato() {
     }
 
     return (
-        <header className=" navbar navbar-expand-lg bg-primary p-3 text-sm justify-content-between">
+        <header className=" navbar navbar-expand-lg bg-primary p-3 text-sm justify-content-between sticky-top">
             <Link className="text-white" href="/">
                 Inicio
             </Link>
