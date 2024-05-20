@@ -50,7 +50,7 @@ export default function SidebarCandidate({ children }: any) {
         </div>     {/* Todo Arriba realizado con Boostrap */}
 
         {/* */}
-        <div className="col">
+        <div className="col p-0">
           {children}
         </div>
       </div>
