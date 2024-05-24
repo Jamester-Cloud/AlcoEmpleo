@@ -9,7 +9,7 @@ connect()
 export async function GET(request: NextRequest) {
     try {
 
-        const userData = getDataFromToken(request);
+        const userData = await getDataFromToken(request);
         const persona = await Persona.findOne({ _id: userData.idPersona })
         const candidato = await Candidato.findOne({ idUsuario: userData.id })
         const usuario = await User.findOne({_id:userData.id})
