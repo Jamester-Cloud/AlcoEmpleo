@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     //token unico basado en una cookie
     //desincriptando el token para determinar el rol de la persona en el sistema
     //Si estamos logueados porque tenemos token y la ruta en la que estamos es publica, entonces solo veremos inicio
-    const token = request.cookies.get('token')?.value || ''
+    const token = await request.cookies.getAll() || ''
     const tokenData: any = await isAuthenticated(request)
     //Espacio candidatos
     if (isEnterprisePath && tokenData.payload?.rol === 'Candidatos' && token) return NextResponse.redirect(new URL('/candidate', request.nextUrl));

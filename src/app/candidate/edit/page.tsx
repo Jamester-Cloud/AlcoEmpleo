@@ -245,7 +245,7 @@ export default function UserCandidate() {
                 </div>
                 {/* habilidades */}
                 <div className="col-md-12 card">
-                <div className="py-5 card-header">
+                    <div className="py-5 card-header">
                         <div className="row align-items-right">
                             <div className="col-md-9">
                                 <div className="d-flex justify-content-left align-items-left"><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Habilidades</span>
@@ -257,7 +257,8 @@ export default function UserCandidate() {
                                 </button>
                             </div>
                         </div>
-                    </div><div className="card-body">
+                    </div>
+                    {/* <div className="card-body">
                         {candidatoData?.candidatoData?.habilidad?.map((item: any) => (
                             <div className="row" key={item._id}>
                                 <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control"
@@ -266,7 +267,7 @@ export default function UserCandidate() {
                                     className="form-control" defaultValue={item.nivelHabilidad} placeholder="experience" /></div> <br />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
                 <hr />
                 {/* documentos */}

@@ -32,6 +32,12 @@ const candidatoSchema = new mongoose.Schema({
             nivelHabilidad: String
         }
     ],
+    idiomas: [
+        {
+            idioma: String,
+            nivel:String
+        }
+    ],
     perfil:
     {
         fotoPerfil:{
