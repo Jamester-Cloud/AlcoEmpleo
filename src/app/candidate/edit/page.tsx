@@ -65,7 +65,7 @@ export default function UserCandidate() {
     }
 
     const getUserDetails = async () => {
-        const res = await axios.get("../api/candidate/me");
+        const res = await axios.get("/api/candidate/me");
         if (res.status === 200 && res.data.success) {
             console.log(res.data)
             setCandidatoData({ ...candidatoData, userData: res.data.dataPersona, candidatoData: res.data.dataCandidato, emailUser: res.data.emailUsuario })
