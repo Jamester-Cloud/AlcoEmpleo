@@ -205,13 +205,13 @@ export default function UserCandidate() {
                                 </div>
                             </div>
                             <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="" onClick={(e) => handleModal(e, "Experiencias Laborales", candidatoData?.candidatoData.experiencias)}>
-                                    <FontAwesomeIcon icon={faPencil} />
+                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", candidatoData?.candidatoData.experiencias)}>
+                                    <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div className="card-body">
+                    {/* <div className="card-body">
                         {candidatoData?.candidatoData.experiencias?.map((item: any, key: any) => (
                             <div className="row" key={item._id}>
                                 <h5>Experiencia:</h5>
@@ -241,12 +241,23 @@ export default function UserCandidate() {
                                 <hr />
                             </div>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
                 {/* habilidades */}
                 <div className="col-md-12 card">
-                    <div className="d-flex justify-content-left align-items-left experience card-header"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Habilidades destacadas:</span></div><br />
-                    <div className="card-body">
+                <div className="py-5 card-header">
+                        <div className="row align-items-right">
+                            <div className="col-md-9">
+                                <div className="d-flex justify-content-left align-items-left"><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Habilidades</span>
+                                </div>
+                            </div>
+                            <div className="col-md-2 justify-content-right align-items-right">
+                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Habilidades", candidatoData?.candidatoData?.habilidad)}>
+                                    <FontAwesomeIcon icon={faPencil} /> Editar
+                                </button>
+                            </div>
+                        </div>
+                    </div><div className="card-body">
                         {candidatoData?.candidatoData?.habilidad?.map((item: any) => (
                             <div className="row" key={item._id}>
                                 <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control"

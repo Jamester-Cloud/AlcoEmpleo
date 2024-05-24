@@ -87,10 +87,33 @@ export default function DataModal(props: any) {
                                 <hr />
                             </div>
                         ))}
+                        <div className="row text-center">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+
+                        </div>
                     </form>
 
                 )
                 break;
+
+            case 'Habilidades':
+                return (
+                    <form className='form '>
+                        {data?.map((item: any, key: any) => (
+                            <div className="row" key={item._id}>
+                                <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control"
+                                    defaultValue={item.nombreHabilidad} placeholder="experience" /></div> <br />
+                                <div className="col-md-6"><label className="labels">Nivel de habilidad</label><input type="text"
+                                    className="form-control" defaultValue={item.nivelHabilidad} placeholder="experience" /></div> <br />
+                            </div>
+                        ))}
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+
+                )
+                break
         }
     }
 
@@ -114,7 +137,7 @@ export default function DataModal(props: any) {
             <Modal.Body>
                 <div className="container">
                     <div className="row">
-
+                        {form(title)}
                     </div>
                 </div>
             </Modal.Body>
