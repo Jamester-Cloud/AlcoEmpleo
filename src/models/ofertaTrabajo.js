@@ -18,6 +18,7 @@ const ofertaTrabajoSchema = new mongoose.Schema({
         type: String,
         required: [true, "Se necesita especificar la modalidad de trabajo"]
     },
+    fechaPublicacion:Date
 })
 
 const OfertaTrabajo = mongoose.models.ofertaTrabajo || mongoose.model("ofertaTrabajo", ofertaTrabajoSchema);

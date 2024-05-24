@@ -10,7 +10,8 @@ export async function POST(request: NextRequest) {
     try {
         const reqJson = await request.json()
         console.log(reqJson)
-        // let {id, profile, cv, data} = reqJson
+        
+        let {data} = reqJson
 
         // let storage = multer.diskStorage({
         //     destination: (req, file, cb) => {

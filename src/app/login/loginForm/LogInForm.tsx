@@ -9,6 +9,7 @@ import { ToastContainer,toast, Bounce,ToastOptions, ToastPosition } from 'react-
 export default function LogInForm() {
 
     const router = useRouter()
+    
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -22,13 +23,10 @@ export default function LogInForm() {
             setLoading(true)
           
             const response = await axios.post("/api/users/login", user)
-            console.log("Login successfull", response.data)
+            
             let rol = response.data.userRol
 
-            console.log(rol);
-
             if (rol == "Candidatos") {
-                console.log("Eres candidato")
                 router.push('/candidate')
             }
 
