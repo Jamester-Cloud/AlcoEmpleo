@@ -9,7 +9,6 @@ import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import DataModal from "@/app/components/modal/DataModal";
 import "@/app/candidate/edit/css/style.css"
-import { set } from "mongoose";
 
 type milestones = {
     logro: string;

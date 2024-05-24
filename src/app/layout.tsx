@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "AlcoEmpleo",
   description: "Encuentra tu proximo candidato ideal!",
 };
-
+export const dynamic = 'force-dynamic'
 export default function RootLayout({
   children,
 }: Readonly<{
