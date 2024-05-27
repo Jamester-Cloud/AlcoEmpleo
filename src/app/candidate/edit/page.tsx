@@ -45,7 +45,7 @@ type candidato = {
 };
 
 export default function UserCandidate() {
-
+    
     //Modal controls
     const [show, setShow] = useState(false);
     const [modalTitle, setModalTitle]: any = useState();
@@ -54,7 +54,8 @@ export default function UserCandidate() {
     const handleShow = () => setShow(true);
     //State data load
     const [candidatoData, setCandidatoData]: any = useState();
-    //react hook form
+    const [userId, setUserID]:any = useState();
+    //react hook form 
 
     const handleModal = (e: any, title: string, data: any) => {
         console.log(title);
@@ -62,6 +63,12 @@ export default function UserCandidate() {
         setModalTitle(title);
         setModalData(data)
         setShow(true)
+    }
+
+    const getUserId = async () => {
+        const res = await axios.get("/api/users/me");
+        console.log(res.data)
+        setUserID(res.data.userData._id);
     }
 
     const getUserDetails = async () => {
@@ -85,6 +92,7 @@ export default function UserCandidate() {
         if (!candidatoData) {
             (async () => {
                 try {
+                    await getUserId()
                     await getUserDetails()
                     console.log(candidatoData)
                 } catch (err) {

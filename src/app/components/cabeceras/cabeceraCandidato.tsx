@@ -31,7 +31,7 @@ export default function CabeceraCandidato() {
 
     return (
         <header className=" navbar navbar-expand-lg bg-light p-3 text-sm justify-content-between">
-            <Link className="navbar-brand" href="/">
+            <Link className="navbar-brand" href="/candidate">
                 <Image
                     width={50}
                     height={80}

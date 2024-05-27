@@ -5,7 +5,7 @@ import Candidato from "@/models/candidato";
 import User from "@/models/userModel";
 import { connect } from "@/dbConfig/dbConfig";
 connect()
-
+//si pruebo que es el llamado a cookies aca, podria refactorizar esta peticion
 export async function GET(request: NextRequest) {
     try {
 
