@@ -45,7 +45,6 @@ type candidato = {
 };
 
 export default function UserCandidate() {
-    
     //Modal controls
     const [show, setShow] = useState(false);
     const [modalTitle, setModalTitle]: any = useState();
@@ -54,7 +53,7 @@ export default function UserCandidate() {
     const handleShow = () => setShow(true);
     //State data load
     const [candidatoData, setCandidatoData]: any = useState();
-    const [userId, setUserID]:any = useState();
+    const [userData, setUserData]: any = useState({ idUsuario: '', idPersona: '' });
     //react hook form 
 
     const handleModal = (e: any, title: string, data: any) => {
@@ -68,11 +67,13 @@ export default function UserCandidate() {
     const getUserId = async () => {
         const res = await axios.get("/api/users/me");
         console.log(res.data)
-        setUserID(res.data.userData._id);
+        setUserData({ idUsuario: res.data.userData._id, idPersona: res.data.personaData._id });
+
+
     }
 
     const getUserDetails = async () => {
-        const res = await axios.get("/api/candidate/me");
+        const res = await axios.post("/api/candidate/me", { idPersona: userData.idPersona, idUsuario: userData.idUsuario });
         if (res.status === 200 && res.data.success) {
             console.log(res.data)
             setCandidatoData({ ...candidatoData, userData: res.data.dataPersona, candidatoData: res.data.dataCandidato, emailUser: res.data.emailUsuario })
@@ -89,12 +90,11 @@ export default function UserCandidate() {
     // }
 
     useEffect(() => {
-        if (!candidatoData) {
+        if (!candidatoData || !userData.idPersona) {
             (async () => {
                 try {
                     await getUserId()
                     await getUserDetails()
-                    console.log(candidatoData)
                 } catch (err) {
                     console.log('Error al cargar los datos el usuario');
                 }
