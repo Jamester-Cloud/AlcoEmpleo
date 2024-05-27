@@ -3,13 +3,13 @@ import { useRouter } from "next/navigation"
 import axios from "axios"
 
 import Image from "next/image";
-import { ToastContainer,toast, Bounce,ToastOptions, ToastPosition } from 'react-toastify';
+import { ToastContainer, toast, Bounce, ToastOptions, ToastPosition } from 'react-toastify';
 
 
 export default function LogInForm() {
 
     const router = useRouter()
-    
+
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -21,9 +21,17 @@ export default function LogInForm() {
     const onLogin = async () => {
         try {
             setLoading(true)
-          
+
             const response = await axios.post("/api/users/login", user)
-            
+            //Storing the data in sessionStore
+            console.log(response.data)
+
+            sessionStorage.setItem('idUsuario', response.data.idUsuario)
+            sessionStorage.setItem('idPersona', response.data.idPersona)
+            console.log(sessionStorage.getItem('idPersona'));
+            console.log(sessionStorage.getItem('idUsuario'));
+
+
             let rol = response.data.userRol
 
             if (rol == "Candidatos") {
@@ -47,14 +55,14 @@ export default function LogInForm() {
                 theme: "light",
                 transition: Bounce as any,
             };
-        
+
             console.log(errorMessage);
-            
-            if (errorMessage==="invalid password") {
-              
+
+            if (errorMessage === "invalid password") {
+
                 toast.error(`Contraseña Invalida`, toastConfig);
 
-            }else if(errorMessage==="user does not exist"){
+            } else if (errorMessage === "user does not exist") {
                 toast.error(`El usuario no existe`, toastConfig);
 
             }
@@ -100,17 +108,17 @@ export default function LogInForm() {
                     <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
                 </div> */}
                     <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Iniciar sesion</button>
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
 
 
                 </div>

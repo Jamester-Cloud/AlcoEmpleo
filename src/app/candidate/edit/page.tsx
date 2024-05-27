@@ -53,7 +53,6 @@ export default function UserCandidate() {
     const handleShow = () => setShow(true);
     //State data load
     const [candidatoData, setCandidatoData]: any = useState();
-    const [userData, setUserData]: any = useState({ idUsuario: '', idPersona: '' });
     //react hook form 
 
     const handleModal = (e: any, title: string, data: any) => {
@@ -64,16 +63,8 @@ export default function UserCandidate() {
         setShow(true)
     }
 
-    const getUserId = async () => {
-        const res = await axios.get("/api/users/me");
-        console.log(res.data)
-        setUserData({ idUsuario: res.data.userData._id, idPersona: res.data.personaData._id });
-
-
-    }
-
     const getUserDetails = async () => {
-        const res = await axios.post("/api/candidate/me", { idPersona: userData.idPersona, idUsuario: userData.idUsuario });
+        const res = await axios.post("/api/candidate/me", { idPersona: sessionStorage.getItem('idPersona'), idUsuario: sessionStorage.getItem('idUsuario') });
         if (res.status === 200 && res.data.success) {
             console.log(res.data)
             setCandidatoData({ ...candidatoData, userData: res.data.dataPersona, candidatoData: res.data.dataCandidato, emailUser: res.data.emailUsuario })
@@ -90,10 +81,9 @@ export default function UserCandidate() {
     // }
 
     useEffect(() => {
-        if (!candidatoData || !userData.idPersona) {
+        if (!candidatoData) {
             (async () => {
                 try {
-                    await getUserId()
                     await getUserDetails()
                 } catch (err) {
                     console.log('Error al cargar los datos el usuario');
