@@ -192,24 +192,17 @@ export default function UserCandidate() {
                                 <div className="d-flex justify-content-left align-items-left"><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experiencias Laborales</span>
                                 </div>
                             </div>
-                            <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", candidatoData?.candidatoData.experiencias)}>
-                                    <FontAwesomeIcon icon={faPencil} /> Editar
-                                </button>
-                            </div>
                         </div>
                     </div>
-                    {/* <div className="card-body">
+                    <div className="card-body">
                         {candidatoData?.candidatoData.experiencias?.map((item: any, key: any) => (
                             <div className="row" key={item._id}>
-                                <h5>Experiencia:</h5>
-                                <div className="col-md-12"><label className="labels">Descripcíon</label>
-                                    <h6>{item.descripcion}</h6></div>
-                                <div className="col-md-6"><label className="labels">Empresa</label>
+                                <div className="col-md-6"><label className="labels">Empresa:</label>
                                     <h6>{item.nombreEmpresa}</h6></div>
-                                <div className="col-md-6"><label className="labels">Duracíon</label>
-                                    <h6>{item.duracion}</h6></div>
-                                <h6 className="mt-3">Logros:</h6>
+                                <div className="col-md-6 text-right"><button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", candidatoData?.candidatoData.experiencias)}>
+                                    <FontAwesomeIcon icon={faPencil} /> Editar
+                                </button></div>
+                                {/* <h6 className="mt-3">Logros:</h6>
                                 {item?.logros.map((subItem: any) => (
                                     <div key={subItem._id}>
                                         <div className="col-md-12 mb-3"><label className="labels">Logro:</label>
@@ -226,10 +219,10 @@ export default function UserCandidate() {
                                         </div>
                                     </div>
                                 ))}
-                                <hr />
+                                <hr /> */}
                             </div>
                         ))}
-                    </div> */}
+                    </div>
                 </div>
                 {/* habilidades */}
                 <div className="col-md-12 card">
