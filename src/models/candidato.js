@@ -53,7 +53,7 @@ const candidatoSchema = new mongoose.Schema({
         },
         fechaPublicacion:{type:Date},
         puestoDeseado: { type: String },
-        salarioDeseado: { type: Number },
+        salarioDeseado: { type: String },
         calificacion: { type: Number }
     }
     ,

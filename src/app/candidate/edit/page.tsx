@@ -57,6 +57,7 @@ export default function UserCandidate() {
 
     const handleModal = (e: any, title: string, data: any) => {
         console.log(title);
+        console.log(data);
         e.preventDefault()
         setModalTitle(title);
         setModalData(data)
@@ -66,27 +67,19 @@ export default function UserCandidate() {
     const getUserDetails = async () => {
         const res = await axios.post("/api/candidate/me", { idPersona: sessionStorage.getItem('idPersona'), idUsuario: sessionStorage.getItem('idUsuario') });
         if (res.status === 200 && res.data.success) {
-            console.log(res.data)
-            setCandidatoData({ ...candidatoData, userData: res.data.dataPersona, candidatoData: res.data.dataCandidato, emailUser: res.data.emailUsuario })
+            setCandidatoData({ ...candidatoData, userData: { ...res.data.dataPersona, emailUsuario: res.data.emailUsuario }, candidatoData: res.data.dataCandidato })
+
         }
     }
-
-    // const onSubmit = (data: any) => {
-    //     try {
-    //         console.log(data)
-    //     } catch (error) {
-
-    //         console.log(error);
-    //     }
-    // }
 
     useEffect(() => {
         if (!candidatoData) {
             (async () => {
                 try {
                     await getUserDetails()
+                    console.log(candidatoData);
                 } catch (err) {
-                    console.log('Error al cargar los datos el usuario');
+                    console.log('Error al cargar los datos el usuario', err);
                 }
             })()
         }
@@ -96,7 +89,7 @@ export default function UserCandidate() {
         <div className="row p-3">
             <form >
                 {/* Informacion personal y de contacto */}
-                <div className="col-md-12 text-left border-right card mb-5">
+                <div className="col-md-12 text-left border-right card mb-2">
                     <div className="py-5 card-header">
                         <div className="row align-items-right">
                             <div className="col-md-9">
@@ -116,8 +109,7 @@ export default function UserCandidate() {
                                 <div className="d-flex flex-column align-items-center ">
                                     <Image className="rounded-circle" width={100} height={100} src="/alcologo.png" alt="GrupoAlcoLogo" />
                                     <span className="font-weight-bold mt-2 mb-2">{candidatoData?.userData?.nombre || ''} {candidatoData?.userData?.apellido || ''}</span><span className="text-black-50">{candidatoData?.emailUser || ''}</span><span> </span>
-                                    <label htmlFor="profilePicture">Actualizar foto de perfil</label>
-                                    <input type="file" placeholder="Actualizar foto" className="form-group form-control" id="profilePicture" name="profilePicture" />
+                                    <label htmlFor="profilePicture"> Foto de perfil</label>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +133,7 @@ export default function UserCandidate() {
                             </div>
                             <div className="col-md-6">
                                 <label className="labels">Email</label>
-                                <h6>{candidatoData?.emailUser}</h6>
+                                <h6>{candidatoData?.userData.emailUsuario}</h6>
                                 <hr />
                             </div>
 
@@ -150,7 +142,6 @@ export default function UserCandidate() {
                                 <h6 >{candidatoData?.userData?.direccion}</h6>
                                 <hr />
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -163,8 +154,8 @@ export default function UserCandidate() {
                                 </div>
                             </div>
                             <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.userData.perfil)}>
-                                    <FontAwesomeIcon icon={faPencil} />
+                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil)}>
+                                    <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button>
                             </div>
                         </div>
@@ -268,23 +259,18 @@ export default function UserCandidate() {
                 </div>
                 <hr />
                 {/* documentos */}
-                <div className="col-md-12 mb-3">
+                {/* <div className="col-md-12 mb-3">
                     <div className="">
                         <div className="d-flex justify-content-left align-items-left experience"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Curriculum Vitae</span></div><br />
                         <div className="row">
-                            <div className="col-md-12">
-                                <div className="d-flex flex-column align-items-center ">
-                                    <input type="file" placeholder="Actualizar foto" className="form-group form-control" id="cv" name="cv" />
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-md-12 align-items-center border-right mb-5">
+                </div> */}
+                {/* <div className="col-md-12 align-items-center border-right mb-5">
                     <div className="text-center">
                         <button type="submit" className="btn btn-block btn-primary">Editar información</button>
                     </div>
-                </div>
+                </div> */}
             </form>
             <DataModal show={show} onHide={handleClose} data={modalData} title={modalTitle} />
         </div>
