@@ -1,4 +1,3 @@
-import { getDataFromToken } from "@/helpers/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
 import Persona from '@/models/personaModel'
 import Candidato from "@/models/candidato";

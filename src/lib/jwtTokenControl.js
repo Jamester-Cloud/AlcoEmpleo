@@ -4,7 +4,6 @@ const jwtConfig = {
     secret: new TextEncoder().encode(process.env.TOKEN_SECRET),
 }
 
-
 export const isAuthenticated = async req => {
     let token = req.cookies.get('token')?.value || ''
 
@@ -21,4 +20,3 @@ export const isAuthenticated = async req => {
         return false
     }
 }
-

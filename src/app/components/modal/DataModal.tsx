@@ -1,39 +1,69 @@
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
 import React, { useState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { faDeleteLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Fade from 'react-bootstrap/Fade'
 
 export default function DataModal(props: any) {
     let { data, title, show, onHide } = props;
     //para campos que no son ni experiencia ni habilidades. Campos sencillos
     //Por el momento
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, control, reset, trigger, setError } = useForm();
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "test"
+    });
+
     const [formData, setFormData]: any = useState("");
 
     const [open, setOpen] = useState(false);
 
     const onSubmit = (data: any) => {
-        console.log(data);
         try {
+            console.log(data);
+
             //const res  = axios.post("/api/candidate/upload")
         } catch (error) {
             console.log(error);
         }
     }
 
+    //todo esto es para los logros
     const loadItem = (data: any) => {
 
     }
 
+    //todo esto es para las habilidades
     const deleteItem = (data: any) => {
 
     }
 
     const form = (title: string) => {
         switch (title) {
+            case 'addExperience':
+                return (
+                    <form className='form'>
+                        <h5>Experiencia:</h5>
+                        <div className="col-md-3"><label className="labels">Empresa</label><input type="text" {...register("empresa")} className="form-control" placeholder="Empresa" /></div>
+                        <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' /></div>
+                        <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" /></div>
+                        <h6 className="mt-3">Logros:</h6>
+                        <div>
+                            <div className="col-md-12 mb-3"><label className="labels">Logros:</label><input type="text" className="form-control" {...register("logros")} placeholder="additional details" /></div>
+                        </div>
+                        <h6>Referencias:</h6>
+                        <div>
+                            <div className="col-md-12 mb-3"><label className="labels">Recomendado por:</label><input type="text" className="form-control" placeholder="additional details" /></div>
+                        </div>
+                        <hr />
+                        <div className="row text-center">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                )
+                break
             //Perfil
             case 'Perfil del candidato':
                 return (
@@ -96,38 +126,23 @@ export default function DataModal(props: any) {
             case 'Experiencias Laborales':
                 return (
                     <form className='form'>
-                        <button onClick={loadItem} className="btn mb-2 btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
-                        <button onClick={deleteItem} className="btn btn-sm btn-danger rounded ml-2"><FontAwesomeIcon icon={faDeleteLeft}></FontAwesomeIcon></button>
-                        {data?.map((item: any, key: any) => (
-                            <div className="accordion">
-                                <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headingOne">
-                                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target={`#collapseOne${key}`} aria-expanded="true" aria-controls={`collapseOne${key}`}>
-                                            {item.nombreEmpresa}
-                                        </button>
-                                    </h2>
-                                    <div className="row accordion-collapse show" id={`collapseOne${key}`} key={item._id}>
-                                        <h5>Experiencia:</h5>
-                                        <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="Empresa" defaultValue={item.nombreEmpresa} /></div>
-                                        <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" defaultValue={item.descripcion} /></div>
-                                        <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" defaultValue={item.duracion} className="form-control" placeholder="additional details" /></div>
-                                        <h6 className="mt-3">Logros:</h6>
-                                        {item?.logros.map((subItem: any) => (
-                                            <div key={subItem._id}>
-                                                <div className="col-md-12 mb-3"><label className="labels">Logro:</label><input type="text" defaultValue={subItem.descripcionLogro} className="form-control" placeholder="additional details" /></div>
-                                            </div>
-                                        ))}
-                                        <h6>Referencias:</h6>
-                                        {item?.referencias.map((subItem: any) => (
-                                            <div key={subItem._id}>
-                                                <div className="col-md-12 mb-3"><label className="labels">Recomendado por:</label><input type="text" defaultValue={subItem.referencia} className="form-control" placeholder="additional details" /></div>
-                                            </div>
-                                        ))}
-                                        <hr />
-                                    </div>
-                                </div>
+                        <h5>Experiencia:</h5>
+                        <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="Empresa" defaultValue={data.nombreEmpresa} /></div>
+                        <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" defaultValue={data.descripcion} /></div>
+                        <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" defaultValue={data.duracion} className="form-control" placeholder="additional details" /></div>
+                        <h6 className="mt-3">Logros:</h6>
+                        {data?.logros.map((subItem: any) => (
+                            <div key={subItem._id}>
+                                <div className="col-md-12 mb-3"><label className="labels">Logro:</label><input type="text" defaultValue={subItem.descripcionLogro} className="form-control" placeholder="additional details" /></div>
                             </div>
                         ))}
+                        <h6>Referencias:</h6>
+                        {data?.referencias.map((subItem: any) => (
+                            <div key={subItem._id}>
+                                <div className="col-md-12 mb-3"><label className="labels">Recomendado por:</label><input type="text" defaultValue={subItem.referencia} className="form-control" placeholder="additional details" /></div>
+                            </div>
+                        ))}
+                        <hr />
                         <div className="row text-center">
                             <button className="btn btn-primary btn-block">Guardar cambios</button>
 
@@ -171,10 +186,8 @@ export default function DataModal(props: any) {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="container">
-                    <div className="row">
-                        {form(title)}
-                    </div>
+                <div className="row">
+                    {form(title)}
                 </div>
             </Modal.Body>
         </Modal>

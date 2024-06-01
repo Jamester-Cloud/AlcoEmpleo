@@ -10,7 +10,7 @@ import Image from "next/image";
 // todo conditionate to session status and user status
 export default function card(props: any) {
     let { data } = props
-    const whatsappMessage = encodeURIComponent("Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil");
+    const whatsappMessage = encodeURIComponent("Saludos cordiales, hemos visto tu perfil en alcoempleo.com");
     return (
         <div className="text-center">
             <div className="card text-center p-5" style={{ width: "25rem" }}>
@@ -36,10 +36,8 @@ export default function card(props: any) {
                     </div>
                     <div className="mb-4 pb-2 p-2">
                         <button type="button" className="btn btn-success btn-sm rounded">
-                       
-                           
-                            <Link href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`} className="mdi mdi-whatsapp  text-white text-decoration-none">  Enviar mensaje
-                            </Link>
+                            <a target="_blank" href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`} className="mdi mdi-whatsapp  text-white text-decoration-none">  Enviar mensaje
+                            </a>
                         </button>
                     </div>
                     <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary btn-large">

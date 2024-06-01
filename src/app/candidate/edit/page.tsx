@@ -5,44 +5,10 @@ import axios from "axios"
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form"
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faPlus, faDeleteLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import DataModal from "@/app/components/modal/DataModal";
 import "@/app/candidate/edit/css/style.css"
-
-type milestones = {
-    logro: string;
-}
-
-type references = {
-    referencia: string;
-}
-
-type candidato = {
-    cv: File;
-    profilePicture: File;
-    nombre: string;
-    apellido: string;
-    telefono: string;
-    email: string;
-    direccion: string;
-    perfil: {
-        puestoDeseado: string;
-        salario: number;
-        descripcionPersonal: string;
-    }
-    experiencia: {
-        empresa: string;
-        descripcion: string;
-        duracion: number;
-        logros: Array<milestones>;
-        references: Array<references>;
-    }[];
-    habilidades: {
-        habilidad: string;
-        nivel: string;
-    }[];
-};
 
 export default function UserCandidate() {
     //Modal controls
@@ -56,8 +22,6 @@ export default function UserCandidate() {
     //react hook form 
 
     const handleModal = (e: any, title: string, data: any) => {
-        console.log(title);
-        console.log(data);
         e.preventDefault()
         setModalTitle(title);
         setModalData(data)
@@ -72,12 +36,19 @@ export default function UserCandidate() {
         }
     }
 
+    const loadItem = (data:any) => {
+
+    }
+
+    const deleteItem = (deleteItem:any) => {
+
+    }
+
     useEffect(() => {
         if (!candidatoData) {
             (async () => {
                 try {
                     await getUserDetails()
-                    console.log(candidatoData);
                 } catch (err) {
                     console.log('Error al cargar los datos el usuario', err);
                 }
@@ -189,7 +160,12 @@ export default function UserCandidate() {
                     <div className="py-5 card-header">
                         <div className="row align-items-right">
                             <div className="col-md-9">
-                                <div className="d-flex justify-content-left align-items-left"><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experiencias Laborales</span>
+                                <div className="d-flex justify-content-left align-items-left  mr-2">
+                                    <span className="border px-3 p-1 add-experience">
+                                        <i className="fa fa-plus"></i>&nbsp;Experiencias Laborales
+                                    </span>
+                                    <button onClick={loadItem} className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
+                                    <button onClick={deleteItem} className="btn btn-sm btn-danger rounded ml-2"><FontAwesomeIcon icon={faDeleteLeft}></FontAwesomeIcon></button>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +175,7 @@ export default function UserCandidate() {
                             <div className="row" key={item._id}>
                                 <div className="col-md-6"><label className="labels">Empresa:</label>
                                     <h6>{item.nombreEmpresa}</h6></div>
-                                <div className="col-md-6 text-right"><button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", candidatoData?.candidatoData.experiencias)}>
+                                <div className="col-md-6 text-right"><button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", item)}>
                                     <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button></div>
                                 {/* <h6 className="mt-3">Logros:</h6>
