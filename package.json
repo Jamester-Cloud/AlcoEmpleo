@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "author": "Ivan Rodriguez, TripData.CA",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
