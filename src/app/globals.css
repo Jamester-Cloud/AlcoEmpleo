@@ -18,7 +18,19 @@
 
 body {
   
+  .form-control {
+    border: 2px solid rgb(0, 0, 129);
+    border-radius: 0; /* Remove default border-radius */
+  }
+
+  .form-control:focus {
+    box-shadow: 0 0 0 2px rgb(0, 0, 129);
+  }
+  
+  
+  
 }
+
 
 @layer utilities {
   .text-balance {
