@@ -49,11 +49,11 @@ export function CarouselMulti({ candidates }: Props) {
           />
           <Card className="w-64 max-w-64 min-w-64 h-64">
             <Card.Header>
-              <div className="mt-3 mb-4">
+              <div className="">
                 <Image
-                  src="/AlcoSloganLogo.png"
-                  height={30}
-                  width={30}
+                  src="/Imagen-card.png"
+                  height={400}
+                  width={400}
                   className="w-full"
                   alt="Logo"
                 />

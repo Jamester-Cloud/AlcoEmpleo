@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="d-flex d-flex justify-content-center">
+      <div style={{ minWidth: '560px' }} className="w-full d-flex d-flex justify-content-center">
         <Cabecera></Cabecera>
       </div>
       <Carousel className="">
@@ -57,7 +57,7 @@ export default function Home() {
               layout="fill"
               objectFit="cover"
               alt="Encuentra Tu Próxima Oportunidad Laboral"
-              className="absolute w-full h-full object-cover"
+              className="absolute w-100 object-cover"
             />
             <div className="absolute inset-0 bg-black bg-opacity-50"></div>
           </div>
@@ -144,7 +144,7 @@ export default function Home() {
         <div className="text-center justify-content-center absolute top-0 mr-10 ml-10 text-white z-10">
           <h1 className="text-white font-bold">Expertos Recomendados</h1>
           <h4 className="text-white font-bold">Conoce más sobre nosotros</h4>
-          <p className="text-justify text-sm md:text-lg">
+          <p className="text-center text-sm md:text-lg">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
             voluptate optio nostrum asperiores voluptatem error accusantium!
             Blanditiis alias soluta placeat inventore, in at minus officia illo
@@ -156,28 +156,16 @@ export default function Home() {
             error placeat dolores accusamus! Odio facere quisquam, dolores ipsum
             recusandae vero obcaecati aut magni quam deserunt!
           </p>
-          <p className="text-justify text-sm md:text-lg">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-            voluptate optio nostrum asperiores voluptatem error accusantium!
-            Blanditiis alias soluta placeat inventore, in at minus officia illo
-            vel nemo tempore provident.
-          </p>
-          <p className="text-justify text-sm md:text-lg">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-            voluptate optio nostrum asperiores voluptatem error accusantium!
-            Blanditiis alias soluta placeat inventore, in at minus officia illo
-            vel nemo tempore provident.
-          </p>
         </div>
       </div>
       <div>
       <Container>
         <Row>
-          <Col md={6}>
+          <Col md={6} className="justify-content-center">
             <h1 className="text-blue-900 font-bold">Contáctanos</h1>
             <p>¡Déjanos tus datos para comunicarnos contigo lo antes posible!</p>
 
-            <Form>
+            <Form className="w-72">
               <Form.Group controlId="formName form-control">
                 <Form.Label>Nombres y apellidos</Form.Label>
                 <Form.Control type="text" placeholder="Introduce tu nombre completo" />
@@ -197,6 +185,14 @@ export default function Home() {
                 Enviar
               </Button>
             </Form>
+          </Col>
+          <Col className="text-center justify-content-center">
+          <Image
+                           src="/contactImage.png"
+                           width={1730}
+                           height={2534}
+                           className="w-80"
+                           alt="Hombre"/>
           </Col>
         </Row>
       </Container>
