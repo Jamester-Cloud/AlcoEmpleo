@@ -178,7 +178,7 @@ export default function Home() {
 
               <Form.Group controlId="formMessage form-control">
                 <Form.Label>Deja tu mensaje</Form.Label>
-                <Form.Control as="textarea" rows="3" placeholder="Introduce tu mensaje" />
+                <Form.Control as="textarea" rows={3} placeholder="Introduce tu mensaje" />
               </Form.Group>
 
               <Button className="mt-3 mb-3 w-32" variant="primary" type="submit">
