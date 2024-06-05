@@ -7,7 +7,7 @@ export default function Contact() {
   const whatsappMessage = encodeURIComponent("Hola Contacto desde AlcoEmpleo, necesito orientación sobre su servicio");
 
   return (
-    <div className="bg-primary text-white flex items-center justify-center p-2">
+    <div className="bg-blue-950 text-white flex items-center justify-center p-2">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row md:justify-between">
               {/* Contactanos*/}
