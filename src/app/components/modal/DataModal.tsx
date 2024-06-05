@@ -1,3 +1,4 @@
+"use client"
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
 import React, { useState } from 'react';
@@ -16,28 +17,17 @@ export default function DataModal(props: any) {
         name: "test"
     });
 
-    const [formData, setFormData]: any = useState("");
 
-    const [open, setOpen] = useState(false);
-
-    const onSubmit = (data: any) => {
+    const onSubmit = async (data: any) => {
         try {
-            console.log(data);
+            const formData = new FormData()
+            formData.set('file', data.profilePicture[0])
+            console.log(formData);
+            const res = await axios.post("/api/candidate/upload", { file: formData }, { headers: { 'content-type': 'multipart/form-data' } })
 
-            //const res  = axios.post("/api/candidate/upload")
         } catch (error) {
             console.log(error);
         }
-    }
-
-    //todo esto es para los logros
-    const loadItem = (data: any) => {
-
-    }
-
-    //todo esto es para las habilidades
-    const deleteItem = (data: any) => {
-
     }
 
     const form = (title: string) => {
@@ -84,7 +74,6 @@ export default function DataModal(props: any) {
                                     <input type="file" placeholder="Actualizar CV" {...register("cv")} className="form-group form-control" id="cv" name="cv" />
                                 </div>
                             </div>
-
                             <br />
                         </div>
                         <div className="row text-center mt-5">
@@ -92,18 +81,17 @@ export default function DataModal(props: any) {
                         </div>
                     </form>
                 )
-                break;
 
             case 'Datos personales':
                 return (
-                    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                    <form className='form' encType='multipart/form-data' method='post' name="personalData" id="personalData" onSubmit={handleSubmit(onSubmit)}>
                         <div className="row" >
                             <div className="col-md-12">
                                 <label htmlFor="file">actualizar foto de perfil</label>
                                 <input type="file" placeholder="Actualizar foto" {...register("profilePicture")} className="form-group form-control" id="profilePicture" name="profilePicture" />
                             </div><br />
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
-                                className="form-control" defaultValue={data?.puestoDeseado} {...register("nombre")} placeholder="Nombre" />
+                                className="form-control" defaultValue={data?.nombre} {...register("nombre")} placeholder="Nombre" />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
                                 className="form-control" defaultValue={data?.apellido} placeholder="Apellido" {...register("apellido")} />
@@ -121,7 +109,6 @@ export default function DataModal(props: any) {
                         </div>
                     </form>
                 )
-                break;
 
             case 'Experiencias Laborales':
                 return (
@@ -150,7 +137,6 @@ export default function DataModal(props: any) {
                     </form>
 
                 )
-                break;
 
             case 'Habilidades':
                 return (
@@ -169,7 +155,6 @@ export default function DataModal(props: any) {
                     </form>
 
                 )
-                break
         }
     }
 

@@ -1,4 +1,5 @@
-import multer from 'multer'
+"use server"
+import formidable from "formidable";
 import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import { connect } from "@/dbConfig/dbConfig";
@@ -8,11 +9,8 @@ connect();
 
 export async function POST(request: NextRequest) {
     try {
-        const reqJson = await request.json()
-        console.log(reqJson)
-        
-        let {data} = reqJson
-
+        const formData:any = await request.formData()
+        console.log(formData)
         // let storage = multer.diskStorage({
         //     destination: (req, file, cb) => {
         //         cb(null, 'uploads')
@@ -22,21 +20,17 @@ export async function POST(request: NextRequest) {
         //     }
         // });
 
-
         // let upload = multer({ storage: storage });
 
         // upload.single('image')
 
         // let img = {
-        //     data: fs.readFileSync(path.join(__dirname + '/uploads/candidate/profilesPictures' + reqJson.profile.filename)),
+        //     data: fs.readFileSync(path.join(__dirname + '/uploads/candidate/profilesPictures' + reqJson.data.filename)),
         //     contentType: 'image/png'
         // }
-        // let candidateCv = {
-        //     data: fs.readFileSync(path.join(__dirname + '/uploads/candidate/cv' + reqJson.cv.filename)),
-        //     contentType: 'image/png'
-        // }
+
         // //Consultando al candidato
-        // let candidato = Candidato.findById(id);
+        //let candidato = Candidato.findById(id);
 
         const response = NextResponse.json({
             message: "Succesfull data retrieving",
@@ -45,8 +39,8 @@ export async function POST(request: NextRequest) {
 
         return response;
 
-    } catch (error:any) {
-        console.log(error)
+    } catch (error: any) {
+        console.log("error is", error)
         return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
     }
 

@@ -32,7 +32,6 @@ export default function UserCandidate() {
         const res = await axios.post("/api/candidate/me", { idPersona: sessionStorage.getItem('idPersona'), idUsuario: sessionStorage.getItem('idUsuario') });
         if (res.status === 200 && res.data.success) {
             setCandidatoData({ ...candidatoData, userData: { ...res.data.dataPersona, emailUsuario: res.data.emailUsuario }, candidatoData: res.data.dataCandidato })
-
         }
     }
 
