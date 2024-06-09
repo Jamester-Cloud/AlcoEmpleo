@@ -28,7 +28,7 @@ export default function ListCarousel(props: any) {
         <Carousel
             activeIndex={index}
             onSelect={handleSelect}
-            className="justify-content-center"
+            className=" mt-10 pt-10 mb-10 pb-10 justify-content-center bg-slate-400"
         >
             {data.map((image: any) => (
                 dataCards(image)

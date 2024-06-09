@@ -32,7 +32,7 @@ export default function CabeceraEmpresa() {
         }
     }
     return (
-        <header className="bg-primary p-0">
+        <header className="bg-blue-950 navbar navbar-expand-lg p-0">
             <div className="container flex justify-between items-center">
                 <a href="/">
                     <Image
@@ -44,7 +44,7 @@ export default function CabeceraEmpresa() {
                     />
                 </a>
                 <div className="md:hidden">
-                    <button onClick={toggleMenu} className="text-white focus:outline-none">
+                    <button onClick={toggleMenu} className="text-black focus:outline-none">
                         <FontAwesomeIcon icon={faBars} width={30} height={30} />
                     </button>
                     {showMenu && (
@@ -67,22 +67,24 @@ export default function CabeceraEmpresa() {
                 </div>
                 <nav className="md:flex md:flex-column space-x-4 hidden">
 
-                    <Link href="/enterprise/" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50">
+                    <Link href="/enterprise/" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
                         Buscar Candidato
                     </Link>
 
 
-                    <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                    <Link href="/enterprise/jobOffer" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50" >
                         Publicar Oferta
                     </Link>
 
-                    <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="/profile/me">
-                        Perfil
-                    </Link>
-                    <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+                    <a className="text-white text-decoration-none mt-2 transition-opacity duration-300 hover:opacity-50 cursor-pointer"
                         onClick={logout}>
                         Salir
                     </a>
+
+                    <Link className="btn btn-primary text-white  rounded-pill hover:bg-primary-dark transition-all duration-300" href="/profile/me">
+                        Perfil
+                    </Link>
+
                 </nav>
             </div>
         </header>
