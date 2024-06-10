@@ -5,6 +5,7 @@ import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
 import uploadImage from "@/helpers/uploadImage";
+import { profile } from "console";
 connect();
 
 export async function POST(request: NextRequest) {
@@ -18,9 +19,10 @@ export async function POST(request: NextRequest) {
         let dataType = formData.get('dataType') as String;
 
         switch (dataType) {
-            case 'personales':
+            case 'datosPersonales':
                 const profilePicture = formData.get('profilePicture[]') as File
                 const filter = { _id: formData.get('_id')}
+
                 const update = {
                     nombre: formData.get('nombre'),
                     apellido: formData.get('apellido'),
@@ -28,7 +30,14 @@ export async function POST(request: NextRequest) {
                     telefono: formData.get('telefono'),
                     direccion: formData.get('direccion')
                 }
-                await uploadImage(profilePicture);
+
+                console.log("filter is", filter)
+                console.log(update)
+
+                let image = await uploadImage(profilePicture)
+                console.log(image)
+
+                //await Persona.findOneAndUpdate(filter, update)
                 break;
             case 'perfil':
 

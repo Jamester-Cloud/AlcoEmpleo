@@ -34,8 +34,7 @@ export default function UserCandidate() {
             setCandidatoData({ ...candidatoData, userData: { ...res.data.dataPersona, emailUsuario: res.data.emailUsuario }, candidatoData: res.data.dataCandidato })
         }
     }
-    console.log(candidatoData.userData);
-
+    
     const loadItem = (data:any) => {
 
     }

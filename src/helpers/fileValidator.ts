@@ -1,3 +1,1 @@
-export default function fileValidator(fileType:String){
-    
-}
+export const fileValidator = (fileType:String) => fileType === 'image/jpeg' || fileType === 'image/jpg' || fileType === 'image/png' || fileType === 'pdf'

@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function DataModal(props: any) {
     let { data, title, show, onHide, id } = props;
-    console.log(data._id);
     //para campos que no son ni experiencia ni habilidades. Campos sencillos
     //Por el momento
     const { register, handleSubmit, control, reset, trigger, setError } = useForm();
@@ -92,7 +91,7 @@ export default function DataModal(props: any) {
                             </div><br />
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
                                 className="form-control" defaultValue={data?.nombre} {...register("nombre")} placeholder="Nombre" />
-                                <input type="hidden" {...register('dataType')} defaultValue='personales' />
+                                <input type="hidden" {...register('dataType')} defaultValue='datosPersonales' />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
                                 className="form-control" defaultValue={data?.apellido} placeholder="Apellido" {...register("apellido")} />
