@@ -21,10 +21,10 @@ export default function UserCandidate() {
     const [candidatoData, setCandidatoData]: any = useState();
     //react hook form 
 
-    const handleModal = (e: any, title: string, data: any) => {
+    const handleModal = (e: any, title: string, data: any, id:string) => {
         e.preventDefault()
         setModalTitle(title);
-        setModalData(data)
+        setModalData({...data, id})
         setShow(true)
     }
 
@@ -34,6 +34,7 @@ export default function UserCandidate() {
             setCandidatoData({ ...candidatoData, userData: { ...res.data.dataPersona, emailUsuario: res.data.emailUsuario }, candidatoData: res.data.dataCandidato })
         }
     }
+    console.log(candidatoData.userData);
 
     const loadItem = (data:any) => {
 
@@ -67,7 +68,7 @@ export default function UserCandidate() {
                                 </div>
                             </div>
                             <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="" onClick={(e) => handleModal(e, "Datos personales", candidatoData?.userData)}>
+                                <button className="" onClick={(e) => handleModal(e, "Datos personales", candidatoData?.userData, candidatoData.userData._id)}>
                                     <FontAwesomeIcon icon={faPencil} />
                                 </button>
                             </div>
@@ -124,7 +125,7 @@ export default function UserCandidate() {
                                 </div>
                             </div>
                             <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil)}>
+                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil, candidatoData._id)}>
                                     <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button>
                             </div>
@@ -174,7 +175,7 @@ export default function UserCandidate() {
                             <div className="row" key={item._id}>
                                 <div className="col-md-6"><label className="labels">Empresa:</label>
                                     <h6>{item.nombreEmpresa}</h6></div>
-                                <div className="col-md-6 text-right"><button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", item)}>
+                                <div className="col-md-6 text-right"><button className="btn text-primary" onClick={(e) => handleModal(e, "Experiencias Laborales", item, candidatoData._id)}>
                                     <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button></div>
                                 {/* <h6 className="mt-3">Logros:</h6>
@@ -208,7 +209,7 @@ export default function UserCandidate() {
                                 </div>
                             </div>
                             <div className="col-md-2 justify-content-right align-items-right">
-                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Habilidades", candidatoData?.candidatoData?.habilidad)}>
+                                <button className="btn text-primary" onClick={(e) => handleModal(e, "Habilidades", candidatoData?.candidatoData?.habilidad, candidatoData._id)}>
                                     <FontAwesomeIcon icon={faPencil} /> Editar
                                 </button>
                             </div>

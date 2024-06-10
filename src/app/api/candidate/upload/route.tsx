@@ -2,35 +2,44 @@
 import formidable from "formidable";
 import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
+import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
-import fs from 'fs'
-import path from 'path'
+import uploadImage from "@/helpers/uploadImage";
 connect();
 
 export async function POST(request: NextRequest) {
     try {
-        const formData:any = await request.formData()
-        console.log(formData)
-        // let storage = multer.diskStorage({
-        //     destination: (req, file, cb) => {
-        //         cb(null, 'uploads')
-        //     },
-        //     filename: (req, file, cb) => {
-        //         cb(null, file.fieldname + '-' + Date.now())
-        //     }
-        // });
+        //hago una estructuracion de los datos que se enviaran 
+        //perfil
+        //experiencias
+        //habilidades
 
-        // let upload = multer({ storage: storage });
+        const formData = await request.formData()
+        let dataType = formData.get('dataType') as String;
 
-        // upload.single('image')
+        switch (dataType) {
+            case 'personales':
+                const profilePicture = formData.get('profilePicture[]') as File
+                const filter = { _id: formData.get('_id')}
+                const update = {
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    email: formData.get('email'),
+                    telefono: formData.get('telefono'),
+                    direccion: formData.get('direccion')
+                }
+                await uploadImage(profilePicture);
+                break;
+            case 'perfil':
 
-        // let img = {
-        //     data: fs.readFileSync(path.join(__dirname + '/uploads/candidate/profilesPictures' + reqJson.data.filename)),
-        //     contentType: 'image/png'
-        // }
+                break;
+            case 'habilidades':
 
-        // //Consultando al candidato
-        //let candidato = Candidato.findById(id);
+                break;
+            case 'experiencias':
+
+                break;
+        }
 
         const response = NextResponse.json({
             message: "Succesfull data retrieving",

@@ -7,7 +7,8 @@ import { faDeleteLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function DataModal(props: any) {
-    let { data, title, show, onHide } = props;
+    let { data, title, show, onHide, id } = props;
+    console.log(data._id);
     //para campos que no son ni experiencia ni habilidades. Campos sencillos
     //Por el momento
     const { register, handleSubmit, control, reset, trigger, setError } = useForm();
@@ -20,10 +21,9 @@ export default function DataModal(props: any) {
 
     const onSubmit = async (data: any) => {
         try {
-            const formData = new FormData()
-            formData.set('file', data.profilePicture[0])
-            console.log(formData);
-            const res = await axios.post("/api/candidate/upload", { file: formData }, { headers: { 'content-type': 'multipart/form-data' } })
+            console.log(data);
+
+            const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
 
         } catch (error) {
             console.log(error);
@@ -92,6 +92,7 @@ export default function DataModal(props: any) {
                             </div><br />
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
                                 className="form-control" defaultValue={data?.nombre} {...register("nombre")} placeholder="Nombre" />
+                                <input type="hidden" {...register('dataType')} defaultValue='personales' />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
                                 className="form-control" defaultValue={data?.apellido} placeholder="Apellido" {...register("apellido")} />
@@ -101,6 +102,10 @@ export default function DataModal(props: any) {
                             </div>
                             <div className="col-md-6"><label className="labels">Telefono</label><input type="text"
                                 className="form-control" defaultValue={data?.telefono} placeholder="Telefono"  {...register("telefono")} />
+                            </div>
+                            <div className="col-md-12"><label className="labels">Dirección</label>
+                                <textarea
+                                    className="form-control" defaultValue={data?.direccion} placeholder="direccion"  {...register("direccion")} />
                             </div>
                             <br />
                         </div>
@@ -114,6 +119,8 @@ export default function DataModal(props: any) {
                 return (
                     <form className='form'>
                         <h5>Experiencia:</h5>
+                        <input type="hidden" name="dataType" defaultValue='empresa' />
+
                         <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="Empresa" defaultValue={data.nombreEmpresa} /></div>
                         <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" defaultValue={data.descripcion} /></div>
                         <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" defaultValue={data.duracion} className="form-control" placeholder="additional details" /></div>
@@ -141,6 +148,7 @@ export default function DataModal(props: any) {
             case 'Habilidades':
                 return (
                     <form className='form '>
+                        <input type="hidden" name="dataType" defaultValue='habilidades' />
                         {data?.map((item: any, key: any) => (
                             <div className="row" key={item._id}>
                                 <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control"
