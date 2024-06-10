@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div>
-      <div style={{ minWidth: '560px' }} className="w-full d-flex d-flex justify-content-center">
+      <div className="w-full d-flex d-flex justify-content-center">
         <Cabecera></Cabecera>
       </div>
       <Carousel className="">

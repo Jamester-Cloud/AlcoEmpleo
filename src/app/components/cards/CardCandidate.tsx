@@ -13,13 +13,13 @@ export default function card(props: any) {
     const whatsappMessage = encodeURIComponent("Saludos cordiales, hemos visto tu perfil en alcoempleo.com");
     return (
         <div className="text-center">
-            <div className="card text-center p-5" style={{ width: "25rem" }}>
+            <div className="card text-center p-5" style={{ width: "50%" }}>
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossOrigin="anonymous" />
                 <span className="badge bg-success rounded-pill"><FontAwesomeIcon icon={faGraduationCap}></FontAwesomeIcon> Perfil certificado</span>
                 <div className="card-header text-center">
 
-                    <div className="mt-3 mb-4 text-center">
-                        <Image width={100} height={30} alt="GrupoAlcoLogo" src="/AlcoSloganLogo.png"
+                    <div className="mt-0 mb-0 mr-0 ml-0 text-center">
+                        <Image width={600} height={600} alt="GrupoAlcoLogo" src="/Imagen-card.png"
                              />
                     </div>
                 </div>
@@ -34,15 +34,15 @@ export default function card(props: any) {
                         Venezuela
                         
                     </div>
-                    <div className="mb-4 pb-2 p-2">
+                    <div className="mb-4 pb-2 d-flex justify-content-between">
                         <button type="button" className="btn btn-success btn-sm rounded">
                             <a target="_blank" href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`} className="mdi mdi-whatsapp  text-white text-decoration-none">  Enviar mensaje
                             </a>
                         </button>
-                    </div>
                     <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary btn-large">
                         Ver Perfil
                     </Link>
+                    </div>
                 </div>
             </div>
         </div>
