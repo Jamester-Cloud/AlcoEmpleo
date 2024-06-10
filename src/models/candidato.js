@@ -40,10 +40,6 @@ const candidatoSchema = new mongoose.Schema({
     ],
     perfil:
     {
-        fotoPerfil:{
-            data:Buffer,
-            contentType:String
-        },
         CV:{
             data:Buffer,
             contentType:String

@@ -24,6 +24,7 @@ export default function UserCandidate() {
     const handleModal = (e: any, title: string, data: any, id:string) => {
         e.preventDefault()
         setModalTitle(title);
+        console.log(id)
         setModalData({...data, id})
         setShow(true)
     }

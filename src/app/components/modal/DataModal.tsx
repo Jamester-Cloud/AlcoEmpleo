@@ -7,7 +7,8 @@ import { faDeleteLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function DataModal(props: any) {
-    let { data, title, show, onHide, id } = props;
+    let { data, title, show, onHide } = props;
+    console.log(data)
     //para campos que no son ni experiencia ni habilidades. Campos sencillos
     //Por el momento
     const { register, handleSubmit, control, reset, trigger, setError } = useForm();
@@ -87,11 +88,12 @@ export default function DataModal(props: any) {
                         <div className="row" >
                             <div className="col-md-12">
                                 <label htmlFor="file">actualizar foto de perfil</label>
-                                <input type="file" placeholder="Actualizar foto" {...register("profilePicture")} className="form-group form-control" id="profilePicture" name="profilePicture" />
+                                <input type="file" placeholder="Actualizar foto" {...register("profilePicture", {required:true})} className="form-group form-control" id="profilePicture" name="profilePicture" />
                             </div><br />
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
-                                className="form-control" defaultValue={data?.nombre} {...register("nombre")} placeholder="Nombre" />
+                                className="form-control" defaultValue={data?.nombre} {...register("nombre", {required:true})} placeholder="Nombre" />
                                 <input type="hidden" {...register('dataType')} defaultValue='datosPersonales' />
+                                <input type="hidden" {...register('idPersona')} defaultValue={data._id}  />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
                                 className="form-control" defaultValue={data?.apellido} placeholder="Apellido" {...register("apellido")} />

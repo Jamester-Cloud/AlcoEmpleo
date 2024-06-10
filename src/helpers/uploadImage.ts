@@ -10,25 +10,25 @@ import { fileValidator } from "./fileValidator";
 export default async function uploadImage(formFile: File) {
     try {
         const file = formFile;
-        let isValid = fileValidator(file.type)
-        console.log(file.type)
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = new Uint8Array(arrayBuffer);
-        const filename = Date.now() + file.name.replaceAll(" ", "_");
+        let isValid = fileValidator(file.type)  
+        if (isValid) {
+            const arrayBuffer = await file.arrayBuffer();
+            const buffer = new Uint8Array(arrayBuffer);
+            const filename = Date.now() + file.name.replaceAll(" ", "_");
 
-        await writeFile(`./public/candidate/uploads/${filename}`, buffer);
-        //retornamos informacio del archivo
-        let img = {
-            data: await readFile(`./public/candidate/uploads/${filename}`),
-            contentType: file.type,
-            size:file.size,
-            path:`./public/candidate/uploads/${filename}`
+            await writeFile(`./public/candidate/uploads/${filename}`, buffer);
+
+            //retornamos informacion del archivo
+            let img = {
+                contentType: file.type,
+                size: file.size,
+                path: `./public/candidate/uploads/${filename}`
+            }
+
+            revalidatePath("/");
+            return img
         }
-
-        revalidatePath("/");
-        console.log('Image successfully uploaded');
-        
-        return img
+        if (!isValid) return 'extension de archivo invalida. Rectifique'
     } catch (error) {
         console.log("Error occured ", error);
     }
