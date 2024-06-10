@@ -5,6 +5,7 @@ import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
+import Link from "next/link";
 
 export default function CandidateSearch() {
   const [data, setData]: any = React.useState();
@@ -137,13 +138,17 @@ export default function CandidateSearch() {
           <ListCarousel className="" data={premiumsData} />
         )}
       </div>
-      <div className="justify-content-center row mt-5">
-        <h3>Otros candidatos</h3>
-        <hr />
+      <div className="justify-content-left row mt-5">
+        <h3 className=" mt-20 ml-10 text-lg text-left text-blue-900 md:text-2xl font-bold">
+          Otros candidatos
+        </h3>
+        <p className="text-sm ml-10 text-left text-blue-900 md:text-lg my-2">
+          Que te podrían interesar
+        </p>
       </div>
       {/* Normal candidates loop */}
-      <div className="row">
-        <div className="col-lg-12">
+      <div className="row justify-content-center">
+        <div className="col-lg-11">
           <div className="align-items-center row">
             {/* Cantidad total de registros */}
             {/* <div className="col-lg-8">
@@ -153,9 +158,10 @@ export default function CandidateSearch() {
               <div className="candidate-list-widgets">
                 <div className="row">
                   <div className="col-lg-6">
-                    <div className="selection-widget">
+                    <div className="col election-widget">
+                      <p className="row mb-0 font-bold">Especialidad</p>
                       <select
-                        className="form-select"
+                        className="form-select row"
                         data-trigger="true"
                         name="choices-single-filter-orderby"
                         id="choices-single-filter-orderby"
@@ -169,9 +175,10 @@ export default function CandidateSearch() {
                     </div>
                   </div>
                   <div className="col-lg-6">
-                    <div className="selection-widget mt-2 mt-lg-0">
+                    <div className="col selection-widget mt-2 mt-lg-0">
+                      <p className="mb-0 row font-bold">Región</p>
                       <select
-                        className="form-select"
+                        className="form-select row"
                         data-trigger="true"
                         name="choices-candidate-page"
                         id="choices-candidate-page"
@@ -187,21 +194,22 @@ export default function CandidateSearch() {
               </div>
             </div>
           </div>
+          <hr />
           {/* Lista de candidatos aca */}
           <div className="candidate-list">
             {data?.map((item: any) => (
-              <div className="candidate-list-box card mt-4" key={item._id}>
-                <div className="p-4 card-body">
+              <div className=" candidate-list-box card mt-4" key={item._id}>
+                <div className="bg-slate-400 p-4 card-body ">
                   <div className="align-items-center row">
                     <div className="col-auto">
-                      <div className="candidate-list-images">
+                      <div className=" candidate-list-images">
                         <a href="#">
                           <Image
-                            src="/AlcoLogo.png"
-                            width={40}
-                            height={30}
+                            src="/Imagen-card.png"
+                            width={400}
+                            height={300}
                             alt=""
-                            className="avatar-md img-thumbnail rounded-circle"
+                            className=" w-32  rounded-circle"
                           />
                         </a>
                       </div>
@@ -247,6 +255,12 @@ export default function CandidateSearch() {
                       <i className="mdi mdi-heart fs-18"></i>
                     </a>
                   </div>
+                  <Link
+                    href={`/enterprise/candidateProfile/${data._id}`}
+                    className="col-lg-1 btn btn-primary btn-large"
+                  >
+                    Ver Perfil
+                  </Link>
                 </div>
               </div>
             ))}
