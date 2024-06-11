@@ -6,7 +6,7 @@ connect()
 
 export async function GET(request: NextRequest) {
   try {
-    //Consulta desde candidatos hasta personas
+    //Consulta desde candidatos hasta personas. esto es para candidato normal
     const candidato: any = await Candidato.aggregate([
       {
         $match: {

@@ -43,7 +43,7 @@ export default function CandidateSearch() {
 
   return (
     <section>
-      <div w-full d-flex justify-content-center>
+      <div className="w-full d-flex justify-content-center">
         <CabeceraEmpresa />
       </div>
       <div className="">
