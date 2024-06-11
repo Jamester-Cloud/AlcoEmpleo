@@ -2,7 +2,7 @@
 import path from "path";
 import { writeFile, readFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
-import { fileValidator } from "./fileValidator";
+import { fileValidator, fileSizeValidator } from "./fileValidator";
 /**
  * @param File
  * upload functions for images or docs
@@ -11,7 +11,9 @@ export default async function uploadImage(formFile: File) {
     try {
         const file = formFile;
         let isValid = fileValidator(file.type)  
-        if (isValid) {
+        let validSize = fileSizeValidator(file.size)
+        if (isValid && validSize) {
+
             const arrayBuffer = await file.arrayBuffer();
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
@@ -28,7 +30,8 @@ export default async function uploadImage(formFile: File) {
             revalidatePath("/");
             return img
         }
-        if (!isValid) return 'extension de archivo invalida. Rectifique'
+        if(!validSize) return 'Archivo muy grande para ser guardado. Intente con otro, por favor'
+        if (!isValid) return 'Extension de archivo invalida. Admitidas: Jpeg, JPG, PNG y PDF'
     } catch (error) {
         console.log("Error occured ", error);
     }

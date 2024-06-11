@@ -24,18 +24,19 @@ export async function POST(request: NextRequest) {
 
                 const profilePicture = formData.get('profilePicture[]') as File
                 let filter = { _id: formData.get('idPersona') }
+                console.log(filter)
                 let update;
                 let image: any = await uploadImage(profilePicture)
 
                 if (image !== 'extension de archivo invalida. Rectifique') {
-                    
+
                     update = {
                         nombre: formData.get('nombre'),
                         apellido: formData.get('apellido'),
                         email: formData.get('email'),
                         telefono: formData.get('telefono'),
                         direccion: formData.get('direccion'),
-                        fotoPerfil: {size:image.size} 
+                        fotoPerfil: { data: image.data, size: image.size, path:image.path, dataType:image.contentType }
                     }
 
                     await Persona.updateOne(filter, update)

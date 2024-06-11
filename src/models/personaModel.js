@@ -18,9 +18,9 @@ const personaSchema = new mongoose.Schema({
         unique: true
     },
     fotoPerfil: {
-        size:Number,
-        type:String,
-        path:String
+        size:{type:Number},
+        dataType:{type:String},
+        path:{type:String}
     },
     direccion: String,
     telefono: Number,
