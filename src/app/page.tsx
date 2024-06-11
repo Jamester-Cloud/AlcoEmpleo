@@ -197,53 +197,6 @@ export default function Home() {
         </Row>
       </Container>
     </div>
-      {/* <div className="bg-primary pt-32  p-2 d-grid md:grid-cols-2   lg:grid-cols-4  sm:grid-cols-1  ">
-        <div className=" bg-white rounded m-1  p-2">
-          <h2 className=" text-center">
-            {" "}
-            <FontAwesomeIcon icon={faUsers} /> Registrarse
-          </h2>
-          <p className="">
-            Haz click en <span className=" font-bold">"Registrarse"</span>,
-            selecciona tu rol si eres{" "}
-            <span className=" font-bold"> "Candidato"</span> o{" "}
-            <span className=" font-bold"> "Empleador"</span>, llena el
-            formulario de registro y tendrás tu cuenta activa. Debes ser mayor
-            de edad.{" "}
-          </p>
-        </div>
-
-        <div className=" bg-white rounded  m-1 p-2">
-          <h2 className=" text-center">
-            <FontAwesomeIcon icon={faUser} /> Inicia Sesión
-          </h2>
-          <p>
-            Completa tu perfil con los datos solicitados. Describe tu{" "}
-            <span className=" font-bold"> experiencia laboral </span>,
-            <span className=" font-bold"> tus habilidades </span> y la
-            información que consideres más importante de tu perfil.{" "}
-          </p>
-        </div>
-
-        <div className=" bg-white rounded  m-1 p-2">
-          <h2 className=" text-center">
-            <FontAwesomeIcon icon={faCreditCard} /> Escoge un plan{" "}
-          </h2>
-          <p>
-            Entre los planes que ofrecemos y se adapten a tus requerimientos,
-            sigue los pasos para activarlo y disfruta de las ventajas{" "}
-          </p>
-        </div>
-        <div className=" bg-white rounded  m-1 p-2">
-          <h2 className=" text-center">
-            <FontAwesomeIcon icon={faFile} /> Publica Tu Perfil{" "}
-          </h2>
-          <p>
-            Posterior a la activación del plan, publica tu información para que
-            seas visible en nuestra plataforma.
-          </p>
-        </div>
-      </div> */}
 
       <Contact />
 

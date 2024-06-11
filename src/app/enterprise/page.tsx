@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function CandidateSearch() {
   const [data, setData]: any = React.useState();
@@ -199,29 +201,29 @@ export default function CandidateSearch() {
           <div className="candidate-list">
             {data?.map((item: any) => (
               <div className=" candidate-list-box card mt-4" key={item._id}>
-                <div className="bg-slate-400 p-4 card-body ">
-                  <div className="align-items-center row">
+                <div className="bg-slate-200 p-4 card-body ">
+                  <div className="align-items-center d-flex row justify-content-end">
                     <div className="col-auto">
                       <div className=" candidate-list-images">
                         <a href="#">
                           <Image
                             src="/Imagen-card.png"
                             width={400}
-                            height={300}
+                            height={400}
                             alt=""
-                            className=" w-32  rounded-circle"
+                            className=" w-32 h-32 rounded-circle"
                           />
                         </a>
                       </div>
                     </div>
-                    <div className="col-lg-5">
+                    <div className="col-lg-9">
                       <div className="candidate-list-content mt-3 mt-lg-0">
                         <h5 className="fs-19 mb-0">
                           <a className="primary-link" href="#">
                             {item.personaData.nombre}
                           </a>
-                          <span className="badge bg-success ms-1">
-                            <i className="mdi mdi-star align-middle"></i>4.8
+                          <span className="badge ml-4 text-right bg-success rounded-pill ">
+                            <FontAwesomeIcon icon={faCheckCircle} /> Verificado
                           </span>
                         </h5>
                         <p className="text-muted mb-2">
@@ -238,36 +240,25 @@ export default function CandidateSearch() {
                         </ul>
                       </div>
                     </div>
-                    <div className="col-lg-4">
-                      <div className="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                        <span className="badge bg-soft-secondary fs-14 mt-1">
-                          Datos verificados
-                        </span>
-                        <span className="badge bg-soft-secondary fs-14 mt-1">
-                          CV anexado
-                        </span>
-                        <span className="badge bg-soft-secondary fs-14 mt-1"></span>
-                      </div>
+                    <div className="col  float-right">
+                      {/* <a href="#">
+                      <i className="mdi mdi-heart fs-18"></i>
+                    </a> */}
+                      <Link
+                        href={`/enterprise/candidateProfile/${data._id}`}
+                        className=" btn btn-primary btn-large"
+                      >
+                        Ver Perfil
+                      </Link>
                     </div>
                   </div>
-                  <div className="favorite-icon">
-                    <a href="#">
-                      <i className="mdi mdi-heart fs-18"></i>
-                    </a>
-                  </div>
-                  <Link
-                    href={`/enterprise/candidateProfile/${data._id}`}
-                    className="col-lg-1 btn btn-primary btn-large"
-                  >
-                    Ver Perfil
-                  </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row mb-10 ">
         <div className="mt-4 pt-2 col-lg-12">
           <nav aria-label="Page navigation example">
             <div className="pagination job-pagination mb-0 justify-content-center">
