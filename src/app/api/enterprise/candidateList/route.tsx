@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     const countCandidatePremium = await Candidato.countDocuments({ esDestacado: true })
 
     console.log(countCandidate);
-
+    console.log(countCandidatePremium)
 
     const candidatosPremiums: any = await Candidato.aggregate([
       {

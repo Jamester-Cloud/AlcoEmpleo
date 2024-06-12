@@ -64,11 +64,10 @@ export default function CandidateSearch() {
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="absolute bottom-0 left-0 right-0 text-white p-4">
           <h3 className="text-lg text-center md:text-2xl font-bold">
-            Contrata personas para tu negocio
+            Buscador de candidatos
           </h3>
           <p className="text-sm text-center md:text-lg">
-            Descubra su próximo paso profesional, trabajo independiente o
-            pasantía
+            Aplica filtros para obtener los mejores resultados, ajustados a tus criterios
           </p>
         </div>
       </div>
@@ -132,10 +131,10 @@ export default function CandidateSearch() {
         )}
       </div>
       <div className="w-full text-left mt-20">
-        <h3 className="text-lg text-blue-900 md:text-2xl font-bold">
+        <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
           Otros candidatos
         </h3>
-        <p className="text-sm text-blue-900 md:text-lg my-2">
+        <p className="text-center mb-3 text-sm text-blue-900 md:text-lg my-2">
           Que te podrían interesar
         </p>
       </div>
