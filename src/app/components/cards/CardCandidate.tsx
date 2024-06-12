@@ -1,7 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot, faGraduationCap } from "@fortawesome/free-solid-svg-icons";
-import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faLocationDot, faGraduationCap, faMessage } from "@fortawesome/free-solid-svg-icons";
+//import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -38,7 +38,7 @@ export default function CardCandidate(props: any) {
           href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
           className="btn btn-success text-white text-xs py-2 px-4 rounded flex items-center"
         >
-          <FontAwesomeIcon icon={faWhatsapp} className="mr-1" />
+          <FontAwesomeIcon icon={faMessage} className="mr-1" />
 
           Enviar mensaje
         </a>
