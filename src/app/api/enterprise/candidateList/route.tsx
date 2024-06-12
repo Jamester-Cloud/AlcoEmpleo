@@ -42,6 +42,12 @@ export async function GET(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
+    
+    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
+    const countCandidatePremium = await Candidato.countDocuments({ esDestacado: true })
+
+    console.log(countCandidate);
+
 
     const candidatosPremiums: any = await Candidato.aggregate([
       {
@@ -83,7 +89,7 @@ export async function GET(request: NextRequest) {
     const response = NextResponse.json({
       message: "Succesfull login",
       dataCandidatos: candidato,
-      dataCandidatosPremium:candidatosPremiums,
+      dataCandidatosPremium: candidatosPremiums,
       success: true,
     })
     //console.log("hello world")
