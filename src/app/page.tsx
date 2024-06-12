@@ -118,18 +118,16 @@ export default function Home() {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-      </Carousel>
+        </Carousel>
       <div className="text-center justify-content-center">
-        <h1 className=" text-blue-900 font-bold pt-20">
+        <h1 className="text-blue-900 font-bold pt-20 sm:pt-32 md:pt-40 lg:pt-48">
           Expertos Recomendados
         </h1>
-        <h4 className=" text-blue-900 pb-20">
+        <h4 className="text-blue-900 pb-20">
           Recomendados por otras empresas
         </h4>
       </div>
-      {/* Usamos el componente CandidateCarousel */}
       <CarouselMulti candidates={data.dataCandidatosPremium} />
-
       <div className="relative h-64 md:h-96 lg:h-128 xl:h-144">
         <div className="w-full h-full relative">
           <Image
@@ -139,12 +137,15 @@ export default function Home() {
             alt="Encuentra Tu Próxima Oportunidad Laboral"
             className="absolute w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-blue-950 bg-opacity-50"></div>
         </div>
-        <div className="text-center justify-content-center absolute top-0 mr-10 ml-10 text-white z-10">
-          <h1 className="text-white font-bold">Expertos Recomendados</h1>
-          <h4 className="text-white font-bold">Conoce más sobre nosotros</h4>
-          <p className="text-center text-sm md:text-lg">
+        <div className="absolute inset-0 bg-blue-950 bg-opacity-50 flex flex-col justify-center items-center text-white z-10">
+          <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4">
+            Expertos Recomendados
+          </h1>
+          <h4 className="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
+            Conoce más sobre nosotros
+          </h4>
+          <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-4">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
             voluptate optio nostrum asperiores voluptatem error accusantium!
             Blanditiis alias soluta placeat inventore, in at minus officia illo
@@ -158,35 +159,34 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div>
-      <Container>
-        <Row>
-          <Col md={6} className="justify-content-center">
-            <h1 className="text-blue-900 font-bold">Contáctanos</h1>
-            <p>¡Déjanos tus datos para comunicarnos contigo lo antes posible!</p>
-
-            <Form className="w-72">
-              <Form.Group controlId="formName form-control">
+      <Container className="py-20">
+        <Row className="justify-content-center">
+          <Col md={6} className="mb-8 md:mb-0">
+            <h1 className="text-blue-900 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
+              Contáctanos
+            </h1>
+            <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6">
+              ¡Déjanos tus datos para comunicarnos contigo lo antes posible!
+            </p>
+            <Form>
+              <Form.Group controlId="formName">
                 <Form.Label>Nombres y apellidos</Form.Label>
                 <Form.Control type="text" placeholder="Introduce tu nombre completo" />
               </Form.Group>
-
-              <Form.Group controlId="formEmail form-control">
+              <Form.Group controlId="formEmail">
                 <Form.Label>Correo electrónico</Form.Label>
                 <Form.Control type="email" placeholder="Introduce tu correo electrónico" />
               </Form.Group>
-
-              <Form.Group controlId="formMessage form-control">
+              <Form.Group controlId="formMessage">
                 <Form.Label>Deja tu mensaje</Form.Label>
                 <Form.Control as="textarea" rows={3} placeholder="Introduce tu mensaje" />
               </Form.Group>
-
-              <Button className="mt-3 mb-3 w-32" variant="primary" type="submit">
+              <Button className="w-full" variant="primary" type="submit">
                 Enviar
               </Button>
             </Form>
           </Col>
-          <Col className="text-center justify-content-center">
+          <Col className="text-center">
           <Image
                            src="/contactImage.png"
                            width={1730}
@@ -196,10 +196,7 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
-    </div>
-
       <Contact />
-
       <Footer />
     </div>
   );
