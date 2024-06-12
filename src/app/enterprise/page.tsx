@@ -17,7 +17,6 @@ import {
   faAngleDoubleRight,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { mdiWhatsapp, mdiMapMarker, mdiWallet } from "@mdi/js";
 
 export default function CandidateSearch() {
   const [data, setData] = React.useState<any>();
