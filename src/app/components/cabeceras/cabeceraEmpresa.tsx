@@ -1,4 +1,3 @@
-"use client"
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
@@ -32,34 +31,34 @@ export default function CabeceraEmpresa() {
         }
     }
     return (
-        <header className="bg-blue-950 navbar navbar-expand-lg p-0">
+        <header className="w-full bg-blue-950 navbar navbar-expand-lg p-0">
             <div className="container flex justify-between items-center">
                 <a href="/">
                     <Image
                         width={110}
                         height={80}
-                        className="img-fluid rounded-2xl p-1"
+                        className="img-fluid rounded-2xl pt-1 pl-1 pb-1"
                         src="/AlcoSloganLogo.png"
                         alt="GrupoAlco"
                     />
                 </a>
                 <div className="md:hidden">
-                    <button onClick={toggleMenu} className="text-black focus:outline-none">
+                    <button onClick={toggleMenu} className="text-white focus:outline-none">
                         <FontAwesomeIcon icon={faBars} width={30} height={30} />
                     </button>
                     {showMenu && (
                         <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-                            <Link href="/enterprise/" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                            <Link href="/enterprise/" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" >
                                 Buscar Candidato
                             </Link>
-                            <Link href="/enterprise/jobOffer" className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                            <Link href="/enterprise/jobOffer" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" >
                                 Publicar Oferta
                             </Link>
 
-                            <Link className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50" href="#">
+                            <Link className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" href="#">
                                 Perfil
                             </Link>
-                            <a className="text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+                            <a className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer p-2"
                                 onClick={logout}>
                                 Salir
                             </a></div>
