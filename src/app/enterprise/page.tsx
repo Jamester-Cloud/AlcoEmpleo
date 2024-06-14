@@ -105,7 +105,7 @@ export default function CandidateSearch({ searchParams }: any) {
       <div className="w-full">
         <CabeceraEmpresa />
       </div>
-      <div className="relative h-40 md:h-96 lg:h-128 xl:h-144 w-full">
+      <div className="relative h-96 sm:h-80 md:h-96 lg:h-128 xl:h-144 w-full">
         <Image
           src="/slider/slider3.jpg"
           layout="fill"
@@ -120,42 +120,45 @@ export default function CandidateSearch({ searchParams }: any) {
           <p className="text-sm text-center md:text-lg">
             Aplica filtros para obtener los mejores resultados, ajustados a tus criterios
           </p>
+          <div className="bg-slate-100 text-center rounded-2xl m-4 p-4 md:p-8 text-black overflow-y-auto max-h-[calc(100vh-240px)]">
+            <h3 className="text-lg md:text-2xl font-bold">
+              Búsqueda personalizada
+            </h3>
+            <form action="#">
+              <div className="flex flex-col items-center">
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
+                  <div className="flex items-center">
+                    <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
+                    <input
+                      id="exampleFormControlInput1"
+                      placeholder="Cargo"
+                      type="search"
+                      className="form-control w-full"
+                    />
+                  </div>
+                  <div>
+                    <select
+                      className="form-select w-full"
+                      name="choices-single-location"
+                      id="choices-single-location"
+                      aria-label="Ubicación"
+                    >
+                      <option value="">Ubicación</option>
+                      <option value="">...</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-center mt-4 w-full max-w-lg">
+                  <a className="btn btn-primary" href="#">
+                    Buscar
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-      <div className="bg-slate-100 rounded-2xl m-4 p-4 md:p-8 text-black overflow-y-auto max-h-[calc(100vh-240px)]">
-        <h3 className="text-lg md:text-2xl font-bold">
-          Búsqueda personalizada
-        </h3>
-        <form action="#">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
-            <div className="flex items-center">
-              <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-              <input
-                id="exampleFormControlInput1"
-                placeholder="Cargo"
-                type="search"
-                className="form-control w-full"
-              />
-            </div>
-            <div className="ml-5">
-              <select
-                className="form-select w-full ml-5"
-                name="choices-single-location"
-                id="choices-single-location"
-                aria-label="Ubicación"
-              >
-                <option value="">Ubicación</option>
-                <option value="">...</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex justify-center mt-4">
-            <a className="btn btn-primary" href="#">
-              Buscar
-            </a>
-          </div>
-        </form>
-      </div>
+
       <div className="w-full text-center my-20">
         <h3 className="text-lg text-blue-900 md:text-2xl font-bold">
           Contrata personas para tu negocio

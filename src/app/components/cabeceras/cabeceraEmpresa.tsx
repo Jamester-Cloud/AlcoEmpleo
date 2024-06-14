@@ -46,46 +46,38 @@ export default function CabeceraEmpresa() {
                     <button onClick={toggleMenu} className="text-white focus:outline-none">
                         <FontAwesomeIcon icon={faBars} width={30} height={30} />
                     </button>
-                    {showMenu && (
-                        <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full mt-10">
-                            <Link href="/enterprise/" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" >
-                                Buscar Candidato
-                            </Link>
-                            <Link href="/enterprise/jobOffer" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" >
-                                Publicar Oferta
-                            </Link>
-
-                            <Link className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" href="#">
-                                Perfil
-                            </Link>
-                            <a className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer p-2"
-                                onClick={logout}>
-                                Salir
-                            </a></div>
-                    )}
                 </div>
                 <nav className="md:flex md:flex-column space-x-4 hidden">
-
                     <Link href="/enterprise/" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
                         Buscar Candidato
                     </Link>
-
-
-                    <Link href="/enterprise/jobOffer" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50" >
+                    <Link href="/enterprise/jobOffer" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
                         Publicar Oferta
                     </Link>
-
-                    <a className="text-white text-decoration-none mt-2 transition-opacity duration-300 hover:opacity-50 cursor-pointer"
-                        onClick={logout}>
+                    <a className="text-white text-decoration-none mt-2 transition-opacity duration-300 hover:opacity-50 cursor-pointer" onClick={logout}>
                         Salir
                     </a>
-
-                    <Link className="btn btn-primary text-white  rounded-pill hover:bg-primary-dark transition-all duration-300" href="/profile/me">
+                    <Link className="btn btn-primary text-white rounded-pill hover:bg-primary-dark transition-all duration-300" href="/profile/me">
                         Perfil
                     </Link>
-
                 </nav>
             </div>
+            {showMenu && (
+                <div className="w-full bg-primary text-center z-30">
+                    <Link href="/enterprise/" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
+                        Buscar Candidato
+                    </Link>
+                    <Link href="/enterprise/jobOffer" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
+                        Publicar Oferta
+                    </Link>
+                    <Link className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" href="#">
+                        Perfil
+                    </Link>
+                    <a className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer p-2" onClick={logout}>
+                        Salir
+                    </a>
+                </div>
+            )}
         </header>
     );
 }
