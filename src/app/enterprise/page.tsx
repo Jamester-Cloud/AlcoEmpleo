@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
 import { Carousel } from "react-bootstrap";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
+import { useForm, useFieldArray } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
@@ -18,36 +19,86 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function CandidateSearch() {
+
+
+
+
+
+export default function CandidateSearch({ searchParams }: any) {
+
+  //react hook form
+  const { register, handleSubmit, control, reset, trigger, setError } = useForm();
+  //States
   const [data, setData] = React.useState<any>();
+  const [regions, setRegions] = React.useState();
+  const [candidatosTotales, setCandidatosTotales] = React.useState(0)
   const [premiumsData, setPremiumsData] = React.useState<any>();
 
-  const fetchAllCandidates = async () => {
+  const fetchPremiumCandidates = async () => {
     try {
-      const response: any = await axios.get("/api/enterprise/candidateList");
+      const response: any = await axios.get("/api/enterprise/candidateList/premiums");
       if (response.status === 200)
-        return {
-          candidatos: response.data.dataCandidatos,
-          candidatosPremiums: response.data.dataCandidatosPremium,
-        };
+        console.log(response.data)
+      return {
+        candidatosPremiums: response.data.dataCandidatosPremium,
+        candidatosTotales: parseInt(response.data.totalCandidates)
+      };
     } catch (error) {
       console.error(error);
     }
   };
 
+  const fetchRegions = async () => {
+    try {
+      const response: any = await axios.get("/api/enterprise/candidate/regions");
+      if (response.status === 200)
+        console.log(response.data)
+      return {
+        regions: response.data.regions
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const fetchCandidates = async (perPage: number, page: number) => {
+    try {
+      const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
+      if (response.status === 200)
+        console.log(response.data)
+      return {
+        candidatos: response.data.dataCandidatos,
+        candidatosTotales: parseInt(response.data.totalCandidates)
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const filterCandidates = async (filter: object) => {
+    try {
+      const response = await axios.post('/api/enterprise/search', filter)
+      if (response.status === 200) return { filteredSearch: response.data }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
   React.useEffect(() => {
-    if (!data && !premiumsData) {
+    if (!premiumsData) {
       (async () => {
         try {
-          const dataCandidates: any = await fetchAllCandidates();
-          setData(dataCandidates.candidatos);
+          const dataCandidates: any = await fetchPremiumCandidates();
           setPremiumsData(dataCandidates.candidatosPremiums);
         } catch (err) {
           console.error("Error al cargar los datos del usuario");
         }
       })();
     }
-  }, [data, premiumsData]);
+  }, [premiumsData]);
 
   return (
     <section className="w-full">
@@ -76,7 +127,7 @@ export default function CandidateSearch() {
           Búsqueda personalizada
         </h3>
         <form action="#">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
             <div className="flex items-center">
               <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
               <input
@@ -86,26 +137,14 @@ export default function CandidateSearch() {
                 className="form-control w-full"
               />
             </div>
-            <div>
+            <div className="ml-5">
               <select
-                className="form-select w-full"
+                className="form-select w-full ml-5"
                 name="choices-single-location"
                 id="choices-single-location"
                 aria-label="Ubicación"
               >
                 <option value="">Ubicación</option>
-                <option value="">...</option>
-              </select>
-            </div>
-            <div>
-              <select
-                className="form-select w-full"
-                name="choices-single-categories"
-                id="choices-single-categories"
-                aria-label="Especialidad"
-              >
-                <option value="">Especialidad</option>
-                <option value="1">IT &amp; Software</option>
                 <option value="">...</option>
               </select>
             </div>
@@ -231,6 +270,7 @@ export default function CandidateSearch() {
           </div>
         </div>
       </div>
+      {/* Pagination normal candidates */}
       <div className="w-full flex justify-center mt-10">
         <nav aria-label="Page navigation example">
           <ul className="pagination">

@@ -6,15 +6,12 @@ connect()
 
 
 export async function GET(request: NextRequest) {
-
-  const { perPage, page } = await request.json()
-
   try {
-    //Consulta desde candidatos hasta personas. esto es para candidato normal
-    const candidato: any = await Candidato.aggregate([
+ 
+    const candidatosPremiums: any = await Candidato.aggregate([
       {
         $match: {
-          "esDestacado": false
+          "esDestacado": true
         }
       },
       {
@@ -45,16 +42,12 @@ export async function GET(request: NextRequest) {
       {
         $unwind: "$personaData"
       }
+
     ])
-    //.skip(perPage*(page - 1)).limit(8)
-
-    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
-
 
     const response = NextResponse.json({
-      message: "Succesfull login",
-      dataCandidatos: candidato,
-      totalCandidates: countCandidate,
+      message: "Succesfull data retrieve",
+      dataCandidatosPremium: candidatosPremiums,
       success: true,
     })
     //console.log("hello world")
