@@ -38,7 +38,17 @@ export default function ListCarousel(props: any) {
   const slides = chunkData(data, itemsPerSlide);
 
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect} className="mt-10 pt-10 mb-10 pb-10 bg-slate-400">
+    <Carousel 
+      activeIndex={index} 
+      onSelect={handleSelect} 
+      className="relative mt-10 pt-10 mb-10 pb-10 bg-slate-400"
+      nextIcon={
+        <span className="carousel-control-next-icon bg-gray-800 rounded-full p-3" />
+      }
+      prevIcon={
+        <span className="carousel-control-prev-icon bg-gray-800 rounded-full p-3" />
+      }
+    >
       {slides.map((slide, slideIndex) => (
         <Carousel.Item key={slideIndex} className="align-items-center">
           <div className="flex justify-center flex-wrap">
