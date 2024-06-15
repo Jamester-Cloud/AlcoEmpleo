@@ -28,7 +28,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await axios.get<CandidateListResponse>(
-          "api/enterprise/candidateList"
+          "api/enterprise/candidateList/premiums"
         );
         setData(response.data);
         setLoading(false);

@@ -7,7 +7,7 @@ connect()
 
 export async function GET(request: NextRequest) {
 
-  const { perPage, page } = await request.json()
+  //const { perPage, page } = await request.json()
 
   try {
     //Consulta desde candidatos hasta personas. esto es para candidato normal

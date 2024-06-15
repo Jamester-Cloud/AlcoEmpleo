@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
-    //.skip(perPage*(page - 1)).limit(8)
 
     const countCandidate = await Candidato.countDocuments({ esDestacado: false })
 

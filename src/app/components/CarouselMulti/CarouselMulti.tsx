@@ -39,7 +39,7 @@ export function CarouselMulti({ candidates }: Props) {
       autoPlaySpeed={3000}
       infinite={true}
     >
-      {candidates.map((candidato, index) => (
+      {candidates?.map((candidato, index) => (
         <div key={index} className="flex justify-center">
           <link
             rel="stylesheet"

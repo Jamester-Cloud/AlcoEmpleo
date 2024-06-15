@@ -50,17 +50,15 @@ export default function CandidateSearch({ searchParams }: any) {
 
   const fetchRegions = async () => {
     try {
-      const response: any = await axios.get("/api/enterprise/candidate/regions");
-      if (response.status === 200)
-        console.log(response.data)
-      return {
-        regions: response.data.regions
-      };
+      const response = await axios.get("/api/enterprise/candidate/regions");
+      console.log(response.data);
+      if (response.status === 200) return { regions: response.data }
+
     } catch (error) {
       console.error(error);
     }
   }
-
+  //consulta para la posible paginacion
   const fetchCandidates = async (perPage: number, page: number) => {
     try {
       const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
@@ -92,6 +90,7 @@ export default function CandidateSearch({ searchParams }: any) {
       (async () => {
         try {
           const dataCandidates: any = await fetchPremiumCandidates();
+          const regions = await fetchRegions();
           setPremiumsData(dataCandidates.candidatosPremiums);
         } catch (err) {
           console.error("Error al cargar los datos del usuario");
@@ -99,6 +98,7 @@ export default function CandidateSearch({ searchParams }: any) {
       })();
     }
   }, [premiumsData]);
+
 
   return (
     <section className="w-full">
