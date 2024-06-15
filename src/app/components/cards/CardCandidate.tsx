@@ -1,45 +1,51 @@
-"use client"
+"use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faLocation,
-    faGraduationCap
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link"
+import { faLocationDot, faGraduationCap, faMessage } from "@fortawesome/free-solid-svg-icons";
+//import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
+import Image from "next/image";
 
-// todo conditionate to session status and user status
-export default function card(props: any) {
-    let { data } = props
-    console.log(data)
-    return (
-        <div className="text-center">
-            <div className="card text-center p-5" style={{ width: "25rem" }}>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossOrigin="anonymous" />
-                <span className="badge bg-success rounded-pill"><FontAwesomeIcon icon={faGraduationCap}></FontAwesomeIcon> Perfil certificado</span>
-                <div className="card-header text-center">
+export default function CardCandidate(props: any) {
+  const { data } = props;
+  const whatsappMessage = encodeURIComponent("Saludos cordiales, hemos visto tu perfil en alcoempleo.com");
 
-                    <div className="mt-3 mb-4 text-center">
-                        <img src="/AlcoSloganLogo.png"
-                            className="w-100" style={{ width: "100px" }} />
-                    </div>
-                </div>
-                <div className="card-body">
+  return (
+    <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center max-w-xs mx-auto">
+      <div className="bg-green-500 text-white rounded-full px-2 py-1 mb-4 text-xs flex items-center">
+        <FontAwesomeIcon icon={faGraduationCap} className="mr-1" />
+        Perfil certificado
+      </div>
+      <div className="w-24 h-24 mb-4">
+        <Image
+          width={96}
+          height={96}
+          alt="Profile Image"
+          src="/Imagen-card.png"
+          className="rounded-full"
+        />
+      </div>
+      <h4 className="text-lg font-bold mb-2">
+        {data?.personaData?.nombre} {data?.personaData?.apellido}
+      </h4>
+      <p className="text-sm text-gray-600 mb-4">{data?.Candidato?.perfil?.puestoDeseado}</p>
+      <div className="text-sm text-gray-600 mb-4 flex items-center justify-center">
+        <FontAwesomeIcon icon={faLocationDot} className="mr-1" />
+        Venezuela
+      </div>
+      <div className="flex space-x-2">
+        <a
+          target="_blank"
+          href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
+          className="btn btn-success text-white text-xs py-2 px-4 rounded flex items-center"
+        >
+          <FontAwesomeIcon icon={faMessage} className="mr-1" />
 
-                    <h4 className="mb-2">{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
-                    <p className="text-muted mb-4">{data?.Candidato.perfil?.puestoDeseado}</p>
-                    <div className="text-muted mb-4">
-                        <FontAwesomeIcon icon={faLocation} /> Venezuela
-                    </div>
-                    <div className="mb-4 pb-2 p-2">
-                        <button type="button" className="btn btn-success btn-sm rounded">
-                            <i className="mdi mdi-whatsapp"></i> Enviar mensaje
-                        </button>
-                    </div>
-                    <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary btn-large">
-                        Ver Perfil
-                    </Link>
-                </div>
-            </div>
-        </div>
-    )
-
+          Enviar mensaje
+        </a>
+        <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary text-white text-xs py-2 px-4 rounded">
+          Ver Perfil
+        </Link>
+      </div>
+    </div>
+  );
 }

@@ -53,13 +53,11 @@ export async function POST(request: NextRequest) {
       }
     ])
     
-    console.log(candidato)
     const response = NextResponse.json({
       message: "Succesfull data retrieving",
       success: true,
       data:candidato
     })
-    //console.log("hello world")
 
     return response;
 

@@ -1,12 +1,16 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
+
 connect()
 
 
 export async function GET(request: NextRequest) {
+
+  //const { perPage, page } = await request.json()
+
   try {
-    //Consulta desde candidatos hasta personas
+    //Consulta desde candidatos hasta personas. esto es para candidato normal
     const candidato: any = await Candidato.aggregate([
       {
         $match: {
@@ -42,49 +46,15 @@ export async function GET(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
+    //.skip(perPage*(page - 1)).limit(8)
 
-    const candidatosPremiums: any = await Candidato.aggregate([
-      {
-        $match: {
-          "esDestacado": true
-        }
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "idUsuario",
-          foreignField: "_id",
-          as: "usuarioData"
-        }
-      },
-      {
-        $unwind: "$usuarioData"
-      },
-      {
-        $project: {
-          "Candidato": "$$ROOT",
-          idPersona: "$usuarioData.idPersona",
-        }
-      },
-      {
-        $lookup: {
-          from: "personas",
-          localField: "idPersona",
-          foreignField: "_id",
-          as: "personaData"
-        }
-      },
-      {
-        $unwind: "$personaData"
-      }
+    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
 
-    ])
-    //Consultamos los premiums y los mandamos tambien a la vista
-    //const candidatosPremiums = await Candidato.aggregate([])
+
     const response = NextResponse.json({
       message: "Succesfull login",
       dataCandidatos: candidato,
-      dataCandidatosPremium:candidatosPremiums,
+      totalCandidates: countCandidate,
       success: true,
     })
     //console.log("hello world")

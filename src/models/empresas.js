@@ -1,17 +1,15 @@
-import mongoose, {Types} from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const empresaSchema = new mongoose.Schema({
-    idUsuario:Types.ObjectId,
-    // logo: {
-    //     file: { type: Buffer, required: true },
-    //     filename: { type: String, required: true },
-    //     ext: { type: String, required: true }
-    // },
-    // actaConstitutiva: {
-    //     type: String,
-    //     required: [true, "Acta necesaria para el registro"],
-    //     unique: true
-    // }
+    idUsuario: Types.ObjectId,
+    logo: {
+        data: Buffer,
+        contentType: String
+    },
+    actaConstitutiva: {
+        data: Buffer,
+        contentType: String
+    }
 })
 
 const Empresa = mongoose.models.empresa || mongoose.model("empresa", empresaSchema)

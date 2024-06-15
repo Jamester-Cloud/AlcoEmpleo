@@ -1,6 +1,7 @@
 import React from "react"
-import Header from "../components/Headers/header";
 import Footer from "../components/Footer/footer";
+import Spinner from "../components/Spinner/Spinner";
+import Cabecera from "../components/cabeceras/cabecera";
 export default function layout({
     children,
 }: Readonly<{
@@ -8,9 +9,10 @@ export default function layout({
 }>) {
     return (
         <div className="">
-            <Header />
+            <Cabecera />
+            <Spinner />
             {children}
-            <Footer/>
+            <Footer />
         </div>
 
     )

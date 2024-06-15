@@ -9,16 +9,21 @@ const personaSchema = new mongoose.Schema({
         type: String,
         required: [true, "Por favor introduce un apellido"]
     },
-    genero:{
-        type:String,
+    genero: {
+        type: String,
     },
-    cedula:{
-        type:String,
-        required:[true, "Introduce tu cedula de identidad"],
-        unique:true
+    cedula: {
+        type: String,
+        required: [true, "Introduce tu cedula de identidad"],
+        unique: true
     },
-    direccion:String,
-    telefono:Number,
+    fotoPerfil: {
+        size:{type:Number},
+        dataType:{type:String},
+        path:{type:String}
+    },
+    direccion: String,
+    telefono: Number,
     fechaNacimiento: Date,
 })
 

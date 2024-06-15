@@ -1,7 +1,8 @@
 import React from "react"
-import HeaderCandidate from "../components/Headers/headerCandidate"
+import SidebarCandidate from "../components/Sidebar/SidebarCandidate";
+import CabeceraCandidato from "../components/cabeceras/cabeceraCandidato";
 import Footer from "../components/Footer/footer";
-import "./css/styles.css"
+//import "./css/styles.css"
 
 export default function layout({
     children,
@@ -10,8 +11,10 @@ export default function layout({
 }>) {
     return (
         <>
-            <HeaderCandidate />
-            {children}
+            <CabeceraCandidato />
+            <SidebarCandidate>
+                {children}
+            </SidebarCandidate>
             <Footer />
         </>
 

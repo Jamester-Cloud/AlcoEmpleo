@@ -1,186 +1,338 @@
-"use client"
-import React from "react"
-import axios from "axios"
-import ListCarousel from "../components/carousel/Carousel"
+"use client";
+import React from "react";
+import axios, { Axios } from "axios";
+import ListCarousel from "../components/carousel/Carousel";
+import Image from "next/image";
+import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
+import Link from "next/link";
+import { useForm, useFieldArray } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faBriefcase,
+  faWallet,
+  faMapMarker,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
+import Select from "react-select";
 
+export default function CandidateSearch({ searchParams }: any) {
 
-export default function CandidateSearch() {
-    const [data, setData]: any = React.useState()
-    const [premiumsData, setPremiumsData]: any = React.useState()
+  //react hook form
+  const { register, handleSubmit, control, reset, trigger, setError } = useForm();
+  //States
+  const [data, setData] = React.useState<any>();
+  const [regions, setRegions] = React.useState();
+  const [candidatosTotales, setCandidatosTotales] = React.useState(0)
+  // Ubicacion
+  const [locations, setLocations] = React.useState([
+    { label: "New York", value: "ny" },
+    { label: "Los Angeles", value: "la" },
+    { label: "Chicago", value: "ch" },
+    { label: "Houston", value: "ho" },
+    { label: "Phoenix", value: "ph" },
+  ]);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  // Especialidad
+  const [specialty, setSpecialties] = React.useState([
+    { label: "IOT", value: "ny" },
+    { label: "Web design", value: "la" },
+    { label: "UI Design", value: "ch" },
+    { label: "UX Design", value: "ho" },
+    { label: "Backend", value: "ph" },
+  ]);
+  const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
 
-    const fetchAllCandidates = async () => {
-        //
-        try {
-            const response: any = await axios.get("/api/enterprise/candidateList")
-            console.log(response.data)
-            if (response.status == 200) return {
-                candidatos: response.data.dataCandidatos,
-                candidatosPremiums: response.data.dataCandidatosPremium
-            }
-        } catch (error) {
+  const [premiumsData, setPremiumsData] = React.useState<any>();
 
-        }
+  const fetchPremiumCandidates = async () => {
+    try {
+      const response: any = await axios.get("/api/enterprise/candidateList/premiums");
+      if (response.status === 200)
+        console.log(response.data)
+      return {
+        candidatosPremiums: response.data.dataCandidatosPremium,
+        candidatosTotales: parseInt(response.data.totalCandidates)
+      };
+    } catch (error) {
+      console.error(error);
     }
+  };
 
-    React.useEffect(() => {
-        if (!data && !premiumsData) {
-            (async () => {
-                try {
-                    const dataCandidates: any = await fetchAllCandidates()
-                    setData(dataCandidates.candidatos)
-                    setPremiumsData(dataCandidates.candidatosPremiums)
-                    console.log(premiumsData)
-                } catch (err) {
-                    console.log('Error al cargar los datos el usuario');
-                }
-            })();
+  const fetchRegions = async () => {
+    try {
+      const response = await axios.get("/api/enterprise/candidate/regions");
+      console.log(response.data);
+      if (response.status === 200) return { regions: response.data }
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  //consulta para la posible paginacion
+  const fetchCandidates = async (perPage: number, page: number) => {
+    try {
+      const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
+      if (response.status === 200)
+        console.log(response.data)
+      return {
+        candidatos: response.data.dataCandidatos,
+        candidatosTotales: parseInt(response.data.totalCandidates)
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const filterCandidates = async (filter: object) => {
+    try {
+      const response = await axios.post('/api/enterprise/search', filter)
+      if (response.status === 200) return { filteredSearch: response.data }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  React.useEffect(() => {
+    if (!premiumsData) {
+      (async () => {
+        try {
+          const dataCandidates: any = await fetchPremiumCandidates();
+          const regions = await fetchRegions();
+          setPremiumsData(dataCandidates.candidatosPremiums);
+        } catch (err) {
+          console.error("Error al cargar los datos del usuario");
         }
-    })
+      })();
+    }
+  }, [data, premiumsData]);
 
-    return (
-        <section className="section">
-            <div className="container">
-                <div className="justify-content-center row">
-                    <div className="col-lg-12 mt-2">
-                        <div className="candidate-list-widgets mb-4">
-                            <h3>Busqueda personalizada</h3>
-                            <hr />
-                            <form action="#" className="">
-                                <div className="g-2 row">
-                                    <div className="col-lg-3">
-                                        <div className="filler-job-form">
-                                            <i className="uil uil-briefcase-alt"></i><input id="exampleFormControlInput1" placeholder="Cargo" type="search" className="form-control filler-job-input-box form-control" />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="filler-job-form">
-                                            <i className="uil uil-location-point"></i>
-                                            <select className="form-select selectForm__inner" data-trigger="true" name="choices-single-location" id="choices-single-location" aria-label="Default select example">
-                                                <option value="">Ubicación</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div className="filler-job-form">
-                                            <i className="uil uil-clipboard-notes"></i>
-                                            <select className="form-select selectForm__inner" data-trigger="true" name="choices-single-categories" id="choices-single-categories" aria-label="Default select example">
-                                                <option value="">Especialidad</option>
-                                                <option value="1">IT &amp; Software</option>
+  const handleLocationChange = (selectedOption: any) => {
+    setSelectedLocation(selectedOption);
+  };
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-3">
-                                        <div>
-                                            <a className="btn btn-primary" href="#"><i className="uil uil-filter"></i> Buscar</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div className="justify-content-center row">
-                    <h3 className="mb-5">Perfiles Destacados</h3>
-                    {premiumsData === undefined ? <div> Cargando... </div> : <ListCarousel className="h-100 justify-content-center align-items-center" data={premiumsData} />}
-                </div>
-                <div className="justify-content-center row mt-5">
-                    <h3>Otros candidatos</h3>
-                    <hr />
-                </div>
-                {/* Normal candidates loop */}
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="align-items-center row">
-                            {/* Cantidad total de registros */}
-                            {/* <div className="col-lg-8">
-                                <div className="mb-3 mb-lg-0"><h6 className="fs-16 mb-0">Showing 1 – 8 of 11 results</h6></div>
-                            </div> */}
-                            <div className="col-lg-4">
-                                <div className="candidate-list-widgets">
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <div className="selection-widget">
-                                                <select className="form-select" data-trigger="true" name="choices-single-filter-orderby" id="choices-single-filter-orderby" aria-label="Default select example">
-                                                    <option value="df">Default</option>
-                                                    <option value="ne">Newest</option>
-                                                    <option value="od">Oldest</option>
-                                                    <option value="rd">Random</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="selection-widget mt-2 mt-lg-0">
-                                                <select className="form-select" data-trigger="true" name="choices-candidate-page" id="choices-candidate-page" aria-label="Default select example">
-                                                    <option value="df">All</option>
-                                                    <option value="ne">8 per Page</option>
-                                                    <option value="ne">12 per Page</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Lista de candidatos aca */}
-                        <div className="candidate-list">
+  const handleSpecialtiesChange = (selectedOption: any) => {
+    setSelectedSpecialty(selectedOption);
+  };
 
-                            {data?.map((item: any) =>
-                                <div className="candidate-list-box card mt-4" key={item._id}>
-                                    <div className="p-4 card-body">
-                                        <div className="align-items-center row">
-                                            <div className="col-auto">
-                                                <div className="candidate-list-images">
-                                                    <a href="#"><img src="/AlcoLogo.png" alt="" className="avatar-md img-thumbnail rounded-circle" /></a>
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-5">
-                                                <div className="candidate-list-content mt-3 mt-lg-0">
-                                                    <h5 className="fs-19 mb-0">
-                                                        <a className="primary-link" href="#">{item.personaData.nombre}</a><span className="badge bg-success ms-1"><i className="mdi mdi-star align-middle"></i>4.8</span>
-                                                    </h5>
-                                                    <p className="text-muted mb-2">{item.Candidato.perfil.puestoDeseado}</p>
-                                                    <ul className="list-inline mb-0 text-muted">
-                                                        <li className="list-inline-item"><i className="mdi mdi-map-marker"></i> Venezuela</li>
-                                                        <li className="list-inline-item"><i className="mdi mdi-wallet"></i>{item.Candidato.perfil.salarioDeseado} $</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-4">
-                                                <div className="mt-2 mt-lg-0 d-flex flex-wrap align-items-start gap-1">
-                                                    <span className="badge bg-soft-secondary fs-14 mt-1">Datos verificados</span><span className="badge bg-soft-secondary fs-14 mt-1">CV anexado</span><span className="badge bg-soft-secondary fs-14 mt-1"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="favorite-icon">
-                                            <a href="#"><i className="mdi mdi-heart fs-18"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+  return (
+    <section className="w-full">
+      <div className="w-full">
+        <CabeceraEmpresa />
+      </div>
+      <div className="relative h-96 sm:h-80 md:h-96 lg:h-128 xl:h-144 w-full">
+        <Image
+          src="/slider/slider3.jpg"
+          layout="fill"
+          objectFit="cover"
+          alt="Contrata personas para tu negocio"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="absolute bottom-0 left-0 right-0 text-white p-4">
+          <h3 className="text-lg text-center md:text-2xl font-bold">
+            Buscador de candidatos
+          </h3>
+          <p className="text-sm text-center md:text-lg">
+            Aplica filtros para obtener los mejores resultados, ajustados a tus criterios
+          </p>
+          <div className="bg-slate-100 text-center rounded-2xl m-4 p-4 md:p-8 text-black overflow-y-auto max-h-[calc(100vh-240px)]">
+            <h3 className="text-lg md:text-2xl font-bold">
+              Búsqueda personalizada
+            </h3>
+            <form action="#">
+              <div className="flex flex-col items-center">
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
+                  <div className="flex items-center">
+                    <Select
+                      options={specialty}
+                      value={selectedSpecialty}
+                      onChange={handleSpecialtiesChange}
+                      placeholder="Especialidad"
+                      className="w-full"
+                      menuPortalTarget={document.body}
+                      styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                      }}
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <Select
+                      options={locations}
+                      value={selectedLocation}
+                      onChange={handleLocationChange}
+                      placeholder="Ubicación"
+                      className="w-full"
+                      menuPortalTarget={document.body}
+                      styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-center mt-4 w-full max-w-lg">
+                  <a className="btn btn-primary" href="#">
+                    Buscar
+                  </a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="mt-4 pt-2 col-lg-12">
-                        <nav aria-label="Page navigation example">
-                            <div className="pagination job-pagination mb-0 justify-content-center">
-                                <li className="page-item disabled">
-                                    <a className="page-link" tabIndex={-1} href="#"><i className="mdi mdi-chevron-double-left fs-15"></i></a>
-                                </li>
-                                <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item"><a className="page-link" href="#">4</a></li>
-                                <li className="page-item">
-                                    <a className="page-link" href="#"><i className="mdi mdi-chevron-double-right fs-15"></i></a>
-                                </li>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
+      <div className="w-full text-center my-20">
+        <h3 className="text-lg text-blue-900 md:text-2xl font-bold">
+          Contrata personas para tu negocio
+        </h3>
+        <p className="text-sm text-blue-900 md:text-lg my-2">
+          Descubra su próximo paso profesional, trabajo independiente o pasantía
+        </p>
+        {premiumsData === undefined ? (
+          <div>Cargando...</div>
+        ) : (
+          <ListCarousel data={premiumsData} />
+        )}
+      </div>
+      <div className="w-full text-left mt-20">
+        <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
+          Otros candidatos
+        </h3>
+        <p className="text-center mb-3 text-sm text-blue-900 md:text-lg my-2">
+          Que te podrían interesar
+        </p>
+      </div>
+      <div className="w-full flex justify-center">
+        <div className="w-full md:w-11/12">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
+              <div className="flex items-center">
+                <Select
+                  options={specialty}
+                  value={selectedSpecialty}
+                  onChange={handleSpecialtiesChange}
+                  placeholder="Especialidad"
+                  className="w-full"
+                  menuPortalTarget={document.body}
+                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                />
+              </div>
+              <div className="flex items-center">
+                <Select
+                  options={locations}
+                  value={selectedLocation}
+                  onChange={handleLocationChange}
+                  placeholder="Ubicación"
+                  className="w-full"
+                  menuPortalTarget={document.body}
+                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                />
+              </div>
             </div>
-        </section>
-    )
+          </div>
+          <hr className="my-4" />
+          <div className="candidate-list">
+            {data?.map((item: any) => (
+              <div className="card mt-4" key={item._id}>
+                <div className="bg-slate-200 card-body">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0">
+                      <a href="#">
+                        <Image
+                          src="/Imagen-card.png"
+                          width={100}
+                          height={100}
+                          alt=""
+                          className="w-32 h-32 rounded-full"
+                        />
+                      </a>
+                    </div>
+                    <div className="flex-grow ml-4">
+                      <h5 className="text-lg font-bold">
+                        <a className="text-blue-900" href="#">
+                          {item.personaData.nombre}
+                        </a>
+                        <span className="badge bg-success rounded-full ml-4">
+                          <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+                        </span>
+                      </h5>
+                      <p className="text-sm text-gray-600">
+                        {item.Candidato.perfil.puestoDeseado}
+                      </p>
+                      <ul className="list-none p-0">
+                        <li className="text-gray-600 text-sm flex items-center">
+                          <FontAwesomeIcon
+                            icon={faMapMarker}
+                            className="mr-1"
+                          />{" "}
+                          Venezuela
+                        </li>
+                        <li className="text-gray-600 text-sm flex items-center">
+                          <FontAwesomeIcon icon={faWallet} className="mr-1" />{" "}
+                          {item.Candidato.perfil.salarioDeseado} $
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="flex-shrink-0">
+                      <Link
+                        href={`/enterprise/candidateProfile/${item._id}`}
+                        className="btn btn-primary flex items-center"
+                      >
+                        <span className="hidden md:inline">Ver Perfil</span>
+                        <FontAwesomeIcon
+                          icon={faSearch}
+                          className="md:hidden mr-1"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Pagination normal candidates */}
+      <div className="w-full flex justify-center mt-10">
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item disabled">
+              <a className="page-link" tabIndex={-1} href="#">
+                <FontAwesomeIcon icon={faAngleDoubleLeft} size="xs" />
+              </a>
+            </li>
+            <li className="page-item active">
+              <a className="page-link" href="#">
+                1
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                2
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                3
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                4
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                <FontAwesomeIcon icon={faAngleDoubleRight} size="xs" />
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+  );
 }

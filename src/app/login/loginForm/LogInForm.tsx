@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
-import toast from "react-hot-toast";
+
 import Image from "next/image";
+import { ToastContainer, toast, Bounce, ToastOptions, ToastPosition } from 'react-toastify';
+
 
 export default function LogInForm() {
 
     const router = useRouter()
+
     const [user, setUser] = React.useState({
         email: "",
         password: "",
@@ -19,16 +21,54 @@ export default function LogInForm() {
     const onLogin = async () => {
         try {
             setLoading(true)
-            //aca debo verificar la existencia de candidatos o empresas y luego mandar 
-            // donde sea necesario
+
             const response = await axios.post("/api/users/login", user)
-            console.log("Login successfull", response.data)
+            //Storing the data in sessionStore
+            console.log(response.data)
+
+            sessionStorage.setItem('idUsuario', response.data.idUsuario)
+            sessionStorage.setItem('idPersona', response.data.idPersona)
+            console.log(sessionStorage.getItem('idPersona'));
+            console.log(sessionStorage.getItem('idUsuario'));
+
+
             let rol = response.data.userRol
-            
-            rol === 'Empresas' ? router.push("/enterprise") : router.push("/candidate"); 
-            
+
+            if (rol == "Candidatos") {
+                router.push('/candidate')
+            }
+
+            if (rol == 'Empresas') {
+                router.push('/enterprise')
+            }
+
         } catch (error: any) {
-            toast.error(error.message)
+            const errorMessage = error.response.data.error.toLowerCase();
+            const toastConfig: ToastOptions<ToastPosition> = {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce as any,
+            };
+
+            console.log(errorMessage);
+
+            if (errorMessage === "invalid password") {
+
+                toast.error(`Contraseña Invalida`, toastConfig);
+
+            } else if (errorMessage === "user does not exist") {
+                toast.error(`El usuario no existe`, toastConfig);
+
+            }
+            else {
+                toast.error(`Hubo un error de Inicio de Sesión`, toastConfig);
+            }
             console.log("Login failed", error.message)
         } finally {
             setLoading(false);
@@ -39,8 +79,8 @@ export default function LogInForm() {
         user.email.length > 0 && user.password.length > 0 ? setButtonDisabled(true) : setButtonDisabled(false)
     })
     return (
-        <form>
-            <Image className="mb-2" src="/AlcoLogo.png" width={300} priority height={100} alt="GrupoAlco" />
+        <form className="bg-white rounded-2xl px-5">
+            <Image className="  mb-2" src="/AlcoLogo.png" width={300} priority height={100} alt="GrupoAlco" />
             <div className="form-outline mb-4">
                 <input type="email"
                     onChange={(e) => setUser({ ...user, email: e.target.value })}
@@ -68,10 +108,22 @@ export default function LogInForm() {
                     <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
                 </div> */}
                     <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Iniciar sesion</button>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
+
 
                 </div>
             </div>
-         
+
         </form>
     )
 }

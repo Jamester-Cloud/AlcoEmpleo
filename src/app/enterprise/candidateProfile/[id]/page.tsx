@@ -1,5 +1,6 @@
 "use client"
 import axios from "axios"
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function EnterpriseProfilePage({ params }: any) {
@@ -47,7 +48,7 @@ export default function EnterpriseProfilePage({ params }: any) {
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <img src="/AlcoLogo.png" alt="Admin" className="rounded-circle" width="150" />
+                                    <Image src="/AlcoLogo.png" alt="Admin" className="rounded-circle" width="150" />
                                     <h4>Datos</h4>
                                     {/* Cargo */}
                                     <p className="text-secondary mb-1">Full Stack Developer</p>
