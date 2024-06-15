@@ -3,13 +3,11 @@ import React from "react";
 import axios from "axios";
 import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
-import { Carousel } from "react-bootstrap";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
-  faLocationDot,
   faBriefcase,
   faWallet,
   faMapMarker,
@@ -17,10 +15,29 @@ import {
   faAngleDoubleRight,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { mdiWhatsapp, mdiMapMarker, mdiWallet } from "@mdi/js";
+import Select from "react-select";
 
 export default function CandidateSearch() {
   const [data, setData] = React.useState<any>();
+  // Ubicacion
+  const [locations, setLocations] = React.useState([
+    { label: "New York", value: "ny" },
+    { label: "Los Angeles", value: "la" },
+    { label: "Chicago", value: "ch" },
+    { label: "Houston", value: "ho" },
+    { label: "Phoenix", value: "ph" },
+  ]);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  // Especialidad
+  const [specialty, setSpecialties] = React.useState([
+    { label: "IOT", value: "ny" },
+    { label: "Web design", value: "la" },
+    { label: "UI Design", value: "ch" },
+    { label: "UX Design", value: "ho" },
+    { label: "Backend", value: "ph" },
+  ]);
+  const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
+
   const [premiumsData, setPremiumsData] = React.useState<any>();
 
   const fetchAllCandidates = async () => {
@@ -49,6 +66,14 @@ export default function CandidateSearch() {
       })();
     }
   }, [data, premiumsData]);
+
+  const handleLocationChange = (selectedOption: any) => {
+    setSelectedLocation(selectedOption);
+  };
+
+  const handleSpecialtiesChange = (selectedOption: any) => {
+    setSelectedSpecialty(selectedOption);
+  };
 
   return (
     <section className="w-full">
@@ -79,24 +104,30 @@ export default function CandidateSearch() {
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
-                    <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-                    <input
-                      id="exampleFormControlInput1"
-                      placeholder="Cargo"
-                      type="search"
-                      className="form-control w-full"
+                    <Select
+                      options={specialty}
+                      value={selectedSpecialty}
+                      onChange={handleSpecialtiesChange}
+                      placeholder="Especialidad"
+                      className="w-full"
+                      menuPortalTarget={document.body}
+                      styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                      }}
                     />
                   </div>
-                  <div>
-                    <select
-                      className="form-select w-full"
-                      name="choices-single-location"
-                      id="choices-single-location"
-                      aria-label="Ubicación"
-                    >
-                      <option value="">Ubicación</option>
-                      <option value="">...</option>
-                    </select>
+                  <div className="flex items-center">
+                    <Select
+                      options={locations}
+                      value={selectedLocation}
+                      onChange={handleLocationChange}
+                      placeholder="Ubicación"
+                      className="w-full"
+                      menuPortalTarget={document.body}
+                      styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                      }}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-center mt-4 w-full max-w-lg">
@@ -134,32 +165,29 @@ export default function CandidateSearch() {
       <div className="w-full flex justify-center">
         <div className="w-full md:w-11/12">
           <div className="grid md:grid-cols-2 gap-4">
-            <div className="flex items-center">
-              <p className="font-bold mb-0">Especialidad</p>
-              <select
-                className="form-select w-full ml-2"
-                name="choices-single-filter-orderby"
-                id="choices-single-filter-orderby"
-                aria-label="Default select example"
-              >
-                <option value="df">Default</option>
-                <option value="ne">Newest</option>
-                <option value="od">Oldest</option>
-                <option value="rd">Random</option>
-              </select>
-            </div>
-            <div className="flex items-center">
-              <p className="font-bold mb-0">Región</p>
-              <select
-                className="form-select w-full ml-2"
-                name="choices-candidate-page"
-                id="choices-candidate-page"
-                aria-label="Default select example"
-              >
-                <option value="df">All</option>
-                <option value="ne">8 per Page</option>
-                <option value="ne">12 per Page</option>
-              </select>
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
+              <div className="flex items-center">
+                <Select
+                  options={specialty}
+                  value={selectedSpecialty}
+                  onChange={handleSpecialtiesChange}
+                  placeholder="Especialidad"
+                  className="w-full"
+                  menuPortalTarget={document.body}
+                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                />
+              </div>
+              <div className="flex items-center">
+                <Select
+                  options={locations}
+                  value={selectedLocation}
+                  onChange={handleLocationChange}
+                  placeholder="Ubicación"
+                  className="w-full"
+                  menuPortalTarget={document.body}
+                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                />
+              </div>
             </div>
           </div>
           <hr className="my-4" />
