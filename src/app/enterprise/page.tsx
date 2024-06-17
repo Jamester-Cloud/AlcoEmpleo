@@ -20,11 +20,10 @@ import Select from "react-select";
 
 export default function CandidateSearch({ searchParams }: any) {
 
-  //react hook form
-  const { register, handleSubmit, control, reset, trigger, setError } = useForm();
   //States
   const [data, setData] = React.useState<any>();
-  const [regions, setRegions] = React.useState();
+  const [regions, setRegions] = React.useState<any>();
+  //TODO: paginator
   const [candidatosTotales, setCandidatosTotales] = React.useState(0)
   // Ubicacion
   const [locations, setLocations] = React.useState([
@@ -34,7 +33,7 @@ export default function CandidateSearch({ searchParams }: any) {
     { label: "Houston", value: "ho" },
     { label: "Phoenix", value: "ph" },
   ]);
-  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  const [selectedLocation, setSelectedLocation] = React.useState<any>();
   // Especialidad
   const [specialty, setSpecialties] = React.useState([
     { label: "IOT", value: "ny" },
@@ -51,27 +50,28 @@ export default function CandidateSearch({ searchParams }: any) {
     try {
       const response: any = await axios.get("/api/enterprise/candidateList/premiums");
       if (response.status === 200)
-        console.log(response.data)
-      return {
-        candidatosPremiums: response.data.dataCandidatosPremium,
-        candidatosTotales: parseInt(response.data.totalCandidates)
-      };
+        return {
+          candidatosPremiums: response.data.dataCandidatosPremium,
+          candidatosTotales: parseInt(response.data.totalCandidates)
+        };
     } catch (error) {
       console.error(error);
     }
   };
 
+
+
   const fetchRegions = async () => {
     try {
       const response = await axios.get("/api/enterprise/candidate/regions");
-      console.log(response.data);
-      if (response.status === 200) return { regions: response.data }
+
+      if (response.status === 200) return { regions: response.data.regiones }
 
     } catch (error) {
       console.error(error);
     }
   }
-  //consulta para la posible paginacion
+  //?consulta para la posible paginacion
   const fetchCandidates = async (perPage: number, page: number) => {
     try {
       const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
@@ -96,29 +96,53 @@ export default function CandidateSearch({ searchParams }: any) {
     }
   }
 
-
-
   React.useEffect(() => {
     if (!premiumsData) {
       (async () => {
         try {
           const dataCandidates: any = await fetchPremiumCandidates();
-          const regions = await fetchRegions();
           setPremiumsData(dataCandidates.candidatosPremiums);
-        } catch (err) {
-          console.error("Error al cargar los datos del usuario");
+        } catch (err: any) {
+          console.error("Error al cargar los datos del usuario", err);
         }
       })();
     }
-  }, [data, premiumsData]);
+  }, [premiumsData]);
+
+  React.useEffect(() => {
+    if (!regions) {
+      (async () => {
+        try {
+          const dataRegions: any = await fetchRegions();
+          setRegions(dataRegions.regions);
+        } catch (err: any) {
+          console.error("Error al cargar los datos del usuario", err);
+        }
+      })();
+    }
+  }, [regions])
 
   const handleLocationChange = (selectedOption: any) => {
+    console.log(selectedOption)
     setSelectedLocation(selectedOption);
   };
 
-  const handleSpecialtiesChange = (selectedOption: any) => {
-    setSelectedSpecialty(selectedOption);
+  const handleSpecialtiesChange = (e: any) => {
+    console.log(e.target.value);
+    setSelectedSpecialty(e.target.value);
   };
+
+  const handleSubmitFilter = (async (e: any) => {
+    e.preventDefault();
+    let filter = {cargo: selectedSpecialty || '', location:selectedLocation?.value || ''}
+    try {
+      const response = await axios.post('/api/enterprise/candidateList/search', filter)
+      if (response.status === 200) return { filteredSearch: response.data }
+
+    } catch (err) {
+      console.log(err)
+    }
+  })
 
   return (
     <section className="w-full">
@@ -133,6 +157,7 @@ export default function CandidateSearch({ searchParams }: any) {
           alt="Contrata personas para tu negocio"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
         <div className="absolute bottom-0 left-0 right-0 text-white p-4">
           <h3 className="text-lg text-center md:text-2xl font-bold">
             Buscador de candidatos
@@ -144,30 +169,26 @@ export default function CandidateSearch({ searchParams }: any) {
             <h3 className="text-lg md:text-2xl font-bold">
               Búsqueda personalizada
             </h3>
-            <form action="#">
+            <form onSubmit={(e)=> handleSubmitFilter(e)} method="post">
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
-                    <Select
-                      options={specialty}
-                      value={selectedSpecialty}
+                    <input
+                      type="search"
                       onChange={handleSpecialtiesChange}
-                      placeholder="Especialidad"
-                      className="w-full"
-                      menuPortalTarget={document.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
+                      placeholder="Cargo"
+                      className="w-full form-control"
                     />
                   </div>
                   <div className="flex items-center">
                     <Select
-                      options={locations}
+                      options={regions}
                       value={selectedLocation}
                       onChange={handleLocationChange}
                       placeholder="Ubicación"
                       className="w-full"
-                      menuPortalTarget={document.body}
+                      name="estado"
+                      menuPortalTarget={document?.body}
                       styles={{
                         menuPortal: (base) => ({ ...base, zIndex: 9999 }),
                       }}
@@ -175,9 +196,9 @@ export default function CandidateSearch({ searchParams }: any) {
                   </div>
                 </div>
                 <div className="flex justify-center mt-4 w-full max-w-lg">
-                  <a className="btn btn-primary" href="#">
+                  <button type="submit" className="btn btn-primary">
                     Buscar
-                  </a>
+                  </button>
                 </div>
               </div>
             </form>
@@ -217,18 +238,18 @@ export default function CandidateSearch({ searchParams }: any) {
                   onChange={handleSpecialtiesChange}
                   placeholder="Especialidad"
                   className="w-full"
-                  menuPortalTarget={document.body}
+                  menuPortalTarget={document?.body}
                   styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
                 />
               </div>
               <div className="flex items-center">
                 <Select
-                  options={locations}
+                  options={regions}
                   value={selectedLocation}
                   onChange={handleLocationChange}
                   placeholder="Ubicación"
                   className="w-full"
-                  menuPortalTarget={document.body}
+                  menuPortalTarget={document?.body}
                   styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
                 />
               </div>

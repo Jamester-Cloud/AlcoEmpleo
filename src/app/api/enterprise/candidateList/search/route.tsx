@@ -7,16 +7,30 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-  const { puestoDeseado, estado } = await request.json()
+  const { cargo, location } = await request.json()
+
+  console.log(cargo, location);
 
   try {
     //Consulta filtrada para busqueda
     const candidato: any = await Candidato.aggregate([
       {
-        $match: {
-          "esDestacado": false,
-          "perfil.puestoDeseado":puestoDeseado,
-          "region.estado":estado
+        $search: {
+          index: "testDinamicSearch",
+          text: {
+            query: cargo,
+            path: {
+              wildcard: "*"
+            }
+          }
+        }
+      },
+      {
+        $lookup: {
+          from: "regiones",
+          localField: "idRegion",
+          foreignField: "_id",
+          as: "region"
         }
       },
       {
@@ -48,14 +62,11 @@ export async function POST(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
-
-    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
-
+    console.log(candidato);
+    // const countCandidate = await Candidato.countDocuments({ esDestacado: false })
 
     const response = NextResponse.json({
       message: "Succesfull login",
-      dataCandidatos: candidato,
-      totalCandidates: countCandidate,
       success: true,
     })
     //console.log("hello world")
