@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import { useForm, useFieldArray } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fetcherPost } from '@/constants/fetcher'
 import {
   faCheckCircle,
   faBriefcase,
@@ -17,22 +18,18 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
+import useSWR from 'swr'
 
-export default function CandidateSearch({ searchParams }: any) {
+export default function CandidateSearch() {
 
   //States
-  const [data, setData] = React.useState<any>();
+  //const [data, setData] = React.useState<any>();
+  const { data, error } = useSWR('/api/enterprise/candidateList/', (url) => fetcherPost(url, { perPage: 5, page }))
   const [regions, setRegions] = React.useState<any>();
+  const [page, setPage] = React.useState<any>(1);
+  const [pageCount, setPageCount] = React.useState<number>(0);
   //TODO: paginator
-  const [candidatosTotales, setCandidatosTotales] = React.useState(0)
-  // Ubicacion
-  const [locations, setLocations] = React.useState([
-    { label: "New York", value: "ny" },
-    { label: "Los Angeles", value: "la" },
-    { label: "Chicago", value: "ch" },
-    { label: "Houston", value: "ho" },
-    { label: "Phoenix", value: "ph" },
-  ]);
+
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
   // Especialidad
   const [specialty, setSpecialties] = React.useState([
@@ -42,6 +39,7 @@ export default function CandidateSearch({ searchParams }: any) {
     { label: "UX Design", value: "ho" },
     { label: "Backend", value: "ph" },
   ]);
+
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
 
   const [premiumsData, setPremiumsData] = React.useState<any>();
@@ -59,8 +57,6 @@ export default function CandidateSearch({ searchParams }: any) {
     }
   };
 
-
-
   const fetchRegions = async () => {
     try {
       const response = await axios.get("/api/enterprise/candidate/regions");
@@ -71,30 +67,32 @@ export default function CandidateSearch({ searchParams }: any) {
       console.error(error);
     }
   }
-  //?consulta para la posible paginacion
-  const fetchCandidates = async (perPage: number, page: number) => {
-    try {
-      const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
-      if (response.status === 200)
-        console.log(response.data)
-      return {
-        candidatos: response.data.dataCandidatos,
-        candidatosTotales: parseInt(response.data.totalCandidates)
-      };
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-
-  const filterCandidates = async (filter: object) => {
-    try {
-      const response = await axios.post('/api/enterprise/search', filter)
-      if (response.status === 200) return { filteredSearch: response.data }
-    } catch (error) {
-      console.log(error);
-    }
+  //Funciones de paginacion
+  function handlePrevious() {
+    setPage((p: number) => {
+      if (p === 1) return p;
+      return p - 1;
+    });
   }
+
+  function handleNext() {
+    setPage((p: number) => {
+      if (p === pageCount) return p;
+      return p + 1;
+    });
+  }
+
+  //?consulta para la posible paginacion
+
+  // const fetchCandidates = async (perPage: number, page: number) => {
+  //   try {
+  //     const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
+  //     if (response.status === 200) return response.data
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   React.useEffect(() => {
     if (!premiumsData) {
@@ -110,6 +108,12 @@ export default function CandidateSearch({ searchParams }: any) {
   }, [premiumsData]);
 
   React.useEffect(() => {
+    if (data) {
+      setPageCount(parseInt(data.pagination.pageCount));
+    }
+  }, [data]);
+
+  React.useEffect(() => {
     if (!regions) {
       (async () => {
         try {
@@ -123,18 +127,18 @@ export default function CandidateSearch({ searchParams }: any) {
   }, [regions])
 
   const handleLocationChange = (selectedOption: any) => {
-    console.log(selectedOption)
+
     setSelectedLocation(selectedOption);
   };
 
   const handleSpecialtiesChange = (e: any) => {
-    console.log(e.target.value);
+
     setSelectedSpecialty(e.target.value);
   };
 
   const handleSubmitFilter = (async (e: any) => {
     e.preventDefault();
-    let filter = {cargo: selectedSpecialty || '', location:selectedLocation?.value || ''}
+    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '' }
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter)
       if (response.status === 200) return { filteredSearch: response.data }
@@ -143,6 +147,14 @@ export default function CandidateSearch({ searchParams }: any) {
       console.log(err)
     }
   })
+
+  if (error) {
+    return <div>{JSON.stringify(error)}</div>;
+  }
+
+  if (!data) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <section className="w-full">
@@ -169,7 +181,7 @@ export default function CandidateSearch({ searchParams }: any) {
             <h3 className="text-lg md:text-2xl font-bold">
               Búsqueda personalizada
             </h3>
-            <form onSubmit={(e)=> handleSubmitFilter(e)} method="post">
+            <form onSubmit={(e) => handleSubmitFilter(e)} method="post">
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
@@ -186,6 +198,7 @@ export default function CandidateSearch({ searchParams }: any) {
                       value={selectedLocation}
                       onChange={handleLocationChange}
                       placeholder="Ubicación"
+                      isClearable={true}
                       className="w-full"
                       name="estado"
                       menuPortalTarget={document?.body}
@@ -257,7 +270,7 @@ export default function CandidateSearch({ searchParams }: any) {
           </div>
           <hr className="my-4" />
           <div className="candidate-list">
-            {data?.map((item: any) => (
+            {data?.paginatedQuery?.map((item: any) => (
               <div className="card mt-4" key={item._id}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
@@ -309,6 +322,7 @@ export default function CandidateSearch({ searchParams }: any) {
                           className="md:hidden mr-1"
                         />
                       </Link>
+                     
                     </div>
                   </div>
                 </div>
@@ -321,37 +335,27 @@ export default function CandidateSearch({ searchParams }: any) {
       <div className="w-full flex justify-center mt-10">
         <nav aria-label="Page navigation example">
           <ul className="pagination">
-            <li className="page-item disabled">
-              <a className="page-link" tabIndex={-1} href="#">
+            <li className="page-item">
+              {/* izquierda */}
+              <button disabled={page == 1} onClick={handlePrevious} className="page-link" tabIndex={-1} >
                 <FontAwesomeIcon icon={faAngleDoubleLeft} size="xs" />
-              </a>
-            </li>
-            <li className="page-item active">
-              <a className="page-link" href="#">
-                1
-              </a>
+              </button>
             </li>
             <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
+              {/* {Array(pageCount)
+                .fill(null)
+                .map((_, index) => {
+                  return <option key={index}>{index + 1}</option>;
+                })} */}
             </li>
             <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                4
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
+              {/* Derecha */}
+              <button disabled={page == parseInt(pageCount)} onClick={handleNext} className="page-link" >
                 <FontAwesomeIcon icon={faAngleDoubleRight} size="xs" />
-              </a>
+              </button>
             </li>
           </ul>
+          pagina{page} y  {pageCount} contador
         </nav>
       </div>
     </section>

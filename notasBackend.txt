@@ -1,0 +1,11 @@
+Busqueda:
+Los filtros pueden aplicarse por indices, pero debo primero agregarlos en conjunto como una query
+con multiples filtros en mongoDB
+
+averiguar mas de los filtros e indices en las consultas
+
+tambien se me da la opcion de consulta compuestas mas complejas pero debo averiguar primero
+la sintaxis basica
+
+
+Paginado:

@@ -22,16 +22,11 @@ export async function POST(request: NextRequest) {
             path: {
               wildcard: "*"
             }
-          }
+          },
         }
       },
       {
-        $lookup: {
-          from: "regiones",
-          localField: "idRegion",
-          foreignField: "_id",
-          as: "region"
-        }
+        $addFields: { "idRegion": location }
       },
       {
         $lookup: {
