@@ -9,3 +9,11 @@ la sintaxis basica
 
 
 Paginado:
+    Listo
+
+Subscripcion de paga:
+    Integracion con paypal
+    flujo de pago con pagomovil
+    integracion con binance
+
+    continuar carga de archivos

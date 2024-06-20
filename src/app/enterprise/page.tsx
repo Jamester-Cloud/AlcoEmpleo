@@ -7,7 +7,7 @@ import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import { useForm, useFieldArray } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetcherPost } from '@/constants/fetcher'
+import { fetcherGet } from '@/constants/fetcher'
 import {
   faCheckCircle,
   faBriefcase,
@@ -24,9 +24,10 @@ export default function CandidateSearch() {
 
   //States
   //const [data, setData] = React.useState<any>();
-  const { data, error } = useSWR('/api/enterprise/candidateList/', (url) => fetcherPost(url, { perPage: 5, page }))
-  const [regions, setRegions] = React.useState<any>();
   const [page, setPage] = React.useState<any>(1);
+  const { data, error } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url))
+  const [regions, setRegions] = React.useState<any>();
+
   const [pageCount, setPageCount] = React.useState<number>(0);
   //TODO: paginator
 
@@ -322,7 +323,7 @@ export default function CandidateSearch() {
                           className="md:hidden mr-1"
                         />
                       </Link>
-                     
+
                     </div>
                   </div>
                 </div>
@@ -337,20 +338,33 @@ export default function CandidateSearch() {
           <ul className="pagination">
             <li className="page-item">
               {/* izquierda */}
-              <button disabled={page == 1} onClick={handlePrevious} className="page-link" tabIndex={-1} >
+              <button type="button" disabled={page == 1} onClick={handlePrevious} className="page-link">
                 <FontAwesomeIcon icon={faAngleDoubleLeft} size="xs" />
               </button>
             </li>
-            <li className="page-item">
-              {/* {Array(pageCount)
+            {/* <li className="">
+              {Array(pageCount)
+                .fill(null)
+                .map((_, index) => {
+                  return <li className="page-item" key={index}><button className="page-link">{index + 1}</button></li>;
+                })}
+            </li>
+             */}
+            <select
+              value={page}
+              onChange={(event) => {
+                setPage(event.target.value);
+              }}
+            >
+              {Array(pageCount)
                 .fill(null)
                 .map((_, index) => {
                   return <option key={index}>{index + 1}</option>;
-                })} */}
-            </li>
+                })}
+            </select>
             <li className="page-item">
               {/* Derecha */}
-              <button disabled={page == parseInt(pageCount)} onClick={handleNext} className="page-link" >
+              <button type="button" disabled={page == pageCount} onClick={(e) => { e.preventDefault(), handleNext() }} className="page-link" >
                 <FontAwesomeIcon icon={faAngleDoubleRight} size="xs" />
               </button>
             </li>

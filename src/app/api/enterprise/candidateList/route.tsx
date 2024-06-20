@@ -4,17 +4,17 @@ import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
 
-  const { perPage, page } = await request.json()
-  console.log(perPage)
-  console.log(page);
+  let page:any = request.nextUrl.searchParams.get("page")
+  const PER_PAGE = 4
 
   try {
-    //Consulta desde candidatos hasta personas. esto es para candidato normal
-    const skip = (page - 1) * perPage;
 
-    const countCandidate = await Candidato.estimatedDocumentCount({ esDestacado: false })
+    //Consulta desde candidatos hasta personas. esto es para candidato normal
+    const skip = (page - 1) * PER_PAGE;
+
+    const count = await Candidato.countDocuments({ esDestacado: false })
     //planeo hacer el paginado aca
     const paginatedQuery: any = await Candidato.aggregate([
       {
@@ -50,14 +50,15 @@ export async function POST(request: NextRequest) {
       {
         $unwind: "$personaData"
       }
-    ]).skip(skip).limit(perPage)
+    ]).skip(skip).limit(PER_PAGE)
 
-    const pageCount = countCandidate / perPage;
+    const pageCount = count / PER_PAGE;
 
+    console.log(count)
     const response = NextResponse.json({
       message: "Succesfull login",
       pagination: {
-        countCandidate,
+        count,
         pageCount,
       },
       paginatedQuery,
