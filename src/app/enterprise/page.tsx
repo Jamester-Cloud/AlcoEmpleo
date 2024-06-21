@@ -243,7 +243,7 @@ export default function CandidateSearch() {
       </div>
       <div className="w-full flex justify-center">
         <div className="w-full md:w-11/12">
-          <div className="grid md:grid-cols-2 gap-4">
+          {/* <div className="grid md:grid-cols-2 gap-4">
             <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
               <div className="flex items-center">
                 <Select
@@ -268,7 +268,7 @@ export default function CandidateSearch() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <hr className="my-4" />
           <div className="candidate-list">
             {data?.paginatedQuery?.map((item: any) => (
@@ -351,6 +351,7 @@ export default function CandidateSearch() {
             </li>
              */}
             <select
+            className="btn"
               value={page}
               onChange={(event) => {
                 setPage(event.target.value);
@@ -369,7 +370,6 @@ export default function CandidateSearch() {
               </button>
             </li>
           </ul>
-          pagina{page} y  {pageCount} contador
         </nav>
       </div>
     </section>

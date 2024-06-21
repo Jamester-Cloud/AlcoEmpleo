@@ -30,7 +30,7 @@ export default function UserCandidate() {
     }
 
     const getUserDetails = async () => {
-        const res = await axios.post("/api/candidate/me", { idPersona: sessionStorage.getItem('idPersona'), idUsuario: sessionStorage.getItem('idUsuario') });
+        const res = await axios.post("/api/candidate/me", { idPersona: localStorage.getItem('idPersona'), idUsuario: localStorage.getItem('idUsuario') });
         if (res.status === 200 && res.data.success) {
             setCandidatoData({ ...candidatoData, userData: { ...res.data.dataPersona, emailUsuario: res.data.emailUsuario }, candidatoData: res.data.dataCandidato })
         }

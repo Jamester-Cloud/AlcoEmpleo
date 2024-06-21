@@ -54,7 +54,6 @@ export async function GET(request: NextRequest) {
 
     const pageCount = count / PER_PAGE;
 
-    console.log(count)
     const response = NextResponse.json({
       message: "Succesfull login",
       pagination: {

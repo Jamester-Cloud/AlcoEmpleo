@@ -26,9 +26,6 @@ export async function POST(request: NextRequest) {
         }
       },
       {
-        $addFields: { "idRegion": location }
-      },
-      {
         $lookup: {
           from: "users",
           localField: "idUsuario",
@@ -36,6 +33,7 @@ export async function POST(request: NextRequest) {
           as: "usuarioData"
         }
       },
+      
       {
         $unwind: "$usuarioData"
       },
@@ -43,6 +41,7 @@ export async function POST(request: NextRequest) {
         $project: {
           "Candidato": "$$ROOT",
           idPersona: "$usuarioData.idPersona",
+          region: "$regionData[0]"
         }
       },
       {
