@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
       },
       {
         $match: {
-          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') }
+          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') },
+          "idRegion":location
         }
       },
       {
