@@ -19,10 +19,13 @@ export async function POST(request: NextRequest) {
           index: "testDinamicSearch",
           text: {
             query: cargo,
-            path: {
-              wildcard: "*"
-            }
+            path: "perfil.puestoDeseado"
           },
+        }
+      },
+      {
+        $match: {
+          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') }
         }
       },
       {
@@ -33,7 +36,6 @@ export async function POST(request: NextRequest) {
           as: "usuarioData"
         }
       },
-      
       {
         $unwind: "$usuarioData"
       },
