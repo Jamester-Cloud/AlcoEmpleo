@@ -1,15 +1,16 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-
+import mongoose, { Types } from "mongoose";
 connect()
 
 
 export async function POST(request: NextRequest) {
 
   const { cargo, location } = await request.json()
+   let objectLocationId = Types.ObjectId.createFromHexString(location)
+   console.log(cargo, objectLocationId);
 
-  console.log(cargo, location);
 
   try {
     //Consulta filtrada para busqueda
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
       {
         $match: {
           "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') },
-          "idRegion":location
+          "idRegion":objectLocationId
         }
       },
       {
