@@ -1,4 +1,4 @@
-import Region from "@/models/candidato";
+import Region from "@/models/regiones";
 import { connect } from "@/dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
 connect()
@@ -6,14 +6,19 @@ export async function GET(request: NextRequest) {
 
 
     try {
-        const regiones = Region.find();
+        const regiones: any = await Region.find({});
+
+        let data: any = [];
+        
+        regiones.map((item: any) => {
+            data.push({ label: item.estado, value: item._id })
+        })
 
         const response = NextResponse.json({
-            message: "Succesfull login",
-            regiones: regiones,
+            message: "Succesfull data retrieve",
+            regiones: data,
             success: true,
         })
-        //console.log("hello world")
 
         return response;
 

@@ -1,22 +1,33 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-
+import mongoose, { Types } from "mongoose";
 connect()
 
 
 export async function POST(request: NextRequest) {
 
-  const { puestoDeseado, estado } = await request.json()
+  const { cargo, location } = await request.json()
+   let objectLocationId = Types.ObjectId.createFromHexString(location)
+   console.log(cargo, objectLocationId);
+
 
   try {
     //Consulta filtrada para busqueda
     const candidato: any = await Candidato.aggregate([
       {
+        $search: {
+          index: "testDinamicSearch",
+          text: {
+            query: cargo,
+            path: "perfil.puestoDeseado"
+          },
+        }
+      },
+      {
         $match: {
-          "esDestacado": false,
-          "perfil.puestoDeseado":puestoDeseado,
-          "region.estado":estado
+          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') },
+          "idRegion":objectLocationId
         }
       },
       {
@@ -34,6 +45,7 @@ export async function POST(request: NextRequest) {
         $project: {
           "Candidato": "$$ROOT",
           idPersona: "$usuarioData.idPersona",
+          region: "$regionData[0]"
         }
       },
       {
@@ -48,14 +60,11 @@ export async function POST(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
-
-    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
-
+    console.log(candidato);
+    // const countCandidate = await Candidato.countDocuments({ esDestacado: false })
 
     const response = NextResponse.json({
       message: "Succesfull login",
-      dataCandidatos: candidato,
-      totalCandidates: countCandidate,
       success: true,
     })
     //console.log("hello world")

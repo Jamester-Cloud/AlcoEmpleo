@@ -37,7 +37,8 @@
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
-    "reactstrap": "^9.2.2"
+    "reactstrap": "^9.2.2",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

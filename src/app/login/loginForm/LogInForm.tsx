@@ -26,10 +26,10 @@ export default function LogInForm() {
             //Storing the data in sessionStore
             console.log(response.data)
 
-            sessionStorage.setItem('idUsuario', response.data.idUsuario)
-            sessionStorage.setItem('idPersona', response.data.idPersona)
-            console.log(sessionStorage.getItem('idPersona'));
-            console.log(sessionStorage.getItem('idUsuario'));
+            localStorage.setItem('idUsuario', response.data.idUsuario)
+            localStorage.setItem('idPersona', response.data.idPersona)
+            console.log(localStorage.getItem('idPersona'));
+            console.log(localStorage.getItem('idUsuario'));
 
 
             let rol = response.data.userRol

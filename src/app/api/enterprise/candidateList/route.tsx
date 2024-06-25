@@ -1,17 +1,22 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-
 connect()
 
 
 export async function GET(request: NextRequest) {
 
-  //const { perPage, page } = await request.json()
+  let page:any = request.nextUrl.searchParams.get("page")
+  const PER_PAGE = 4
 
   try {
+
     //Consulta desde candidatos hasta personas. esto es para candidato normal
-    const candidato: any = await Candidato.aggregate([
+    const skip = (page - 1) * PER_PAGE;
+
+    const count = await Candidato.countDocuments({ esDestacado: false })
+    //planeo hacer el paginado aca
+    const paginatedQuery: any = await Candidato.aggregate([
       {
         $match: {
           "esDestacado": false
@@ -45,16 +50,17 @@ export async function GET(request: NextRequest) {
       {
         $unwind: "$personaData"
       }
-    ])
-    //.skip(perPage*(page - 1)).limit(8)
+    ]).skip(skip).limit(PER_PAGE)
 
-    const countCandidate = await Candidato.countDocuments({ esDestacado: false })
-
+    const pageCount = count / PER_PAGE;
 
     const response = NextResponse.json({
       message: "Succesfull login",
-      dataCandidatos: candidato,
-      totalCandidates: countCandidate,
+      pagination: {
+        count,
+        pageCount,
+      },
+      paginatedQuery,
       success: true,
     })
     //console.log("hello world")
