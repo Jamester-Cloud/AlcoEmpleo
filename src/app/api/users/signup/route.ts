@@ -7,6 +7,7 @@ import Candidato from '@/models/candidato'
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import Rol from "@/models/userRolModel";
+import uploadImage from "@/helpers/uploadImage";
 //import { sendEmail } from "@/helpers/mailer";
 
 connect()
@@ -25,7 +26,8 @@ export async function POST(request: NextRequest) {
             telefono,
             razonSocial,
             rif,
-            type
+            type,
+            logo
         } = reqBody
 
         let idRol: any;

@@ -3,8 +3,9 @@ import mongoose, { Types } from "mongoose";
 const empresaSchema = new mongoose.Schema({
     idUsuario: Types.ObjectId,
     logo: {
-        data: Buffer,
-        contentType: String
+        size:{type:Number},
+        dataType:{type:String},
+        path:{type:String}
     },
     actaConstitutiva: {
         data: Buffer,

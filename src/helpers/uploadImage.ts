@@ -1,5 +1,4 @@
 "use server"
-import path from "path";
 import { writeFile, readFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { fileValidator, fileSizeValidator } from "./fileValidator";
@@ -28,10 +27,13 @@ export default async function uploadImage(formFile: File) {
             }
 
             revalidatePath("/");
+            
             return img
         }
+
         if(!validSize) return 'Archivo muy grande para ser guardado. Intente con otro, por favor'
         if (!isValid) return 'Extension de archivo invalida. Admitidas: Jpeg, JPG, PNG y PDF'
+    
     } catch (error) {
         console.log("Error occured ", error);
     }

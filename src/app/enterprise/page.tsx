@@ -25,21 +25,14 @@ export default function CandidateSearch() {
   //States
   //const [data, setData] = React.useState<any>();
   const [page, setPage] = React.useState<any>(1);
-  const { data, error } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url))
+  let { data, error } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url))
   const [regions, setRegions] = React.useState<any>();
+  const [candidateList, setCandidateList] = React.useState<any>()
 
   const [pageCount, setPageCount] = React.useState<number>(0);
   //TODO: paginator
 
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
-  // Especialidad
-  const [specialty, setSpecialties] = React.useState([
-    { label: "IOT", value: "ny" },
-    { label: "Web design", value: "la" },
-    { label: "UI Design", value: "ch" },
-    { label: "UX Design", value: "ho" },
-    { label: "Backend", value: "ph" },
-  ]);
 
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
 
@@ -69,31 +62,7 @@ export default function CandidateSearch() {
     }
   }
 
-  //Funciones de paginacion
-  function handlePrevious() {
-    setPage((p: number) => {
-      if (p === 1) return p;
-      return p - 1;
-    });
-  }
 
-  function handleNext() {
-    setPage((p: number) => {
-      if (p === pageCount) return p;
-      return p + 1;
-    });
-  }
-
-  //?consulta para la posible paginacion
-
-  // const fetchCandidates = async (perPage: number, page: number) => {
-  //   try {
-  //     const response = await axios.post("/api/enterprise/candidateList/", { perPage, page });
-  //     if (response.status === 200) return response.data
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   React.useEffect(() => {
     if (!premiumsData) {
@@ -115,6 +84,10 @@ export default function CandidateSearch() {
   }, [data]);
 
   React.useEffect(() => {
+    setCandidateList(data);
+  })
+
+  React.useEffect(() => {
     if (!regions) {
       (async () => {
         try {
@@ -127,22 +100,17 @@ export default function CandidateSearch() {
     }
   }, [regions])
 
-  const handleLocationChange = (selectedOption: any) => {
 
-    setSelectedLocation(selectedOption);
-  };
-
-  const handleSpecialtiesChange = (e: any) => {
-
-    setSelectedSpecialty(e.target.value);
-  };
 
   const handleSubmitFilter = (async (e: any) => {
     e.preventDefault();
-    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '' }
+    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '', page: page }
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter)
-      if (response.status === 200) return { filteredSearch: response.data }
+      if (response.status === 200) {
+        setPremiumsData(response.data.candidatePremiums)
+        setCandidateList(response.data.paginatedQuery);
+      }
 
     } catch (err) {
       console.log(err)
@@ -156,6 +124,30 @@ export default function CandidateSearch() {
   if (!data) {
     return <p>Loading...</p>;
   }
+
+  function handlePrevious() {
+    setPage((p: number) => {
+      if (p === 1) return p;
+      return p - 1;
+    });
+  }
+
+  function handleNext() {
+    setPage((p: number) => {
+      if (p === pageCount) return p;
+      return p + 1;
+    });
+  }
+
+  const handleLocationChange = (selectedOption: any) => {
+
+    setSelectedLocation(selectedOption);
+  };
+
+  const handleSpecialtiesChange = (e: any) => {
+
+    setSelectedSpecialty(e.target.value);
+  };
 
   return (
     <section className="w-full">
@@ -271,7 +263,7 @@ export default function CandidateSearch() {
           </div> */}
           <hr className="my-4" />
           <div className="candidate-list">
-            {data?.paginatedQuery?.map((item: any) => (
+            {candidateList?.paginatedQuery?.map((item: any) => (
               <div className="card mt-4" key={item._id}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
@@ -351,7 +343,7 @@ export default function CandidateSearch() {
             </li>
              */}
             <select
-            className="btn"
+              className="btn"
               value={page}
               onChange={(event) => {
                 setPage(event.target.value);

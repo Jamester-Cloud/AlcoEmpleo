@@ -7,6 +7,7 @@ connect()
 export async function GET(request: NextRequest) {
 
   let page:any = request.nextUrl.searchParams.get("page")
+  
   const PER_PAGE = 4
 
   try {
