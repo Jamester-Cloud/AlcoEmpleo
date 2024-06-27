@@ -7,7 +7,7 @@ import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import { useForm, useFieldArray } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetcherGet } from '@/constants/fetcher'
+import { fetcherGet } from "@/constants/fetcher";
 import {
   faCheckCircle,
   faBriefcase,
@@ -18,10 +18,9 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
-import useSWR from 'swr'
+import useSWR from "swr";
 
 export default function CandidateSearch() {
-
   //States
   //const [data, setData] = React.useState<any>();
   const [page, setPage] = React.useState<any>(1);
@@ -40,11 +39,13 @@ export default function CandidateSearch() {
 
   const fetchPremiumCandidates = async () => {
     try {
-      const response: any = await axios.get("/api/enterprise/candidateList/premiums");
+      const response: any = await axios.get(
+        "/api/enterprise/candidateList/premiums"
+      );
       if (response.status === 200)
         return {
           candidatosPremiums: response.data.dataCandidatosPremium,
-          candidatosTotales: parseInt(response.data.totalCandidates)
+          candidatosTotales: parseInt(response.data.totalCandidates),
         };
     } catch (error) {
       console.error(error);
@@ -55,8 +56,7 @@ export default function CandidateSearch() {
     try {
       const response = await axios.get("/api/enterprise/candidate/regions");
 
-      if (response.status === 200) return { regions: response.data.regiones }
-
+      if (response.status === 200) return { regions: response.data.regiones };
     } catch (error) {
       console.error(error);
     }
@@ -98,11 +98,11 @@ export default function CandidateSearch() {
         }
       })();
     }
-  }, [regions])
+  }, [regions]);
 
 
 
-  const handleSubmitFilter = (async (e: any) => {
+  const handleSubmitFilter = async (e: any) => {
     e.preventDefault();
     let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '', page: page }
     try {
@@ -113,9 +113,9 @@ export default function CandidateSearch() {
       }
 
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  })
+  };
 
   if (error) {
     return <div>{JSON.stringify(error)}</div>;
@@ -168,7 +168,8 @@ export default function CandidateSearch() {
             Buscador de candidatos
           </h3>
           <p className="text-sm text-center md:text-lg">
-            Aplica filtros para obtener los mejores resultados, ajustados a tus criterios
+            Aplica filtros para obtener los mejores resultados, ajustados a tus
+            criterios
           </p>
           <div className="bg-slate-100 text-center rounded-2xl m-4 p-4 md:p-8 text-black overflow-y-auto max-h-[calc(100vh-240px)]">
             <h3 className="text-lg md:text-2xl font-bold">
@@ -178,11 +179,18 @@ export default function CandidateSearch() {
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
-                    <input
-                      type="search"
+                    <Select
+                      options={specialty}
+                      value={selectedSpecialty}
                       onChange={handleSpecialtiesChange}
                       placeholder="Cargo"
-                      className="w-full form-control"
+                      isClearable={true}
+                      className="w-full"
+                      name="estado"
+                      menuPortalTarget={document?.body}
+                      styles={{
+                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                      }}
                     />
                   </div>
                   <div className="flex items-center">
@@ -235,32 +243,6 @@ export default function CandidateSearch() {
       </div>
       <div className="w-full flex justify-center">
         <div className="w-full md:w-11/12">
-          {/* <div className="grid md:grid-cols-2 gap-4">
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
-              <div className="flex items-center">
-                <Select
-                  options={specialty}
-                  value={selectedSpecialty}
-                  onChange={handleSpecialtiesChange}
-                  placeholder="Especialidad"
-                  className="w-full"
-                  menuPortalTarget={document?.body}
-                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
-                />
-              </div>
-              <div className="flex items-center">
-                <Select
-                  options={regions}
-                  value={selectedLocation}
-                  onChange={handleLocationChange}
-                  placeholder="Ubicación"
-                  className="w-full"
-                  menuPortalTarget={document?.body}
-                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
-                />
-              </div>
-            </div>
-          </div> */}
           <hr className="my-4" />
           <div className="candidate-list">
             {candidateList?.paginatedQuery?.map((item: any) => (
@@ -315,7 +297,6 @@ export default function CandidateSearch() {
                           className="md:hidden mr-1"
                         />
                       </Link>
-
                     </div>
                   </div>
                 </div>
@@ -329,35 +310,41 @@ export default function CandidateSearch() {
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
-              {/* izquierda */}
-              <button type="button" disabled={page == 1} onClick={handlePrevious} className="page-link">
+              {/* Izquierda */}
+              <button
+                type="button"
+                disabled={page === 1}
+                onClick={handlePrevious}
+                className="page-link"
+              >
                 <FontAwesomeIcon icon={faAngleDoubleLeft} size="xs" />
               </button>
             </li>
-            {/* <li className="">
-              {Array(pageCount)
-                .fill(null)
-                .map((_, index) => {
-                  return <li className="page-item" key={index}><button className="page-link">{index + 1}</button></li>;
-                })}
+            <li className="page-item">
+              <select
+                className="btn"
+                value={page}
+                onChange={(event) => {
+                  setPage(Number(event.target.value));
+                }}
+              >
+                {Array(pageCount)
+                  .fill(null)
+                  .map((_, index) => (
+                    <option key={index} value={index + 1}>
+                      {index + 1}
+                    </option>
+                  ))}
+              </select>
             </li>
-             */}
-            <select
-              className="btn"
-              value={page}
-              onChange={(event) => {
-                setPage(event.target.value);
-              }}
-            >
-              {Array(pageCount)
-                .fill(null)
-                .map((_, index) => {
-                  return <option key={index}>{index + 1}</option>;
-                })}
-            </select>
             <li className="page-item">
               {/* Derecha */}
-              <button type="button" disabled={page == pageCount} onClick={(e) => { e.preventDefault(), handleNext() }} className="page-link" >
+              <button
+                type="button"
+                disabled={page === pageCount}
+                onClick={handleNext}
+                className="page-link"
+              >
                 <FontAwesomeIcon icon={faAngleDoubleRight} size="xs" />
               </button>
             </li>
