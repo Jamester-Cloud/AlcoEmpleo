@@ -26,6 +26,7 @@ export default function CandidateSearch() {
   const [page, setPage] = React.useState<any>(1);
   let { data, error } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url))
   const [regions, setRegions] = React.useState<any>();
+  const [specialty, setSpecialtys] = React.useState<any>();
   const [candidateList, setCandidateList] = React.useState<any>()
 
   const [pageCount, setPageCount] = React.useState<number>(0);
