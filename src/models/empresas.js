@@ -8,8 +8,9 @@ const empresaSchema = new mongoose.Schema({
         path:{type:String}
     },
     actaConstitutiva: {
-        data: Buffer,
-        contentType: String
+        size:{type:Number},
+        dataType:{type:String},
+        path:{type:String}
     }
 })
 

@@ -9,10 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faDeleteLeft
 } from "@fortawesome/free-solid-svg-icons";
+
 export default function SignUpForm(props: any) {
 
     let { type, data } = props;
-
 
     const router = useRouter()
 
@@ -25,63 +25,23 @@ export default function SignUpForm(props: any) {
     const [loading, setLoading] = React.useState(false)
     const [repeatedPassword, setRepeatedPassword] = React.useState("");
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
-    const [selectedAdImages, setSelectedAdImages] = React.useState([]);
-    const [previewImage, setPreviewImage] = React.useState(defaultLogo);
+    const [selectedAdImages, setSelectedAdImages]: any = React.useState([]);
+    const [previewImage, setPreviewImage] = React.useState();
     const [AdImageInputErr, setAdImageInputErr] = React.useState(false); // Initialize with false
 
 
-    //logo handling functions
-    // Function to preview the selected ad image
-    const PreviewAdImage = (selectedImages: any) => {
-        if (selectedImages.length === 0) {
-            // If no images are selected, display a default image or message 
-            // my default image is adImage 
-            setPreviewImage(defaultLogo);
-        } else {
-            const reader: any = new FileReader();
-
-            reader.onload = () => {
-                // Set the previewImage state with the data URL of the selected image
-                setPreviewImage(reader.result);
-            };
-            reader.readAsDataURL(selectedImages[0]);
-        }
-    };
-
     const handleAdimages = (event: any) => {
-        const selectedImages = Array.from(event.target.files);
-
-        // Clear any previous error messages
-        setAdImageInputErr(false);
-
-        if (selectedAdImages.length + selectedImages.length <= 1) {
-            // Allow up to 1 images to be selected
-            setSelectedAdImages((prevSelectedAdImages: any) => [
-                ...prevSelectedAdImages,
-                ...selectedImages,
-            ]);
-
-            // Display a preview of the selected images
-            PreviewAdImage([...selectedAdImages, ...selectedImages]);
-        } else {
-            // Display an error message if the user exceeds the image limit
-            alert("You can only select up to 3 files.");
-        }
+        setSelectedAdImages(event.target.files)
     };
-
-    const handleRemoveAdImages = (index: any) => {
-        const updatedAdImages = selectedAdImages.filter((_, i) => i !== index);
-        setSelectedAdImages(updatedAdImages);
-
-        // Display a preview of the updated selected images
-        PreviewAdImage(updatedAdImages);
-    };
-
     //SignUp function
     const onSignup = async () => {
+        console.log(selectedAdImages)
         try {
             setLoading(true)
-            const response = await axios.post("/api/users/signup", { ...userData, type, logo: type === 'Empresas' ? selectedAdImages : 'noLogo'  })
+            const response = await axios.post("/api/users/signup",
+                { ...userData, type, logo: type === 'Empresas' ? selectedAdImages : 'noLogo' },
+                { headers: { 'content-type': 'multipart/form-data' } })
+
             toast.success('Registro exitoso!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -241,24 +201,6 @@ export default function SignUpForm(props: any) {
                                                                 Por favor Selecciona una imagen por favor
                                                             </p>
                                                         )}
-                                                        {selectedAdImages.length > 0 && (
-                                                            <div className="p-3 d-flex gap-3">
-                                                                <p>Imagen Seleccionada:</p>
-                                                                <ul>
-                                                                    {selectedAdImages.map((file: any, index) => (
-                                                                        <div
-                                                                            className="d-flex align-items-center justify-content-between gap-3"
-                                                                            key={index} // Moved key to the outer element
-                                                                        >
-                                                                            <li>{file.name}</li>
-                                                                            <FontAwesomeIcon className="text-danger" icon={faDeleteLeft}
-                                                                                onClick={() => handleRemoveAdImages(index)}
-                                                                            ></FontAwesomeIcon>
-                                                                        </div>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        )}
                                                     </div>
                                                 </fieldset>
 
@@ -319,8 +261,9 @@ export default function SignUpForm(props: any) {
                                                 <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                                 <div className=" mb-0">
                                                     <input
-                                                        type="number"
+                                                        type="text"
                                                         name="telefono"
+                                                        maxLength={12}
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
@@ -378,6 +321,7 @@ export default function SignUpForm(props: any) {
                                         </form>
                                         <div className="text-center">
                                             <button type="button" onClick={onSignup} disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
+
                                             <ToastContainer
                                                 position="top-right"
                                                 autoClose={5000}

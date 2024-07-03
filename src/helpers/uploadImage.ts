@@ -17,14 +17,16 @@ export default async function uploadImage(formFile: File) {
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
 
-            await writeFile(`./public/candidate/uploads/${filename}`, buffer);
+            await writeFile(`./public/uploads/${filename}`, buffer);
 
             //retornamos informacion del archivo
             let img = {
                 contentType: file.type,
                 size: file.size,
-                path: `./public/candidate/uploads/${filename}`
+                path: `./public/uploads/${filename}`
             }
+
+            console.log("Archivo subido exitosamente")
 
             revalidatePath("/");
             

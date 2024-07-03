@@ -48,7 +48,7 @@ export default function EnterpriseProfilePage({ params }: any) {
                         <div className="card">
                             <div className="card-body">
                                 <div className="d-flex flex-column align-items-center text-center">
-                                    <Image src="/AlcoLogo.png" alt="Admin" className="rounded-circle" width="150" />
+                                    <Image src="/AlcoLogo.png" alt="Admin" height={100} className="rounded-circle" width="150" />
                                     <h4>Datos</h4>
                                     {/* Cargo */}
                                     <p className="text-secondary mb-1">Full Stack Developer</p>

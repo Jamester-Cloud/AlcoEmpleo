@@ -17,3 +17,20 @@ Subscripcion de paga:
     integracion con binance
 
     continuar carga de archivos
+
+    cargar idiomas en perfil laboral
+
+programar vista candidatos del lado de empresa, mostrar toda la informacion de las experiencias y habilidades
+
+
+agregar toolbar a los iconos de agregar, eliminar y editar
+
+
+
+// por terminar del proyecto
+otras partes del proyecto en su totalidad
+Subscripcion por paypal binance(ver si se puede implementar despues)
+mudar a overclock
+panel administrador para cambiar cosas del homepage
+
+

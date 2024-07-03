@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faCheckCircle,
+  faCheckCircle,
   faPencil,
   faPlus,
   faTrashAlt,
@@ -18,12 +18,11 @@ export default function UserCandidate() {
   const [modalTitle, setModalTitle] = useState("");
   const [modalData, setModalData] = useState({});
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   // State data load
-  const [candidatoData, setCandidatoData] = useState(null);
+  const [candidatoData, setCandidatoData]: any = useState(null);
 
-  const handleModal = (e, title, data, id) => {
+  const handleModal = (e: any, title: string, data: any, id: string) => {
     e.preventDefault();
     setModalTitle(title);
     setModalData({ ...data, id });
@@ -35,6 +34,7 @@ export default function UserCandidate() {
       idPersona: localStorage.getItem("idPersona"),
       idUsuario: localStorage.getItem("idUsuario"),
     });
+
     if (res.status === 200 && res.data.success) {
       setCandidatoData({
         userData: {
@@ -44,7 +44,6 @@ export default function UserCandidate() {
         candidatoData: res.data.dataCandidato,
       });
     }
-    console.log(res);
   };
 
   useEffect(() => {
@@ -59,11 +58,11 @@ export default function UserCandidate() {
     }
   }, [candidatoData]);
 
-  function loadItem(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  function loadItem(event: any): void {
     throw new Error("Function not implemented.");
   }
 
-  function deleteItem(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+  function deleteItem(event: any): void {
     throw new Error("Function not implemented.");
   }
 
@@ -82,7 +81,7 @@ export default function UserCandidate() {
             }
             className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
           >
-            Editar perfil
+            Editar
           </button>
           <div className="flex flex-col md:flex-row items-center md:items-start">
             <Image
@@ -117,13 +116,14 @@ export default function UserCandidate() {
                 <p className="text-blue-800">Dirección:</p>{" "}
                 <p> {candidatoData?.userData?.direccion}</p>
               </div>
+              <div className="flex flex-row text-gray-600">
+                <p className="text-blue-800">Redes:</p>{" "}
+                <p> Redes</p>
+              </div>
             </div>
           </div>
           <div className="mt-6 flex flex-row">
             <div>
-              <p className="text-gray-900 text-sm mt-1">
-                Se unió el 24/06/2024
-              </p>
             </div>
             <div className="ml-40 w-full">
               <h3 className="text-xl font-semibold mb-2">Descripción</h3>
@@ -150,9 +150,9 @@ export default function UserCandidate() {
                   candidatoData?._id
                 )
               }
-              className="text-blue-500"
+              className="top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
             >
-              <FontAwesomeIcon icon={faPencil} /> Editar
+              Editar
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -162,16 +162,24 @@ export default function UserCandidate() {
                 {candidatoData?.candidatoData?.perfil?.puestoDeseado}
               </p>
             </div>
+
             <div>
               <label className="text-gray-700">Salario Deseado</label>
               <p className="text-gray-900">
                 {candidatoData?.candidatoData?.perfil?.salarioDeseado}
               </p>
             </div>
-            <div className="col-span-1 md:col-span-2">
+
+            <div className="">
               <label className="text-gray-700">Descripción Personal</label>
               <p className="text-gray-900">
                 {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
+              </p>
+            </div>
+            <div className="">
+              <label className="text-gray-700">Idiomas:</label>
+              <p className="text-gray-900">
+
               </p>
             </div>
           </div>
@@ -182,15 +190,12 @@ export default function UserCandidate() {
           <div className="flex justify-between items-center border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold">Experiencias Laborales</h2>
             <div className="flex space-x-2">
-              <button onClick={loadItem} className="text-blue-500">
+              <button onClick={loadItem} className="text-green-500">
                 <FontAwesomeIcon icon={faPlus} />
-              </button>
-              <button onClick={deleteItem} className="text-red-500">
-                <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
           </div>
-          {candidatoData?.candidatoData?.experiencias?.map((item, key) => (
+          {candidatoData?.candidatoData?.experiencias?.map((item: any, key: number) => (
             <div
               className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
               key={item._id}
@@ -205,24 +210,27 @@ export default function UserCandidate() {
                   onClick={(e) =>
                     handleModal(
                       e,
-                      "Experiencias Laborales",
+                      "editExperience",
                       item,
                       candidatoData._id
                     )
                   }
                 >
-                  <FontAwesomeIcon icon={faPencil} /> Editar
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+                <button onClick={deleteItem} className=" ml-5 text-red-500">
+                  <FontAwesomeIcon icon={faTrashAlt} />
                 </button>
               </div>
             </div>
           ))}
         </div>
-
+        
         {/* Habilidades */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-4">
           <div className="flex justify-between items-center border-b pb-4 mb-4">
             <h2 className="text-xl font-semibold">Habilidades</h2>
-            <button
+            {/* <button
               onClick={(e) =>
                 handleModal(
                   e,
@@ -234,10 +242,84 @@ export default function UserCandidate() {
               className="text-blue-500"
             >
               <FontAwesomeIcon icon={faPencil} /> Editar
+            </button> */}
+            <button onClick={loadItem} className="text-green-500">
+              <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
           {/* Aquí puedes mapear las habilidades si es necesario */}
+          {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => (
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+              key={item._id}
+            >
+              <div>
+                <label className="text-gray-700">Empresa</label>
+                <p className="text-gray-900">{item.nombreHabilidad}</p>
+              </div>
+              <div className="text-right">
+                <button
+                  className="text-blue-500"
+                  onClick={(e) =>
+                    handleModal(
+                      e,
+                      "Habilidades editar",
+                      item,
+                      candidatoData._id
+                    )
+                  }
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+                <button onClick={deleteItem} className=" ml-5 text-red-500">
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+              </div>
+            </div>
+          ))}
+
         </div>
+          {/* Formaciones academicas */}
+        <div className="bg-white shadow-md rounded-lg p-6 mb-4">
+          <div className="flex justify-between items-center border-b pb-4 mb-4">
+            <h2 className="text-xl font-semibold">Formacíon Academica</h2>
+            <div className="flex space-x-2">
+              <button onClick={loadItem} className="text-green-500">
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+          </div>
+          {candidatoData?.candidatoData?.experiencias?.map((item: any, key: number) => (
+            <div
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+              key={item._id}
+            >
+              <div>
+                <label className="text-gray-700">Institucion</label>
+                <p className="text-gray-900">{item.nombreEmpresa}</p>
+              </div>
+              <div className="text-right">
+                <button
+                  className="text-blue-500"
+                  onClick={(e) =>
+                    handleModal(
+                      e,
+                      "editExperience",
+                      item,
+                      candidatoData._id
+                    )
+                  }
+                >
+                  <FontAwesomeIcon icon={faPencil} />
+                </button>
+                <button onClick={deleteItem} className=" ml-5 text-red-500">
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </form>
       <DataModal
         show={show}

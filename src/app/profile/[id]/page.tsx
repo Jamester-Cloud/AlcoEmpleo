@@ -35,7 +35,7 @@ export default function UserProfile({ params }: any) {
             <div className="row">
                 <div className="col-md-3 border-right">
                     {/* Profile photo */}
-                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><Image className="rounded-circle mt-5" width={100} src="/alcologo.png" alt="GrupoAlcoLogo" /><span className="font-weight-bold">{userData?.nombre || ''} {userData?.apellido || ''}</span><span className="text-black-50">{userData?.email || ''}</span><span> </span></div>
+                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><Image className="rounded-circle mt-5" width={100} src="/alcologo.png" height={100} alt="GrupoAlcoLogo" /><span className="font-weight-bold">{userData?.nombre || ''} {userData?.apellido || ''}</span><span className="text-black-50">{userData?.email || ''}</span><span> </span></div>
                 </div>
                 <div className="col-md-5 border-right">
                     <div className="p-3 py-5">

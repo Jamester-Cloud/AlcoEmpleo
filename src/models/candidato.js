@@ -24,7 +24,6 @@ const candidatoSchema = new mongoose.Schema({
             descripcion: {
                 type: String
             },
-            estatus: Boolean
         },
     ],
     habilidad: [
@@ -42,8 +41,9 @@ const candidatoSchema = new mongoose.Schema({
     perfil:
     {
         CV:{
-            data:Buffer,
-            contentType:String
+            path:String,
+            dataType:String,
+            size:Number
         },
         descripcionPersonal: {
             type: String
@@ -51,15 +51,15 @@ const candidatoSchema = new mongoose.Schema({
         fechaPublicacion:{type:Date},
         puestoDeseado: { type: String },
         salarioDeseado: { type: String },
-        calificacion: { type: Number }
     }
     ,
     redes: [{ enlace: String }],
     formacionesAcademicas: [
         {
             titulo: String,
-            institucion: String
-
+            institucion: String,
+            duracion:String,
+            tipoFormacion:String,
         }
     ],
 })

@@ -23,7 +23,7 @@ const personaSchema = new mongoose.Schema({
         path:{type:String}
     },
     direccion: String,
-    telefono: Number,
+    telefono: String,
     fechaNacimiento: Date,
 })
 

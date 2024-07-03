@@ -14,21 +14,32 @@ connect()
 
 export async function POST(request: NextRequest) {
     try {
-        const reqBody = await request.json()
-        const {
-            email,
-            password,
-            cedula,
-            nombres,
-            apellidos,
-            direccion,
-            genero,
-            telefono,
-            razonSocial,
-            rif,
-            type,
-            logo
-        } = reqBody
+        let logoPicture:any
+        //const reqBody = await request.json()
+        const formData = await request.formData()
+
+        console.log(formData);
+        
+        if (formData.get('logo[]') !== 'noLogo') {
+            logoPicture = formData.get('logo[]') as File
+            logoPicture = await uploadImage(logoPicture)
+        }
+
+        console.log(logoPicture)
+
+        let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type
+
+        nombres = formData.get('nombre')
+        apellidos = formData.get('apellidos')
+        cedula = formData.get('cedula')
+        email = formData.get('email');
+        password = formData.get('password')?.toString()
+        direccion = formData.get('direccion')
+        genero = formData.get('genero')
+        telefono = formData.get('razonSocial')
+        rif = formData.get('rif')
+        razonSocial = formData.get('razonSocial')
+        type = formData.get('type')
 
         let idRol: any;
         //Check if user already exists
@@ -43,6 +54,7 @@ export async function POST(request: NextRequest) {
         if (persona) return NextResponse.json({ error: "cedula/rif duplicado en la base de datos" }, { status: 400 })
         //hash passwords
         const salt = await bcryptjs.genSalt(10)
+
         const hashedPassword = await bcryptjs.hash(password, salt)
         //storing abstract table first
         const newPersona = new Persona({
@@ -55,6 +67,7 @@ export async function POST(request: NextRequest) {
         })
 
         const savedPersona = await newPersona.save()
+        console.log("Persona registrada en la base de datos")
         //then users table
         const newUser = new User({
             email: email,
@@ -65,12 +78,24 @@ export async function POST(request: NextRequest) {
 
         const savedUser = await newUser.save()
 
-        const newEmpresa = new Empresa({ idUsuario: savedUser._id })
-        const newCandidato = new Candidato({ idUsuario: savedUser._id })
-        //determina la procedencia del usuario
-        type === 'Empresas' ? await newEmpresa.save() : newCandidato.save()
+        console.log("Usuario registrado")
 
-        return NextResponse.json({ message: 'User created succesfully', success: true, savedUser })
+        const newEmpresa = new Empresa({ idUsuario: savedUser._id,  logo:{ path:logoPicture?.path, dataType: logoPicture?.dataType, size:logoPicture?.size }})
+        const newCandidato = new Candidato({ idUsuario: savedUser._id })
+
+        //determina la procedencia del usuario
+        type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
+
+        if(type === 'Empresas') {
+
+            let update = {
+                logo:{ path:logoPicture?.path, dataType: logoPicture?.contentType, size:logoPicture?.size }
+            }
+
+            await Empresa.updateOne({_id:newEmpresa._id}, update)
+        }
+
+        return NextResponse.json({ message: 'User created succesfully', success: true })
 
     } catch (error: any) {
         console.log(error)

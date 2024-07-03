@@ -21,15 +21,10 @@ export default function SidebarCandidate({ children }: any) {
             <li className="nav-item ">
               <Link href="/candidate/edit" className="nav-link d-flex align-items-center " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <Image src="/AlcoSloganLogo.png" alt="hugenerd" width={30} height={30} className="rounded-circle" />
-                <span className="d-none d-sm-inline mx-1">Ver Perfil</span>
+                <span className="d-none d-sm-inline mx-1">Mi CV</span>
               </Link>
             </li>
-            <li>
-              <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
-                <FontAwesomeIcon icon={faMagnifyingGlass} width="30" height="30" />
-                <span className="ms-1 d-none d-sm-inline ">  Mi CV</span>
-              </a>
-            </li> {/* Final li */}
+            {/* Final li */}
             <li>
               <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
                 <FontAwesomeIcon icon={faCartShopping} width="30" height="30" />
