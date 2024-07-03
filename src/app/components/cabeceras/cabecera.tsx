@@ -14,7 +14,7 @@ export default function Cabecera() {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-white bg-opacity-75 rounded-b-2xl z-50">
+    <header className="w-full fixed top-0 bg-white bg-opacity-75  rounded-2xl z-50">
       <div className="container mx-auto flex justify-between items-center py-3">
           <a className="navbar-brand">
             <Image

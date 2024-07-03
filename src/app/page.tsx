@@ -16,6 +16,14 @@ import {
   faUsers,
   faCreditCard,
   faFile,
+  faLocation,
+  faTowerBroadcast,
+  faPhone,
+  faSignInAlt,
+  faUserPlus,
+  faFileCircleCheck,
+  faFileContract,
+  faLightbulb,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
@@ -118,45 +126,85 @@ export default function Home() {
             </p>
           </Carousel.Caption>
         </Carousel.Item>
-        </Carousel>
+      </Carousel>
       <div className="text-center justify-content-center">
         <h1 className="text-blue-900 font-bold pt-20 sm:pt-32 md:pt-40 lg:pt-48">
           Expertos Recomendados
         </h1>
-        <h4 className="text-blue-900 pb-20">
-          Recomendados por otras empresas
-        </h4>
+        <h4 className="text-blue-900 pb-20">Recomendados por otras empresas</h4>
       </div>
       <CarouselMulti candidates={data.dataCandidatosPremium} />
-      <div className="relative h-64 md:h-96 lg:h-128 xl:h-144">
-        <div className="w-full h-full relative">
-          <Image
-            src="/slider/slider1.jpg"
-            layout="fill"
-            objectFit="cover"
-            alt="Encuentra Tu Próxima Oportunidad Laboral"
-            className="absolute w-full h-full object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-blue-950 bg-opacity-50 flex flex-col justify-center items-center text-white z-10">
-          <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4">
-            Expertos Recomendados
-          </h1>
-          <h4 className="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
-            Conoce más sobre nosotros
+      <div className="relative h-64 md:h-96 lg:h-144 xl:h-152">
+        <div className="w-full h-full relative"></div>
+        <div className="absolute inset-0 bg-blue-950 flex flex-col text-white z-10">
+          <h4 className="text-white pl-7 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
+            ¡Aumenta la posibilidad de encontrar{" "}
+            <h4 className="text-blue-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
+              {" "}
+              trabajo!
+            </h4>
           </h4>
-          <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
-            voluptate optio nostrum asperiores voluptatem error accusantium!
-            Blanditiis alias soluta placeat inventore, in at minus officia illo
-            vel nemo tempore provident. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Dolor asperiores sequi aliquid. Eaque explicabo,
-            vero laboriosam ab aliquam tempora est nisi quaerat eos ut sed animi
-            ratione qui eum fugit?Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. In voluptates consequuntur, est quam veritatis
-            error placeat dolores accusamus! Odio facere quisquam, dolores ipsum
-            recusandae vero obcaecati aut magni quam deserunt!
-          </p>
+          <div className="container">
+            <Row className="">
+              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faUserPlus}
+                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
+                />
+                <h2 className="text-lg md:text-xl font-bold text-center">
+                  Regístrate
+                </h2>
+                <span>
+                  Haz clic en PUBLICA TU PERFIL, llena la información básica del
+                  formulario y tendrás tu cuenta registrada. NOTA: Debes ser
+                  mayor de edad
+                </span>
+              </Col>
+
+              {/* Agregar Usuario */}
+              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faSignInAlt}
+                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
+                />
+                <h2 className="text-lg md:text-xl font-bold text-center">
+                  Inicia Sesión
+                </h2>
+                <span>
+                  Completa tu perfil con los datos solicitados. Describe tu
+                  expericencia laboral, tus conocimientos, tus habilidades y las
+                  cosas más importantes de tu oferta de servicio
+                </span>
+              </Col>
+              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faFileContract}
+                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
+                />
+                <h2 className="text-lg md:text-xl font-bold text-center">
+                  Publicar tu información
+                </h2>
+                <span>
+                  Posterior a la activación del plan publica tu información para
+                  que seas visible en nuestra web
+                </span>
+              </Col>
+              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
+                <FontAwesomeIcon
+                  icon={faLightbulb}
+                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
+                />
+                <h2 className="text-lg md:text-xl font-bold text-center">
+                  Escoje un Plan
+                </h2>
+                <span>
+                  Escoje entre planes que ofrecemos y se adapte tus
+                  requerimientos, sigue los pasos para activarlo y disfruta de
+                  las ventajas
+                </span>
+              </Col>
+            </Row>
+          </div>
         </div>
       </div>
       <Container className="py-20">
@@ -171,15 +219,25 @@ export default function Home() {
             <Form>
               <Form.Group controlId="formName">
                 <Form.Label>Nombres y apellidos</Form.Label>
-                <Form.Control type="text" placeholder="Introduce tu nombre completo" />
+                <Form.Control
+                  type="text"
+                  placeholder="Introduce tu nombre completo"
+                />
               </Form.Group>
               <Form.Group controlId="formEmail">
                 <Form.Label>Correo electrónico</Form.Label>
-                <Form.Control type="email" placeholder="Introduce tu correo electrónico" />
+                <Form.Control
+                  type="email"
+                  placeholder="Introduce tu correo electrónico"
+                />
               </Form.Group>
               <Form.Group controlId="formMessage">
                 <Form.Label>Deja tu mensaje</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="Introduce tu mensaje" />
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Introduce tu mensaje"
+                />
               </Form.Group>
               <Button className="w-full" variant="primary" type="submit">
                 Enviar
@@ -187,12 +245,13 @@ export default function Home() {
             </Form>
           </Col>
           <Col className="text-center">
-          <Image
-                           src="/contactImage.png"
-                           width={1730}
-                           height={2534}
-                           className="w-80"
-                           alt="Hombre"/>
+            <Image
+              src="/contactImage.png"
+              width={1730}
+              height={2534}
+              className="w-80"
+              alt="Hombre"
+            />
           </Col>
         </Row>
       </Container>

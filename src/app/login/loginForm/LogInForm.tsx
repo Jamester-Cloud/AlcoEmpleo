@@ -79,7 +79,7 @@ export default function LogInForm() {
         user.email.length > 0 && user.password.length > 0 ? setButtonDisabled(true) : setButtonDisabled(false)
     })
     return (
-        <form className="bg-white  rounded-2xl p-4 sm:p-5 max-w-sm sm:max-w-md mx-auto">
+        <form className="bg-white  rounded-2xl p-4 sm:p-5 mt-16  max-w-sm sm:max-w-md  mx-auto">
             <Image className=" max-w-xs mx-auto mb-2" src="/AlcoLogo.png" width={300} priority height={100} alt="GrupoAlco" />
             <div className="form-outline mb-4">
                 <input type="email"
