@@ -142,9 +142,6 @@ export default function Home() {
           <h1 className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4">
             Expertos Recomendados
           </h1>
-          <h4 className="text-white font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
-            Conoce más sobre nosotros
-          </h4>
           <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl px-4">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi
             voluptate optio nostrum asperiores voluptatem error accusantium!
