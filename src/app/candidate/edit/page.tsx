@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faCheckCircle,
+  faCheckCircle,
   faPencil,
   faPlus,
   faTrashAlt,
@@ -70,116 +70,75 @@ export default function UserCandidate() {
   return (
     <div className="container mx-auto p-4">
       <div className="container mx-auto mt-5 p-4">
-        <div className="bg-white shadow-md rounded-lg p-6 relative">
-          <button
-            onClick={(e) =>
-              handleModal(
-                e,
-                "Datos personales",
-                candidatoData?.userData,
-                candidatoData?.userData?._id
-              )
-            }
-            className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
-            Editar perfil
-          </button>
-          <div className="flex flex-col md:flex-row items-center md:items-start">
-            <Image
-              src="/Imagen-card.png"
-              alt="Admin"
-              className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-72"
-              width={800}
-              height={800}
-            />
-            <div className=" text-left md:text-left md:flex-1 md:flex md:flex-col md:justify-center">
-              <h2 className="text-2xl font-bold">
-                {candidatoData?.userData?.nombre || ""}{" "}
-                {candidatoData?.userData?.apellido || ""}{" "}
-                <span className="badge bg-success rounded-full ml-4">
-                  <FontAwesomeIcon icon={faCheckCircle} /> Verificado
-                </span>
-              </h2>
-              <p className="text-xl text-gray-600">
-                {candidatoData?.candidatoData?.perfil?.puestoDeseado}
-              </p>
-              <div className="flex flex-row mt-2 text-gray-500">
-                <div className="flex flex-row">
-                  <p className="text-blue-800">Teléfono:</p>{" "}
-                  <p>{candidatoData?.userData?.telefono}</p>
-                </div>
-                <div className="flex flex-row ml-10">
-                  <p className="text-blue-800">Email:</p>{" "}
-                  <p> {candidatoData?.userData?.emailUsuario || ""}</p>
-                </div>
-              </div>
-              <div className="flex flex-row text-gray-600">
-                <p className="text-blue-800">Dirección:</p>{" "}
-                <p> {candidatoData?.userData?.direccion}</p>
-              </div>
-            </div>
+  <div className="bg-white shadow-md rounded-lg p-6 relative">
+    <button
+      onClick={(e) =>
+        handleModal(
+          e,
+          "Datos personales",
+          candidatoData?.userData,
+          candidatoData?.userData?._id
+        )
+      }
+      className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+    >
+      Editar perfil
+    </button>
+    <div className="flex flex-col md:flex-row items-center md:items-start">
+      <Image
+        src="/Imagen-card.png"
+        alt="Admin"
+        className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
+        width={800}
+        height={800}
+      />
+      <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
+        <h2 className="text-2xl font-bold">
+          {candidatoData?.userData?.nombre || ""}{" "}
+          {candidatoData?.userData?.apellido || ""}{" "}
+          <span className="badge bg-success rounded-full ml-4">
+            <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+          </span>
+        </h2>
+        <p className="text-xl text-gray-600">
+          {candidatoData?.candidatoData?.perfil?.puestoDeseado}
+        </p>
+        <div className="flex flex-col md:flex-row mt-2 text-gray-500">
+          <div className="flex flex-row mb-2 md:mb-0">
+            <p className="text-blue-800">Teléfono:</p>{" "}
+            <p>{candidatoData?.userData?.telefono}</p>
           </div>
-          <div className="mt-6 flex flex-row">
-            <div>
-              <p className="text-gray-900 text-sm mt-1">
-                Se unió el 24/06/2024
-              </p>
-            </div>
-            <div className="ml-40 w-full">
-              <h3 className="text-xl font-semibold mb-2">Descripción</h3>
-              <hr />
-              <p className="text-gray-600">
-                {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
-              </p>
-            </div>
+          <div className="flex flex-row md:ml-10">
+            <p className="text-blue-800">Email:</p>{" "}
+            <p>{candidatoData?.userData?.emailUsuario || ""}</p>
           </div>
         </div>
+        <div className="flex flex-row text-gray-600 mt-2">
+          <p className="text-blue-800">Dirección:</p>{" "}
+          <p>{candidatoData?.userData?.direccion}</p>
+        </div>
       </div>
+    </div>
+    <div className="mt-6 flex flex-col md:flex-row">
+      <div className="mb-4 md:mb-0">
+        <p className="text-gray-900 text-sm mt-1">Se unió el 24/06/2024</p>
+      </div>
+      <div className="md:ml-40 w-full">
+        <h3 className="text-xl font-semibold mb-2">Descripción</h3>
+        <hr />
+        <p className="text-gray-600">
+          {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       <form>
         {/* Perfil */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-          <div className="flex justify-between items-center border-b pb-4 mb-4">
-            <h2 className="text-xl font-semibold">Perfil Laboral</h2>
-            <button
-              onClick={(e) =>
-                handleModal(
-                  e,
-                  "Perfil del candidato",
-                  candidatoData?.candidatoData?.perfil,
-                  candidatoData?._id
-                )
-              }
-              className="text-blue-500"
-            >
-              <FontAwesomeIcon icon={faPencil} /> Editar
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-gray-700">Puesto deseado</label>
-              <p className="text-gray-900">
-                {candidatoData?.candidatoData?.perfil?.puestoDeseado}
-              </p>
-            </div>
-            <div>
-              <label className="text-gray-700">Salario Deseado</label>
-              <p className="text-gray-900">
-                {candidatoData?.candidatoData?.perfil?.salarioDeseado}
-              </p>
-            </div>
-            <div className="col-span-1 md:col-span-2">
-              <label className="text-gray-700">Descripción Personal</label>
-              <p className="text-gray-900">
-                {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Experiencias */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-          <div className="flex justify-between items-center border-b pb-4 mb-4">
+        <div className="container mx-auto mt-5 p-4">
+          <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
             <h2 className="text-xl font-semibold">Experiencias Laborales</h2>
             <div className="flex space-x-2">
               <button onClick={loadItem} className="text-blue-500">
@@ -190,53 +149,128 @@ export default function UserCandidate() {
               </button>
             </div>
           </div>
-          {candidatoData?.candidatoData?.experiencias?.map((item, key) => (
-            <div
-              className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
-              key={item._id}
-            >
-              <div>
-                <label className="text-gray-700">Empresa</label>
-                <p className="text-gray-900">{item.nombreEmpresa}</p>
-              </div>
-              <div className="text-right">
-                <button
-                  className="text-blue-500"
-                  onClick={(e) =>
-                    handleModal(
-                      e,
-                      "Experiencias Laborales",
-                      item,
-                      candidatoData._id
-                    )
-                  }
-                >
-                  <FontAwesomeIcon icon={faPencil} /> Editar
-                </button>
+          <div className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                  Gerente Creativo
+                </label>
+                <label className="text-black text-xl ">
+                  Tech Innovations LLC
+                </label>
+                <p className="text-gray-900">ene 2021 - feb 2023</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo distinctio laboriosam id minus pariatur aliquid
+                  minima architecto, sit atque sequi quaerat repudiandae,
+                  repellat quae porro? Eveniet quasi similique accusantium
+                  natus.
+                </p>
               </div>
             </div>
-          ))}
+          </div>
+          <div className="bg-gray-200 shadow-md rounded-lg p-6 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                  Gerente Creativo
+                </label>
+                <label className="text-black text-xl">
+                  Tech Innovations LLC
+                </label>
+                <p className="text-gray-900">ene 2021 - feb 2023</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo distinctio laboriosam id minus pariatur aliquid
+                  minima architecto, sit atque sequi quaerat repudiandae,
+                  repellat quae porro? Eveniet quasi similique accusantium
+                  natus.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Educación */}
+        <div className="container mx-auto mt-5 p-4">
+          <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
+            <h2 className="text-xl font-semibold">Educación</h2>
+            <div className="flex space-x-2">
+              <button onClick={loadItem} className="text-blue-500">
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+              <button onClick={deleteItem} className="text-red-500">
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            </div>
+          </div>
+          <div className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                  Tecnico Superior en Analisis en Sistema
+                </label>
+                <label className="text-black text-xl">
+                  IUTEPI | Instituto Universitario de Tecnología para la
+                  Informática
+                </label>
+                <p className="text-gray-900">2021 - 2024</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo distinctio laboriosam id minus pariatur aliquid
+                  minima architecto, sit atque sequi quaerat repudiandae,
+                  repellat quae porro? Eveniet quasi similique accusantium
+                  natus.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                  Tecnico Superior en Analisis en Sistema
+                </label>
+                <label className="text-black text-xl">
+                  IUTEPI | Instituto Universitario de Tecnología para la
+                  Informática
+                </label>
+                <p className="text-gray-900">2021 - 2024</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Explicabo distinctio laboriosam id minus pariatur aliquid
+                  minima architecto, sit atque sequi quaerat repudiandae,
+                  repellat quae porro? Eveniet quasi similique accusantium
+                  natus.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Habilidades */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-          <div className="flex justify-between items-center border-b pb-4 mb-4">
+        <div className="container mx-auto mt-5 p-4">
+          <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
             <h2 className="text-xl font-semibold">Habilidades</h2>
-            <button
-              onClick={(e) =>
-                handleModal(
-                  e,
-                  "Habilidades",
-                  candidatoData?.candidatoData?.habilidad,
-                  candidatoData?._id
-                )
-              }
-              className="text-blue-500"
-            >
-              <FontAwesomeIcon icon={faPencil} /> Editar
-            </button>
+            <div className="flex space-x-2">
+              <button onClick={loadItem} className="text-blue-500">
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+              <button onClick={deleteItem} className="text-red-500">
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            </div>
           </div>
-          {/* Aquí puedes mapear las habilidades si es necesario */}
+          <div className="flex flex-col md:flex-row md:space-x-4">
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Gerente Creativo</div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Diseñador Grafico</div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Suite Adobe</div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div>
+          </div>
         </div>
       </form>
       <DataModal

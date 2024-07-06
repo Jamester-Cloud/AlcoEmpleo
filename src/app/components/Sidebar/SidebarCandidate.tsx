@@ -24,12 +24,12 @@ export default function SidebarCandidate({ children }: any) {
                 <span className="d-none d-sm-inline mx-1">Ver Perfil</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
                 <FontAwesomeIcon icon={faMagnifyingGlass} width="30" height="30" />
                 <span className="ms-1 d-none d-sm-inline ">  Mi CV</span>
               </a>
-            </li> {/* Final li */}
+            </li>*/}
             <li>
               <a href="#" data-bs-toggle="collapse" className="nav-link  align-middle d-flex align-items-center"  >
                 <FontAwesomeIcon icon={faCartShopping} width="30" height="30" />
