@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
@@ -21,22 +21,18 @@ import Select from "react-select";
 import useSWR from "swr";
 
 export default function CandidateSearch() {
-  //States
-  //const [data, setData] = React.useState<any>();
+  // States
   const [page, setPage] = React.useState<any>(1);
-  let { data, error } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url))
+  const { data, error, mutate } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url));
   const [regions, setRegions] = React.useState<any>();
   const [specialty, setSpecialtys] = React.useState<any>();
-  const [candidateList, setCandidateList] = React.useState<any>()
-
+  const [candidateList, setCandidateList] = React.useState<any>();
   const [pageCount, setPageCount] = React.useState<number>(0);
-  //TODO: paginator
-
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
-
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
-
   const [premiumsData, setPremiumsData] = React.useState<any>();
+
+  const candidateListRef = useRef<HTMLDivElement>(null);
 
   const fetchPremiumCandidates = async () => {
     try {
@@ -56,16 +52,13 @@ export default function CandidateSearch() {
   const fetchRegions = async () => {
     try {
       const response = await axios.get("/api/enterprise/candidate/regions");
-
       if (response.status === 200) return { regions: response.data.regiones };
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!premiumsData) {
       (async () => {
         try {
@@ -78,17 +71,14 @@ export default function CandidateSearch() {
     }
   }, [premiumsData]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
       setPageCount(parseInt(data.pagination.pageCount));
+      setCandidateList(data.paginatedQuery);
     }
   }, [data]);
 
-  React.useEffect(() => {
-    setCandidateList(data);
-  })
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (!regions) {
       (async () => {
         try {
@@ -101,18 +91,15 @@ export default function CandidateSearch() {
     }
   }, [regions]);
 
-
-
   const handleSubmitFilter = async (e: any) => {
     e.preventDefault();
-    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '', page: page }
+    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '', page: page };
     try {
-      const response = await axios.post('/api/enterprise/candidateList/search', filter)
+      const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
-        setPremiumsData(response.data.candidatePremiums)
+        setPremiumsData(response.data.candidatePremiums);
         setCandidateList(response.data.paginatedQuery);
       }
-
     } catch (err) {
       console.log(err);
     }
@@ -126,27 +113,28 @@ export default function CandidateSearch() {
     return <p>Loading...</p>;
   }
 
-  function handlePrevious() {
-    setPage((p: number) => {
-      if (p === 1) return p;
-      return p - 1;
-    });
-  }
+  const handlePageChange = async (newPage: number) => {
+    setPage(newPage);
+    await mutate();
+  };
 
-  function handleNext() {
-    setPage((p: number) => {
-      if (p === pageCount) return p;
-      return p + 1;
-    });
-  }
+  const handlePrevious = () => {
+    if (page > 1) {
+      handlePageChange(page - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (page < pageCount) {
+      handlePageChange(page + 1);
+    }
+  };
 
   const handleLocationChange = (selectedOption: any) => {
-
     setSelectedLocation(selectedOption);
   };
 
   const handleSpecialtiesChange = (e: any) => {
-
     setSelectedSpecialty(e.target.value);
   };
 
@@ -163,7 +151,6 @@ export default function CandidateSearch() {
           alt="Contrata personas para tu negocio"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
         <div className="absolute bottom-0 left-0 right-0 text-white p-4">
           <h3 className="text-lg text-center md:text-2xl font-bold">
             Buscador de candidatos
@@ -245,8 +232,8 @@ export default function CandidateSearch() {
       <div className="w-full flex justify-center">
         <div className="w-full md:w-11/12">
           <hr className="my-4" />
-          <div className="candidate-list">
-            {candidateList?.paginatedQuery?.map((item: any) => (
+          <div className="candidate-list" ref={candidateListRef}>
+            {candidateList?.map((item: any) => (
               <div className="card mt-4" key={item._id}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
@@ -325,9 +312,7 @@ export default function CandidateSearch() {
               <select
                 className="btn"
                 value={page}
-                onChange={(event) => {
-                  setPage(Number(event.target.value));
-                }}
+                onChange={(event) => handlePageChange(Number(event.target.value))}
               >
                 {Array(pageCount)
                   .fill(null)
