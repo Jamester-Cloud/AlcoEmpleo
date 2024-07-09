@@ -4,27 +4,24 @@ import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
 import uploadImage from "@/helpers/uploadImage";
+import { Console } from "console";
 
 connect();
 
 export async function POST(request: NextRequest) {
     try {
-        //hago una estructuracion de los datos que se enviaran 
-        //perfil
-        //experiencias
-        //habilidades
-        //Formaciones academicas
+
         let filter;
         let update;
         let file: any;
 
-        const formData = await request.formData()
-
-        let dataType = formData.get('dataType') as String;
+        const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
+        
+         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
 
         switch (dataType) {
             //funciona con redes
-            case 'datosPersonales':
+            case 'Datos personales':
 
                 const profilePicture = formData.get('profilePicture[]') as File
 
@@ -86,16 +83,46 @@ export async function POST(request: NextRequest) {
                 break;
             case 'exp':
 
+                filter = { idUsuario: formData.idUsuario, "experiencias._id": formData.idExp}
+
+                update = {
+                    $set: {
+                        "experiencias.$.nombreEmpresa": formData.nombreEmpresa,
+                        "experiencias.$.descripcion": formData.descripcion,
+                        "experiencias.$.duracion": formData.duracion,
+                        "experiencias.$.logros": formData.logros,
+                        "experiencias.$.referencias": formData.referencias,
+                    }
+                }
+
+                const edicion = await Candidato.updateOne(filter, update);
+
+                if (edicion) {
+                    const response = NextResponse.json({
+                        message: "Edicion de experiencias exitosa",
+                        success: true,
+                    })
+
+                    return response;
+                }
+
                 break;
             case 'academics':
 
                 break;
             case 'idiomas':
-                
+
 
                 break
 
         }
+
+        const response = NextResponse.json({
+            message: "Edicion de datos personales exitosa",
+            success: true,
+        })
+
+        return response;
 
     } catch (error: any) {
         console.log("error is", error)
