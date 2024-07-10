@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -134,79 +135,152 @@ export default function Home() {
         <h4 className="text-blue-900 pb-20">Recomendados por otras empresas</h4>
       </div>
       <CarouselMulti candidates={data.dataCandidatosPremium} />
-      <div className="relative h-64 md:h-96 lg:h-144 xl:h-152">
-        <div className="w-full h-full relative"></div>
-        <div className="absolute inset-0 bg-blue-950 flex flex-col text-white z-10">
-          <h4 className="text-white pl-7 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
-            ¡Aumenta la posibilidad de encontrar{" "}
-            <h4 className="text-blue-500 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-6">
-              {" "}
-              trabajo!
-            </h4>
-          </h4>
-          <div className="container">
-            <Row className="">
-              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faUserPlus}
-                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
-                />
-                <h2 className="text-lg md:text-xl font-bold text-center">
-                  Regístrate
-                </h2>
-                <span>
-                  Haz clic en PUBLICA TU PERFIL, llena la información básica del
-                  formulario y tendrás tu cuenta registrada. NOTA: Debes ser
-                  mayor de edad
-                </span>
-              </Col>
-
-              {/* Agregar Usuario */}
-              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faSignInAlt}
-                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
-                />
-                <h2 className="text-lg md:text-xl font-bold text-center">
-                  Inicia Sesión
-                </h2>
-                <span>
-                  Completa tu perfil con los datos solicitados. Describe tu
-                  expericencia laboral, tus conocimientos, tus habilidades y las
-                  cosas más importantes de tu oferta de servicio
-                </span>
-              </Col>
-              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faFileContract}
-                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
-                />
-                <h2 className="text-lg md:text-xl font-bold text-center">
-                  Publicar tu información
-                </h2>
-                <span>
-                  Posterior a la activación del plan publica tu información para
-                  que seas visible en nuestra web
-                </span>
-              </Col>
-              <Col className="text-white pt-4 md:w-1/2 md:mb-0 mb-4 h-full flex flex-col justify-center items-center">
-                <FontAwesomeIcon
-                  icon={faLightbulb}
-                  className="text-4xl px-2 py-2 w-20 h-20 bg-white text-blue-950 rounded-full"
-                />
-                <h2 className="text-lg md:text-xl font-bold text-center">
-                  Escoje un Plan
-                </h2>
-                <span>
-                  Escoje entre planes que ofrecemos y se adapte tus
-                  requerimientos, sigue los pasos para activarlo y disfruta de
-                  las ventajas
-                </span>
-              </Col>
-            </Row>
+      <div
+        className="relative min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: "url('/bgLogin.png')" }}
+      >
+        <div className="absolute inset-0 bg-blue-950 bg-opacity-60 flex flex-col justify-center items-center text-white z-10">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between mb-6">
+              <h4 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-left">
+                ¡Aumenta la posibilidad de encontrar{" "}
+                <span className="text-blue-500">trabajo!</span>
+              </h4>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Registrar
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 lg:gap-12 xl:gap-16">
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <img
+                    src="icons/Register.svg"
+                    alt="Regístrate"
+                    className="p-3 md:p-4"
+                  />
+                </div>
+                <div>
+                  <h2 className=" text-base md:text-lg font-bold">
+                    Regístrate
+                  </h2>
+                  <p className="text-sm text-center md:text-left px-2">
+                    Haz clic en PUBLICA TU PERFIL, llena la información básica
+                    del formulario y tendrás tu cuenta registrada. NOTA: Debes
+                    ser mayor de edad
+                  </p>
+                </div>
+              </div>
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <img
+                    src="icons/Iniciar Sesión.svg"
+                    alt="Inicia Sesión"
+                    className="p-3 md:p-4"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-base md:text-lg font-bold">
+                    Inicia Sesión
+                  </h2>
+                  <p className="text-sm text-center md:text-left px-2">
+                    Completa tu perfil con los datos solicitados. Describe tu
+                    experiencia laboral, tus conocimientos, tus habilidades y
+                    las cosas más importantes de tu oferta de servicio
+                  </p>
+                </div>
+              </div>
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <img
+                    src="icons/Publicar Información.svg"
+                    alt="Publicar Información"
+                    className="p-3 md:p-4"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-base md:text-lg font-bold">
+                    Publicar tu información
+                  </h2>
+                  <p className="text-sm text-center md:text-left px-2">
+                    Posterior a la activación del plan publica tu información
+                    para que seas visible en nuestra web
+                  </p>
+                </div>
+              </div>
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <img
+                    src="icons/Escoje un Plan.svg"
+                    alt="Escoje un Plan"
+                    className="p-3 md:p-4"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-base md:text-lg font-bold">
+                    Escoge un Plan
+                  </h2>
+                  <p className="text-sm text-center md:text-left px-2">
+                    Escoge entre planes que ofrecemos y se adapte a tus
+                    requerimientos, sigue los pasos para activarlo y disfruta de
+                    las ventajas
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div className="mt-20 h-52 items-center justify-between mb-6">
+        <h1 className="text-blue-900 mx-10 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
+          ¿Por qué tu perfil debe estar en alcoempleo.com?
+        </h1>
+        <p className="text-left mx-10 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6">
+          Nuestra plataforma es la única que te ofrece un contacto directo entre
+          postulante y la empresa, permite abrir el campo de la oferta y la
+          demanda laboral
+        </p>
+      </div>
+      <div className="relative min-h-screen bg-cover bg-center">
+        <div className="absolute inset-0 bg-blue-950 flex flex-col justify-center items-center text-white z-10">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 lg:gap-12 xl:gap-16">
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <p className="my-2 text-gray-800 text-6xl">1</p>
+                </div>
+                <div>
+                <h2 className=" text-base md:text-lg font-bold">
+                    Te hace visible ante un mundo de oportunidades laborales.
+                  </h2>
+                </div>
+              </div>
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <p className="my-2 text-gray-800 text-6xl">2</p>
+                </div>
+                <div>
+                <h2 className=" text-base md:text-lg font-bold">
+                    Puedes crecer junto a nosotros, aumentando las posibilidades
+                    de conseguir la mejor oferta laboral.
+                  </h2>
+                </div>
+              </div>
+              <div className="text-center flex flex-row items-start">
+                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
+                  <p className="my-2 text-gray-800 text-6xl">3</p>
+                </div>
+                <div>
+                <h2 className=" text-base md:text-lg font-bold">
+                    Aprueba nuestros test y cetifícate como trabajador
+                    recomendado, obtén las mejores oportunidades de empleo.
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Container className="py-20">
         <Row className="justify-content-center">
           <Col md={6} className="mb-8 md:mb-0">

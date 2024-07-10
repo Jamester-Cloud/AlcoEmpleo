@@ -70,70 +70,71 @@ export default function UserCandidate() {
   return (
     <div className="container mx-auto p-4">
       <div className="container mx-auto mt-5 p-4">
-  <div className="bg-white shadow-md rounded-lg p-6 relative">
-    <button
-      onClick={(e) =>
-        handleModal(
-          e,
-          "Datos personales",
-          candidatoData?.userData,
-          candidatoData?.userData?._id
-        )
-      }
-      className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
-    >
-      Editar perfil
-    </button>
-    <div className="flex flex-col md:flex-row items-center md:items-start">
-      <Image
-        src="/Imagen-card.png"
-        alt="Admin"
-        className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
-        width={800}
-        height={800}
-      />
-      <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
-        <h2 className="text-2xl font-bold">
-          {candidatoData?.userData?.nombre || ""}{" "}
-          {candidatoData?.userData?.apellido || ""}{" "}
-          <span className="badge bg-success rounded-full ml-4">
-            <FontAwesomeIcon icon={faCheckCircle} /> Verificado
-          </span>
-        </h2>
-        <p className="text-xl text-gray-600">
-          {candidatoData?.candidatoData?.perfil?.puestoDeseado}
-        </p>
-        <div className="flex flex-col md:flex-row mt-2 text-gray-500">
-          <div className="flex flex-row mb-2 md:mb-0">
-            <p className="text-blue-800">Teléfono:</p>{" "}
-            <p>{candidatoData?.userData?.telefono}</p>
+        <div className="bg-white shadow-md rounded-lg p-6 relative">
+          <div className="flex flex-col md:flex-row items-center md:items-start">
+            <Image
+              src="/Imagen-card.png"
+              alt="Admin"
+              className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
+              width={800}
+              height={800}
+            />
+            <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
+              <h2 className="text-2xl font-bold">
+                {candidatoData?.userData?.nombre || ""}{" "}
+                {candidatoData?.userData?.apellido || ""}{" "}
+                <span className="badge bg-success rounded-full ml-4">
+                  <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600">
+                {candidatoData?.candidatoData?.perfil?.puestoDeseado}
+              </p>
+              <div className="flex flex-col md:flex-row mt-2 text-gray-500">
+                <div className="flex flex-row mb-2 md:mb-0">
+                  <p className="text-blue-800">Teléfono:</p>{" "}
+                  <p>{candidatoData?.userData?.telefono}</p>
+                </div>
+                <div className="flex flex-row md:ml-10">
+                  <p className="text-blue-800">Email:</p>{" "}
+                  <p>{candidatoData?.userData?.emailUsuario || ""}</p>
+                </div>
+              </div>
+              <div className="flex flex-row text-gray-600 mt-2">
+                <p className="text-blue-800">Dirección:</p>{" "}
+                <p>{candidatoData?.userData?.direccion}</p>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-row md:ml-10">
-            <p className="text-blue-800">Email:</p>{" "}
-            <p>{candidatoData?.userData?.emailUsuario || ""}</p>
+          <div className="mt-6 flex flex-col md:flex-row">
+            <div className="mb-4 md:mb-0">
+              <p className="text-gray-900 text-sm mt-1">
+                Se unió el 24/06/2024
+              </p>
+            </div>
+            <div className="md:ml-40 w-full">
+              <h3 className="text-xl font-semibold mb-2">Descripción</h3>
+              <hr />
+              <p className="text-gray-600">
+                {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
+              </p>
+            </div>
           </div>
+          <button
+              onClick={(e) =>
+                handleModal(
+                  e,
+                  "Datos personales",
+                  candidatoData?.userData,
+                  candidatoData?.userData?._id
+                )
+              }
+              className="mt-4 md:mt-0 md:absolute md:top-4 md:right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Editar perfil
+            </button>
         </div>
-        <div className="flex flex-row text-gray-600 mt-2">
-          <p className="text-blue-800">Dirección:</p>{" "}
-          <p>{candidatoData?.userData?.direccion}</p>
-        </div>
       </div>
-    </div>
-    <div className="mt-6 flex flex-col md:flex-row">
-      <div className="mb-4 md:mb-0">
-        <p className="text-gray-900 text-sm mt-1">Se unió el 24/06/2024</p>
-      </div>
-      <div className="md:ml-40 w-full">
-        <h3 className="text-xl font-semibold mb-2">Descripción</h3>
-        <hr />
-        <p className="text-gray-600">
-          {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
 
       <form>
         {/* Perfil */}
@@ -164,8 +165,7 @@ export default function UserCandidate() {
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Explicabo distinctio laboriosam id minus pariatur aliquid
                   minima architecto, sit atque sequi quaerat repudiandae,
-                  repellat quae porro? Eveniet quasi similique accusantium
-                  natus.
+                  repellat quae porro? Eveniet quasi similique acusantium natus.
                 </p>
               </div>
             </div>
@@ -266,10 +266,18 @@ export default function UserCandidate() {
             </div>
           </div>
           <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Gerente Creativo</div>
-            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Diseñador Grafico</div>
-            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Suite Adobe</div>
-            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Gerente Creativo
+            </div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Diseñador Grafico
+            </div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Suite Adobe
+            </div>
+            <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Figma
+            </div>
           </div>
         </div>
       </form>
