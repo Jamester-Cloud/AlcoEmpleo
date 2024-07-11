@@ -59,7 +59,6 @@ export default function SignUpForm(props: any) {
             }, 2000);
 
         } catch (error: any) {
-            console.log(error);
             toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
                 position: "top-right",
                 autoClose: 5000,
@@ -263,7 +262,7 @@ export default function SignUpForm(props: any) {
                                                     <input
                                                         type="text"
                                                         name="telefono"
-                                                        maxLength={12}
+                                                        maxLength={14}
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />

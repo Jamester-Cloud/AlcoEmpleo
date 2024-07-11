@@ -14,10 +14,11 @@ export async function POST(request: NextRequest) {
         let filter;
         let update;
         let file: any;
+        let data;
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
-        
-         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
+
+        let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
 
         switch (dataType) {
             //funciona con redes
@@ -45,12 +46,6 @@ export async function POST(request: NextRequest) {
 
                     await Persona.updateOne(filter, update)
 
-                    const response = NextResponse.json({
-                        message: "Edicion de datos personales exitosa",
-                        success: true,
-                    })
-
-                    return response;
                 }
 
 
@@ -58,7 +53,7 @@ export async function POST(request: NextRequest) {
             //idiomas funciona con perfil
             case 'perfil':
                 console.log(formData);
-                let cv = formData.get('cv[]') as File
+                let cv = formData.get('perfil[CV]') as File
 
                 file = await uploadImage(cv)
 
@@ -68,22 +63,23 @@ export async function POST(request: NextRequest) {
 
                 update = {
                     perfil: {
-                        descripcionPersonal: formData.get('descripcionPersonal'),
-                        puestoDeseado: formData.get('puestoDeseado'),
-                        salario: formData.get('descripcionPersonal'),
+                        descripcionPersonal: formData.get('perfil[descripcionPersonal]'),
+                        puestoDeseado: formData.get('perfil[puestoDeseado]'),
+                        salario: formData.get('perfil[salarioDeseado]'),
                         cv: { size: file.size, path: file.path, dataType: file.contentType }
                     }
                 }
                 //codigo que maneja las peticiones de idiomas
 
                 await Candidato.updateOne(filter, update);
+
                 break;
             case 'habilidades':
 
                 break;
             case 'exp':
 
-                filter = { idUsuario: formData.idUsuario, "experiencias._id": formData.idExp}
+                filter = { idUsuario: formData.idUsuario, "experiencias._id": formData.idExp }
 
                 update = {
                     $set: {
@@ -95,30 +91,43 @@ export async function POST(request: NextRequest) {
                     }
                 }
 
-                const edicion = await Candidato.updateOne(filter, update);
+                await Candidato.updateOne(filter, update);
 
-                if (edicion) {
-                    const response = NextResponse.json({
-                        message: "Edicion de experiencias exitosa",
-                        success: true,
-                    })
-
-                    return response;
-                }
-
-                break;
+                break
             case 'academics':
 
-                break;
+                break
             case 'idiomas':
+                console.log("Entre a editar idiomas")
+                data = formData.idiomas
+                console.log(data);
+                filter = { idUsuario: formData.idUsuario }
+                update = { $push: { idiomas: data } }
 
+                await Candidato.updateOne(filter, update);
+
+                break
+            case 'expnew':
+
+                data = {
+                    nombreEmpresa: formData.nombreEmpresa,
+                    descripcion: formData.descripcion,
+                    duracion: formData.duracion,
+                    logros: formData.logros,
+                    referencias: formData.referencias
+                }
+
+                filter = { idUsuario: formData.idUsuario }
+                update = { $push: { experiencias: data } }
+
+                await Candidato.updateOne(filter, update);
 
                 break
 
         }
 
         const response = NextResponse.json({
-            message: "Edicion de datos personales exitosa",
+            message: "Edicion de datos exitosa",
             success: true,
         })
 

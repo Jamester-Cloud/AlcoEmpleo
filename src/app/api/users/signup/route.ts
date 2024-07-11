@@ -15,12 +15,11 @@ connect()
 export async function POST(request: NextRequest) {
     try {
         let logoPicture:any
-        //const reqBody = await request.json()
         const formData = await request.formData()
 
         console.log(formData);
         
-        if (formData.get('logo[]') !== 'noLogo') {
+        if (formData.get('type') === 'Empresas' &&formData.get('logo[]') != 'noLogo') {
             logoPicture = formData.get('logo[]') as File
             logoPicture = await uploadImage(logoPicture)
         }
@@ -29,7 +28,7 @@ export async function POST(request: NextRequest) {
 
         let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type
 
-        nombres = formData.get('nombre')
+        nombres = formData.get('nombres')
         apellidos = formData.get('apellidos')
         cedula = formData.get('cedula')
         email = formData.get('email');
@@ -81,7 +80,7 @@ export async function POST(request: NextRequest) {
         console.log("Usuario registrado")
 
         const newEmpresa = new Empresa({ idUsuario: savedUser._id,  logo:{ path:logoPicture?.path, dataType: logoPicture?.dataType, size:logoPicture?.size }})
-        const newCandidato = new Candidato({ idUsuario: savedUser._id })
+        const newCandidato = new Candidato({ idUsuario: savedUser._id, perfil:{} })
 
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()

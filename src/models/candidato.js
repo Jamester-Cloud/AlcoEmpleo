@@ -3,7 +3,6 @@ import mongoose, { Types } from "mongoose";
 const candidatoSchema = new mongoose.Schema({
     idUsuario: Types.ObjectId,
     idRegion:Types.ObjectId,
-    cargoActual: String,
     esDestacado: Boolean,
     experiencias: [
         {

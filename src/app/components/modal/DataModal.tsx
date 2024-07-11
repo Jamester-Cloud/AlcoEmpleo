@@ -52,7 +52,7 @@ type FormValues = {
     telefono: string,
     fechaNacimiento: Date,
     idExp: string,
-    idUsuario:string
+    idUsuario: string
 };
 
 export default function DataModal(props: any) {
@@ -83,17 +83,18 @@ export default function DataModal(props: any) {
     });
     //Carga de logros y referencias predeterminados del candidato
     useEffect(() => {
-
         let defaultValues = {
             logros: [],
-            referencias: []
+            referencias: [],
+            idiomas: []
         }
 
         defaultValues.logros = data.logros?.map((item: any) => { return { descripcionLogro: item.descripcionLogro } })
         defaultValues.referencias = data.referencias?.map((item: any) => { return { referencia: item.referencia } })
+        defaultValues.idiomas = data.idiomas?.map((item: any) => { return { idioma: item.idioma, nivel: item.nivel } })
 
         reset({ ...defaultValues })
-    }, [data?.logros && data?.referencias])
+    }, [data?.logros && data?.referencias && data?.idiomas])
 
 
     const {
@@ -112,6 +113,11 @@ export default function DataModal(props: any) {
 
     const { fields: fieldsRefs, append: appendRefs, remove: removeRefs } = useFieldArray({
         name: "referencias",
+        control
+    });
+
+    const { fields: fieldsLanguages, append: appendLanguages, remove: removeLanguages } = useFieldArray({
+        name: "idiomas",
         control
     });
 
@@ -142,6 +148,99 @@ export default function DataModal(props: any) {
 
     const form = (title: string) => {
         switch (title) {
+            case 'Nueva Experiencia':
+                return (
+                    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="row">
+                            <div className="col-md-6"><label className="labels">Empresa</label><input type="text" {...register("nombreEmpresa")} className="form-control" placeholder="Empresa" /></div>
+                            <div className="col-md-6"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" /></div>
+                            <div className="col-md-12"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' /></div>
+                            <input type="hidden" {...register("dataType")} defaultValue="expnew" />
+                            <input type="hidden" {...register("idExp")} defaultValue="new" />
+                            <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
+                        </div>
+                        <h6 className="mt-3">Logros:</h6>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                appendLogro({
+                                    descripcionLogro: "",
+                                })
+                            }
+                            className='btn btn-success'
+                        >
+                            Agregar logro
+                        </button>
+                        <div >
+                            {fieldsLogro.map((field, index) => {
+
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+
+                                            <div className="col-md-6 mb-3">
+
+                                                <label className="labels">Logros:</label>
+                                                <input type="text" className="form-control" {...register(`logros.${index}.descripcionLogro` as const, {
+                                                    required: true
+                                                })} placeholder="logros" />
+                                            </div>
+
+                                            <div className="col-md-6 mt-4">
+                                                <button type="button" onClick={() => removeLogro(index)}>
+                                                    Eliminar Logro
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <hr />
+                        <h6>Referencias:</h6>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                appendRefs({
+                                    referencia: "",
+                                })
+                            }
+                            className='btn btn-success'
+                        >
+                            Agregar Referencia
+                        </button>
+                        <div className='row '>
+                            {fieldsRefs.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+                                            <div className="col-md-6">
+                                                <label className="labels">Recomendado por:</label>
+                                                <input
+                                                    placeholder="Referencia"
+                                                    {...register(`referencias.${index}.referencia` as const, {
+                                                        required: true
+                                                    })}
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                            <div className="col-md-6 mt-4">
+                                                <button type="button" onClick={() => removeRefs(index)}>
+                                                    Eliminar Referencia
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                )
+
+                break
             // case 'Datos personales':
             //     return (
             //         <form className='form' encType='multipart/form-data' method='post' name="personalData" id="personalData" onSubmit={handleSubmit(onSubmitWithFiles)}>
@@ -268,71 +367,32 @@ export default function DataModal(props: any) {
                 )
                 break
             //Perfil
-            // case 'Perfil del candidato':
-            //     return (
-            //         <form onSubmit={handleSubmit(onSubmit)} className='form '>
-            //             <div className="row" >
-            //                 <div className="col-md-12"><label className="labels">Descripcion Personal</label><textarea className="form-control"
-            //                     defaultValue={data?.descripcionPersonal} {...register("descripcionPersonal")} placeholder="experience" /></div> <br />
-            //                 <div className="col-md-6"><label className="labels">Puesto Deseado</label><input type="text"
-            //                     className="form-control" defaultValue={data?.puestoDeseado} {...register("puestoDeseado")} placeholder="Puesto deseado" />
-            //                 </div>
-            //                 <div className="col-md-6"><label className="labels">Salario</label><input type="text"
-            //                     className="form-control" {...register("salario")} defaultValue={data?.salarioDeseado} placeholder="Salario" />
-            //                     <input type="hidden" defaultValue="perfil" {...register("dataType")} />
-            //                 </div>
-            //                 {/* Alexander */}
-            //                 <div className="col-md-6"><label className="labels">Idiomas</label><input type="text"
-            //                     className="form-control" {...register("idiomas")} defaultValue={data?.idiomas} placeholder="Salario" />
-            //                     {data?.idiomas?.map((item: any, key: any) =>
-            //                         <>
-            //                             <input type="text" placeholder='Idioma' /> / <input type="text" placeholder='Nivel' />
-            //                         </>
-            //                     )}
-            //                 </div>
+            case 'Perfil del candidato':
+                return (
+                    <form onSubmit={handleSubmit(onSubmitWithFiles)} className='form '>
+                        <div className="row" >
+                            <div className="col-md-12"><label className="labels">Descripcion Personal</label><textarea className="form-control"
+                                defaultValue={data?.descripcionPersonal} {...register("perfil.descripcionPersonal")} placeholder="experience" /></div> <br />
+                            <div className="col-md-6"><label className="labels">Puesto Deseado</label><input type="text"
+                                className="form-control" defaultValue={data?.puestoDeseado} {...register("perfil.puestoDeseado")} placeholder="Puesto deseado" />
+                            </div>
+                            <div className="col-md-6"><label className="labels">Salario</label><input type="text"
+                                className="form-control" {...register("perfil.salarioDeseado")} defaultValue={data?.salarioDeseado} placeholder="Salario" />
+                                <input type="hidden" defaultValue="perfil" {...register("dataType")} />
+                            </div>
 
-            //                 <div className="col-md-12">
-            //                     <label className="labels">Curriculum</label>
-            //                     <div className="d-flex flex-column align-items-center ">
-            //                         <input type="file" accept=".jpg, .jpeg, .png, .pdf" placeholder="Actualizar CV" {...register("cv")} className="form-group form-control" id="cv" name="cv" />
-            //                     </div>
-            //                 </div>
-            //             </div>
-            //             <div className="row text-center mt-5">
-            //                 <button className="btn btn-primary btn-block" type='submit'>Guardar cambios</button>
-            //             </div>
-            //         </form>
-            //     )
-
-            // case 'Editar experiencia':
-            //     return (
-            //         <form className='form'>
-            //             <h5>Experiencia:</h5>
-            //             <input type="hidden" name="dataType" defaultValue='empresa' />
-
-            //             <div className="col-md-3"><label className="labels">Empresa</label><input type="text" className="form-control" placeholder="Empresa" defaultValue={data.nombreEmpresa} /></div>
-            //             <div className="col-md-3"><label className="labels">Descripcíon</label><textarea className="form-control" defaultValue={data.descripcion} /></div>
-            //             <div className="col-md-3"><label className="labels">Duracíon</label><input type="text" defaultValue={data.duracion} className="form-control" placeholder="additional details" /></div>
-            //             <h6 className="mt-3">Logros:</h6>
-            //             {data?.logros.map((subItem: any) => (
-            //                 <div key={subItem._id}>
-            //                     <div className="col-md-12 mb-3"><label className="labels">Logro:</label><input type="text" defaultValue={subItem.descripcionLogro} className="form-control" placeholder="additional details" /></div>
-            //                 </div>
-            //             ))}
-            //             <h6>Referencias:</h6>
-            //             {data?.referencias.map((subItem: any) => (
-            //                 <div key={subItem._id}>
-            //                     <div className="col-md-12 mb-3"><label className="labels">Recomendado por:</label><input type="text" defaultValue={subItem.referencia} className="form-control" placeholder="additional details" /></div>
-            //                 </div>
-            //             ))}
-            //             <hr />
-            //             <div className="row text-center">
-            //                 <button className="btn btn-primary btn-block">Guardar cambios</button>
-
-            //             </div>
-            //         </form>
-
-            //     )
+                            <div className="col-md-12 mt-4">
+                                <label className="labels">Curriculum</label>
+                                <div className="d-flex flex-column align-items-center ">
+                                    <input type="file" accept=".jpg, .jpeg, .png, .pdf" placeholder="Actualizar CV" {...register("perfil.CV")} className="form-group form-control" id="cv" name="cv" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block" type='submit'>Guardar cambios</button>
+                        </div>
+                    </form>
+                )
 
 
             // case 'Editar habilidades':
@@ -355,6 +415,59 @@ export default function DataModal(props: any) {
             //     )
             // case 'formaciones academicas':
             //     break
+            case 'Nuevo Idioma':
+                return (<form className='form' onSubmit={handleSubmit(onSubmit)}>
+                    <div className="row">
+                        <input type="hidden" {...register('dataType')} defaultValue="idiomas" />
+                        <h6 className='mt-3'>Idiomas</h6>
+                        <div className="row justify-content-left">
+                            <div className="col-md-6">
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        appendLanguages({
+                                            idioma: "", nivel: ""
+                                        })
+                                    }
+                                    className='btn btn-success'
+                                >
+                                    Agregar idioma
+                                </button>
+                            </div>
+                        </div>
+                        {fieldsLanguages.map((field, index) => {
+                            return (
+                                <div key={field.id}>
+                                    <section className={"row"} key={field.id}>
+                                        <div className="col-md-4">
+                                            <label className="labels">Idioma:</label>
+                                            <input type="text" className="form-control" {...register(`idiomas.${index}.idioma` as const, {
+                                                required: true
+                                            })} placeholder="Idioma" />
+                                        </div>
+                                        <div className="col-md-4 ">
+
+                                            <label className="labels">Nivel:</label>
+                                            <input type="text" className="form-control" {...register(`idiomas.${index}.nivel` as const, {
+                                                required: true
+                                            })} placeholder="Nivel" />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <button type="button" className='btn mt-3' onClick={() => removeLanguages(index)}>
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </section>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="row text-center mt-5">
+                        <button className="btn btn-primary btn-block">Guardar cambios</button>
+                    </div>
+                </form>)
+                break;
         }
     }
 
