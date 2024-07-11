@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
         console.log(logoPicture)
 
-        let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type
+        let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type,estado
 
         nombres = formData.get('nombres')
         apellidos = formData.get('apellidos')
@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
         rif = formData.get('rif')
         razonSocial = formData.get('razonSocial')
         type = formData.get('type')
+        estado=formData.get('estado')
 
         let idRol: any;
         //Check if user already exists
@@ -80,7 +81,12 @@ export async function POST(request: NextRequest) {
         console.log("Usuario registrado")
 
         const newEmpresa = new Empresa({ idUsuario: savedUser._id,  logo:{ path:logoPicture?.path, dataType: logoPicture?.dataType, size:logoPicture?.size }})
-        const newCandidato = new Candidato({ idUsuario: savedUser._id, perfil:{} })
+        const newCandidato = new Candidato({
+             idUsuario: savedUser._id, 
+             perfil:{} ,
+             idRegion: estado
+
+            })
 
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()

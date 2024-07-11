@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import Image from "next/image";
+import Select from "react-select";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
 import defaultLogo from "../../../../public/AlcoLogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +28,38 @@ export default function SignUpForm(props: any) {
     const [buttonDisabled, setButtonDisabled] = React.useState(true)
     const [selectedAdImages, setSelectedAdImages]: any = React.useState([]);
     const [previewImage, setPreviewImage] = React.useState();
+    const [regions, setRegions] = React.useState<any>();
+    const [selectedLocation, setSelectedLocation] = React.useState<any>();
+
     const [AdImageInputErr, setAdImageInputErr] = React.useState(false); // Initialize with false
+
+    
+
+    const fetchRegions = async () => {
+        try {
+          const response = await axios.get("/api/enterprise/candidate/regions");
+          if (response.status === 200) return { regions: response.data.regiones };
+        } catch (error) {
+          console.error(error);
+        }
+      };
+ 
+    useEffect(() => {
+        if (!regions) {
+          (async () => {
+            try {
+              const dataRegions: any = await fetchRegions();
+              setRegions(dataRegions.regions);
+            } catch (err: any) {
+              console.error("Error al cargar la Region", err);
+            }
+          })();
+        }
+      }, [regions]);
+      const handleLocationChange = (selectedOption: any) => {
+        setSelectedLocation(selectedOption);
+        setUserData({ ...userData, estado: selectedOption ? selectedOption.value : '' });
+      };
 
 
     const handleAdimages = (event: any) => {
@@ -35,6 +67,9 @@ export default function SignUpForm(props: any) {
     };
     //SignUp function
     const onSignup = async () => {
+     
+        
+        
         console.log(selectedAdImages)
         try {
             setLoading(true)
@@ -172,7 +207,9 @@ export default function SignUpForm(props: any) {
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
 
                                                     />
-                                                    {hasTyped && !isInvalid ? <label htmlFor="cedula" className="text-danger">Formato invalido</label> : <label htmlFor="riff">Cédula</label>}
+                                              
+                                                    {hasTyped && !isInvalid ? <label htmlFor="cedula" className="text-danger">Formato invalido</label> : <label htmlFor="riff">Cédula V-E: V123456789</label>}
+                                                    
                                                     <hr />
                                                 </div>
 
@@ -297,8 +334,31 @@ export default function SignUpForm(props: any) {
 
                                                 </div>
                                             </div>
+                                            {type === 'Candidatos' ? <div className=" flex justify-center items-center m-2">
+
+                                            <Select
+                                               id="estado"
+                                                options={regions}
+                                                value={selectedLocation}
+                                                onChange={handleLocationChange}
+                                                placeholder="Ubicación"
+                                                isClearable={true}
+                                                className=" w-75 "
+                                                            name="estado"
+                                                            menuPortalTarget={document?.body}
+                                                            styles={{
+                                            menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                                            }}></Select>
+
+                                            </div>  : <>
+
+                                            </>}
+
                                             <div className="form-check d-flex justify-content-center mb-5">
+
+                                             
                                                 <div className=" flex-fill mb-0">
+                                        
                                                     <textarea
                                                         className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
                                                         onChange={onHandleInputChange}
@@ -333,6 +393,10 @@ export default function SignUpForm(props: any) {
                                                 pauseOnHover
                                                 theme="light"
                                             />
+                                            <>
+                                           
+                                            
+                                            </>
 
                                         </div>
                                     </div>
