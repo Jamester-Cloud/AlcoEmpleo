@@ -24,8 +24,6 @@ export async function POST(request: NextRequest) {
             logoPicture = await uploadImage(logoPicture)
         }
 
-        console.log(logoPicture)
-
         let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type
 
         nombres = formData.get('nombres')
@@ -80,7 +78,7 @@ export async function POST(request: NextRequest) {
         console.log("Usuario registrado")
 
         const newEmpresa = new Empresa({ idUsuario: savedUser._id,  logo:{ path:logoPicture?.path, dataType: logoPicture?.dataType, size:logoPicture?.size }})
-        const newCandidato = new Candidato({ idUsuario: savedUser._id, perfil:{} })
+        const newCandidato = new Candidato({ idUsuario: savedUser._id, perfil:{descripcionPersonal:"", puestoDeseado:"", salarioDeseado:""} })
 
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()

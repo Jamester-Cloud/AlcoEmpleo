@@ -9,8 +9,10 @@ import { fileValidator, fileSizeValidator } from "./fileValidator";
 export default async function uploadImage(formFile: File) {
     try {
         const file = formFile;
-        let isValid = fileValidator(file.type)  
+        let isValid = fileValidator(file.type)
         let validSize = fileSizeValidator(file.size)
+        console.log("Tamaño de archivo es: ", file.size)
+        console.log("extension de archivo es: ", isValid)
         if (isValid && validSize) {
 
             const arrayBuffer = await file.arrayBuffer();
@@ -29,13 +31,13 @@ export default async function uploadImage(formFile: File) {
             console.log("Archivo subido exitosamente")
 
             revalidatePath("/");
-            
+
             return img
         }
 
-        if(!validSize) return 'Archivo muy grande para ser guardado. Intente con otro, por favor'
+        if (!validSize) return 'Archivo muy grande para ser guardado. Intente con otro, por favor'
         if (!isValid) return 'Extension de archivo invalida. Admitidas: Jpeg, JPG, PNG y PDF'
-    
+
     } catch (error) {
         console.log("Error occured ", error);
     }

@@ -21,16 +21,21 @@ Subscripcion de paga:
     cargar idiomas en perfil laboral
 
 programar vista candidatos del lado de empresa, mostrar toda la informacion de las experiencias y habilidades
+programar flujo de compra venta
 
 
 agregar toolbar a los iconos de agregar, eliminar y editar
 
-
-
 // por terminar del proyecto
 otras partes del proyecto en su totalidad
-Subscripcion por paypal binance(ver si se puede implementar despues)
+Subscripcion por paypal binance(ver si se puede implementar despues) binance despues del lanzamiento
 mudar a overclock
-panel administrador para cambiar cosas del homepage
+panel administrador para cambiar cosas del homepage y gestionar las empresas inscritas
+
+cuando se trata de CVS o actas constitutivas, son archivos que tienen que ser descargables para llevar controles
+
+
+//Errores:
+No actualiza formaciones academicas en el endpoint
 
 

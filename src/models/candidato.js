@@ -2,7 +2,7 @@ import mongoose, { Types } from "mongoose";
 
 const candidatoSchema = new mongoose.Schema({
     idUsuario: Types.ObjectId,
-    idRegion:Types.ObjectId,
+    idRegion: Types.ObjectId,
     esDestacado: Boolean,
     experiencias: [
         {
@@ -34,31 +34,30 @@ const candidatoSchema = new mongoose.Schema({
     idiomas: [
         {
             idioma: String,
-            nivel:String
+            nivel: String
         }
     ],
     perfil:
     {
-        CV:{
-            path:String,
-            dataType:String,
-            size:Number
+        CV: {
+            path: {type:String},
+            dataType: {type:String},
+            size: {type:Number}
         },
         descripcionPersonal: {
             type: String
         },
-        fechaPublicacion:{type:Date},
+        fechaPublicacion: { type: Date },
         puestoDeseado: { type: String },
         salarioDeseado: { type: String },
-    }
-    ,
+    },
     redes: [{ enlace: String }],
     formacionesAcademicas: [
         {
             titulo: String,
             institucion: String,
-            duracion:String,
-            tipoFormacion:String,
+            duracion: String,
+            tipoFormacion: String,
         }
     ],
 })

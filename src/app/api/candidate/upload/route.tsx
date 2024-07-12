@@ -53,24 +53,26 @@ export async function POST(request: NextRequest) {
             //idiomas funciona con perfil
             case 'perfil':
                 console.log(formData);
+
                 let cv = formData.get('perfil[CV]') as File
 
                 file = await uploadImage(cv)
 
+                console.log(file);
+
                 filter = {
-                    idUser: formData.get('idUsuario')
+                    idUsuario: formData.get('idUsuario')
                 }
 
                 update = {
-                    perfil: {
-                        descripcionPersonal: formData.get('perfil[descripcionPersonal]'),
-                        puestoDeseado: formData.get('perfil[puestoDeseado]'),
-                        salario: formData.get('perfil[salarioDeseado]'),
-                        cv: { size: file.size, path: file.path, dataType: file.contentType }
+                    $set: {
+                        "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
+                        "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
+                        "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
+                        "perfil.CV": { size: file.size, path: file.path, dataType: file.contentType }
                     }
                 }
                 //codigo que maneja las peticiones de idiomas
-
                 await Candidato.updateOne(filter, update);
 
                 break;
@@ -94,20 +96,18 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
-            case 'academics':
 
                 break
             case 'idiomas':
-                console.log("Entre a editar idiomas")
                 data = formData.idiomas
-                console.log(data);
+
                 filter = { idUsuario: formData.idUsuario }
                 update = { $push: { idiomas: data } }
 
                 await Candidato.updateOne(filter, update);
 
                 break
-            case 'expnew':
+            case 'newExp':
 
                 data = {
                     nombreEmpresa: formData.nombreEmpresa,
@@ -123,6 +123,31 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
+
+            case 'newEduc':
+                data = formData.formacionesAcademicas
+
+                filter = { idUsuario: formData.idUsuario }
+                update = { $push: { formacionesAcademicas: data } }
+
+                await Candidato.updateOne(filter, update);
+                break;
+            case 'editAcademic':
+                console.log(formData);
+
+                filter = { idUsuario: formData.idUsuario, "formacionesAcademicas._id": formData.idAcademic }
+                update = {
+                    $set: {
+                        "formacionesAcademicas.$.titulo": formData.titulo,
+                        "formacionesAcademicas.$.institucion": formData.institucion,
+                        "formacionesAcademicas.$.duracion": formData.duracion,
+                        "formacionesAcademicas.$.tipoFormacion": formData.tipoFormacion,
+                    }
+                }
+
+                await Candidato.updateOne(filter, update);
+
+                break;
 
         }
 

@@ -22,8 +22,10 @@ export default function UserCandidate() {
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
 
-  const handleModal = (e: any, title: string, data: any, id: string) => {
+  const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
+    console.log(data)
+    data.dataType = dataType;
     setModalTitle(title);
     setModalData({ ...data, id });
     setShow(true);
@@ -52,16 +54,13 @@ export default function UserCandidate() {
       (async () => {
         try {
           await getUserDetails();
+          console.log(candidatoData);
         } catch (err) {
           console.log("Error al cargar los datos del usuario", err);
         }
       })();
     }
   }, [candidatoData]);
-
-  function loadItem(event: any): void {
-
-  }
 
   function deleteItem(event: any): void {
     throw new Error("Function not implemented.");
@@ -77,7 +76,8 @@ export default function UserCandidate() {
                 e,
                 "Datos personales",
                 candidatoData?.userData,
-                candidatoData?.userData?._id
+                candidatoData?.userData?._id,
+                "datosPersonales"
               )
             }
             className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
@@ -139,7 +139,7 @@ export default function UserCandidate() {
 
             </div>
             <div className="col-md-2 justify-content-right align-items-right">
-              <button className="ml-5 top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil, candidatoData._id)}>
+              <button className="ml-5 top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil, candidatoData._id, "perfil")}>
                 Editar perfil
               </button>
             </div>
@@ -169,7 +169,7 @@ export default function UserCandidate() {
           <div className="mb-5">
             <div className="row">
               <h6>Idiomas</h6>
-              <button onClick={(e) => handleModal(e, 'Nuevo Idioma', "", candidatoData._id)} className="text-green-500">
+              <button onClick={(e) => handleModal(e, "Agregar idioma", {}, candidatoData._id, "idiomas")} className="text-green-500">
                 Agregar
               </button>
               <div className="flex flex-col md:flex-row md:space-x-4">
@@ -178,7 +178,7 @@ export default function UserCandidate() {
                     <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">{item?.idioma} Sin idiomas</div>
                   </>
                 ))}
-                <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div>
+                {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div> */}
               </div>
             </div>
           </div>
@@ -190,7 +190,7 @@ export default function UserCandidate() {
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Experiencias Laborales</h2>
           <div className="flex space-x-2">
-            <button onClick={(e) => handleModal(e, 'Nueva Experiencia', "", candidatoData._id)} className="text-green-500">
+            <button onClick={(e) => handleModal(e, 'Nueva Experiencia', {}, candidatoData._id, "newExp")} className="text-green-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
             {/* <button onClick={deleteItem} className="text-red-500">
@@ -223,7 +223,8 @@ export default function UserCandidate() {
                     e,
                     "Experiencias",
                     item,
-                    candidatoData._id
+                    candidatoData._id,
+                    "exp"
                   )
                 }
               >
@@ -247,55 +248,49 @@ export default function UserCandidate() {
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Educación</h2>
           <div className="flex space-x-2">
-            <button onClick={loadItem} className="text-green-500">
+            <button onClick={(e) => handleModal(e, 'Nueva formación academica', {}, candidatoData._id, "newEduc")} className="text-green-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
         </div>
-        <div className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <label className="text-blue-600 text-2xl">
-                Tecnico Superior en Analisis en Sistema
-              </label>
-              <label className="text-black text-xl">
-                IUTEPI | Instituto Universitario de Tecnología para la
-                Informática
-              </label>
-              <p className="text-gray-900">2021 - 2024</p>
-              <p className="text-gray-900"></p>
-              <p className="text-gray-900">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Explicabo distinctio laboriosam id minus pariatur aliquid
-                minima architecto, sit atque sequi quaerat repudiandae,
-                repellat quae porro? Eveniet quasi similique accusantium
-                natus.
-              </p>
+        {candidatoData?.candidatoData?.formacionesAcademicas.map((item: any, key: number) => (
+          <div key={key} className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                 {item.titulo}
+                </label>
+                <label className="text-black text-xl">
+                  {item.institucion}
+                </label>
+                <p className="text-gray-900">{item.duracion}</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  {item.tipoFormacion}
+                </p>
+              </div>
+            </div>
+            <div className="text-right">
+              <button
+                className="text-blue-500"
+                onClick={(e) =>
+                  handleModal(
+                    e,
+                    "Editar formación academica",
+                    item,
+                    candidatoData._id,
+                    "editAcademic"
+                  )
+                }
+              >
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
+              <button onClick={deleteItem} className=" ml-5 text-red-500">
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
             </div>
           </div>
-        </div>
-        <div className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <label className="text-blue-600 text-2xl">
-                Tecnico Superior en Analisis en Sistema
-              </label>
-              <label className="text-black text-xl">
-                IUTEPI | Instituto Universitario de Tecnología para la
-                Informática
-              </label>
-              <p className="text-gray-900">2021 - 2024</p>
-              <p className="text-gray-900"></p>
-              <p className="text-gray-900">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Explicabo distinctio laboriosam id minus pariatur aliquid
-                minima architecto, sit atque sequi quaerat repudiandae,
-                repellat quae porro? Eveniet quasi similique accusantium
-                natus.
-              </p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Habilidades */}
@@ -303,7 +298,7 @@ export default function UserCandidate() {
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Habilidades</h2>
           <div className="flex space-x-2">
-            <button onClick={loadItem} className="text-blue-500">
+            <button className="text-blue-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
             <button onClick={deleteItem} className="text-red-500">
