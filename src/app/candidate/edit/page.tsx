@@ -307,10 +307,18 @@ export default function UserCandidate() {
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:space-x-4">
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Gerente Creativo</div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Diseñador Grafico</div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Suite Adobe</div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div>
+          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Gerente Creativo
+            </div>
+          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Diseñador Grafico
+            </div>
+          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Suite Adobe
+            </div>
+          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+              Figma
+            </div>
         </div>
         {/* {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => (
           <div
