@@ -47,22 +47,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="nav-link align-middle d-flex align-items-center"
-            >
-              <FontAwesomeIcon
-                className="text-white"
-                icon={faCartShopping}
-                width="30"
-                height="30"
-              />
-              <span className="ms-1 text-white d-none d-sm-inline">
-                Subcripción
-              </span>
-            </a>
-          </li>
-          <li>
             <Link
               href="/candidate/oportunidades"
               className="nav-link align-middle d-flex align-items-center"
