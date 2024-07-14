@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "license":"BSD-3-Clause",
+  "license":"MIT",
   "author": "Ivan Rodriguez, TripData.C.A",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
