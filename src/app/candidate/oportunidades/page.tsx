@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-undef */
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -11,8 +12,9 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import DataModal from "@/app/components/modal/DataModal";
+import Select from "react-select";
 import "@/app/candidate/edit/css/style.css";
+import React from "react";
 
 export default function UserCandidate() {
   // Modal controls
@@ -21,6 +23,12 @@ export default function UserCandidate() {
   const [modalData, setModalData] = useState({});
   const handleClose = () => setShow(false);
 
+  const [regions, setRegions] = React.useState<any>();
+  const [specialty, setSpecialtys] = React.useState<any>();
+
+  const [selectedLocation, setSelectedLocation] = React.useState<any>();
+  const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
+
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
 
@@ -28,6 +36,15 @@ export default function UserCandidate() {
 
   const handleButtonClick = () => {
     setIsVisible(!isVisible);
+  };
+
+  const fetchRegions = async () => {
+    try {
+      const response = await axios.get("/api/enterprise/candidate/regions");
+      if (response.status === 200) return { regions: response.data.regiones };
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleModal = (
@@ -76,12 +93,72 @@ export default function UserCandidate() {
     }
   }, [candidatoData]);
 
+  const handleLocationChange = (selectedOption: any) => {
+    setSelectedLocation(selectedOption);
+  };
+
+  const handleSpecialtiesChange = (e: any) => {
+    setSelectedSpecialty(e.target.value);
+  };
+
+  const handleSubmitFilter = async (e: any) => {
+    e.preventDefault();
+    let filter = {
+      cargo: selectedSpecialty || "",
+      location: selectedLocation?.value || ""
+    };
+    console.log(filter);
+  };
+
   function deleteItem(event: any): void {
     throw new Error("Function not implemented.");
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 items-center justify-center min-h-screen">
+      <div className="bg-slate-200 py-1 px-3 items-center w-1/3 md:w-full xl:w-1/2 text-center rounded-full text-black ">
+        <form onSubmit={(e) => handleSubmitFilter(e)} method="post">
+          <div className="flex flex-row items-center">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4  ">
+              <div className="flex items-center">
+                <Select
+                  options={specialty}
+                  value={selectedSpecialty}
+                  onChange={handleSpecialtiesChange}
+                  placeholder="Cargo"
+                  isClearable={true}
+                  className="w-full"
+                  name="estado"
+                  menuPortalTarget={document?.body}
+                  styles={{
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  }}
+                />
+              </div>
+              <div className="flex items-center">
+                <Select
+                  options={regions}
+                  value={selectedLocation}
+                  onChange={handleLocationChange}
+                  placeholder="Ubicación"
+                  isClearable={true}
+                  className="w-full"
+                  name="estado"
+                  menuPortalTarget={document?.body}
+                  styles={{
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mx-2 justify-center">
+              <button type="submit" className="btn btn-primary">
+                Buscar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
       <div className="container mx-auto mt-5 p-4">
         <div className="bg-white shadow-md rounded-lg p-6 relative">
           <div className="flex flex-col md:flex-row items-center md:items-start">
