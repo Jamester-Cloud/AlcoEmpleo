@@ -1,205 +1,253 @@
-"use client"
-import axios from "axios"
+"use client";
+import CabeceraEmpresa from "@/app/components/cabeceras/cabeceraEmpresa";
+import {
+  faClipboard,
+  faCopy,
+  faFlag,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function EnterpriseProfilePage({ params }: any) {
+  let { id } = params;
+  const [data, setData]: any = useState();
 
-    let { id } = params;
-    const [data, setData]: any = useState()
-
-    const fetchCandidateData = async () => {
-        try {
-            const response = await axios.post('/api/enterprise/candidate', { id: id })
-            console.log(response.data);
-            return response.data
-        } catch (error) {
-            console.log("Peticion errada")
-        }
+  const fetchCandidateData = async () => {
+    try {
+      const response = await axios.post("/api/enterprise/candidate", {
+        id: id,
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log("Peticion errada");
     }
+  };
 
-    useEffect(() => {
-        if (!data) {
-            (async () => {
-                try {
-                    const userData = await fetchCandidateData()
+  useEffect(() => {
+    if (!data) {
+      (async () => {
+        try {
+          const userData = await fetchCandidateData();
 
-                    setData(userData);
-
-                } catch (err) {
-                    console.log('Error al cargar los datos el usuario');
-                }
-            })()
+          setData(userData);
+        } catch (err) {
+          console.log("Error al cargar los datos el usuario");
         }
-    })
+      })();
+    }
+  });
 
-    return (
-        <div className="container mt-5">
-            <div className="main-body">
-                {/* <nav aria-label="breadcrumb" className="main-breadcrumb">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li className="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
-                        <li className="breadcrumb-item active" aria-current="page">User Profile</li>
-                    </ol>
-                </nav> */}
-                <div className="row gutters-sm">
-                    <div className="col-md-4 mb-3">
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="d-flex flex-column align-items-center text-center">
-                                    <Image src="/AlcoLogo.png" alt="Admin" height={100} className="rounded-circle" width="150" />
-                                    <h4>Datos</h4>
-                                    {/* Cargo */}
-                                    <p className="text-secondary mb-1">Full Stack Developer</p>
-                                    {/* Ubicacion */}
-                                    <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                    <div className="mt-3">
-                                        <button className="btn btn-primary mr-2">Descargar CV</button>
-                                        {/* boton de whatsApp */}
-                                        <button className="btn btn-success">Contactar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Enlaces a redes sociales */}
-                        <div className="card mt-3">
-                            <ul className="list-group list-group-flush">
-                                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Website</h6>
-                                    <span className="text-secondary">https://bootdey.com</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-github mr-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>Github</h6>
-                                    <span className="text-secondary">bootdey</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0">X</h6>
-                                    <span className="text-secondary">@bootdey</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
-                                    <span className="text-secondary">bootdey</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 className="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
-                                    <span className="text-secondary">bootdey</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="col-md-8">
-                        <div className="card mb-3">
-                            <div className="card-body">
-                                <div className="row">
-                                    <div className="col-sm-3">
-                                        <h6 className="mb-0">Nombre y Apellido</h6>
-                                    </div>
-                                    <div className="col-sm-9 text-secondary">
-                                        Kenneth Valdez
-                                    </div>
-                                </div>
-                                <hr />
-                                <div className="row">
-                                    <div className="col-sm-3">
-                                        <h6 className="mb-0">Email</h6>
-                                    </div>
-                                    <div className="col-sm-9 text-secondary">
-                                        fip@jukmuh.al
-                                    </div>
-                                </div>
-                                <hr />
-                                <div className="row">
-                                    <div className="col-sm-3">
-                                        <h6 className="mb-0">Telefono</h6>
-                                    </div>
-                                    <div className="col-sm-9 text-secondary">
-                                        (239) 816-9029
-                                    </div>
-                                </div>
-                                <hr />
-                                <hr />
-                                <div className="row">
-                                    <div className="col-sm-3">
-                                        <h6 className="mb-0">Dirección</h6>
-                                    </div>
-                                    <div className="col-sm-9 text-secondary">
-                                        Bay Area, San Francisco, CA
-                                    </div>
-                                </div>
-                                <hr />
-                                {/* <div className="row">
-                                    <div className="col-sm-12">
-                                        <a className="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                                    </div>
-                                </div> */}
-                            </div>
-                        </div>
-
-                        <div className="row gutters-sm">
-                            <div className="col-sm-6 mb-3">
-                                <div className="card h-100">
-                                    <div className="card-body">
-                                        {/* Array de habilidades */}
-                                        <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2"></i>Habilidades</h6>
-                                        {/* 
-                                        <small>Web Design</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar"  style={{"width": "80%"}} ></div>
-                                        </div>
-                                        <small>Website Markup</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "72%"}} ></div>
-                                        </div>
-                                        <small>One Page</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar"  style={{"width": "89"}} ></div>
-                                        </div>
-                                        <small>Mobile Template</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "55%"}} ></div>
-                                        </div>
-                                        <small>Backend API</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "66%"}} ></div>
-                                        </div> */}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 mb-3">
-                                <div className="card h-100">
-                                    <div className="card-body">
-                                        {/* Array de experiencias */}
-                                        <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2"></i>Experiencias</h6>
-                                        {/* <h6 className="d-flex align-items-center mb-3"><i className="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                                        <small>Web Design</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <small>Website Markup</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "66%"}} aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <small>One Page</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <small>Mobile Template</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "55%"}} aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <small>Backend API</small>
-                                        <div className="progress mb-3" style={{"height": "5px"}}>
-                                            <div className="progress-bar bg-primary" role="progressbar" style={{"width": "66%"}} aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div> */}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <div className="container mx-auto">
+      <div className="mt-2 flex">
+        <div className="w-1/4">
+          <div className=" pr-4 ">
+            <div className="card mb-3">
+              <div className="card-body">
+                <div className="d-flex flex-column align-items-center text-center">
+                  <Image
+                    src="/AlcoLogo.png"
+                    alt="Admin"
+                    height={50}
+                    className="rounded-circle"
+                    width="100"
+                  />
+                  <h4>Datos</h4>
+                  <p className="text-secondary mb-0">Full Stack Developer</p>
+                  <p className="text-muted mb-0 font-size-sm">
+                    Bay Area, San Francisco, CA
+                  </p>
+                  <div className="row mt-1">
+                    <button className="btn btn-primary mb-2">
+                      Descargar CV
+                    </button>
+                    <button className="btn btn-success">Contactar</button>
+                  </div>
                 </div>
-
+              </div>
             </div>
+            <p>Sitios Web</p>
+            <div className="card mt-3">
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="cursor-pointer mr-1"
+                    />
+                    Website
+                  </h6>
+                  <span className="text-secondary">https://bootdey.com</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="cursor-pointer mr-1"
+                    />
+                    Github
+                  </h6>
+                  <span className="text-secondary">bootdey</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="cursor-pointer mr-1"
+                    />
+                    X
+                  </h6>
+                  <span className="text-secondary">@bootdey</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="cursor-pointer mr-1"
+                    />
+                    Instagram
+                  </h6>
+                  <span className="text-secondary">bootdey</span>
+                </li>
+                <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 className="mb-0">
+                    <FontAwesomeIcon
+                      icon={faCopy}
+                      className="cursor-pointer mr-1"
+                    />
+                    Facebook
+                  </h6>
+                  <span className="text-secondary">bootdey</span>
+                </li>
+              </ul>
+            </div>
+            <p className="mt-3">Sobre Mí</p>
+            <div className="card mt-3 mb-2">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
+              eveniet doloribus facere magnam, tempora dignissimos dolores
+              labore quasi, eum nam assumenda! Quibusdam architecto nam, quas
+              laborum atque fugit ab consequatur.
+            </div>
+            <p className="mt-3">
+              <FontAwesomeIcon icon={faFlag} className="mr-1" />
+              Se unió el 24/06/2024
+            </p>
+          </div>
         </div>
-    )
+        <div className="flex-1 p-2">
+          <div className="card mb-3">
+            <div className="card-body">
+              {/* Experiencias */}
+              <div className="container mx-auto mt-5 p-4">
+                <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
+                  <h2 className="text-xl font-semibold">
+                    Experiencias Laborales
+                  </h2>
+                </div>
+                {/* {candidatoData?.candidatoData?.experiencias?.map((item: any, key: number) => (
+          <div key={key} className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                  {item.nombreEmpresa}
+                </label>
+                <label className="text-black text-xl ">
+                  {item.duracion}
+                </label>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  {item.descripcion}
+                </p>
+              </div>
+            </div>
+          </div>
+
+        ))} */}
+              </div>
+
+              {/* Formaciones academicas */}
+              <div className="container mx-auto mt-5 p-4">
+                <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
+                  <h2 className="text-xl font-semibold">Educación</h2>
+                </div>
+                {/* {candidatoData?.candidatoData?.formacionesAcademicas.map((item: any, key: number) => (
+          <div key={key} className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className="text-blue-600 text-2xl">
+                 {item.titulo}
+                </label>
+                <label className="text-black text-xl">
+                  {item.institucion}
+                </label>
+                <p className="text-gray-900">{item.duracion}</p>
+                <p className="text-gray-900"></p>
+                <p className="text-gray-900">
+                  {item.tipoFormacion}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))} */}
+              </div>
+
+              {/* Habilidades */}
+              <div className="container mx-auto mt-5 p-4">
+                <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
+                  <h2 className="text-xl font-semibold">Habilidades</h2>
+                </div>
+                <div className="flex flex-col md:flex-row md:space-x-4">
+                  <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+                    Gerente Creativo
+                  </div>
+                  <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+                    Diseñador Grafico
+                  </div>
+                  <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+                    Suite Adobe
+                  </div>
+                  <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+                    Figma
+                  </div>
+                </div>
+                {/* {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+            key={item._id}
+          >
+            <div>
+              <label className="text-gray-700">Empresa</label>
+              <p className="text-gray-900">{item.nombreHabilidad}</p>
+            </div>
+            <div className="text-right">
+              <button
+                className="text-blue-500"
+                onClick={(e) =>
+                  handleModal(
+                    e,
+                    "Habilidades editar",
+                    item,
+                    candidatoData._id
+                  )
+                }
+              >
+                <FontAwesomeIcon icon={faPencil} />
+              </button>
+              <button onClick={deleteItem} className=" ml-5 text-red-500">
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            </div>
+          </div>
+        ))} */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
