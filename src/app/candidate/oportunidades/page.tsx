@@ -1,0 +1,164 @@
+"use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faEllipsis,
+  faEllipsisV,
+  faPencil,
+  faPlus,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+import DataModal from "@/app/components/modal/DataModal";
+import "@/app/candidate/edit/css/style.css";
+
+export default function UserCandidate() {
+  // Modal controls
+  const [show, setShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalData, setModalData] = useState({});
+  const handleClose = () => setShow(false);
+
+  // State data load
+  const [candidatoData, setCandidatoData]: any = useState(null);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const handleModal = (
+    e: any,
+    title: string,
+    data: any,
+    id: string,
+    dataType: string
+  ) => {
+    e.preventDefault();
+    console.log(data);
+    data.dataType = dataType;
+    setModalTitle(title);
+    setModalData({ ...data, id });
+    setShow(true);
+  };
+
+  const getUserDetails = async () => {
+    const res = await axios.post("/api/candidate/me", {
+      idPersona: localStorage.getItem("idPersona"),
+      idUsuario: localStorage.getItem("idUsuario"),
+    });
+
+    if (res.status === 200 && res.data.success) {
+      setCandidatoData({
+        userData: {
+          ...res.data.dataPersona,
+          emailUsuario: res.data.emailUsuario,
+        },
+        candidatoData: res.data.dataCandidato,
+      });
+      console.log(res.data);
+    }
+  };
+
+  useEffect(() => {
+    if (!candidatoData) {
+      (async () => {
+        try {
+          await getUserDetails();
+          console.log(candidatoData);
+        } catch (err) {
+          console.log("Error al cargar los datos del usuario", err);
+        }
+      })();
+    }
+  }, [candidatoData]);
+
+  function deleteItem(event: any): void {
+    throw new Error("Function not implemented.");
+  }
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="container mx-auto mt-5 p-4">
+        <div className="bg-white shadow-md rounded-lg p-6 relative">
+          <div className="flex flex-col md:flex-row items-center md:items-start">
+            <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
+              <h2 className="text-2xl text-blue-600 font-bold">
+                Analista contable administrativo
+                <span className="badge bg-success rounded-full ml-4">
+                  <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+                </span>
+              </h2>
+              <p className="text-xl text-gray-600">Inversiones Avícolas C. A</p>
+              <div className="flex flex-col md:flex-row mt-2 text-gray-500">
+                <div className="flex flex-row mb-2 md:mb-0">
+                  <p>Araure, Portuguesa</p>
+                </div>
+              </div>
+              <div className="flex flex-row text-gray-600 mt-2">
+                <p>500,00 $ (Mensual)</p>
+              </div>
+              <div className="flex flex-row text-gray-600 mt-2">
+                <p>Publicado hace 4 días</p>
+              </div>
+            </div>
+            <Image
+              src="/Kiri.png"
+              alt="Admin"
+              className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
+              width={800}
+              height={800}
+            />
+            <button className="btn " onClick={handleButtonClick}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </button>
+          </div>
+          {isVisible && (
+            <div>
+              <hr />
+              <p className="text-xl text-blue-600">
+                <strong>Descripción</strong>
+              </p>
+              <div className="ml-2">
+                <li>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                  amet aspernatur facilis distinctio accusamus? Aut, eum! Ullam
+                  sint ipsum ducimus exercitationem porro, necessitatibus
+                  commodi adipisci. Beatae nobis quam quas rerum.
+                </li>
+                <li>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                  amet aspernatur facilis distinctio accusamus? Aut, eum! Ullam
+                  sint ipsum ducimus exercitationem porro, necessitatibus
+                  commodi adipisci. Beatae nobis quam quas rerum.
+                </li>
+                <li>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                  amet aspernatur facilis distinctio accusamus? Aut, eum! Ullam
+                  sint ipsum ducimus exercitationem porro, necessitatibus
+                  commodi adipisci. Beatae nobis quam quas rerum.
+                </li>
+                <li>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
+                  amet aspernatur facilis distinctio accusamus? Aut, eum! Ullam
+                  sint ipsum ducimus exercitationem porro, necessitatibus
+                  commodi adipisci. Beatae nobis quam quas rerum.
+                </li>
+              </div>
+              <p className="text-xl mt-5 text-blue-600">
+                <strong>Inversiones Avícolas C. A</strong>
+              </p>
+              <div className="ml-2">
+                <li>Educación mínima: Educación Técnico/Profesional</li>
+                <li>3 años de experiencia</li>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

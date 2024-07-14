@@ -5,6 +5,7 @@ import CabeceraCandidato from "../components/cabeceras/cabeceraCandidato";
 import Footer from "../components/Footer/footer";
 import Sidebar from "../components/Sidebar/SidebarCandidate";
 import { useRouter } from "next/router";
+import Contact from "../components/Contact/Contact";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-0'}`}>
         {children}
       </main>
+      <Contact/>
       <Footer />
     </>
   );
