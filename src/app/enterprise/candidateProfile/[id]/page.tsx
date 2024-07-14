@@ -43,9 +43,9 @@ export default function EnterpriseProfilePage({ params }: any) {
 
   return (
     <div className="container mx-auto">
-      <div className="mt-2 flex">
-        <div className="w-1/4">
-          <div className=" pr-4 ">
+      <div className="mt-2 flex flex-col md:flex-row">
+        <div className="w-full md:w-1/4">
+          <div className="pr-4  ">
             <div className="card mb-3">
               <div className="card-body">
                 <div className="d-flex flex-column align-items-center text-center">
@@ -138,7 +138,7 @@ export default function EnterpriseProfilePage({ params }: any) {
             </p>
           </div>
         </div>
-        <div className="flex-1 p-2">
+        <div className="w-full md:flex-1 p-2">
           <div className="card mb-3">
             <div className="card-body">
               {/* Experiencias */}

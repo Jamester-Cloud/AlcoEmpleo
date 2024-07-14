@@ -140,9 +140,6 @@ export default function CandidateSearch() {
 
   return (
     <section className="w-full">
-      <div className="w-full">
-        <CabeceraEmpresa />
-      </div>
       <div className="relative h-96 sm:h-80 md:h-96 lg:h-128 xl:h-144 w-full">
         <Image
           src="/slider/slider3.jpg"
