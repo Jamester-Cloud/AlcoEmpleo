@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBriefcase,
   faCheckCircle,
   faEllipsis,
   faEllipsisV,
+  faMapMarkerAlt,
   faPencil,
   faPlus,
   faTrashAlt,
@@ -105,7 +107,7 @@ export default function UserCandidate() {
     e.preventDefault();
     let filter = {
       cargo: selectedSpecialty || "",
-      location: selectedLocation?.value || ""
+      location: selectedLocation?.value || "",
     };
     console.log(filter);
   };
@@ -115,44 +117,69 @@ export default function UserCandidate() {
   }
 
   return (
-    <div className="container mx-auto p-4 items-center justify-center min-h-screen">
-      <div className="bg-slate-200 py-1 px-3 items-center w-1/3 md:w-full xl:w-1/2 text-center rounded-full text-black ">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-slate-300 p-2 rounded-full text-white w-full max-w-3xl">
         <form onSubmit={(e) => handleSubmitFilter(e)} method="post">
-          <div className="flex flex-row items-center">
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4  ">
-              <div className="flex items-center">
-                <Select
-                  options={specialty}
-                  value={selectedSpecialty}
-                  onChange={handleSpecialtiesChange}
-                  placeholder="Cargo"
-                  isClearable={true}
-                  className="w-full"
-                  name="estado"
-                  menuPortalTarget={document?.body}
-                  styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                  }}
-                />
-              </div>
-              <div className="flex items-center">
-                <Select
-                  options={regions}
-                  value={selectedLocation}
-                  onChange={handleLocationChange}
-                  placeholder="Ubicación"
-                  isClearable={true}
-                  className="w-full"
-                  name="estado"
-                  menuPortalTarget={document?.body}
-                  styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                  }}
-                />
-              </div>
+          <div className="flex flex-col md:flex-row items-center">
+            <div
+              title="cargo"
+              className="w-full md:w-auto md:flex-1 mb-2 md:mb-0 md:mr-2"
+            >
+              <Select
+                options={specialty}
+                value={selectedSpecialty}
+                onChange={handleSpecialtiesChange}
+                placeholder=""
+                isClearable={true}
+                className="w-72 md:w-auto pl-12"
+                name="estado"
+                styles={{
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  control: (base) => ({ ...base, minWidth: "150px" }),
+                  input: (base) => ({ ...base, paddingLeft: "2.5rem" }),
+                }}
+                components={{
+                  DropdownIndicator: () => (
+                    <FontAwesomeIcon
+                      icon={faBriefcase}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    />
+                  ),
+                }}
+              />
             </div>
-            <div className="mx-2 justify-center">
-              <button type="submit" className="btn btn-primary">
+            <div
+              title="Ubicación"
+              className="w-full md:w-auto md:flex-1 mb-2 md:mb-0 md:mr-2"
+            >
+              <Select
+                options={regions}
+                value={selectedLocation}
+                onChange={handleLocationChange}
+                placeholder=""
+                isClearable={true}
+                className="w-72 md:w-auto pl-12"
+                name="estado"
+                styles={{
+                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                  control: (base) => ({ ...base, minWidth: "150px" }),
+                  input: (base) => ({ ...base, paddingLeft: "2.5rem" }),
+                }}
+                components={{
+                  DropdownIndicator: () => (
+                    <FontAwesomeIcon
+                      icon={faMapMarkerAlt}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    />
+                  ),
+                }}
+              />
+            </div>
+            <div className=" w-full md:w-auto pl-12">
+              <button
+                type="submit"
+                className="w-1/2  md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+              >
                 Buscar
               </button>
             </div>
@@ -231,6 +258,14 @@ export default function UserCandidate() {
               <div className="ml-2">
                 <li>Educación mínima: Educación Técnico/Profesional</li>
                 <li>3 años de experiencia</li>
+              </div>
+              <div className="pt-10 w-full md:w-full items-center">
+                <button
+                  type="submit"
+                  className="w-1/2  md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                  Postularme
+                </button>
               </div>
             </div>
           )}

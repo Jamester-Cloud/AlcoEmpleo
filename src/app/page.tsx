@@ -240,46 +240,56 @@ export default function Home() {
           demanda laboral
         </p>
       </div>
-      <div className="relative min-h-screen bg-cover bg-center">
-        <div className="absolute inset-0 bg-blue-950 flex flex-col justify-center items-center text-white z-10">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-6 lg:gap-12 xl:gap-16">
-              <div className="text-center flex flex-row items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
-                  <p className="my-2 text-gray-800 text-6xl">1</p>
-                </div>
-                <div>
-                <h2 className=" text-base md:text-lg font-bold">
-                    Te hace visible ante un mundo de oportunidades laborales.
-                  </h2>
-                </div>
-              </div>
-              <div className="text-center flex flex-row items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
-                  <p className="my-2 text-gray-800 text-6xl">2</p>
-                </div>
-                <div>
-                <h2 className=" text-base md:text-lg font-bold">
-                    Puedes crecer junto a nosotros, aumentando las posibilidades
-                    de conseguir la mejor oferta laboral.
-                  </h2>
-                </div>
-              </div>
-              <div className="text-center flex flex-row items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4">
-                  <p className="my-2 text-gray-800 text-6xl">3</p>
-                </div>
-                <div>
-                <h2 className=" text-base md:text-lg font-bold">
-                    Aprueba nuestros test y cetifícate como trabajador
-                    recomendado, obtén las mejores oportunidades de empleo.
-                  </h2>
-                </div>
-              </div>
-            </div>
+<div className="relative min-h-screen bg-cover bg-center">
+  <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
+    <div className="container mx-auto px-4">
+      <div className="grid grid-cols-1 gap-6 md:gap-12 xl:gap-16">
+        <div className="text-center flex items-start">
+          <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
+            <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
+              1
+            </p>
+          </div>
+          <div>
+            <h2 className="text-base mt-4 md:text-lg font-bold">
+              Te hace visible ante un mundo de oportunidades laborales.
+            </h2>
+          </div>
+        </div>
+        <div className="text-center flex items-start">
+          <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
+            <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
+              2
+            </p>
+          </div>
+          <div>
+            <h2 className="text-base mt-4 md:text-lg font-bold">
+              Puedes crecer junto a nosotros, aumentando las posibilidades
+              de conseguir la mejor oferta laboral.
+            </h2>
+          </div>
+        </div>
+        <div className="text-center flex items-start">
+          <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
+            <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
+              3
+            </p>
+          </div>
+          <div>
+            <h2 className="text-base mt-4 md:text-lg font-bold">
+              Aprueba nuestros test y certifícate como trabajador
+              recomendado, obtén las mejores oportunidades de empleo.
+            </h2>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div className="absolute inset-0 bg-blue-950" style={{ clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)' }}></div>
+  <div className="absolute right-0 top-0 bottom-0 w-50 bg-cover bg-right" style={{ backgroundImage: "url('/chicaLentes.png')" }}></div>
+</div>
+
+
 
       <Container className="py-20">
         <Row className="justify-content-center">
