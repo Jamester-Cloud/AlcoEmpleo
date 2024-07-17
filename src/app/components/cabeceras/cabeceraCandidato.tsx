@@ -104,13 +104,6 @@ export default function CabeceraCandidato({
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               onClick={handleOptionClick}
             >
-              Subcripción
-            </a>
-            <a
-              href="#"
-              className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
-              onClick={handleOptionClick}
-            >
               Empleos aplicados
             </a>
             <Link
