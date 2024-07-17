@@ -24,7 +24,6 @@ export default function UserCandidate() {
 
   const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
-    console.log(data)
     data.dataType = dataType;
     setModalTitle(title);
     setModalData({ ...data, id });
@@ -62,9 +61,24 @@ export default function UserCandidate() {
     }
   }, [candidatoData]);
 
-  function deleteItem(event: any): void {
-    throw new Error("Function not implemented.");
+
+  //funcion para borrar items de idiomas, experiencias(por id), habilidades, formaciones academicas(Por id)
+  const deleteItem = async (type: string) => {
+    switch (type) {
+      case 'habilidad':
+        candidatoData.candidatoData.habilidad?.pop();
+
+        break;
+
+      case 'idioma':
+
+        break;
+      //si no todo es un id unico para eliminar
+      default:
+        break;
+    }
   }
+
 
   return (
     <div className="container mx-auto p-4">
@@ -170,7 +184,7 @@ export default function UserCandidate() {
             <div className="row">
               <h6>Idiomas</h6>
               <button onClick={(e) => handleModal(e, "Agregar idioma", {}, candidatoData._id, "idiomas")} className="text-green-500">
-                Agregar
+                <FontAwesomeIcon icon={faPlus} />
               </button>
               <div className="flex flex-col md:flex-row md:space-x-4">
                 {candidatoData?.candidatoData?.idioma?.map((item: any) => (
@@ -199,7 +213,6 @@ export default function UserCandidate() {
           </div>
         </div>
         {candidatoData?.candidatoData?.experiencias?.map((item: any, key: number) => (
-
           <div key={key} className="bg-gray-200 shadow-md rounded-lg p-6 mb-8 pb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col">
@@ -230,7 +243,7 @@ export default function UserCandidate() {
               >
                 <FontAwesomeIcon icon={faPencil} />
               </button>
-              <button onClick={deleteItem} className=" ml-5 text-red-500">
+              <button onClick={()=> deleteItem(item._id)} className=" ml-5 text-red-500">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
@@ -258,7 +271,7 @@ export default function UserCandidate() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col">
                 <label className="text-blue-600 text-2xl">
-                 {item.titulo}
+                  {item.titulo}
                 </label>
                 <label className="text-black text-xl">
                   {item.institucion}
@@ -285,7 +298,7 @@ export default function UserCandidate() {
               >
                 <FontAwesomeIcon icon={faPencil} />
               </button>
-              <button onClick={deleteItem} className=" ml-5 text-red-500">
+              <button onClick={()=> deleteItem(item._id)} className=" ml-5 text-red-500">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
@@ -298,19 +311,36 @@ export default function UserCandidate() {
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Habilidades</h2>
           <div className="flex space-x-2">
-            <button className="text-blue-500">
+            <button onClick={(e) =>
+              handleModal(
+                e,
+                "Agregar habilidad",
+                {},
+                candidatoData._id,
+                "newSkill"
+              )
+            } className="text-blue-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
-            <button onClick={deleteItem} className="text-red-500">
+            <button onClick={() => deleteItem("habilidad")} className="text-red-500">
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:space-x-4">
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
-              Gerente Creativo
-            </div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+          {/* Aca va el bucle */}
+          {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => {
+            console.log(item)
+            return (
+              <div key={key} className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+                {item.nombreHabilidad}
+              </div>
+            )
+          })}
+          {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
+            Gerente Creativo
+          </div> */}
+          {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
               Diseñador Grafico
             </div>
           <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
@@ -318,7 +348,7 @@ export default function UserCandidate() {
             </div>
           <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
               Figma
-            </div>
+            </div> */}
         </div>
         {/* {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => (
           <div

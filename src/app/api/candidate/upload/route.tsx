@@ -133,22 +133,33 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
                 break;
             case 'editAcademic':
-                console.log(formData);
-
                 filter = { idUsuario: formData.idUsuario, "formacionesAcademicas._id": formData.idAcademic }
+
                 update = {
                     $set: {
-                        "formacionesAcademicas.$.titulo": formData.titulo,
-                        "formacionesAcademicas.$.institucion": formData.institucion,
-                        "formacionesAcademicas.$.duracion": formData.duracion,
-                        "formacionesAcademicas.$.tipoFormacion": formData.tipoFormacion,
+                        "formacionesAcademicas.$.titulo": formData.formacionesAcademicas[0].titulo,
+                        "formacionesAcademicas.$.institucion": formData.formacionesAcademicas[0].institucion,
+                        "formacionesAcademicas.$.duracion": formData.formacionesAcademicas[0].duracion,
+                        "formacionesAcademicas.$.tipoFormacion": formData.formacionesAcademicas[0].tipoFormacion,
                     }
                 }
 
                 await Candidato.updateOne(filter, update);
 
                 break;
+            case 'newSkill':
+                console.log(formData);
+                data = formData.habilidad
+                
+                filter = { idUsuario: formData.idUsuario }
+                update = {
+                    $push: {
+                        habilidad: data
+                    }
+                }
 
+                await Candidato.updateOne(filter, update)
+                break;
         }
 
         const response = NextResponse.json({

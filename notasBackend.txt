@@ -33,7 +33,13 @@ mudar a overclock
 panel administrador para cambiar cosas del homepage y gestionar las empresas inscritas
 
 cuando se trata de CVS o actas constitutivas, son archivos que tienen que ser descargables para llevar controles
+busquedas dinamicas ajustadas a solo estado o municipio
+vistas para empresa, permisos de Subscripcion para empresas para que se pueda publicar
 
+Lunes:
+Terminar carga de datos en su totalidad con notificaciones y demas para candidatos
+Api de Subscripcion para empresa(proposito general).
+Panel de administrador (tentaivo)
 
 //Errores:
 No actualiza formaciones academicas en el endpoint

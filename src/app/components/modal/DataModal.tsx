@@ -53,7 +53,7 @@ type FormValues = {
     telefono: string,
     fechaNacimiento: Date,
     idExp: string,
-    idAcademic:string
+    idAcademic: string
     idUsuario: string,
     idPersona: string,
     profilePicture: File
@@ -61,7 +61,7 @@ type FormValues = {
 
 export default function DataModal(props: any) {
     let { data, title, show, onHide } = props;
-    //console.log(data);
+    console.log(data?.dataType);
     const methods = useForm<FormValues>({
         defaultValues: {
             perfil: {
@@ -150,6 +150,9 @@ export default function DataModal(props: any) {
         control
     });
 
+    const { fields: fieldsSkills, append: appendSkills, remove: removeSkills } = useFieldArray({ name: "habilidad", control })
+
+ 
 
     const onSubmitWithFiles = async (data: any) => {
         try {
@@ -416,7 +419,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-12 mt-4">
                                 <label className="labels">Curriculum</label>
                                 <div className="d-flex flex-column align-items-center ">
-                                    <input type="file" accept=".jpg, .jpeg, .png, .pdf" placeholder="Actualizar CV" {...register("perfil.CV", {required:true})} className="form-group form-control" />
+                                    <input type="file" accept=".jpg, .jpeg, .png, .pdf" placeholder="Actualizar CV" {...register("perfil.CV", { required: true })} className="form-group form-control" />
                                 </div>
                             </div>
                         </div>
@@ -426,6 +429,7 @@ export default function DataModal(props: any) {
                     </form>
                 )
 
+                break
             case 'Nueva formación academica':
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
@@ -504,7 +508,7 @@ export default function DataModal(props: any) {
                         <div className="row">
                             <input type="text" {...register('dataType')} defaultValue={data.dataType} />
                             <input type="text" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
-                            <input type="hidden" {...register('idAcademic')} defaultValue={data._id}/>
+                            <input type="hidden" {...register('idAcademic')} defaultValue={data._id} />
                             <h6 className='mt-3'>Formacion Academica</h6>
                             <div className="col-md-6">
                                 <label className="labels">Titulo:</label>
@@ -556,7 +560,61 @@ export default function DataModal(props: any) {
             //         </form>
 
             //     )
+            case 'Agregar habilidad':
+                return (
+                    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                        <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
+                        <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
+                        <h6 className="mt-3">Logros:</h6>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                appendSkills({
+                                    nombreHabilidad: "",
+                                    nivelHabilidad: ""
+                                })
+                            }
+                            className='btn btn-success'
+                        >
+                            Agregar habilidad
+                        </button>
+                        <div >
+                            {fieldsSkills.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
 
+                                            <div className="col-md-6 mb-3">
+                                                <label className="labels">Habilidad:</label>
+                                                <input type="text" className="form-control" {...register(`habilidad.${index}.nombreHabilidad` as const, {
+                                                    required: true
+                                                })} placeholder="Habilidad" />
+                                            </div>
+                                            <div className="col-md-6 mb-3">
+                                                <label className="labels">Nivel </label>
+                                                <input type="text" className="form-control" {...register(`habilidad.${index}.nivelHabilidad` as const, {
+                                                    required: true
+                                                })} placeholder="Nivel" />
+                                            </div>
+
+                                            <div className="col-md-6 mt-4">
+                                                <button type="button" onClick={() => removeSkills(index)}>
+                                                    Eliminar habilidad
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+
+                )
+                break
             case 'Nuevo Idioma':
                 return (<form className='form' onSubmit={handleSubmit(onSubmit)}>
                     <div className="row">
