@@ -23,6 +23,9 @@ const candidatoSchema = new mongoose.Schema({
             descripcion: {
                 type: String
             },
+            estatus:{
+                type:Boolean
+            }
         },
     ],
     habilidad: [

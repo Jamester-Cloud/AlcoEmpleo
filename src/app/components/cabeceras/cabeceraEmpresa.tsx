@@ -54,6 +54,9 @@ export default function CabeceraEmpresa() {
                     <Link href="/enterprise/jobOffer" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
                         Publicar Oferta
                     </Link>
+                    <Link href="/enterprise/subscription" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
+                        Ver Subscripcion
+                    </Link>
                     <a className="text-white text-decoration-none mt-2 transition-opacity duration-300 hover:opacity-50 cursor-pointer" onClick={logout}>
                         Salir
                     </a>
@@ -69,6 +72,9 @@ export default function CabeceraEmpresa() {
                     </Link>
                     <Link href="/enterprise/jobOffer" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
                         Publicar Oferta
+                    </Link>
+                    <Link href="/enterprise/subscription" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
+                        Ver Subscripcion
                     </Link>
                     <Link className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2" href="#">
                         Perfil
