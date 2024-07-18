@@ -9,7 +9,7 @@ export default function SubscriptionPage() {
 
     const { register, handleSubmit } = useForm();
     const [processor, setProcessor] = useState('');
-    const [paymentData, setPaymentData] = useState({ email: "admgrupoalco@gmail.com", monto: "5$", cedula: "12247978", telefono: "04145299886", banco: "Exterior" });
+    const [paymentData, setPaymentData] = useState({ email: "admgrupoalco@gmail.com", monto: "5$", cedula: "12247978", telefono: "+584145299886", banco: "Exterior" });
 
     const handleProcessor = (data: string) => {
         setProcessor(data)
