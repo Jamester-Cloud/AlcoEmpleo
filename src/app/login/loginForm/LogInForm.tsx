@@ -35,7 +35,7 @@ export default function LogInForm() {
             let rol = response.data.userRol
 
             if (rol == "Candidatos") {
-                router.push('/candidate')
+                router.push('/candidate/oportunidades')
             }
 
             if (rol == 'Empresas') {
