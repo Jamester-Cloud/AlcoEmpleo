@@ -17,12 +17,11 @@ export async function POST(request: NextRequest) {
         let data;
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
-
+        console.log(formData);
         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
-
         switch (dataType) {
             //funciona con redes
-            case 'Datos personales':
+            case 'datosPersonales':
 
                 const profilePicture = formData.get('profilePicture[]') as File
 

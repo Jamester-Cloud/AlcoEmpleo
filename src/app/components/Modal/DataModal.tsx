@@ -63,8 +63,6 @@ export default function DataModal(props: any) {
 
     let { data, title, show, onHide, candidatoData, setCandidatoData, setShow, modalType } = props;
 
-    console.log(data);
-
     const methods = useForm<FormValues>({
         defaultValues: {
             perfil: {
@@ -183,7 +181,7 @@ export default function DataModal(props: any) {
         try {
             data?.perfil?.CV ? data.perfil.CV = data.perfil.CV[0] : data.profilePicture = data.profilePicture[0]
             data.dataType = modalType
-            console.log(data.dataType)
+            console.log(data)
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
@@ -197,9 +195,8 @@ export default function DataModal(props: any) {
 
     const onSubmit = async (data: any) => {
         try {
-            
+
             data.dataType = modalType
-            console.log(data.dataType)
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'application/json' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
@@ -220,7 +217,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-6"><label className="labels">Empresa</label><input type="text" {...register("nombreEmpresa")} className="form-control" placeholder="Empresa" /></div>
                             <div className="col-md-6"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" /></div>
                             <div className="col-md-12"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' /></div>
-                            <input type="text"  value={modalType} />
+                            <input type="text" value={modalType} />
                             <input type="hidden" {...register("idExp")} defaultValue="new" />
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                         </div>
@@ -307,7 +304,6 @@ export default function DataModal(props: any) {
 
                 break
             case 'Datos personales':
-
                 return (
                     <form className='form' encType='multipart/form-data' method='post' onSubmit={handleSubmit(onSubmitWithFiles)}>
                         <div className="row" >
@@ -317,7 +313,6 @@ export default function DataModal(props: any) {
                             </div><br />
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
                                 className="form-control" defaultValue={data?.nombre} {...register("nombre", { required: true })} placeholder="Nombre" />
-                                <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
                                 <input type="hidden" {...register('idPersona')} defaultValue={data._id} />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
@@ -677,7 +672,7 @@ export default function DataModal(props: any) {
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
-                            
+
                             <h6 className='mt-3'>Nuevo enlace</h6>
                             <div className="row justify-content-left">
                                 <div className="col-md-6">
