@@ -9,6 +9,7 @@ import { fileValidator, fileSizeValidator } from "./fileValidator";
 export default async function uploadImage(formFile: File, pathType:string) {
     try {
         const file = formFile;
+        console.log("El archivo es:", file)
         let isValid = fileValidator(file.type)
         let validSize = fileSizeValidator(file.size)
         console.log("Tamaño de archivo es: ", file.size)
