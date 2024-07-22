@@ -19,13 +19,13 @@ export default async function uploadImage(formFile: File, pathType: string) {
             const arrayBuffer = await file.arrayBuffer();
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
-            await writeFile(`/.next/uploads/${pathType}/${filename}`, buffer);
+            await writeFile(`/var/task/.next/server/public/uploads/${pathType}/${filename}`, buffer);
 
             //retornamos informacion del archivo
             let img = {
                 contentType: file.type,
                 size: file.size,
-                path: `./public/uploads/${pathType}/${filename}`
+                path: `/var/task/.next/server/public/uploads/${pathType}/${filename}`
             }
 
             console.log("Archivo subido exitosamente")
