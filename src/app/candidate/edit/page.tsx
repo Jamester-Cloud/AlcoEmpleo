@@ -21,10 +21,10 @@ export default function UserCandidate() {
 
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
-
+  const [modalType, setModalDataType] = useState("");
   const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
-    data.dataType = dataType;
+    setModalDataType(dataType)
     setModalTitle(title);
     setModalData({ ...data, id });
     setShow(true);
@@ -333,15 +333,16 @@ export default function UserCandidate() {
             <div className="text-right">
               <button
                 className="text-blue-500"
-                onClick={(e) =>
-                  handleModal(
-                    e,
-                    "Editar formación academica",
-                    item,
-                    candidatoData._id,
-                    "editAcademic"
-                  )
-                }
+                onClick={(e) => {
+                  item.key = key,
+                    handleModal(
+                      e,
+                      "Editar formación academica",
+                      item,
+                      candidatoData._id,
+                      "editAcademic"
+                    )
+                }}
               >
                 <FontAwesomeIcon icon={faPencil} />
               </button>
@@ -390,11 +391,13 @@ export default function UserCandidate() {
 
       <DataModal
         show={show}
+        setShow={setShow}
         candidatoData={candidatoData}
         setCandidatoData={setCandidatoData}
         onHide={handleClose}
         data={modalData}
-        title={modalTitle}  
+        modalType={modalType}
+        title={modalTitle}
       />
     </div>
   );

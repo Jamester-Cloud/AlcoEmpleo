@@ -60,9 +60,11 @@ type FormValues = {
 };
 
 export default function DataModal(props: any) {
-    console.log(props)
-    let { data, title, show, onHide, candidatoData, setCandidatoData } = props;
-    console.log(candidatoData);
+
+    let { data, title, show, onHide, candidatoData, setCandidatoData, setShow, modalType } = props;
+
+    console.log(data);
+
     const methods = useForm<FormValues>({
         defaultValues: {
             perfil: {
@@ -124,7 +126,6 @@ export default function DataModal(props: any) {
     useEffect(() => {
         let defaultValues = {
             idiomas: [],
-
         }
 
         defaultValues.idiomas = data.idiomas?.map((item: any) => { return { idioma: item.idioma, nivel: item.nivel } })
@@ -181,11 +182,13 @@ export default function DataModal(props: any) {
     const onSubmitWithFiles = async (data: any) => {
         try {
             data?.perfil?.CV ? data.perfil.CV = data.perfil.CV[0] : data.profilePicture = data.profilePicture[0]
-            console.log(data)
+            data.dataType = modalType
+            console.log(data.dataType)
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
-
+                await getUserDetails()
+                setShow(false)
             }
         } catch (error) {
             console.log(error);
@@ -194,10 +197,14 @@ export default function DataModal(props: any) {
 
     const onSubmit = async (data: any) => {
         try {
+            
+            data.dataType = modalType
+            console.log(data.dataType)
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'application/json' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
                 await getUserDetails()
+                setShow(false)
             }
         } catch (error) {
             console.log(error);
@@ -213,7 +220,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-6"><label className="labels">Empresa</label><input type="text" {...register("nombreEmpresa")} className="form-control" placeholder="Empresa" /></div>
                             <div className="col-md-6"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" /></div>
                             <div className="col-md-12"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' /></div>
-                            <input type="text" {...register("dataType")} defaultValue={data.dataType} />
+                            <input type="text"  value={modalType} />
                             <input type="hidden" {...register("idExp")} defaultValue="new" />
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                         </div>
@@ -337,10 +344,9 @@ export default function DataModal(props: any) {
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
-                            <div className="col-md-6"><label className="labels">Empresa</label><input type="text" {...register("nombreEmpresa")} className="form-control" placeholder="Empresa" defaultValue={data.nombreEmpresa} /></div>
-                            <div className="col-md-6"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" defaultValue={data.duracion} /></div>
-                            <div className="col-md-12"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' defaultValue={data.descripcion} /></div>
-                            <input type="text" {...register("dataType")} defaultValue={data.dataType} />
+                            <div className="col-md-6"><label className="labels">Empresa</label><input type="text" {...register("nombreEmpresa")} className="form-control" placeholder="Empresa" value={data.nombreEmpresa} /></div>
+                            <div className="col-md-6"><label className="labels">Duracíon</label><input type="text" className="form-control" {...register("duracion")} placeholder="Duración" value={data.duracion} /></div>
+                            <div className="col-md-12"><label className="labels">Descripcíon</label><textarea className="form-control" {...register("descripcion")} placeholder='Descripción' value={data.descripcion} /></div>
                             <input type="hidden" {...register("idExp")} defaultValue={data._id} />
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                         </div>
@@ -425,7 +431,6 @@ export default function DataModal(props: any) {
                     </form>
                 )
                 break
-            //Perfil
             case 'Perfil del candidato':
                 return (
                     <form onSubmit={handleSubmit(onSubmitWithFiles)} className='form '>
@@ -437,7 +442,6 @@ export default function DataModal(props: any) {
                             </div>
                             <div className="col-md-6"><label className="labels">Salario</label><input type="text"
                                 className="form-control" {...register("perfil.salarioDeseado")} defaultValue={data?.salarioDeseado} placeholder="Salario" />
-                                <input type="text" defaultValue={data.dataType} {...register("dataType")} />
                                 <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                             </div>
                             <div className="col-md-12 mt-4">
@@ -453,14 +457,11 @@ export default function DataModal(props: any) {
                     </form>
                 )
 
-                break
             case 'Nueva formación academica':
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
-                            <input type="text" {...register('dataType')} defaultValue={data.dataType} />
-                            <input type="text" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
-                            <h6 className='mt-3'>Idiomas</h6>
+                            <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                             <div className="row justify-content-left">
                                 <div className="col-md-6">
                                     <button
@@ -529,31 +530,30 @@ export default function DataModal(props: any) {
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
-                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                             <input type="hidden" {...register('idAcademic')} defaultValue={data._id} />
                             <h6 className='mt-3'>Formacion Academica</h6>
                             <div className="col-md-6">
                                 <label className="labels">Titulo:</label>
-                                <input type="text" className="form-control" {...register(`formacionesAcademicas.0.titulo`, {
+                                <input type="text" className="form-control" {...register(`formacionesAcademicas.${data.key}.titulo`, {
                                     required: true
-                                })} placeholder="Titulo" defaultValue={data.titulo} />
+                                })} placeholder="Titulo" value={data.titulo} />
                             </div>
                             <div className="col-md-6 ">
                                 <label className="labels">Institución:</label>
-                                <input type="text" className="form-control" {...register(`formacionesAcademicas.0.institucion` as const, {
+                                <input type="text" className="form-control" {...register(`formacionesAcademicas.${data.key}.institucion` as const, {
                                     required: true
-                                })} placeholder="Institucion" defaultValue={data.institucion} />
+                                })} placeholder="Institucion" value={data.institucion} />
                             </div>
                             <div className="col-md-6">
                                 <label className="labels">Tipo de formación academica:</label>
-                                <input type="text" className="form-control" {...register(`formacionesAcademicas.0.tipoFormacion` as const, {
+                                <input type="text" className="form-control" {...register(`formacionesAcademicas.${data.key}.tipoFormacion` as const, {
                                     required: true
-                                })} placeholder="Tipo de formación" defaultValue={data.tipoFormacion} />
+                                })} placeholder="Tipo de formación" value={data.tipoFormacion} />
                             </div>
                             <div className="col-md-6 ">
                                 <label className="labels">Duración:</label>
-                                <input type="text" className="form-control" defaultValue={data.duracion} {...register(`formacionesAcademicas.0.duracion` as const, {
+                                <input type="text" className="form-control" value={data.duracion} {...register(`formacionesAcademicas.${data.key}.duracion` as const, {
                                     required: true
                                 })} placeholder="Duración" />
                             </div>
@@ -564,11 +564,9 @@ export default function DataModal(props: any) {
                         </div>
                     </form>
                 )
-
             case 'Agregar habilidad':
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
-                        <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
                         <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
                         <h6 className="mt-3">Logros:</h6>
                         <button
@@ -625,7 +623,6 @@ export default function DataModal(props: any) {
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
-                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
                             <h6 className='mt-3'>Idiomas</h6>
                             <div className="row justify-content-left">
                                 <div className="col-md-6">
@@ -680,7 +677,7 @@ export default function DataModal(props: any) {
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                             <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
-                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
+                            
                             <h6 className='mt-3'>Nuevo enlace</h6>
                             <div className="row justify-content-left">
                                 <div className="col-md-6">
