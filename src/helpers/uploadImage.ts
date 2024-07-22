@@ -19,7 +19,7 @@ export default async function uploadImage(formFile: File, pathType: string) {
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
 
-            await writeFile(`./next/uploads/${pathType}/${filename}`, buffer);
+            await writeFile(`.next/uploads/${pathType}/${filename}`, buffer);
 
             //retornamos informacion del archivo
             let img = {
