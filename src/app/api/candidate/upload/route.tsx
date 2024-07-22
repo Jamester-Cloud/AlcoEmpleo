@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
 
 
                 break;
-            //idiomas funciona con perfil
             case 'perfil':
                 console.log(formData);
 
@@ -76,9 +75,6 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break;
-            case 'habilidades':
-
-                break;
             case 'exp':
 
                 filter = { idUsuario: formData.idUsuario, "experiencias._id": formData.idExp }
@@ -96,10 +92,11 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
-
-                break
             case 'idiomas':
+
+                console.log(formData.idiomas);
                 data = formData.idiomas
+                console.log(data, formData.idUsuario);
 
                 filter = { idUsuario: formData.idUsuario }
                 update = { $push: { idiomas: data } }
@@ -107,6 +104,17 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
+            case 'redes':
+                data = formData.redes
+                console.log(data, formData.idUsuario);
+
+                filter = { idUsuario: formData.idUsuario }
+                update = { $push: { redes: data } }
+
+                await Candidato.updateOne(filter, update);
+
+                break
+
             case 'newExp':
 
                 data = {
@@ -123,7 +131,6 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
-
             case 'newEduc':
                 data = formData.formacionesAcademicas
 
@@ -150,7 +157,7 @@ export async function POST(request: NextRequest) {
             case 'newSkill':
                 console.log(formData);
                 data = formData.habilidad
-                
+
                 filter = { idUsuario: formData.idUsuario }
                 update = {
                     $push: {

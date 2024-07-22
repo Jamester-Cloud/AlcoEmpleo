@@ -60,8 +60,9 @@ type FormValues = {
 };
 
 export default function DataModal(props: any) {
-    let { data, title, show, onHide } = props;
-    console.log(data?.dataType);
+    console.log(props)
+    let { data, title, show, onHide, candidatoData, setCandidatoData } = props;
+    console.log(candidatoData);
     const methods = useForm<FormValues>({
         defaultValues: {
             perfil: {
@@ -86,7 +87,27 @@ export default function DataModal(props: any) {
             fechaNacimiento: undefined,
         }
     });
-    //Carga de logros y referencias predeterminados del candidato
+
+
+    const getUserDetails = async () => {
+
+        const res = await axios.post("/api/candidate/me", {
+            idPersona: localStorage.getItem("idPersona"),
+            idUsuario: localStorage.getItem("idUsuario"),
+        });
+
+        if (res.status === 200 && res.data.success) {
+            setCandidatoData({
+                userData: {
+                    ...res.data.dataPersona,
+                    emailUsuario: res.data.emailUsuario,
+                },
+                candidatoData: res.data.dataCandidato,
+            });
+            console.log(res.data)
+        }
+    };
+
     useEffect(() => {
 
         let defaultValues = {
@@ -150,18 +171,21 @@ export default function DataModal(props: any) {
         control
     });
 
-    const { fields: fieldsSkills, append: appendSkills, remove: removeSkills } = useFieldArray({ name: "habilidad", control })
+    const { fields: fieldsRedes, append: appendRedes, remove: removeRedes } = useFieldArray({
+        name: "redes",
+        control
+    });
 
- 
+    const { fields: fieldsSkills, append: appendSkills, remove: removeSkills } = useFieldArray({ name: "habilidad", control })
 
     const onSubmitWithFiles = async (data: any) => {
         try {
-            //console.log(data.perfil.CV[0]);
             data?.perfil?.CV ? data.perfil.CV = data.perfil.CV[0] : data.profilePicture = data.profilePicture[0]
             console.log(data)
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
+
             }
         } catch (error) {
             console.log(error);
@@ -170,10 +194,10 @@ export default function DataModal(props: any) {
 
     const onSubmit = async (data: any) => {
         try {
-            console.log(data);
             const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'application/json' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
+                await getUserDetails()
             }
         } catch (error) {
             console.log(error);
@@ -502,12 +526,11 @@ export default function DataModal(props: any) {
                 )
                 break;
             case 'Editar formación academica':
-                console.log(data);
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
-                            <input type="text" {...register('dataType')} defaultValue={data.dataType} />
-                            <input type="text" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
+                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
+                            <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                             <input type="hidden" {...register('idAcademic')} defaultValue={data._id} />
                             <h6 className='mt-3'>Formacion Academica</h6>
                             <div className="col-md-6">
@@ -541,25 +564,7 @@ export default function DataModal(props: any) {
                         </div>
                     </form>
                 )
-                break;
-            // case 'Editar habilidades':
-            //     return (
-            //         <form className='form '>
-            //             <input type="hidden" name="dataType" defaultValue='habilidades' />
-            //             {data?.map((item: any, key: any) => (
-            //                 <div className="row" key={item._id}>
-            //                     <div className="col-md-6"><label className="labels">Habilidad</label><input type="text" className="form-control"
-            //                         defaultValue={item.nombreHabilidad} placeholder="experience" /></div> <br />
-            //                     <div className="col-md-6"><label className="labels">Nivel de habilidad</label><input type="text"
-            //                         className="form-control" defaultValue={item.nivelHabilidad} placeholder="experience" /></div> <br />
-            //                 </div>
-            //             ))}
-            //             <div className="row text-center mt-5">
-            //                 <button className="btn btn-primary btn-block">Guardar cambios</button>
-            //             </div>
-            //         </form>
 
-            //     )
             case 'Agregar habilidad':
                 return (
                     <form className='form' onSubmit={handleSubmit(onSubmit)}>
@@ -616,56 +621,108 @@ export default function DataModal(props: any) {
                 )
                 break
             case 'Nuevo Idioma':
-                return (<form className='form' onSubmit={handleSubmit(onSubmit)}>
-                    <div className="row">
-                        <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
-                        <h6 className='mt-3'>Idiomas</h6>
-                        <div className="row justify-content-left">
-                            <div className="col-md-6">
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        appendLanguages({
-                                            idioma: "", nivel: ""
-                                        })
-                                    }
-                                    className='btn btn-success'
-                                >
-                                    Agregar idioma
-                                </button>
-                            </div>
-                        </div>
-                        {fieldsLanguages.map((field, index) => {
-                            return (
-                                <div key={field.id}>
-                                    <section className={"row"} key={field.id}>
-                                        <div className="col-md-4">
-                                            <label className="labels">Idioma:</label>
-                                            <input type="text" className="form-control" {...register(`idiomas.${index}.idioma` as const, {
-                                                required: true
-                                            })} placeholder="Idioma" />
-                                        </div>
-                                        <div className="col-md-4 ">
-                                            <label className="labels">Nivel:</label>
-                                            <input type="text" className="form-control" {...register(`idiomas.${index}.nivel` as const, {
-                                                required: true
-                                            })} placeholder="Nivel" />
-                                        </div>
-                                        <div className="col-md-3">
-                                            <button type="button" className='btn mt-3' onClick={() => removeLanguages(index)}>
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </section>
+                return (
+                    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="row">
+                            <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
+                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
+                            <h6 className='mt-3'>Idiomas</h6>
+                            <div className="row justify-content-left">
+                                <div className="col-md-6">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            appendLanguages({
+                                                idioma: "", nivel: ""
+                                            })
+                                        }
+                                        className='btn btn-success'
+                                    >
+                                        Agregar idioma
+                                    </button>
                                 </div>
-                            );
-                        })}
-                    </div>
+                            </div>
+                            {fieldsLanguages.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+                                            <div className="col-md-4">
+                                                <label className="labels">Idioma:</label>
+                                                <input type="text" className="form-control" {...register(`idiomas.${index}.idioma` as const, {
+                                                    required: true
+                                                })} placeholder="Idioma" />
+                                            </div>
+                                            <div className="col-md-4 ">
+                                                <label className="labels">Nivel:</label>
+                                                <input type="text" className="form-control" {...register(`idiomas.${index}.nivel` as const, {
+                                                    required: true
+                                                })} placeholder="Nivel" />
+                                            </div>
+                                            <div className="col-md-3">
+                                                <button type="button" className='btn mt-3' onClick={() => removeLanguages(index)}>
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
 
-                    <div className="row text-center mt-5">
-                        <button className="btn btn-primary btn-block">Guardar cambios</button>
-                    </div>
-                </form>)
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>
+                )
+
+            case 'Nuevo enlace':
+                return (
+                    <form className='form' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="row">
+                            <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
+                            <input type="hidden" {...register('dataType')} defaultValue={data.dataType} />
+                            <h6 className='mt-3'>Nuevo enlace</h6>
+                            <div className="row justify-content-left">
+                                <div className="col-md-6">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            appendRedes({
+                                                enlace: ""
+                                            })
+                                        }
+                                        className='btn btn-success'
+                                    >
+                                        Agregar enlace
+                                    </button>
+                                </div>
+                            </div>
+                            {fieldsRedes.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+                                            <div className="col-md-6 text-center">
+                                                <label className="labels">Enlace:</label>
+                                                <input type="url" className="form-control" {...register(`redes.${index}.enlace` as const, {
+                                                    required: true
+                                                })} placeholder="Redes" />
+                                            </div>
+
+                                            <div className="col-md-3">
+                                                <button type="button" className='btn mt-3' onClick={() => removeRedes(index)}>
+                                                    Eliminar
+                                                </button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="row text-center mt-5">
+                            <button className="btn btn-primary btn-block">Guardar cambios</button>
+                        </div>
+                    </form>)
                 break;
         }
     }

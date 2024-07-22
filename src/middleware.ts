@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server'
 import { isAuthenticated } from '@/lib/jwtTokenControl'
 
 export async function middleware(request: NextRequest) {
-
     // request path
     const path = request.nextUrl.pathname
     //rutas publicas
@@ -11,7 +10,7 @@ export async function middleware(request: NextRequest) {
     //rutas para usuarios juridicos(empresas)
     const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium' || path === 'enterprise/jobOffer' || path === 'enterprise/subscription'
     //Rutas para candidatos
-    const isCandidatePath = path === '/candidate' || path === '/candidate/premium'
+    const isCandidatePath = path === '/candidate' || path === '/candidate/premium' || path === '/candidate/edit'
     ///
     //token unico basado en una cookie
     //desincriptando el token para determinar el rol de la persona en el sistema
@@ -22,7 +21,7 @@ export async function middleware(request: NextRequest) {
     if (isEnterprisePath && tokenData.payload?.rol === 'Candidatos' && token) return NextResponse.redirect(new URL('/candidate', request.nextUrl));
     //Espacio empresa
     if (isCandidatePath && tokenData.payload?.rol === 'Empresas' && token) return NextResponse.redirect(new URL('/enterprise', request.nextUrl));
-    //Veremos solo el landing porque, no podemos ver ni login ni registro
+    //Veremos solo el landing porque, no podemos ver ni login ni registro, si estamos en sesion
     if (isPublicPath && token && isEnterprisePath && isCandidatePath) return NextResponse.redirect(new URL('/', request.nextUrl));
     //if(isEnterprisePath && token) return NextResponse.redirect(new URL('candidate/', request.nextUrl))
     //cuando no estamos logueados

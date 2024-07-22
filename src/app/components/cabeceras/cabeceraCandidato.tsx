@@ -62,12 +62,7 @@ export default function CabeceraCandidato({
       </div>
       <div className="flex items-center ml-auto space-x-4">
         <nav className="hidden md:flex md:flex-column space-x-4">
-          <Link
-            href="/candidate/requests"
-            className="text-decoration-none text-white transition-opacity duration-300 hover:opacity-50 cursor-pointer"
-          >
-            Mis solicitudes
-          </Link>
+          
           <a
             className="text-decoration-none text-white transition-opacity duration-300 hover:opacity-50 cursor-pointer"
             onClick={logout}
@@ -106,13 +101,6 @@ export default function CabeceraCandidato({
             >
               Empleos aplicados
             </a>
-            <Link
-              href="/candidate/requests"
-              className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
-              onClick={handleOptionClick}
-            >
-              Mis solicitudes
-            </Link>
             <a
               className="btn btn-outline btn-warning text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
               onClick={() => { handleOptionClick(); logout(); }}

@@ -36,7 +36,8 @@ const userSchema = new mongoose.Schema({
     forgotPasswordTokenExpire:Date,
     verifyToken:String,
     verifyTokenExpiry:Date,
-    fechaIngreso:Date
+    fechaIngreso:Date,
+    estatus:Boolean
     
 })
 
