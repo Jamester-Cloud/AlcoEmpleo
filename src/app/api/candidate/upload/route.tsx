@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
             //funciona con redes
             case 'datosPersonales':
 
-                const profilePicture = formData.get('profilePicture[]') as File
+                const profilePicture = formData.get('profilePicture') as File
 
                 filter = { _id: formData.get('idPersona') }
 
