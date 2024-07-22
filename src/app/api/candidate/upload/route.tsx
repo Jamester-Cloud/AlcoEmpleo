@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
                 filter = { _id: formData.get('idPersona') }
 
-                file = await uploadImage(profilePicture)
+                file = await uploadImage(profilePicture,'candidates')
 
                 if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
 
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 
                 let cv = formData.get('perfil[CV]') as File
 
-                file = await uploadImage(cv)
+                file = await uploadImage(cv, 'candidates')
 
                 console.log(file);
 

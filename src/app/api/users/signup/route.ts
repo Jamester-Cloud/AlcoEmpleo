@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         
         if (formData.get('type') === 'Empresas' &&formData.get('logo[]') != 'noLogo') {
             logoPicture = formData.get('logo[]') as File
-            logoPicture = await uploadImage(logoPicture)
+            logoPicture = await uploadImage(logoPicture, 'enterprises')
         }
 
         let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type,estado

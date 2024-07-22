@@ -6,7 +6,7 @@ import { fileValidator, fileSizeValidator } from "./fileValidator";
  * @param File
  * upload functions for images or docs
  */
-export default async function uploadImage(formFile: File) {
+export default async function uploadImage(formFile: File, pathType:string) {
     try {
         const file = formFile;
         let isValid = fileValidator(file.type)
@@ -19,7 +19,7 @@ export default async function uploadImage(formFile: File) {
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
 
-            await writeFile(`./public/uploads/${filename}`, buffer);
+            await writeFile(`./public/uploads/${pathType}/${filename}`, buffer);
 
             //retornamos informacion del archivo
             let img = {
