@@ -15,7 +15,6 @@ export default async function uploadImage(formFile: File, pathType:string) {
         console.log("Tamaño de archivo es: ", file.size)
         console.log("extension de archivo es: ", isValid)
         if (isValid && validSize) {
-
             const arrayBuffer = await file.arrayBuffer();
             const buffer = new Uint8Array(arrayBuffer);
             const filename = Date.now() + file.name.replaceAll(" ", "_");
