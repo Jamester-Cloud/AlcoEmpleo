@@ -26,11 +26,13 @@ export default function AdminPage() {
 
     const fetchData = async () => {
         // const candidateData = await axios.post('/api/admin/candidate');
-        // const enterpriseData = await axios.post('/api/admin/enterprise');
+        const enterpriseData = await axios.post('/api/administrator/enterprise');
         const homeData = await axios.post('/api/administrator/homepage');
 
-        Promise.all([homeData]).then((values) => {
-            console.log(values)
+        Promise.all([homeData, enterpriseData]).then((values:any) => {
+            console.log(values[0].data)
+            console.log(values[1].data)
+            setSiteData(values[0].data);
         })
     }
 
@@ -105,11 +107,32 @@ export default function AdminPage() {
                 {/* Configuracion del sitio principal */}
                 <hr />
                 Configuracion del sitio
-                <div className="col-md-12">Direccion Fisica</div>
-                <div className="col-md-12">Politica de privacidad</div>
-                <div className="col-md-12">Texto Sliders</div>
-                <div className="col-md-12">Telefonos</div>
-                <div className="col-md-12">Texto Banners</div>
+                <div className="col-md-12">
+                    Direccion Fisica
+                    <form action="">
+                            <input type="text" id="" />
+                    </form>
+                </div>
+                <div className="col-md-12">Politica de privacidad
+                    <form action="">
+
+                    </form>
+                </div>
+                <div className="col-md-12">Texto Sliders
+                    <form action="">
+
+                    </form>
+                </div>
+                <div className="col-md-12">Telefonos
+                    <form action="">
+
+                    </form>
+                </div>
+                <div className="col-md-12">Texto Banners
+                    <form action="">
+
+                    </form>
+                </div>
 
 
             </div>
