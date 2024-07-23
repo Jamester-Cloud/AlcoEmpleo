@@ -30,6 +30,21 @@ const homepageSchema = new mongoose.Schema({
           type: String,
           required: [true, 'El texto no puede estar vacío']
         }
+      }],
+      anuncio:[{
+        subtitulo:{
+          type:String,
+          require: [true, "Debe de Poseer Un Subtitulo"]
+
+        },
+        texto: {
+          type: String,
+          required: [true, 'El texto no puede estar vacío']
+        }
+      }],
+      anuncio2:[{
+        type:String,
+        require:[true, "Debe de Posser Texto"]
       }]
 
 
