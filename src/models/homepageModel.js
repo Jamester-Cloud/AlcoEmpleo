@@ -1,41 +1,49 @@
 import mongoose from 'mongoose'
 
 const homepageSchema = new mongoose.Schema({
-    celular: [
-        {  numero: String}
-    ],
-    direccion: {
-        type: String,
+  celular: [
+    { numero: String }
+  ],
+  direccion: {
+    type: String,
+  },
+  politicaPrivacidad: {
+    type: String,
+    required: [true, "Por Favor Agregue la Politica y Privacidad"]
+  },
+  sliders: [{
+    titulo: {
+      type: String,
+      required: [true, 'El título no puede estar vacío']
     },
-    politicaPrivacidad:{
-        type:String,
-        required: [true, "Por Favor Agregue la Politica y Privacidad"]
+    texto: {
+      type: String,
+      required: [true, 'El texto no puede estar vacío']
+    }
+  }],
+  banner: [{
+    titulo: {
+      type: String,
+      required: [true, 'El título no puede estar vacío']
     },
-    sliders: [{
-        titulo: {
-          type: String,
-          required: [true, 'El título no puede estar vacío']
-        },
-        texto: {
-          type: String,
-          required: [true, 'El texto no puede estar vacío']
-        }
-      }],
-      banner: [{
-        titulo: {
-          type: String,
-          required: [true, 'El título no puede estar vacío']
-        },
-        texto: {
-          type: String,
-          required: [true, 'El texto no puede estar vacío']
-        }
-      }]
-
-
+    texto: {
+      type: String,
+      required: [true, 'El texto no puede estar vacío']
+    }
+  }],
+  secciones: [{
+    titulo: {
+      type: String,
+      required: [true, 'El título no puede estar vacío']
+    },
+    texto: {
+      type: String,
+      required: [true, 'El texto no puede estar vacío']
+    }
+  }]
 })
 
-const homepage = mongoose.models.homepageSchema || mongoose.model("homepage", homepageSchema)
+const Homepage = mongoose.models.homepage || mongoose.model("homepage", homepageSchema)
 
-export default homepage;
+export default Homepage;
 

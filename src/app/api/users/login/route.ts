@@ -12,17 +12,17 @@ export async function POST(request: NextRequest) {
 
         const reqBody = await request.json()
         const { email, password } = reqBody;
-        console.log(typeof(email));
+        console.log(typeof (email));
 
         //check if user exists
         const user = await User.findOne({ email })
-        
-        
+
+
         if (!user) {
             return NextResponse.json({ error: "User does not exist" }, { status: 400 })
         }
         console.log("user exists");
-
+        console.log(user.isAdmin);
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
 
@@ -30,14 +30,14 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
 
-        const rol = await Rol.findOne({ _id: user.idRol })
+        const rol = user.isAdmin ? 'admin' : await Rol.findOne({ _id: user.idRol })
         //create token data
         const tokenData = {
             id: user._id,
             username: user.username,
             email: user.email,
             idPersona: user.idPersona,
-            rol: rol.rol
+            rol: rol == 'admin' ? rol : rol.rol
         }
         //create token
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
@@ -45,9 +45,9 @@ export async function POST(request: NextRequest) {
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
-            idPersona:user.idPersona,
-            idUsuario:user._id,
-            userRol: rol.rol
+            idPersona: user.idPersona,
+            idUsuario: user._id,
+            userRol: rol == 'admin' ? rol : rol.rol
         })
 
         response.cookies.set("token", token, {

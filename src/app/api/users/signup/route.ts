@@ -14,17 +14,17 @@ connect()
 
 export async function POST(request: NextRequest) {
     try {
-        let logoPicture:any
+        let logoPicture: any
         const formData = await request.formData()
 
         console.log(formData);
-        
-        if (formData.get('type') === 'Empresas' &&formData.get('logo[]') != 'noLogo') {
+
+        if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
             logoPicture = formData.get('logo[]') as File
             logoPicture = await uploadImage(logoPicture, 'enterprises')
         }
 
-        let email, password:any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type,estado
+        let email, password: any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type, estado
 
         nombres = formData.get('nombres')
         apellidos = formData.get('apellidos')
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
         rif = formData.get('rif')
         razonSocial = formData.get('razonSocial')
         type = formData.get('type')
-        estado=formData.get('estado')
+        estado = formData.get('estado')
 
         let idRol: any;
         //Check if user already exists
@@ -78,24 +78,25 @@ export async function POST(request: NextRequest) {
 
         console.log("Usuario registrado")
 
-        const newEmpresa = new Empresa({ idUsuario: savedUser._id,  logo:{ path:logoPicture?.path, dataType: logoPicture?.dataType, size:logoPicture?.size }})
+        const newEmpresa = new Empresa({ idUsuario: savedUser._id, logo: { path: logoPicture?.path, dataType: logoPicture?.dataType, size: logoPicture?.size } })
         const newCandidato = new Candidato({
-             idUsuario: savedUser._id, 
-             perfil:{} ,
-             idRegion: estado
+            idUsuario: savedUser._id,
+            perfil: {},
+            idRegion: estado
 
-            })
+        })
 
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
 
-        if(type === 'Empresas') {
+        //todo Se carga el logo (se debe resolver el problema de almacenamiento de imagenes y archivos primero)
+        if (type === 'Empresas') {
 
             let update = {
-                logo:{ path:logoPicture?.path, dataType: logoPicture?.contentType, size:logoPicture?.size }
+                logo: { path: logoPicture?.path, dataType: logoPicture?.contentType, size: logoPicture?.size }
             }
 
-            await Empresa.updateOne({_id:newEmpresa._id}, update)
+            await Empresa.updateOne({ _id: newEmpresa._id }, update)
         }
 
         return NextResponse.json({ message: 'User created succesfully', success: true })

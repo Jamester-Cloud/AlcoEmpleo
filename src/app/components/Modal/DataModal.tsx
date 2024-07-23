@@ -187,6 +187,7 @@ export default function DataModal(props: any) {
                 console.log("edicion exitosa");
                 await getUserDetails()
                 setShow(false)
+                reset()
             }
         } catch (error) {
             console.log(error);
@@ -202,6 +203,8 @@ export default function DataModal(props: any) {
                 console.log("edicion exitosa");
                 await getUserDetails()
                 setShow(false)
+                reset()
+
             }
         } catch (error) {
             console.log(error);

@@ -95,13 +95,6 @@ export default function CabeceraCandidato({
               Ver Perfil
             </Link>
             <a
-              href="#"
-              className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
-              onClick={handleOptionClick}
-            >
-              Empleos aplicados
-            </a>
-            <a
               className="btn btn-outline btn-warning text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
               onClick={() => { handleOptionClick(); logout(); }}
             >

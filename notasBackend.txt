@@ -41,6 +41,20 @@ Terminar carga de datos en su totalidad con notificaciones y demas para candidat
 Api de Subscripcion para empresa(proposito general).
 Panel de administrador (tentaivo)
 
+
+
+Parte 1:
+ *Corregir carga de datos candidatos (agregar eliminacion para experiencias, por estatus) (agregar recarga de componente)
+ *Corregir busquedas dinamicas
+Parte 2:
+*Revisar y actualizar vistas de empresa/candidatos
+*Revisar fallas y corregir detalles faltantes (imagenes para ambos, empresa / candidato)
+*asignar tareas a los muchachos en base a esos detalles
+Investigar transacciones en mongoDB(*)
+
+//necesito agregar recargas de estado, notificaciones (listo, falta notificaciones, hacerlo despues de corregir la parte de busqueda de candidatos en empresa)
+
+
 //Errores:
 No actualiza formaciones academicas en el endpoint
 
