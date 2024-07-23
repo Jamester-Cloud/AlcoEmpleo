@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value || ''
     const tokenData: any = await isAuthenticated(request)
     //Espacio solo administrador
-    if (isEnterprisePath || isCandidatePath && token) return NextResponse.redirect(new URL('/', request.nextUrl));
+    if (isAdminPath && token && tokenData.payload?.rol != 'admin') return NextResponse.redirect(new URL('/', request.nextUrl));
     //Espacio solo candidatos
     if (isEnterprisePath && tokenData.payload?.rol === 'Candidatos' && token) return NextResponse.redirect(new URL('/candidate', request.nextUrl));
     //Espacio solo empresa
