@@ -33,17 +33,24 @@ export default function LogInForm() {
 
 
             let rol = response.data.userRol
-
-            if (rol == "Candidatos") {
-                router.push('/candidate/oportunidades')
+            console.log(rol)
+            switch (rol) {
+                case 'admin':
+                    console.log("Es Admin")
+                    router.push('/admin')
+                    break;
+                case 'Candidatos':
+                    router.push('/oportunidades')
+                    break;
+                case 'Empresas':
+                    router.push('/enterprise')
+                    break;
             }
 
-            if (rol == 'Empresas') {
-                router.push('/enterprise')
-            }
 
         } catch (error: any) {
             const errorMessage = error.response.data.error.toLowerCase();
+
             const toastConfig: ToastOptions<ToastPosition> = {
                 position: "top-right",
                 autoClose: 1500,
@@ -55,8 +62,6 @@ export default function LogInForm() {
                 theme: "light",
                 transition: Bounce as any,
             };
-
-            console.log(errorMessage);
 
             if (errorMessage === "invalid password") {
 

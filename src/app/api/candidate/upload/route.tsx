@@ -17,18 +17,17 @@ export async function POST(request: NextRequest) {
         let data;
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
-
+        console.log(formData);
         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
-
         switch (dataType) {
             //funciona con redes
-            case 'Datos personales':
+            case 'datosPersonales':
 
-                const profilePicture = formData.get('profilePicture[]') as File
+                const profilePicture = formData.get('profilePicture') as File
 
                 filter = { _id: formData.get('idPersona') }
 
-                file = await uploadImage(profilePicture)
+                file = await uploadImage(profilePicture,'candidates')
 
                 if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
 
@@ -50,13 +49,12 @@ export async function POST(request: NextRequest) {
 
 
                 break;
-            //idiomas funciona con perfil
             case 'perfil':
                 console.log(formData);
 
                 let cv = formData.get('perfil[CV]') as File
 
-                file = await uploadImage(cv)
+                file = await uploadImage(cv, 'candidates')
 
                 console.log(file);
 
@@ -76,9 +74,6 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break;
-            case 'habilidades':
-
-                break;
             case 'exp':
 
                 filter = { idUsuario: formData.idUsuario, "experiencias._id": formData.idExp }
@@ -96,10 +91,11 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
-
-                break
             case 'idiomas':
+
+                console.log(formData.idiomas);
                 data = formData.idiomas
+                console.log(data, formData.idUsuario);
 
                 filter = { idUsuario: formData.idUsuario }
                 update = { $push: { idiomas: data } }
@@ -107,6 +103,17 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
+            case 'redes':
+                data = formData.redes
+                console.log(data, formData.idUsuario);
+
+                filter = { idUsuario: formData.idUsuario }
+                update = { $push: { redes: data } }
+
+                await Candidato.updateOne(filter, update);
+
+                break
+
             case 'newExp':
 
                 data = {
@@ -123,7 +130,6 @@ export async function POST(request: NextRequest) {
                 await Candidato.updateOne(filter, update);
 
                 break
-
             case 'newEduc':
                 data = formData.formacionesAcademicas
 
@@ -150,7 +156,7 @@ export async function POST(request: NextRequest) {
             case 'newSkill':
                 console.log(formData);
                 data = formData.habilidad
-                
+
                 filter = { idUsuario: formData.idUsuario }
                 update = {
                     $push: {

@@ -9,7 +9,7 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import DataModal from "@/app/components/modal/DataModal";
+import DataModal from "@/app/components/Modal/DataModal";
 import "@/app/candidate/edit/css/style.css";
 
 export default function UserCandidate() {
@@ -21,16 +21,17 @@ export default function UserCandidate() {
 
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
-
+  const [modalType, setModalDataType] = useState("");
   const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
-    data.dataType = dataType;
+    setModalDataType(dataType)
     setModalTitle(title);
     setModalData({ ...data, id });
     setShow(true);
   };
 
   const getUserDetails = async () => {
+
     const res = await axios.post("/api/candidate/me", {
       idPersona: localStorage.getItem("idPersona"),
       idUsuario: localStorage.getItem("idUsuario"),
@@ -53,7 +54,6 @@ export default function UserCandidate() {
       (async () => {
         try {
           await getUserDetails();
-          console.log(candidatoData);
         } catch (err) {
           console.log("Error al cargar los datos del usuario", err);
         }
@@ -63,20 +63,38 @@ export default function UserCandidate() {
 
 
   //funcion para borrar items de idiomas, experiencias(por id), habilidades, formaciones academicas(Por id)
-  const deleteItem = async (type: string) => {
+  const popItem = async (type: string) => {
+    let petition
     switch (type) {
       case 'habilidad':
         candidatoData.candidatoData.habilidad?.pop();
-
+        petition = await axios.post('/api/candidate/upload/delete', { dataType: type, data: candidatoData.candidatoData.habilidad, idUsuario: localStorage.getItem('idUsuario') })
         break;
-
       case 'idioma':
-
+        candidatoData.candidatoData.idiomas?.pop()
+        petition = await axios.post('/api/candidate/upload/delete', { dataType: type, data: candidatoData.candidatoData.idiomas, idUsuario: localStorage.getItem('idUsuario') })
         break;
-      //si no todo es un id unico para eliminar
-      default:
+      case 'redes':
+        candidatoData.candidatoData.redes?.pop()
+        petition = await axios.post('/api/candidate/upload/delete', { dataType: type, data: candidatoData.candidatoData.redes, idUsuario: localStorage.getItem('idUsuario') })
         break;
     }
+    //Re-render
+    if (petition?.status == 200) await getUserDetails()
+  }
+
+  const deleteItem = async (type: string, id: string) => {
+    let petition;
+    switch (type) {
+      case 'exp':
+        petition = await axios.post('/api/candidate/upload/delete', { dataType: type, id: id, idUsuario: localStorage.getItem('idUsuario') })
+        break;
+      case 'academics':
+        petition = await axios.post('/api/candidate/upload/delete', { dataType: type, id: id, idUsuario: localStorage.getItem('idUsuario') })
+        break;
+    }
+    //re-render
+    if (petition?.status == 200) await getUserDetails()
   }
 
 
@@ -181,18 +199,56 @@ export default function UserCandidate() {
             </div>
           </div>
           <div className="mb-5">
+            {/* idiomas */}
             <div className="row">
               <h6>Idiomas</h6>
-              <button onClick={(e) => handleModal(e, "Agregar idioma", {}, candidatoData._id, "idiomas")} className="text-green-500">
-                <FontAwesomeIcon icon={faPlus} />
-              </button>
-              <div className="flex flex-col md:flex-row md:space-x-4">
-                {candidatoData?.candidatoData?.idioma?.map((item: any) => (
-                  <>
-                    <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">{item?.idioma} Sin idiomas</div>
-                  </>
-                ))}
-                {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">Figma</div> */}
+              <div className="col-md-6">
+                <div className="flex flex-col md:flex-row md:space-x-4">
+                  {candidatoData?.candidatoData?.idiomas?.map((item: any, key: number) => (
+                    <div key={key} className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">{item?.idioma}</div>
+                  ))}
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="row">
+                  <div className="col-md-6">
+                    <button onClick={(e) => handleModal(e, "Nuevo Idioma", {}, candidatoData._id, "idiomas")} className="text-green-500">
+                      <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                  </div>
+                  <div className="col-md-6">
+                    <button onClick={() => popItem("idioma")} className=" ml-5 text-red-500">
+                      <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Redes */}
+            <div className="row">
+              <div className="row">
+                <h6>Redes</h6>
+                <div className="col-md-6">
+                  <div className="flex flex-col md:flex-row md:space-x-4">
+                    {candidatoData?.candidatoData?.redes?.map((item: any, key: number) => (
+                      <div key={key} className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">{item?.enlace}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <button onClick={(e) => handleModal(e, "Nuevo enlace", {}, candidatoData._id, "redes")} className="text-green-500">
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
+                    </div>
+                    <div className="col-md-6">
+                      <button onClick={() => popItem("redes")} className=" ml-5 text-red-500">
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -207,9 +263,6 @@ export default function UserCandidate() {
             <button onClick={(e) => handleModal(e, 'Nueva Experiencia', {}, candidatoData._id, "newExp")} className="text-green-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
-            {/* <button onClick={deleteItem} className="text-red-500">
-                <FontAwesomeIcon icon={faTrashAlt} />
-              </button> */}
           </div>
         </div>
         {candidatoData?.candidatoData?.experiencias?.map((item: any, key: number) => (
@@ -243,19 +296,13 @@ export default function UserCandidate() {
               >
                 <FontAwesomeIcon icon={faPencil} />
               </button>
-              <button onClick={()=> deleteItem(item._id)} className=" ml-5 text-red-500">
+              <button onClick={() => deleteItem("exp", item._id)} className=" ml-5 text-red-500">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
           </div>
-
         ))}
-
-
       </div>
-
-
-
       {/* Formaciones academicas */}
       <div className="container mx-auto mt-5 p-4">
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
@@ -286,19 +333,20 @@ export default function UserCandidate() {
             <div className="text-right">
               <button
                 className="text-blue-500"
-                onClick={(e) =>
-                  handleModal(
-                    e,
-                    "Editar formación academica",
-                    item,
-                    candidatoData._id,
-                    "editAcademic"
-                  )
-                }
+                onClick={(e) => {
+                  item.key = key,
+                    handleModal(
+                      e,
+                      "Editar formación academica",
+                      item,
+                      candidatoData._id,
+                      "editAcademic"
+                    )
+                }}
               >
                 <FontAwesomeIcon icon={faPencil} />
               </button>
-              <button onClick={()=> deleteItem(item._id)} className=" ml-5 text-red-500">
+              <button onClick={() => deleteItem("academics", item._id)} className=" ml-5 text-red-500">
                 <FontAwesomeIcon icon={faTrashAlt} />
               </button>
             </div>
@@ -322,7 +370,7 @@ export default function UserCandidate() {
             } className="text-blue-500">
               <FontAwesomeIcon icon={faPlus} />
             </button>
-            <button onClick={() => deleteItem("habilidad")} className="text-red-500">
+            <button onClick={() => popItem("habilidad")} className="text-red-500">
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
@@ -330,62 +378,25 @@ export default function UserCandidate() {
         <div className="flex flex-col md:flex-row md:space-x-4">
           {/* Aca va el bucle */}
           {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => {
-            console.log(item)
             return (
               <div key={key} className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
                 {item.nombreHabilidad}
               </div>
             )
           })}
-          {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
-            Gerente Creativo
-          </div> */}
-          {/* <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
-              Diseñador Grafico
-            </div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
-              Suite Adobe
-            </div>
-          <div className="bg-gray-200 text-blue-600 shadow-md rounded-lg p-6 mb-4 mr-3">
-              Figma
-            </div> */}
         </div>
-        {/* {candidatoData?.candidatoData?.habilidad?.map((item: any, key: number) => (
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
-            key={item._id}
-          >
-            <div>
-              <label className="text-gray-700">Empresa</label>
-              <p className="text-gray-900">{item.nombreHabilidad}</p>
-            </div>
-            <div className="text-right">
-              <button
-                className="text-blue-500"
-                onClick={(e) =>
-                  handleModal(
-                    e,
-                    "Habilidades editar",
-                    item,
-                    candidatoData._id
-                  )
-                }
-              >
-                <FontAwesomeIcon icon={faPencil} />
-              </button>
-              <button onClick={deleteItem} className=" ml-5 text-red-500">
-                <FontAwesomeIcon icon={faTrashAlt} />
-              </button>
-            </div>
-          </div>
-        ))} */}
+
 
       </div>
 
       <DataModal
         show={show}
+        setShow={setShow}
+        candidatoData={candidatoData}
+        setCandidatoData={setCandidatoData}
         onHide={handleClose}
         data={modalData}
+        modalType={modalType}
         title={modalTitle}
       />
     </div>
