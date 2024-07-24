@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
 
     let page: any = request.nextUrl.searchParams.get("page")
 

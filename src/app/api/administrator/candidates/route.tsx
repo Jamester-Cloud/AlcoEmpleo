@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
 
     let page: any = request.nextUrl.searchParams.get("page")
 
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
         const paginatedCandidateQuery: any = await Candidato.aggregate([
             {
                 $match: {
-                    "esDestacado": false
+                    "usuarioData.status": true
                 }
             },
             {
