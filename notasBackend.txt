@@ -56,6 +56,8 @@ Investigar transacciones en mongoDB(*)
 
 
 //Errores:
-No actualiza formaciones academicas en el endpoint
+Buscar servidor dde cloud storage o usar mongoDB
+terminar administrador falta, tablas de candidato, empresa, funcionabilidad botones, paginacion para ambas, para evitar sobrecarga de datos
+"" datos del sitio principal
 
 

@@ -3,36 +3,110 @@ import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
+import Link from 'next/link';
 
 type FormValues = {
     sliders: {
-        descripcionLogro: string;
+        titulo: string,
+        texto: string
     }[],
-    telefonos: {
-        referencia: string
+    celular: {
+        numero: string,
     }[],
-    banners: {
-        enlace: string
+    banner: {
+        titulo: string,
+        texto: string
     }[],
+    secciones: {
+        titulo: string,
+        texto: string
+    }[],
+    politicaPrivacidad: string,
+    direccion: string,
+
 };
 export default function AdminPage() {
-    const [candidates, setCandidates] = useState();
-    const [enterprises, setEnterprises] = useState();
-    const [siteData, setSiteData] = useState();
+
+    const methods = useForm<FormValues>({
+        defaultValues: {
+            sliders: [{ titulo: "", texto: "" }],
+            celular: [{ numero: "" }],
+            banner: [{ titulo: "", texto: "" }],
+            secciones: [{ titulo: "", texto: "" }],
+            politicaPrivacidad: "",
+            direccion: "",
+        }
+    });
+
+    const {
+        control,
+        register,
+        handleSubmit,
+        getValues,
+        reset,
+        formState: { errors }
+    } = methods;
+
+    //array fields
+    const { fields: fieldsSliders, append: appendSliders, remove: removeSliders } = useFieldArray({
+        name: "sliders",
+        control
+    });
+
+    const { fields: fieldsBanners, append: appendBanners, remove: removeBanners } = useFieldArray({
+        name: "banner",
+        control
+    });
+
+    const { fields: fieldsSecciones, append: appendSecciones, remove: removeSecciones } = useFieldArray({
+        name: "secciones",
+        control
+    });
+
+    const { fields: fieldsCelular, append: appendCelular, remove: removeCelular } = useFieldArray({
+        name: "celular",
+        control
+    });
+    //states
+    const [candidates, setCandidates]: any = useState();
+    const [enterprises, setEnterprises]: any = useState();
+    const [siteData, setSiteData]: any = useState();
+    //UseEffects
+    useEffect(() => {
+        let defaultValues = {
+            celular: [],
+            secciones: [],
+            banner: [],
+            sliders: []
+        }
+
+        defaultValues.celular = siteData?.homePage[0]?.celular?.map((item: any) => { return { numero: item.numero } })
+        defaultValues.sliders = siteData?.homePage[0]?.sliders?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
+        defaultValues.secciones = siteData?.homePage[0]?.secciones?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
+        defaultValues.banner = siteData?.homePage[0]?.banner?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
+
+        reset({ ...defaultValues })
+    }, [siteData?.homePage[0]])
+
 
     useEffect(() => {
         fetchData()
-    })
+        console.log(enterprises?.paginatedEmpresaQuery)
+    }, [!siteData, !candidates, !enterprises])
 
     const fetchData = async () => {
-        // const candidateData = await axios.post('/api/admin/candidate');
+
+        const candidateData = await axios.post('/api/administrator/candidates');
         const enterpriseData = await axios.post('/api/administrator/enterprise');
         const homeData = await axios.post('/api/administrator/homepage');
 
-        Promise.all([homeData, enterpriseData]).then((values:any) => {
-            console.log(values[0].data)
-            console.log(values[1].data)
+        Promise.all([homeData, enterpriseData, candidateData]).then((values: any) => {
+            console.log("Empresa", values[1].data)
+            console.log("Candidatos", values[2].data)
+
             setSiteData(values[0].data);
+            setEnterprises(values[1].data)
+            setCandidates(values[2].data)
         })
     }
 
@@ -44,31 +118,22 @@ export default function AdminPage() {
                     <Table responsive striped>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <th key={index}>Table heading</th>
-                                ))}
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
+                            {candidates?.paginatedCandidateQuery?.map((item:any, key:number) => (
+                                <tr key={key}>
+                                    <td>{item.personaData.nombre} {item.personaData.apellido}</td>
+                                    <td>{item.usuarioData.isPremium ? <button className='btn btn-error btn-round'>Anular Subscripcion</button> : <button className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
+                                    <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
+                                    <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
+                                </tr>
+                            ))}
+
                         </tbody>
                     </Table>
                 </div>
@@ -77,64 +142,150 @@ export default function AdminPage() {
                     <Table responsive striped>
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>#</th>
-                                <th>#</th>
-                                <th>#</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {/* aca iria una tarjeta grande con la informacion del candidato
-                            {Array.from({ length: 5 }).map((_, index) => (
-                                <tr key={index}>
-                                    <td >Table cell {index}</td>
+                            {enterprises?.paginatedEmpresaQuery?.map((item:any, key:number) => (
+                                <tr key={key}>
+                                    <td>{item.personaData.nombre}</td>
+                                    <td>{item.usuarioData.isPremium ? <button className='btn btn-error btn-round'>Anular Subscripcion</button> : <button className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
+                                    <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
+                                    <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
                                 </tr>
                             ))}
-                            <tr>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr> */}
-                            <tr>
-                                <td>logo Nombre: Ancarina</td>
-                                <td>subscripcion</td>
-                                <td>ver perfil</td>
-                                <td>Desactivar</td>
-                            </tr>
+
                         </tbody>
                     </Table>
                 </div>
                 {/* Configuracion del sitio principal */}
                 <hr />
                 Configuracion del sitio
-                <div className="col-md-12">
-                    Direccion Fisica
-                    <form action="">
-                            <input type="text" id="" />
-                    </form>
-                </div>
-                <div className="col-md-12">Politica de privacidad
-                    <form action="">
+                <form >
+                    <div className="col-md-12">
+                        <label htmlFor="">Direccion Fisica</label>
+                        <textarea className='form-control' id="" defaultValue={siteData?.homePage[0].direccion} />
+                    </div>
+                    <div className="col-md-12">
+                        <label htmlFor="">Politica de privacidad</label>
+                        <input type="text" className='form-control' id="" defaultValue={siteData?.homePage[0].politicaPrivacidad} />
+                    </div>
+                    <div className="col-md-12">Texto Sliders
+                        {fieldsSliders.map((field, index) => {
+                            return (
+                                <div key={field.id}>
+                                    <section className={"row"} key={field.id}>
+                                        <div className="col-md-6">
+                                            <label className="labels">Titulo del slider:</label>
+                                            <input type="text" className="form-control" {...register(`sliders.${index}.titulo` as const, {
+                                                required: true
+                                            })} placeholder="Titulo" />
+                                        </div>
+                                        <div className="col-md-6">
+                                            <label className="labels">Texto del slider:</label>
+                                            <input type="text" className="form-control" {...register(`sliders.${index}.texto` as const, {
+                                                required: true
+                                            })} placeholder="Texto" />
+                                        </div>
+                                    </section>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="col-md-12">
+                        Telefonos
+                        <div className="row justify-content-left">
+                            <div className="col-md-6">
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        appendCelular({
+                                            numero: ""
+                                        })
+                                    }
+                                    className='btn btn-success'
+                                >
+                                    Agregar telefono de contacto
+                                </button>
+                            </div>
+                        </div>
+                        {fieldsCelular.map((field, index) => {
+                            return (
+                                <div key={field.id}>
+                                    <section className={"row"} key={field.id}>
+                                        <div className="col-md-6">
+                                            <label className="labels">Numero:</label>
+                                            <input type="text" className="form-control" {...register(`celular.${index}.numero` as const, {
+                                                required: true
+                                            })} placeholder="Numero" />
+                                        </div>
 
-                    </form>
-                </div>
-                <div className="col-md-12">Texto Sliders
-                    <form action="">
-
-                    </form>
-                </div>
-                <div className="col-md-12">Telefonos
-                    <form action="">
-
-                    </form>
-                </div>
-                <div className="col-md-12">Texto Banners
-                    <form action="">
-
-                    </form>
-                </div>
-
-
+                                        <div className="col-md-6">
+                                            <button type="button" className='btn mt-3' onClick={() => removeCelular(index)}>
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </section>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <hr />
+                    <div className="col-md-12">Texto Banners
+                        <div className="col-md-12">
+                            {fieldsBanners.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+                                            <div className="col-md-6">
+                                                <label className="labels">Titulo del banner:</label>
+                                                <input type="text" className="form-control" {...register(`banner.${index}.titulo` as const, {
+                                                    required: true
+                                                })} placeholder="Titulo" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="labels">Texto del banner:</label>
+                                                <input type="text" className="form-control" {...register(`banner.${index}.texto` as const, {
+                                                    required: true
+                                                })} placeholder="Texto" />
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="col-md-12">Texto Secciones
+                        <div className="col-md-12">
+                            {fieldsSecciones.map((field, index) => {
+                                return (
+                                    <div key={field.id}>
+                                        <section className={"row"} key={field.id}>
+                                            <div className="col-md-6">
+                                                <label className="labels">Titulo de la sección:</label>
+                                                <input type="text" className="form-control" {...register(`secciones.${index}.titulo` as const, {
+                                                    required: true
+                                                })} placeholder="Titulo" />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label className="labels">Texto de la sección:</label>
+                                                <input type="text" className="form-control" {...register(`secciones.${index}.texto` as const, {
+                                                    required: true
+                                                })} placeholder="Texto" />
+                                            </div>
+                                        </section>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                    <div className="col-md-12-">
+                        <button className='btn btn-primary'>Guardar configuración</button>
+                    </div>
+                </form>
             </div>
         </div>
     )

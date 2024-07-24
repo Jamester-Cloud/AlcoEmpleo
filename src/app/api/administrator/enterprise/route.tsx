@@ -12,16 +12,9 @@ export async function POST(request: NextRequest) {
 
     try {
         //Consulta desde candidatos hasta personas. esto es para candidato normal
-        const skip = (page - 1) * PER_PAGE;
-
-        const countEnterprises = await Empresa.countDocuments({ esDestacado: false })
         //planeo hacer el paginado aca
         const paginatedEmpresaQuery: any = await Empresa.aggregate([
-            {
-                $match: {
-                    "usuarioData.status": true
-                }
-            },
+
             {
                 $lookup: {
                     from: "users",
@@ -36,6 +29,7 @@ export async function POST(request: NextRequest) {
             {
                 $project: {
                     idPersona: "$usuarioData.idPersona",
+                    usuarioData:"$usuarioData"
                 }
             },
             {
@@ -49,16 +43,10 @@ export async function POST(request: NextRequest) {
             {
                 $unwind: "$personaData"
             }
-        ]).skip(skip).limit(PER_PAGE)
-
-        const pageCount = countEnterprises / PER_PAGE;
+        ])
 
         const response = NextResponse.json({
             message: "Succesfull login",
-            pagination: {
-                countEnterprises,
-                pageCount,
-            },
             paginatedEmpresaQuery,
             success: true,
         })

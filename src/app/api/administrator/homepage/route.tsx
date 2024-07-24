@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     try {
          //planeo hacer el paginado aca
         const homePage = await HomePage.find()
-        console.log(homePage)
+        
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
             homePage:homePage

@@ -1,28 +1,22 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
-import Empresa from "@/models/empresas";
 import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
 export async function POST(request: NextRequest) {
 
-    let page: any = request.nextUrl.searchParams.get("page")
+    // let page: any = request.nextUrl.searchParams.get("page")
 
-    const PER_PAGE = 5
+    // const PER_PAGE = 5
 
     try {
         //Consulta desde candidatos hasta personas. esto es para candidato normal
-        const skip = (page - 1) * PER_PAGE;
+        // const skip = (page - 1) * PER_PAGE;
 
-        const countCandidates = await Candidato.countDocuments({ esDestacado: false })
+        // const countCandidates = await Candidato.countDocuments({ esDestacado: false })
         //planeo hacer el paginado aca
         const paginatedCandidateQuery: any = await Candidato.aggregate([
-            {
-                $match: {
-                    "usuarioData.status": true
-                }
-            },
             {
                 $lookup: {
                     from: "users",
@@ -36,7 +30,7 @@ export async function POST(request: NextRequest) {
             },
             {
                 $project: {
-                    "Candidato": "$$ROOT",
+                    usuarioData:"$usuarioData",
                     idPersona: "$usuarioData.idPersona",
                 }
             },
@@ -51,16 +45,15 @@ export async function POST(request: NextRequest) {
             {
                 $unwind: "$personaData"
             }
-        ]).skip(skip).limit(PER_PAGE)
+        ]).limit(5)
 
-        const pageCount = countCandidates / PER_PAGE;
 
         const response = NextResponse.json({
             message: "Succesfull login",
-            pagination: {
-                countCandidates,
-                pageCount,
-            },
+            // pagination: {
+            //     countCandidates,
+            //     pageCount,
+            // },
             paginatedCandidateQuery,
             success: true,
         })
