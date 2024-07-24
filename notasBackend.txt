@@ -59,5 +59,6 @@ Investigar transacciones en mongoDB(*)
 Buscar servidor dde cloud storage o usar mongoDB
 terminar administrador falta, tablas de candidato, empresa, funcionabilidad botones, paginacion para ambas, para evitar sobrecarga de datos
 "" datos del sitio principal
+programar ejecutor de tareas de la app con funciones de netlify
 
 

@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table';
 import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
 import Link from 'next/link';
-
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 type FormValues = {
     sliders: {
         titulo: string,
@@ -96,22 +96,35 @@ export default function AdminPage() {
 
     const fetchData = async () => {
 
-        const candidateData = await axios.post('/api/administrator/candidates');
-        const enterpriseData = await axios.post('/api/administrator/enterprise');
-        const homeData = await axios.post('/api/administrator/homepage');
+        try {
+            const candidateData = await axios.post('/api/administrator/candidates');
+            const enterpriseData = await axios.post('/api/administrator/enterprise');
+            const homeData = await axios.post('/api/administrator/homepage');
 
-        Promise.all([homeData, enterpriseData, candidateData]).then((values: any) => {
-            console.log("Empresa", values[1].data)
-            console.log("Candidatos", values[2].data)
+            Promise.all([homeData, enterpriseData, candidateData]).then((values: any) => {
+                console.log("Empresa", values[1].data)
+                console.log("Candidatos", values[2].data)
 
-            setSiteData(values[0].data);
-            setEnterprises(values[1].data)
-            setCandidates(values[2].data)
-        })
+                setSiteData(values[0].data);
+                setEnterprises(values[1].data)
+                setCandidates(values[2].data)
+            })
+        } catch (error) {
+            console.log("error en la peticion de datos para el panel", error)
+        }
+    }
+
+    const handleUserSubscripcion = async (id: string, isPremium: boolean) => {
+        try {
+            const subscription = await axios.post('/api/administrator/subscription', { idUsuario: id, isPremium: isPremium })
+            if (subscription.status === 200) console.log("Peticion completada exitosamente"), fetchData();
+        } catch (error) {
+            console.log("Error al procesar la solicitud de subscripcion", error)
+        }
     }
 
     return (
-        <div className="text-left">
+        <div className="container text-left">
             <div className="row">
                 <div className="col-md-12">
                     tabla candidatos
@@ -125,10 +138,10 @@ export default function AdminPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {candidates?.paginatedCandidateQuery?.map((item:any, key:number) => (
+                            {candidates?.paginatedCandidateQuery?.map((item: any, key: number) => (
                                 <tr key={key}>
                                     <td>{item.personaData.nombre} {item.personaData.apellido}</td>
-                                    <td>{item.usuarioData.isPremium ? <button className='btn btn-error btn-round'>Anular Subscripcion</button> : <button className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
+                                    <td>{item.usuarioData.isPremium ? <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-danger btn-round'>Anular Subscripcion</button> : <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-outline-success btn-block'>Aprobar Subscripcion</button>}</td>
                                     <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
                                     <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
                                 </tr>
@@ -149,7 +162,7 @@ export default function AdminPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {enterprises?.paginatedEmpresaQuery?.map((item:any, key:number) => (
+                            {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
                                 <tr key={key}>
                                     <td>{item.personaData.nombre}</td>
                                     <td>{item.usuarioData.isPremium ? <button className='btn btn-error btn-round'>Anular Subscripcion</button> : <button className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>

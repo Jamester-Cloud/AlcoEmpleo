@@ -2,7 +2,6 @@ import mongoose, { Types } from "mongoose";
 
 const subscripcionesSchema = new mongoose.Schema({
     idUsuario: Types.ObjectId,
-    referenciaPago:String,
     fechaInicio:Date,
     fechaFin:Date,
     monto:{
@@ -12,6 +11,6 @@ const subscripcionesSchema = new mongoose.Schema({
     estatus:Boolean
 })
 
-const Subscripcion = mongoose.models.regiones || mongoose.model("subscripcion", subscripcionesSchema)
+const Subscripcion = mongoose.models.subscripcion || mongoose.model("subscripcion", subscripcionesSchema)
 
-export default Region;
+export default Subscripcion;
