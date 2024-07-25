@@ -9,6 +9,8 @@ export async function POST(request: NextRequest) {
 
     const reqJson = await request.json()
 
+    console.log(reqJson);
+
     const treintaDiasEnMilisegundos = 30 * 24 * 60 * 60 * 1000;
 
     const fechaActual = new Date();
@@ -26,6 +28,8 @@ export async function POST(request: NextRequest) {
         filter = { idUsuario: idUsuario }
         // primero debo verificar si ya tiene subscripcion y si no, creo una 
         let isSubscribed: any = Subscripcion.findOne({ idUsuario: idUsuario }).session(session)
+
+        console.log(isSubscribed);
         // no esta suscrito actualmente y no es premium(el estado premium debe solo aprobarse por esta funcion en especifico) 
         //pues se crea una nueva subscripcion para el usuario y se cambia su estado a usuario premium
         if (!isSubscribed && !isPremium) {
