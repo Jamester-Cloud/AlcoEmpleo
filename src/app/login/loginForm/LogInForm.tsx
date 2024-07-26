@@ -40,7 +40,7 @@ export default function LogInForm() {
                     router.push('/admin')
                     break;
                 case 'Candidatos':
-                    router.push('/oportunidades')
+                    router.push('/candidate/oportunidades')
                     break;
                 case 'Empresas':
                     router.push('/enterprise')
