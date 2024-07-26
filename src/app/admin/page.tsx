@@ -122,6 +122,9 @@ export default function AdminPage() {
             console.log("Error al procesar la solicitud de subscripcion", error)
         }
     }
+    const onSubmit = (data:any) => {
+        console.log(data);
+    }
 
     return (
         <div className="container text-left">
@@ -165,7 +168,7 @@ export default function AdminPage() {
                             {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
                                 <tr key={key}>
                                     <td>{item.personaData.nombre}</td>
-                                    <td>{item.usuarioData.isPremium ? <button className='btn btn-error btn-round'>Anular Subscripcion</button> : <button className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
+                                    <td>{item.usuarioData.isPremium ? <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-error btn-round'>Anular Subscripcion</button> : <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
                                     <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
                                     <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
                                 </tr>
@@ -177,7 +180,7 @@ export default function AdminPage() {
                 {/* Configuracion del sitio principal */}
                 <hr />
                 Configuracion del sitio
-                <form >
+                <form onSubmit={handleSubmit(onSubmit)} >
                     <div className="col-md-12">
                         <label htmlFor="">Direccion Fisica</label>
                         <textarea className='form-control' id="" defaultValue={siteData?.homePage[0].direccion} />

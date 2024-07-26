@@ -31,7 +31,6 @@ export default function LogInForm() {
             console.log(localStorage.getItem('idPersona'));
             console.log(localStorage.getItem('idUsuario'));
 
-
             let rol = response.data.userRol
             console.log(rol)
             switch (rol) {
@@ -46,7 +45,6 @@ export default function LogInForm() {
                     router.push('/enterprise')
                     break;
             }
-
 
         } catch (error: any) {
             const errorMessage = error.response.data.error.toLowerCase();
