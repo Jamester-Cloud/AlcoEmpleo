@@ -5,11 +5,7 @@ import axios from "axios"
 import Image from "next/image";
 import Select from "react-select";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
-import defaultLogo from "../../../../public/AlcoLogo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faDeleteLeft
-} from "@fortawesome/free-solid-svg-icons";
+
 
 export default function SignUpForm(props: any) {
 
@@ -66,10 +62,7 @@ export default function SignUpForm(props: any) {
         setSelectedAdImages(event.target.files)
     };
     //SignUp function
-    const onSignup = async () => {
-     
-        
-        
+    const onSignup = async () => {   
         console.log(selectedAdImages)
         try {
             setLoading(true)
