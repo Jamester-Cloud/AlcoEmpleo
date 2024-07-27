@@ -127,182 +127,179 @@ export default function AdminPage() {
     }
 
     return (
-        <div className="container text-left">
-            <div className="row">
-                <div className="col-md-12">
-                    tabla candidatos
-                    <Table responsive striped>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+        <div className="container mx-auto p-4">
+            <div className="mb-6">
+                <h2 className="text-xl font-bold mb-4">Tabla Candidatos</h2>
+                <table className="min-w-full bg-white shadow-md rounded mb-4">
+                    <thead>
+                        <tr>
+                            <th className="py-2 px-4 border-b">Nombre</th>
+                            <th className="py-2 px-4 border-b">Subscripción</th>
+                            <th className="py-2 px-4 border-b">Perfil</th>
+                            <th className="py-2 px-4 border-b">Suspender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {candidates?.paginatedCandidateQuery?.map((item: any, key: number) => (
+                            <tr key={key}>
+                                <td className="py-2 px-4 border-b">{item.personaData.nombre} {item.personaData.apellido}</td>
+                                <td className="py-2 px-4 border-b">
+                                    {item.usuarioData.isPremium ? (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Anular Subscripción
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Aprobar Subscripción
+                                        </button>
+                                    )}
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {candidates?.paginatedCandidateQuery?.map((item: any, key: number) => (
-                                <tr key={key}>
-                                    <td>{item.personaData.nombre} {item.personaData.apellido}</td>
-                                    <td>{item.usuarioData.isPremium ? <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-danger btn-round'>Anular Subscripcion</button> : <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-outline-success btn-block'>Aprobar Subscripcion</button>}</td>
-                                    <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
-                                    <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </Table>
-                </div>
-                <div className="col-md-12">
-                    tabla empresas
-                    <Table responsive striped>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="mb-6">
+                <h2 className="text-xl font-bold mb-4">Tabla Empresas</h2>
+                <table className="min-w-full bg-white shadow-md rounded mb-4">
+                    <thead>
+                        <tr>
+                            <th className="py-2 px-4 border-b">Nombre</th>
+                            <th className="py-2 px-4 border-b">Subscripción</th>
+                            <th className="py-2 px-4 border-b">Perfil</th>
+                            <th className="py-2 px-4 border-b">Suspender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
+                            <tr key={key}>
+                                <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
+                                <td className="py-2 px-4 border-b">
+                                    {item.usuarioData.isPremium ? (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Anular Subscripción
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Aprobar Subscripción
+                                        </button>
+                                    )}
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
-                                <tr key={key}>
-                                    <td>{item.personaData.nombre}</td>
-                                    <td>{item.usuarioData.isPremium ? <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-error btn-round'>Anular Subscripcion</button> : <button onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)} className='btn btn-outline-secondary btn-block'>Aprobar Subscripcion</button>}</td>
-                                    <td><button className='btn btn-info btn-round'>Ver Perfil</button></td>
-                                    <td><button className='btn btn-danger btn-round'>Suspender Usuario</button></td>
-                                </tr>
-                            ))}
-
-                        </tbody>
-                    </Table>
-                </div>
-                {/* Configuracion del sitio principal */}
-                <hr />
-                Configuracion del sitio
-                <form onSubmit={handleSubmit(onSubmit)} >
-                    <div className="col-md-12">
-                        <label htmlFor="">Direccion Fisica</label>
-                        <textarea className='form-control' id="" defaultValue={siteData?.homePage[0].direccion} />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="mb-6">
+                <h2 className="text-xl font-bold mb-4">Configuración del sitio</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-4">
+                        <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">Dirección Física</label>
+                        <textarea className="form-control w-full mt-1 p-2 border rounded-md" id="direccion" defaultValue={siteData?.homePage?.[0]?.direccion}></textarea>
                     </div>
-                    <div className="col-md-12">
-                        <label htmlFor="">Politica de privacidad</label>
-                        <input type="text" className='form-control' id="" defaultValue={siteData?.homePage[0].politicaPrivacidad} />
+                    <div className="mb-4">
+                        <label htmlFor="politicaPrivacidad" className="block text-sm font-medium text-gray-700">Política de Privacidad</label>
+                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" id="politicaPrivacidad" defaultValue={siteData?.homePage?.[0]?.politicaPrivacidad} />
                     </div>
-                    <div className="col-md-12">Texto Sliders
-                        {fieldsSliders.map((field, index) => {
-                            return (
-                                <div key={field.id}>
-                                    <section className={"row"} key={field.id}>
-                                        <div className="col-md-6">
-                                            <label className="labels">Titulo del slider:</label>
-                                            <input type="text" className="form-control" {...register(`sliders.${index}.titulo` as const, {
-                                                required: true
-                                            })} placeholder="Titulo" />
-                                        </div>
-                                        <div className="col-md-6">
-                                            <label className="labels">Texto del slider:</label>
-                                            <input type="text" className="form-control" {...register(`sliders.${index}.texto` as const, {
-                                                required: true
-                                            })} placeholder="Texto" />
-                                        </div>
-                                    </section>
+                    <div className="mb-4">
+                        <h3 className="text-lg font-bold mb-2">Texto Sliders</h3>
+                        {fieldsSliders.map((field, index) => (
+                            <div key={field.id} className="mb-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Título del Slider</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.titulo`)} placeholder="Título" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Texto del Slider</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.texto`)} placeholder="Texto" />
+                                    </div>
                                 </div>
-                            );
-                        })}
-                    </div>
-                    <div className="col-md-12">
-                        Telefonos
-                        <div className="row justify-content-left">
-                            <div className="col-md-6">
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        appendCelular({
-                                            numero: ""
-                                        })
-                                    }
-                                    className='btn btn-success'
-                                >
-                                    Agregar telefono de contacto
-                                </button>
                             </div>
-                        </div>
-                        {fieldsCelular.map((field, index) => {
-                            return (
-                                <div key={field.id}>
-                                    <section className={"row"} key={field.id}>
-                                        <div className="col-md-6">
-                                            <label className="labels">Numero:</label>
-                                            <input type="text" className="form-control" {...register(`celular.${index}.numero` as const, {
-                                                required: true
-                                            })} placeholder="Numero" />
-                                        </div>
-
-                                        <div className="col-md-6">
-                                            <button type="button" className='btn mt-3' onClick={() => removeCelular(index)}>
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </section>
+                        ))}
+                    </div>
+                    <div className="mb-4">
+                        <h3 className="text-lg font-bold mb-2">Teléfonos</h3>
+                        <button
+                            type="button"
+                            onClick={() => appendCelular({ numero: "" })}
+                            className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
+                        >
+                            Agregar Teléfono de Contacto
+                        </button>
+                        {fieldsCelular.map((field, index) => (
+                            <div key={field.id} className="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">Número</label>
+                                    <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`celular.${index}.numero`)} placeholder="Número" />
                                 </div>
-                            );
-                        })}
+                                <div className="flex items-end">
+                                    <button type="button" className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => removeCelular(index)}>Eliminar</button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <hr />
-                    <div className="col-md-12">Texto Banners
-                        <div className="col-md-12">
-                            {fieldsBanners.map((field, index) => {
-                                return (
-                                    <div key={field.id}>
-                                        <section className={"row"} key={field.id}>
-                                            <div className="col-md-6">
-                                                <label className="labels">Titulo del banner:</label>
-                                                <input type="text" className="form-control" {...register(`banner.${index}.titulo` as const, {
-                                                    required: true
-                                                })} placeholder="Titulo" />
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="labels">Texto del banner:</label>
-                                                <input type="text" className="form-control" {...register(`banner.${index}.texto` as const, {
-                                                    required: true
-                                                })} placeholder="Texto" />
-                                            </div>
-                                        </section>
+                    <div className="mb-4">
+                        <h3 className="text-lg font-bold mb-2">Texto Banners</h3>
+                        {fieldsBanners.map((field, index) => (
+                            <div key={field.id} className="mb-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Título del Banner</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`banner.${index}.titulo`)} placeholder="Título" />
                                     </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <div className="col-md-12">Texto Secciones
-                        <div className="col-md-12">
-                            {fieldsSecciones.map((field, index) => {
-                                return (
-                                    <div key={field.id}>
-                                        <section className={"row"} key={field.id}>
-                                            <div className="col-md-6">
-                                                <label className="labels">Titulo de la sección:</label>
-                                                <input type="text" className="form-control" {...register(`secciones.${index}.titulo` as const, {
-                                                    required: true
-                                                })} placeholder="Titulo" />
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label className="labels">Texto de la sección:</label>
-                                                <input type="text" className="form-control" {...register(`secciones.${index}.texto` as const, {
-                                                    required: true
-                                                })} placeholder="Texto" />
-                                            </div>
-                                        </section>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Texto del Banner</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`banner.${index}.texto`)} placeholder="Texto" />
                                     </div>
-                                );
-                            })}
-                        </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div className="col-md-12-">
-                        <button className='btn btn-primary'>Guardar configuración</button>
+                    <div className="mb-4">
+                        <h3 className="text-lg font-bold mb-2">Texto Secciones</h3>
+                        {fieldsSecciones.map((field, index) => (
+                            <div key={field.id} className="mb-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Título de la Sección</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`secciones.${index}.titulo`)} placeholder="Título" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Texto de la Sección</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`secciones.${index}.texto`)} placeholder="Texto" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
+                    <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Guardar Configuración</button>
                 </form>
             </div>
         </div>
-    )
+    );
 }
