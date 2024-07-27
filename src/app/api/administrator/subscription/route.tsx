@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 connect()
 
-
 export async function POST(request: NextRequest) {
 
     const reqJson = await request.json()
@@ -27,7 +26,6 @@ export async function POST(request: NextRequest) {
         session.startTransaction()
 
         filter = { _id: Types.ObjectId.createFromHexString(idUsuario) }
-        update = { $set: { "isPremium": true } }
         // primero debo verificar si ya tiene subscripcion y si no, creo una 
         let isSubscribed: any = await Subscripcion.findOne({ idUsuario: idUsuario }).countDocuments().session(session)
         // no esta suscrito actualmente y no es premium(el estado premium debe solo aprobarse por esta funcion en especifico) 

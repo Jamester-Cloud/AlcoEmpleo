@@ -23,7 +23,7 @@ type FormValues = {
     }[],
     politicaPrivacidad: string,
     direccion: string,
-
+    idUsuario: string
 };
 export default function AdminPage() {
 
@@ -77,13 +77,18 @@ export default function AdminPage() {
             celular: [],
             secciones: [],
             banner: [],
-            sliders: []
+            sliders: [],
+            direccion: "",
+            politicaPrivacidad: ""
         }
 
         defaultValues.celular = siteData?.homePage[0]?.celular?.map((item: any) => { return { numero: item.numero } })
         defaultValues.sliders = siteData?.homePage[0]?.sliders?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.secciones = siteData?.homePage[0]?.secciones?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.banner = siteData?.homePage[0]?.banner?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
+        defaultValues.direccion = siteData?.homePage[0]?.direccion
+        defaultValues.politicaPrivacidad = siteData?.homePage[0]?.politicaPrivacidad
+
 
         reset({ ...defaultValues })
     }, [siteData?.homePage[0]])
@@ -91,7 +96,6 @@ export default function AdminPage() {
 
     useEffect(() => {
         fetchData()
-        console.log(enterprises?.paginatedEmpresaQuery)
     }, [!siteData, !candidates, !enterprises])
 
     const fetchData = async () => {
@@ -102,8 +106,9 @@ export default function AdminPage() {
             const homeData = await axios.post('/api/administrator/homepage');
 
             Promise.all([homeData, enterpriseData, candidateData]).then((values: any) => {
-                console.log("Empresa", values[1].data)
-                console.log("Candidatos", values[2].data)
+                console.log("HomePage", values[0].data)
+                // console.log("Empresa", values[1].data)
+                // console.log("Candidatos", values[2].data)
 
                 setSiteData(values[0].data);
                 setEnterprises(values[1].data)
@@ -117,13 +122,46 @@ export default function AdminPage() {
     const handleUserSubscripcion = async (id: string, isPremium: boolean) => {
         try {
             const subscription = await axios.post('/api/administrator/subscription', { idUsuario: id, isPremium: isPremium })
-            if (subscription.status === 200) console.log("Peticion completada exitosamente"), fetchData();
+            if (subscription.status === 200) console.log("Peticion completada exitosamente"), fetchData(), toast.success('Registro actualizado', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         } catch (error) {
             console.log("Error al procesar la solicitud de subscripcion", error)
+            toast.error('Registro no actualizado. Error en la solicitud, intente mas tarde', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         }
     }
-    const onSubmit = (data:any) => {
-        console.log(data);
+    const onSubmit = async (data: any) => {
+        const res = await axios.post('/api/administrator/homepage/edit', { data })
+        if (res.status == 200) console.log("Peticion exitosa"),
+            toast.success('Informacíon actualizada', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
     }
 
     return (
@@ -218,12 +256,13 @@ export default function AdminPage() {
                 <h2 className="text-xl font-bold mb-4">Configuración del sitio</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
+                        <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
                         <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">Dirección Física</label>
-                        <textarea className="form-control w-full mt-1 p-2 border rounded-md" id="direccion" defaultValue={siteData?.homePage?.[0]?.direccion}></textarea>
+                        <textarea className="form-control w-full mt-1 p-2 border rounded-md" {...register('direccion', { required: true })}></textarea>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="politicaPrivacidad" className="block text-sm font-medium text-gray-700">Política de Privacidad</label>
-                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" id="politicaPrivacidad" defaultValue={siteData?.homePage?.[0]?.politicaPrivacidad} />
+                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register('politicaPrivacidad', { required: true })} id="politicaPrivacidad" />
                     </div>
                     <div className="mb-4">
                         <h3 className="text-lg font-bold mb-2">Texto Sliders</h3>
@@ -299,6 +338,18 @@ export default function AdminPage() {
                     </div>
                     <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Guardar Configuración</button>
                 </form>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </div>
         </div>
     );

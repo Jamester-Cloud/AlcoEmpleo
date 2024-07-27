@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
     //Rutas para candidatos
     const isCandidatePath = path === '/candidate' || path === '/candidate/premium' || path === '/candidate/edit' || path === '/candidate/subscription'
     //Rutas para administrador
-    const isAdminPath = path === '/admin'
+    const isAdminPath = path === '/admin' || path === '/admin/[id]'
     //token unico basado en una cookie
     //desincriptando el token para determinar el rol de la persona en el sistema
     //Si estamos logueados porque tenemos token y la ruta en la que estamos es publica, entonces solo veremos inicio
@@ -46,6 +46,7 @@ export const config = {
         '/enterprise/subscription',
         '/candidate/subscription',
         '/candidate/edit',
-        '/admin'
+        '/admin',
+        '/admin/:id'
     ]
 }

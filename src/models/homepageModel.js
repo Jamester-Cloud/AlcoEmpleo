@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 
 const homepageSchema = new mongoose.Schema({
   celular: [
@@ -15,6 +15,9 @@ const homepageSchema = new mongoose.Schema({
     titulo: {
       type: String,
       required: [true, 'El título no puede estar vacío']
+    },
+    imagen:{
+      ruta:{type:String},
     },
     texto: {
       type: String,
@@ -40,7 +43,8 @@ const homepageSchema = new mongoose.Schema({
       type: String,
       required: [true, 'El texto no puede estar vacío']
     }
-  }]
+  }],
+  idUsuarioAdministrador: Types.ObjectId,
 })
 
 const Homepage = mongoose.models.homepage || mongoose.model("homepage", homepageSchema)
