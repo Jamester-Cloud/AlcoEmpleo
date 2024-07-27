@@ -8,7 +8,8 @@ import { ToastContainer, toast, Bounce } from 'react-toastify';
 type FormValues = {
     sliders: {
         titulo: string,
-        texto: string
+        texto: string,
+        imagen: { ruta: string }
     }[],
     celular: {
         numero: string,
@@ -83,7 +84,9 @@ export default function AdminPage() {
         }
 
         defaultValues.celular = siteData?.homePage[0]?.celular?.map((item: any) => { return { numero: item.numero } })
-        defaultValues.sliders = siteData?.homePage[0]?.sliders?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
+
+        defaultValues.sliders = siteData?.homePage[0]?.sliders?.map((item: any) => { return { titulo: item.titulo, texto: item.texto, imagen: { ruta: item.imagen.ruta } } })
+
         defaultValues.secciones = siteData?.homePage[0]?.secciones?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.banner = siteData?.homePage[0]?.banner?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.direccion = siteData?.homePage[0]?.direccion
@@ -276,6 +279,11 @@ export default function AdminPage() {
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700">Texto del Slider</label>
                                         <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.texto`)} placeholder="Texto" />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Texto del Slider</label>
+                                        <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.imagen.ruta`)} placeholder="Ruta de la imagen" />
                                     </div>
                                 </div>
                             </div>

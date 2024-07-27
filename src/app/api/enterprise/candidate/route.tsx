@@ -8,18 +8,9 @@ export async function POST(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
     const reqJson =  await request.json()
-    
+    console.log(reqJson)
     const candidato: any = await Candidato.aggregate([
       { $match: { $expr : { $eq: [ '$_id' , { $toObjectId: reqJson.id } ] } } },
-      {
-        $lookup: {
-          from: "perfils",
-          localField: "idPerfil",
-          foreignField: "_id",
-          as: "perfilData"
-        }
-      },
-
       {
         $lookup: {
           from: "users",
@@ -32,12 +23,9 @@ export async function POST(request: NextRequest) {
         $unwind: "$usuarioData"
       },
       {
-        $unwind: "$perfilData"
-      },
-      {
         $project: {
           idPersona: "$usuarioData.idPersona",
-          perfil: "$perfilData"
+          "candidato": "$$ROOT",
         }
       },
       {
@@ -52,6 +40,7 @@ export async function POST(request: NextRequest) {
         $unwind: "$personaData"
       }
     ])
+    console.log(candidato);
     
     const response = NextResponse.json({
       message: "Succesfull data retrieving",

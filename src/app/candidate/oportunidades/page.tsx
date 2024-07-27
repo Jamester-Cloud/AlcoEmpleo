@@ -64,36 +64,36 @@ export default function UserCandidate() {
     setShow(true);
   };
 
-  const getUserDetails = async () => {
-    const res = await axios.post("/api/candidate/me", {
-      idPersona: localStorage.getItem("idPersona"),
-      idUsuario: localStorage.getItem("idUsuario"),
-    });
+  // const getUserDetails = async () => {
+  //   const res = await axios.post("/api/candidate/me", {
+  //     idPersona: localStorage.getItem("idPersona"),
+  //     idUsuario: localStorage.getItem("idUsuario"),
+  //   });
 
-    if (res.status === 200 && res.data.success) {
-      setCandidatoData({
-        userData: {
-          ...res.data.dataPersona,
-          emailUsuario: res.data.emailUsuario,
-        },
-        candidatoData: res.data.dataCandidato,
-      });
-      console.log(res.data);
-    }
-  };
+  //   if (res.status === 200 && res.data.success) {
+  //     setCandidatoData({
+  //       userData: {
+  //         ...res.data.dataPersona,
+  //         emailUsuario: res.data.emailUsuario,
+  //       },
+  //       candidatoData: res.data.dataCandidato,
+  //     });
+  //     console.log(res.data);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (!candidatoData) {
-      (async () => {
-        try {
-          await getUserDetails();
-          console.log(candidatoData);
-        } catch (err) {
-          console.log("Error al cargar los datos del usuario", err);
-        }
-      })();
-    }
-  }, [candidatoData]);
+  // useEffect(() => {
+  //   if (!candidatoData) {
+  //     (async () => {
+  //       try {
+  //         await getUserDetails();
+  //         console.log(candidatoData);
+  //       } catch (err) {
+  //         console.log("Error al cargar los datos del usuario", err);
+  //       }
+  //     })();
+  //   }
+  // }, [candidatoData]);
 
   const handleLocationChange = (selectedOption: any) => {
     setSelectedLocation(selectedOption);
