@@ -15,21 +15,21 @@ export async function POST(request: NextRequest) {
         console.log(reqJson);
 
         let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad } } = reqJson;
-
-        filter = { _id: Types.ObjectId.createFromHexString('66a576701d7bc081933b2758') }
+        console.log(reqJson.data)
+        filter = { idUsuarioAdministrador: Types.ObjectId.createFromHexString('669fbe254ee5de405072dfcd') }
 
         update = {
             $set: {
-                banner: banner,
-                direccion: direccion,
-                sliders: sliders,
-                secciones: secciones,
-                celular: celular,
-                politicaPrivacidad: politicaPrivacidad,
+                "banner": banner,
+                "direccion": direccion,
+                "sliders": sliders,
+                "secciones": secciones,
+                "celular": celular,
+                "politicaPrivacidad": politicaPrivacidad,
             }
         };
         //planeo hacer el paginado aca
-        await HomePage.updateOne(filter, update)
+        await HomePage.findOneAndUpdate(filter, update)
 
         const response = NextResponse.json({
             message: "Succesfull data update",

@@ -207,19 +207,19 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="text-base mt-4 md:text-lg font-bold">
-                  {homePageData.homePage[0].secciones[4].texto}
+                  {homePageData.homePage[0].secciones[5].texto}
                   </h2>
                 </div>
               </div>
               <div className="text-center flex items-start">
                 <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
                   <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                  {homePageData.homePage[0].secciones[5].titulo}
+                  {homePageData.homePage[0].secciones[6].titulo}
                   </p>
                 </div>
                 <div>
                   <h2 className="text-base mt-4 md:text-lg font-bold">
-                  {homePageData.homePage[0].secciones[5].texto}
+                  {homePageData.homePage[0].secciones[6].texto}
                   </h2>
                 </div>
               </div>
@@ -229,9 +229,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-blue-950" style={{ clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)' }}></div>
         <div className="absolute right-0 top-0 bottom-0 w-50 bg-cover bg-right" style={{ backgroundImage: "url('/chicaLentes.png')" }}></div>
       </div>
-
-
-
       <Container className="py-20">
         <Row className="justify-content-center">
           <Col md={6} className="mb-8 md:mb-0">
