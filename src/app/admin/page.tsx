@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import Pagination from 'react-bootstrap/Pagination';
 import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
 import Link from 'next/link';
@@ -211,6 +212,10 @@ export default function AdminPage() {
                         ))}
                     </tbody>
                 </table>
+                 {/* paginacion que viene desde el backend */}
+                 <Pagination>
+                    <Pagination.Item>{enterprises?.paginatedCandidateQuery?.length}</Pagination.Item>
+                </Pagination>
             </div>
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Tabla Empresas</h2>
@@ -225,41 +230,44 @@ export default function AdminPage() {
                     </thead>
                     <tbody>
                         {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
-                            <tr key={key}>
-                                <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
-                                <td className="py-2 px-4 border-b">
-                                    {item.usuarioData.isPremium ? (
-                                        <button
-                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
-                                            className="bg-red-500 text-white px-4 py-2 rounded-md"
-                                        >
-                                            Anular Subscripción
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
-                                            className="bg-green-500 text-white px-4 py-2 rounded-md"
-                                        >
-                                            Aprobar Subscripción
-                                        </button>
-                                    )}
-                                </td>
-                                <td className="py-2 px-4 border-b">
-                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
-                                </td>
-                                <td className="py-2 px-4 border-b">
-                                    <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
-                                </td>
-                            </tr>
+                                <tr key={key}>
+                                    <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
+                                    <td className="py-2 px-4 border-b">
+                                        {item.usuarioData.isPremium ? (
+                                            <button
+                                                onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                                className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                            >
+                                                Anular Subscripción
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                                            >
+                                                Aprobar Subscripción
+                                            </button>
+                                        )}
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
+                                    </td>
+                                </tr>
                         ))}
                     </tbody>
                 </table>
+                {/* paginacion que viene desde el backend */}
+                <Pagination>
+                    <Pagination.Item>{enterprises?.paginatedEmpresaQuery?.length}</Pagination.Item>
+                </Pagination>
             </div>
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Configuración del sitio</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mb-4">
-                        <input type="hidden" {...register('idUsuario')} defaultValue={localStorage.getItem('idUsuario') as string} />
                         <label htmlFor="direccion" className="block text-sm font-medium text-gray-700">Dirección Física</label>
                         <textarea className="form-control w-full mt-1 p-2 border rounded-md" {...register('direccion', { required: true })}></textarea>
                     </div>
@@ -282,7 +290,7 @@ export default function AdminPage() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Texto del Slider</label>
+                                        <label className="block text-sm font-medium text-error">Imagen (Cuidado, rompe el funcionamiento si la imagen no existe)</label>
                                         <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.imagen.ruta`)} placeholder="Ruta de la imagen" />
                                     </div>
                                 </div>
