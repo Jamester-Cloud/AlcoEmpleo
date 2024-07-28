@@ -12,19 +12,20 @@ export async function POST(request: NextRequest) {
         let update;
 
         const reqJson = await request.json()
+        console.log(reqJson);
 
-        let { data: { banners, direccion, sliders, secciones, telefonos, politicaPrivacidad, idUsuario } } = reqJson;
-
+        let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad } } = reqJson;
+      
         filter = { idUsuarioAdministrador: Types.ObjectId.createFromHexString("669fbe254ee5de405072dfcd") }
 
         update = {
-            $update: {
-                "banner.$": banners,
-                "direccion.$": direccion,
-                "sliders.$": sliders,
-                "secciones.$": secciones,
-                "celular.$": telefonos,
-                "politicaPrivacidad.$": politicaPrivacidad,
+            $set: {
+                "banner": banner,
+                "direccion": direccion,
+                "sliders": sliders,
+                "secciones": secciones,
+                "celular": celular,
+                "politicaPrivacidad": politicaPrivacidad,
             }
         };
         //planeo hacer el paginado aca

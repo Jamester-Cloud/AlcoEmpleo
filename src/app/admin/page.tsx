@@ -290,7 +290,7 @@ export default function AdminPage() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-error">Imagen (Cuidado, rompe el funcionamiento si la imagen no existe)</label>
+                                        <label className="block text-sm font-medium text-danger">Imagen (Cuidado, rompe el funcionamiento si la imagen no existe)</label>
                                         <input type="text" className="form-control w-full mt-1 p-2 border rounded-md" {...register(`sliders.${index}.imagen.ruta`)} placeholder="Ruta de la imagen" />
                                     </div>
                                 </div>

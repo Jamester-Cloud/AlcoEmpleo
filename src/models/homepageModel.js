@@ -47,7 +47,7 @@ const homepageSchema = new mongoose.Schema({
   idUsuarioAdministrador: Types.ObjectId,
 })
 
-const Homepage = mongoose.models.homepage || mongoose.model("homepage", homepageSchema)
+const Homepage = mongoose.models.homepage || mongoose.model("homepages", homepageSchema)
 
 export default Homepage;
 
