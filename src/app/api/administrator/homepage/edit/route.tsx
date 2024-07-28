@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
         console.log(reqJson);
 
         let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad } } = reqJson;
-      
-        filter = { idUsuarioAdministrador: Types.ObjectId.createFromHexString("669fbe254ee5de405072dfcd") }
+
+        filter = { _id: Types.ObjectId.createFromHexString('66a576701d7bc081933b2758'), idUsuarioAdministrador: Types.ObjectId.createFromHexString("669fbe254ee5de405072dfcd") }
 
         update = {
             $set: {
