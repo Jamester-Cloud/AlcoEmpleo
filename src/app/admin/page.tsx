@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
 import Link from 'next/link';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
+import CandidatePage from '../candidate/page';
+import { set } from 'mongoose';
 type FormValues = {
     sliders: {
         titulo: string,
@@ -49,7 +51,7 @@ export default function AdminPage() {
         formState: { errors }
     } = methods;
 
-    //array fields
+    //array fields react hook form
     const { fields: fieldsSliders, append: appendSliders, remove: removeSliders } = useFieldArray({
         name: "sliders",
         control
@@ -73,6 +75,9 @@ export default function AdminPage() {
     const [candidates, setCandidates]: any = useState();
     const [enterprises, setEnterprises]: any = useState();
     const [siteData, setSiteData]: any = useState();
+    const [pagesCandidates, setPageCandidates]: any = useState([]);
+    const [nextCandidateDoc, setNextCandidateDoc] = useState(null);
+    const [previousCandidateDoc, setPreviousCandidateDoc] = useState(null);
     //UseEffects
     useEffect(() => {
         let defaultValues = {
@@ -85,14 +90,11 @@ export default function AdminPage() {
         }
 
         defaultValues.celular = siteData?.homePage[0]?.celular?.map((item: any) => { return { numero: item.numero } })
-
         defaultValues.sliders = siteData?.homePage[0]?.sliders?.map((item: any) => { return { titulo: item.titulo, texto: item.texto, imagen: { ruta: item.imagen.ruta } } })
-
         defaultValues.secciones = siteData?.homePage[0]?.secciones?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.banner = siteData?.homePage[0]?.banner?.map((item: any) => { return { titulo: item.titulo, texto: item.texto } })
         defaultValues.direccion = siteData?.homePage[0]?.direccion
         defaultValues.politicaPrivacidad = siteData?.homePage[0]?.politicaPrivacidad
-
 
         reset({ ...defaultValues })
     }, [siteData?.homePage[0]])
@@ -100,28 +102,66 @@ export default function AdminPage() {
 
     useEffect(() => {
         fetchData()
-    }, [!siteData, !candidates, !enterprises])
+    }, [!siteData, !enterprises])
+
+    useEffect(() => {
+        if (!candidates) fetchCandidateData()
+    }, [!candidates])
 
     const fetchData = async () => {
-
         try {
-            const candidateData = await axios.post('/api/administrator/candidates');
             const enterpriseData = await axios.post('/api/administrator/enterprise');
             const homeData = await axios.post('/api/administrator/homepage');
 
-            Promise.all([homeData, enterpriseData, candidateData]).then((values: any) => {
-                console.log("HomePage", values[0].data)
-                // console.log("Empresa", values[1].data)
-                // console.log("Candidatos", values[2].data)
-
+            Promise.all([homeData, enterpriseData]).then((values: any) => {
                 setSiteData(values[0].data);
                 setEnterprises(values[1].data)
-                setCandidates(values[2].data)
             })
         } catch (error) {
             console.log("error en la peticion de datos para el panel", error)
         }
     }
+
+    const fetchCandidateData = async () => {
+
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { limit: 10 } });
+        console.log(candidateData);
+        //estableciendo el ultimo documento
+        if (candidateData.status == 200) {
+            setCandidates(candidateData.data.data)
+            setNextCandidateDoc(candidateData.data.last_doc)
+            setPreviousCandidateDoc(candidateData.data.first_doc)
+        }
+    }
+
+    const nextPageCandidate = async () => {
+        console.log("Pagina siguiente")
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { next: nextCandidateDoc, limit: 10 } });
+        setCandidates(candidateData.data.data)
+        //
+        setNextCandidateDoc(candidateData.data.last_doc)
+        //
+        setPreviousCandidateDoc(candidateData.data.first_doc)
+    }
+    const prevPageCandidate = async () => {
+        console.log("Pagina previa")
+        console.log(previousCandidateDoc)
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { prev: previousCandidateDoc, limit: 10 } });
+        setCandidates(candidateData.data.data)
+        //
+        setNextCandidateDoc(candidateData.data.last_doc)
+        //
+        setPreviousCandidateDoc(candidateData.data.first_doc)
+    }
+
+    // const nextCandidatePage = (last_page_doc: any) => {
+    //     fetchCandidateData(last_page_doc)
+    // }
+
+    // const previousCandidatePage = (first_doc: any) => {
+    //     fetchCandidateData(first_doc)
+
+    // }
 
     const handleUserSubscripcion = async (id: string, isPremium: boolean) => {
         try {
@@ -179,12 +219,72 @@ export default function AdminPage() {
                             <th className="py-2 px-4 border-b">Subscripción</th>
                             <th className="py-2 px-4 border-b">Perfil</th>
                             <th className="py-2 px-4 border-b">Suspender</th>
+                            <th className="py-2 px-4 border-b">_id</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {candidates?.paginatedCandidateQuery?.map((item: any, key: number) => (
+                        {candidates?.map((item: any, key: number) => (
                             <tr key={key}>
                                 <td className="py-2 px-4 border-b">{item.personaData.nombre} {item.personaData.apellido}</td>
+                                <td className="py-2 px-4 border-b">
+                                    {item.usuarioData.isPremium ? (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Anular Subscripción
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md"
+                                        >
+                                            Aprobar Subscripción
+                                        </button>
+                                    )}
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    {item._id}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {/* paginacion que viene desde el backend */}
+                <Pagination>
+                    <Pagination.Prev onClick={() => prevPageCandidate()} disabled={previousCandidateDoc === null} />
+
+                    <Pagination.Next onClick={() => nextPageCandidate()} disabled={nextCandidateDoc === null} />
+                    {/* {candidates?.map((_: any, key: number) => {
+                    <Pagination.Next onClick={() => nextCandidatePage(lastCandidateDoc)} disabled={lastCandidateDoc === null} />
+                    
+                        return (<Pagination.Item key={key} >{key + 1}</Pagination.Item>)
+                    })} */}
+                    {/* <Pagination.Item>{candidates?.paginatedCandidateQuery?.length}</Pagination.Item> */}
+
+                </Pagination>
+            </div>
+            <div className="mb-6">
+                <h2 className="text-xl font-bold mb-4">Tabla Empresas</h2>
+                <table className="min-w-full bg-white shadow-md rounded mb-4">
+                    <thead>
+                        <tr>
+                            <th className="py-2 px-4 border-b">Nombre</th>
+                            <th className="py-2 px-4 border-b">Subscripción</th>
+                            <th className="py-2 px-4 border-b">Perfil</th>
+                            <th className="py-2 px-4 border-b">Suspender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
+                            <tr key={key}>
+                                <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
                                 <td className="py-2 px-4 border-b">
                                     {item.usuarioData.isPremium ? (
                                         <button
@@ -212,56 +312,14 @@ export default function AdminPage() {
                         ))}
                     </tbody>
                 </table>
-                 {/* paginacion que viene desde el backend */}
-                 <Pagination>
-                    <Pagination.Item>{enterprises?.paginatedCandidateQuery?.length}</Pagination.Item>
-                </Pagination>
-            </div>
-            <div className="mb-6">
-                <h2 className="text-xl font-bold mb-4">Tabla Empresas</h2>
-                <table className="min-w-full bg-white shadow-md rounded mb-4">
-                    <thead>
-                        <tr>
-                            <th className="py-2 px-4 border-b">Nombre</th>
-                            <th className="py-2 px-4 border-b">Subscripción</th>
-                            <th className="py-2 px-4 border-b">Perfil</th>
-                            <th className="py-2 px-4 border-b">Suspender</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
-                                <tr key={key}>
-                                    <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.usuarioData.isPremium ? (
-                                            <button
-                                                onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
-                                                className="bg-red-500 text-white px-4 py-2 rounded-md"
-                                            >
-                                                Anular Subscripción
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() => handleUserSubscripcion(item.usuarioData._id, item.usuarioData.isPremium)}
-                                                className="bg-green-500 text-white px-4 py-2 rounded-md"
-                                            >
-                                                Aprobar Subscripción
-                                            </button>
-                                        )}
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Ver Perfil</button>
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
-                                    </td>
-                                </tr>
-                        ))}
-                    </tbody>
-                </table>
                 {/* paginacion que viene desde el backend */}
                 <Pagination>
-                    <Pagination.Item>{enterprises?.paginatedEmpresaQuery?.length}</Pagination.Item>
+                    <Pagination.Prev />
+                    {enterprises?.paginatedEmpresaQuery?.map((_: any, key: number) => {
+                        return (<Pagination.Item key={key} >{key + 1}</Pagination.Item>)
+                    })}
+                    <Pagination.Next />
+                    {/* <Pagination.Item>{candidates?.paginatedCandidateQuery?.length}</Pagination.Item> */}
                 </Pagination>
             </div>
             <div className="mb-6">

@@ -58,18 +58,6 @@ export default function CandidateSearch() {
     }
   };
 
-  useEffect(() => {
-    if (!premiumsData) {
-      (async () => {
-        try {
-          const dataCandidates: any = await fetchPremiumCandidates();
-          setPremiumsData(dataCandidates.candidatosPremiums);
-        } catch (err: any) {
-          console.error("Error al cargar los datos del usuario", err);
-        }
-      })();
-    }
-  }, [premiumsData]);
 
   useEffect(() => {
     if (data) {

@@ -40,6 +40,11 @@ export default function UserCandidate() {
     setIsVisible(!isVisible);
   };
 
+  useEffect(()=>{
+    const regions:any = fetchRegions();
+    setRegions(regions.regions) 
+  })
+
   const fetchRegions = async () => {
     try {
       const response = await axios.get("/api/enterprise/candidate/regions");
@@ -49,58 +54,8 @@ export default function UserCandidate() {
     }
   };
 
-  const handleModal = (
-    e: any,
-    title: string,
-    data: any,
-    id: string,
-    dataType: string
-  ) => {
-    e.preventDefault();
-    console.log(data);
-    data.dataType = dataType;
-    setModalTitle(title);
-    setModalData({ ...data, id });
-    setShow(true);
-  };
-
-  // const getUserDetails = async () => {
-  //   const res = await axios.post("/api/candidate/me", {
-  //     idPersona: localStorage.getItem("idPersona"),
-  //     idUsuario: localStorage.getItem("idUsuario"),
-  //   });
-
-  //   if (res.status === 200 && res.data.success) {
-  //     setCandidatoData({
-  //       userData: {
-  //         ...res.data.dataPersona,
-  //         emailUsuario: res.data.emailUsuario,
-  //       },
-  //       candidatoData: res.data.dataCandidato,
-  //     });
-  //     console.log(res.data);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!candidatoData) {
-  //     (async () => {
-  //       try {
-  //         await getUserDetails();
-  //         console.log(candidatoData);
-  //       } catch (err) {
-  //         console.log("Error al cargar los datos del usuario", err);
-  //       }
-  //     })();
-  //   }
-  // }, [candidatoData]);
-
   const handleLocationChange = (selectedOption: any) => {
     setSelectedLocation(selectedOption);
-  };
-
-  const handleSpecialtiesChange = (e: any) => {
-    setSelectedSpecialty(e.target.value);
   };
 
   const handleSubmitFilter = async (e: any) => {
@@ -125,28 +80,7 @@ export default function UserCandidate() {
               title="cargo"
               className="w-full md:w-auto md:flex-1 mb-2 md:mb-0 md:mr-2"
             >
-              <Select
-                options={specialty}
-                value={selectedSpecialty}
-                onChange={handleSpecialtiesChange}
-                placeholder=""
-                isClearable={true}
-                className="w-72 md:w-auto pl-12"
-                name="estado"
-                styles={{
-                  menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                  control: (base) => ({ ...base, minWidth: "150px" }),
-                  input: (base) => ({ ...base, paddingLeft: "2.5rem" }),
-                }}
-                components={{
-                  DropdownIndicator: () => (
-                    <FontAwesomeIcon
-                      icon={faBriefcase}
-                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                    />
-                  ),
-                }}
-              />
+              <input type="text" placeholder="Cargo" className="w-72 md:w-auto pl-12" id="" />
             </div>
             <div
               title="Ubicación"

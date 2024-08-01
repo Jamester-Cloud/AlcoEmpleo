@@ -6,16 +6,8 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-    // let page: any = request.nextUrl.searchParams.get("page")
-
-    // const PER_PAGE = 5
-
     try {
-        //Consulta desde candidatos hasta personas. esto es para candidato normal
-        // const skip = (page - 1) * PER_PAGE;
 
-        // const countCandidates = await Candidato.countDocuments({ esDestacado: false })
-        //planeo hacer el paginado aca
         const paginatedCandidateQuery: any = await Candidato.aggregate([
             {
                 $lookup: {
@@ -45,7 +37,7 @@ export async function POST(request: NextRequest) {
             {
                 $unwind: "$personaData"
             }
-        ]).limit(5)
+        ]).limit(10)
 
 
         const response = NextResponse.json({

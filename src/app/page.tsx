@@ -32,7 +32,6 @@ export default function Home() {
         const homeData = await axios.post('/api/administrator/homepage');
         setHomePageData(homeData.data)
         setData(response.data);
-        console.log(homeData.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
