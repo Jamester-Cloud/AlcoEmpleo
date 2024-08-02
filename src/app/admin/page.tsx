@@ -27,7 +27,9 @@ type FormValues = {
     }[],
     politicaPrivacidad: string,
     direccion: string,
-    idUsuario: string
+    idUsuario: string,
+    cedula: string,
+    riff: string
 };
 export default function AdminPage() {
 
@@ -71,14 +73,18 @@ export default function AdminPage() {
         name: "celular",
         control
     });
-    //states
+    //states Candidates
     const [candidates, setCandidates]: any = useState();
+    const [pageCandidate, setPageCandidate] = useState(1);
+    const [pageCandidateCount, setCandidatePageCount]: any = useState(1);
+    //states enteprise
     const [enterprises, setEnterprises]: any = useState();
+    const [pageEnterprise, setPageEnterprise] = useState(1);
+    const [pageEnterpriseCount, setEnterprisePageCount]: any = useState(1);
+    //states homepage
     const [siteData, setSiteData]: any = useState();
-    const [pagesCandidates, setPageCandidates]: any = useState([]);
-    const [nextCandidateDoc, setNextCandidateDoc] = useState(null);
-    const [previousCandidateDoc, setPreviousCandidateDoc] = useState(null);
     //UseEffects
+    //siteData
     useEffect(() => {
         let defaultValues = {
             celular: [],
@@ -99,70 +105,115 @@ export default function AdminPage() {
         reset({ ...defaultValues })
     }, [siteData?.homePage[0]])
 
-
+    //site
     useEffect(() => {
         fetchData()
-    }, [!siteData, !enterprises])
+    }, [!siteData])
 
+    //candidate
     useEffect(() => {
         if (!candidates) fetchCandidateData()
     }, [!candidates])
 
+    //enteprise
+    useEffect(() => {
+        if (!enterprises) fetchEnterpriseData()
+    }, [!enterprises])
+
+    //siteData
     const fetchData = async () => {
         try {
             const enterpriseData = await axios.post('/api/administrator/enterprise');
             const homeData = await axios.post('/api/administrator/homepage');
 
-            Promise.all([homeData, enterpriseData]).then((values: any) => {
+            Promise.all([homeData]).then((values: any) => {
                 setSiteData(values[0].data);
-                setEnterprises(values[1].data)
             })
         } catch (error) {
             console.log("error en la peticion de datos para el panel", error)
         }
     }
-
+    // candidate data Table handle controls
     const fetchCandidateData = async () => {
 
-        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { limit: 10 } });
-        console.log(candidateData);
-        //estableciendo el ultimo documento
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { limit: 10, page: pageCandidate } });
         if (candidateData.status == 200) {
             setCandidates(candidateData.data.data)
-            setNextCandidateDoc(candidateData.data.last_doc)
-            setPreviousCandidateDoc(candidateData.data.first_doc)
+            setPageCandidate(pageCandidate)
+            setCandidatePageCount(parseInt(candidateData.data.pagination.pageCount))
+            console.log(candidateData.data.pagination.pageCount)
         }
     }
 
-    const nextPageCandidate = async () => {
+    const nextPageCandidate = async (nextPage: number) => {
         console.log("Pagina siguiente")
-        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { next: nextCandidateDoc, limit: 10 } });
+        console.log(pageCandidate)
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { page: nextPage, limit: 10 } });
         setCandidates(candidateData.data.data)
-        //
-        setNextCandidateDoc(candidateData.data.last_doc)
-        //
-        setPreviousCandidateDoc(candidateData.data.first_doc)
+        setCandidatePageCount(candidateData.data.pagination.pageCount)
+
+        if (candidateData.status == 200) {
+            console.log(pageCandidate);
+            setPageCandidate(nextPage)
+        }
+
     }
-    const prevPageCandidate = async () => {
+    const prevPageCandidate = async (prevPage: number) => {
         console.log("Pagina previa")
-        console.log(previousCandidateDoc)
-        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { prev: previousCandidateDoc, limit: 10 } });
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { page: prevPage, limit: 10 } });
         setCandidates(candidateData.data.data)
-        //
-        setNextCandidateDoc(candidateData.data.last_doc)
-        //
-        setPreviousCandidateDoc(candidateData.data.first_doc)
+        setCandidatePageCount(candidateData.data.pagination.pageCount)
+        if (candidateData.status == 200) {
+            setPageCandidate(prevPage)
+        }
     }
 
-    // const nextCandidatePage = (last_page_doc: any) => {
-    //     fetchCandidateData(last_page_doc)
-    // }
+    const goToPageCandidate = async (pageNumber: number) => {
+        const candidateData = await axios.post('/api/administrator/candidates/pagination', { query: { page: pageNumber, limit: 10 } });
+        setCandidates(candidateData.data.data)
+        setPageCandidate(pageNumber)
+    }
 
-    // const previousCandidatePage = (first_doc: any) => {
-    //     fetchCandidateData(first_doc)
+    //enterprise handle data controls
+    const fetchEnterpriseData = async () => {
 
-    // }
+        const enterpriseData = await axios.post('/api/administrator/enterprise/pagination', { query: { limit: 5, page: pageEnterprise } });
+        if (enterpriseData.status == 200) {
+            setEnterprises(enterpriseData.data.data)
+            setPageEnterprise(pageEnterprise)
+            setEnterprisePageCount(parseInt(enterpriseData.data.pagination.pageCount))
+        }
+    }
 
+    const nextPageEnterprise = async (nextPage: number) => {
+        console.log("Pagina siguiente")
+        const enterpriseData = await axios.post('/api/administrator/enterprise/pagination', { query: { page: nextPage, limit: 5 } });
+        setEnterprises(enterpriseData.data.data)
+        setEnterprisePageCount(enterpriseData.data.pagination.pageCount)
+
+        if (enterpriseData.status == 200) {
+            console.log(pageCandidate);
+            setEnterprises(nextPage)
+        }
+
+    }
+    const prevPageEnterprise = async (prevPage: number) => {
+        console.log("Pagina previa")
+        const enterpriseData = await axios.post('/api/administrator/enterprise/pagination', { query: { page: prevPage, limit: 5 } });
+        setEnterprises(enterpriseData.data.data)
+        setEnterprisePageCount(enterpriseData.data.pagination.pageCount)
+        if (enterpriseData.status == 200) {
+            setPageEnterprise(prevPage)
+        }
+    }
+
+    const goToPageEnterprise = async (pageNumber: number) => {
+        const enterpriseData = await axios.post('/api/administrator/enterprise/pagination', { query: { page: pageNumber, limit: 5 } });
+        setEnterprises(enterpriseData.data.data)
+        setPageEnterprise(pageNumber)
+    }
+
+    //table functions
     const handleUserSubscripcion = async (id: string, isPremium: boolean) => {
         try {
             const subscription = await axios.post('/api/administrator/subscription', { idUsuario: id, isPremium: isPremium })
@@ -192,6 +243,21 @@ export default function AdminPage() {
             });
         }
     }
+    const handleCandidateSearch = async (data: any) => {
+        const search = await axios.post('/api/administrator/searchUser/search', { query: { cedula: data.cedula } })
+        if (search.status == 200) setCandidates(search.data.data)
+    }
+
+    const handleEnterpriseSearch = async (data: any) => {
+        const search = await axios.post('/api/administrator/searchUser/search', { query: { riff: data.riff } })
+        if (search.status == 200) setEnterprises(search.data.data)
+    }
+
+    // const handlUserStatus = async (data: any) => {
+    //     const search = await axios.post('/api/administrator/searchUser/search', {cedula:data.cedula})
+    //     if(search.status == 200) console.log("Exito")
+    // }
+    //HomePage data
     const onSubmit = async (data: any) => {
         const res = await axios.post('/api/administrator/homepage/edit', { data })
         if (res.status == 200) console.log("Peticion exitosa"),
@@ -212,6 +278,18 @@ export default function AdminPage() {
         <div className="container mx-auto p-4">
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Tabla Candidatos</h2>
+                <form onSubmit={handleSubmit(handleCandidateSearch)} >
+                    <>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="text" {...register("cedula")} maxLength={15} className='form-control' placeholder='Cedula' />
+                            </div>
+                            <div className="col-md-6">
+                                <button className="btn btn-primary" type='submit' >Buscar</button>
+                            </div>
+                        </div>
+                    </>
+                </form>
                 <table className="min-w-full bg-white shadow-md rounded mb-4">
                     <thead>
                         <tr>
@@ -219,7 +297,7 @@ export default function AdminPage() {
                             <th className="py-2 px-4 border-b">Subscripción</th>
                             <th className="py-2 px-4 border-b">Perfil</th>
                             <th className="py-2 px-4 border-b">Suspender</th>
-                            <th className="py-2 px-4 border-b">_id</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -249,29 +327,33 @@ export default function AdminPage() {
                                 <td className="py-2 px-4 border-b">
                                     <button className="bg-gray-500 text-white px-4 py-2 rounded-md">Suspender Usuario</button>
                                 </td>
-                                <td className="py-2 px-4 border-b">
-                                    {item._id}
-                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 {/* paginacion que viene desde el backend */}
                 <Pagination>
-                    <Pagination.Prev onClick={() => prevPageCandidate()} disabled={previousCandidateDoc === null} />
-
-                    <Pagination.Next onClick={() => nextPageCandidate()} disabled={nextCandidateDoc === null} />
-                    {/* {candidates?.map((_: any, key: number) => {
-                    <Pagination.Next onClick={() => nextCandidatePage(lastCandidateDoc)} disabled={lastCandidateDoc === null} />
-                    
-                        return (<Pagination.Item key={key} >{key + 1}</Pagination.Item>)
-                    })} */}
-                    {/* <Pagination.Item>{candidates?.paginatedCandidateQuery?.length}</Pagination.Item> */}
-
+                    <Pagination.Prev onClick={() => prevPageCandidate(pageCandidate - 1)} disabled={pageCandidate == 1} />
+                    {Array(parseInt(pageCandidateCount)).fill(null).map((_, key) => {
+                        return (<Pagination.Item key={key} onClick={() => goToPageCandidate(key + 1)}>{key + 1}</Pagination.Item>)
+                    })}
+                    <Pagination.Next onClick={() => nextPageCandidate(pageCandidate + 1)} disabled={pageCandidate == pageCandidateCount} />
                 </Pagination>
             </div>
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Tabla Empresas</h2>
+                <form onSubmit={handleSubmit(handleEnterpriseSearch)} >
+                    <>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="text" {...register("riff")} maxLength={15} className='form-control' placeholder='Riff' />
+                            </div>
+                            <div className="col-md-6">
+                                <button className="btn btn-primary" type='submit' >Buscar</button>
+                            </div>
+                        </div>
+                    </>
+                </form>
                 <table className="min-w-full bg-white shadow-md rounded mb-4">
                     <thead>
                         <tr>
@@ -282,7 +364,7 @@ export default function AdminPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {enterprises?.paginatedEmpresaQuery?.map((item: any, key: number) => (
+                        {enterprises?.map((item: any, key: number) => (
                             <tr key={key}>
                                 <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
                                 <td className="py-2 px-4 border-b">
@@ -314,12 +396,11 @@ export default function AdminPage() {
                 </table>
                 {/* paginacion que viene desde el backend */}
                 <Pagination>
-                    <Pagination.Prev />
-                    {enterprises?.paginatedEmpresaQuery?.map((_: any, key: number) => {
-                        return (<Pagination.Item key={key} >{key + 1}</Pagination.Item>)
+                    <Pagination.Prev onClick={() => prevPageEnterprise(pageEnterprise - 1)} disabled={pageEnterprise == 1} />
+                    {Array(parseInt(pageEnterpriseCount)).fill(null).map((_, key) => {
+                        return (<Pagination.Item key={key} onClick={() => goToPageEnterprise(key + 1)}>{key + 1}</Pagination.Item>)
                     })}
-                    <Pagination.Next />
-                    {/* <Pagination.Item>{candidates?.paginatedCandidateQuery?.length}</Pagination.Item> */}
+                    <Pagination.Next onClick={() => nextPageEnterprise(pageEnterprise + 1)} disabled={pageEnterprise == pageEnterpriseCount} />
                 </Pagination>
             </div>
             <div className="mb-6">

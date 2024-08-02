@@ -1,0 +1,7 @@
+[functions]
+  directory = "src/netlify/functions/"
+  node_bundler = "esbuild"
+
+[dev]
+port = 9999
+targetPort=3000
