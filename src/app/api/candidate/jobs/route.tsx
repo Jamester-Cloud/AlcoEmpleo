@@ -8,7 +8,36 @@ connect()
 export async function GET(request: NextRequest) {
     try {
         //Consulta desde candidatos hasta personas
-        const ofertas = await OfertaTrabajo.find()
+        const ofertas = await OfertaTrabajo.aggregate([
+            {
+                $lookup: {
+                    from: "empresas",
+                    localField: "idEmpresa",
+                    foreignField: "_id",
+                    as: "empresaData"
+                }
+            },
+            {
+                $unwind: "$empresaData"
+            },
+            {
+                $project: {
+                    idPersona: "$usuarioData.idPersona",
+                    usuarioData: "$usuarioData"
+                }
+            },
+            {
+                $lookup: {
+                    from: "personas",
+                    localField: "idPersona",
+                    foreignField: "_id",
+                    as: "personaData"
+                }
+            },
+            {
+                $unwind: "$personaData"
+            }
+        ])
         //console.log("hello world")
         const response = NextResponse.json({
             message: "Succesfull login",

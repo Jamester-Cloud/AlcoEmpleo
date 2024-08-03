@@ -68,6 +68,7 @@ aplicar correciones para busqueda de candidatos general y ajustar paginado
 implementar sistema de guardado de archivos
 finalizar funciones simples del panel
 terminar vista de oportunidades candidato
+terminar vista de empleos aplicados
 
 
 
