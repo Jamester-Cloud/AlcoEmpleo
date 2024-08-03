@@ -59,6 +59,15 @@ Investigar transacciones en mongoDB(*)
 Buscar servidor dde cloud storage o usar mongoDB
 terminar administrador falta, tablas de candidato, empresa, funcionabilidad botones, paginacion para ambas, para evitar sobrecarga de datos
 "" datos del sitio principal
-programar ejecutor de tareas de la app con funciones de netlify
+programar ejecutor de tareas de la app con funciones de netlify.
+
+//Correciones
+aplicar validaciones de renderizacion exclusivas para premiums
+aplicar metodos de pago, para pagina candidatos
+aplicar correciones para busqueda de candidatos general y ajustar paginado
+implementar sistema de guardado de archivos
+finalizar funciones simples del panel
+terminar vista de oportunidades candidato
+
 
 

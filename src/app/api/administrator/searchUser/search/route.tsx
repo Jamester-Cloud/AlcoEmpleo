@@ -10,23 +10,18 @@ export async function POST(request: NextRequest) {
     const { query } = await request.json()
     let data: any;
     let user;
-    let qCandidate: any =
+    let q: any =
     {
-        "cedula": query.cedula
+        "cedula": query.cedula ? query.cedula : query.riff
     }
-
-    let qEnterprise: any =
-    {
-        "cedula": query.riff
-    }
-
+    
     try {
-        console.log(query.riff)
-        data = query.riff ? await Persona.find(qEnterprise) : await Persona.findOne(qCandidate)
-        user = await User.find({ idPersona: data._id })
+        console.log(query)
+        data = await Persona.findOne(q)
+
+        user = await User.findOne({ idPersona: data._id })
         
         data = [{ personaData: data, usuarioData: user }]
-        console.log(data[0].personaData, data[0].usuarioData)
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
             success: true,

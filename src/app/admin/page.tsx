@@ -244,15 +244,22 @@ export default function AdminPage() {
         }
     }
     const handleCandidateSearch = async (data: any) => {
+        if(data.cedula == '') return false
         const search = await axios.post('/api/administrator/searchUser/search', { query: { cedula: data.cedula } })
-        if (search.status == 200) setCandidates(search.data.data)
+        if (search.status == 200) {
+            console.log("candidatos", search)
+            setCandidates(search.data.data)
+        }
     }
 
     const handleEnterpriseSearch = async (data: any) => {
+        if(data.riff == '') return false
         const search = await axios.post('/api/administrator/searchUser/search', { query: { riff: data.riff } })
-        if (search.status == 200) setEnterprises(search.data.data)
+        if (search.status == 200) {
+            setEnterprises(search.data.data)
+            console.log("empresas", search)
+        }
     }
-
     // const handlUserStatus = async (data: any) => {
     //     const search = await axios.post('/api/administrator/searchUser/search', {cedula:data.cedula})
     //     if(search.status == 200) console.log("Exito")
@@ -366,7 +373,7 @@ export default function AdminPage() {
                     <tbody>
                         {enterprises?.map((item: any, key: number) => (
                             <tr key={key}>
-                                <td className="py-2 px-4 border-b">{item.personaData.nombre}</td>
+                                <td className="py-2 px-4 border-b">{item.personaData.nombre} {item.personaData.apellido}</td>
                                 <td className="py-2 px-4 border-b">
                                     {item.usuarioData.isPremium ? (
                                         <button
