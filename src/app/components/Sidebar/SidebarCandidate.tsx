@@ -16,9 +16,8 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-blue-950 shadow-lg z-50 transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 ease-in-out`}
+      className={`fixed top-0 left-0 h-full bg-blue-950 shadow-lg z-50 transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out`}
     >
       <button onClick={onClose} className="p-4 text-white">
         X
@@ -28,6 +27,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           className="navbar navbar-nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu"
         >
+          <li className="nav-item">
+            <Link
+              href="/candidate/oportunidades"
+              className="nav-link d-flex align-items-center"
+              id="dropdownUser1"
+            >
+              <span className="text-white d-none d-sm-inline mx-1">
+                Inicio
+              </span>
+            </Link>
+          </li>
           <li className="nav-item">
             <Link
               href="/candidate/edit"
@@ -46,6 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               </span>
             </Link>
           </li>
+
           <li>
             <Link
               href="/candidate/oportunidades"
@@ -78,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               </span>
             </a>
           </li>{" "}
-        
+
         </ul>
       </div>
     </div>

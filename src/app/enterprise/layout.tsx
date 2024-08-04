@@ -16,7 +16,6 @@ export default function layout({
       <CabeceraEmpresa />
       <Spinner />
       {children}
-      <Contact />
       <Footer />
     </>
   );

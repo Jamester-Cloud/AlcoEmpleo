@@ -12,7 +12,7 @@ export default function SubscriptionPage() {
     email: "admgrupoalco@gmail.com",
     monto: "5$",
     cedula: "12247978",
-    telefono: "+584145299886",
+    telefono: "+584122696463",
     banco: "Exterior",
   });
   const [modalVisible, setModalVisible] = useState(false);

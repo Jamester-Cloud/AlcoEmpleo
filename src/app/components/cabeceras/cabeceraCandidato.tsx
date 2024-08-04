@@ -62,9 +62,11 @@ export default function CabeceraCandidato({
       </div>
       <div className="flex items-center ml-auto space-x-4">
         <nav className="hidden md:flex md:flex-column space-x-4">
-          
+          <Link href="/candidate/subscription" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
+            Subscripcion
+          </Link>
           <a
-            className="text-decoration-none text-white transition-opacity duration-300 hover:opacity-50 cursor-pointer"
+            className="text-decoration-none mt-2 text-white transition-opacity duration-300 hover:opacity-50 cursor-pointer"
             onClick={logout}
           >
             Cerrar Sesion
@@ -87,12 +89,12 @@ export default function CabeceraCandidato({
         {showMenu && (
           <div ref={menuRef} className="absolute right-0 bg-white text-center shadow-lg z-10 w-auto rounded-md mt-5 py-2 px-2 mx-4 flex flex-col">
             <Link
-              href="/candidate/edit"
+              href="/candidate/subscription"
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               id="dropdownUser1"
               onClick={handleOptionClick}
             >
-              Ver Perfil
+              Subscripcion
             </Link>
             <a
               className="btn btn-outline btn-warning text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"

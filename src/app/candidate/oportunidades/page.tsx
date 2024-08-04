@@ -51,11 +51,6 @@ export default function Oportunidades() {
     setIsVisible(!isVisible);
   };
 
-  // useEffect(() => {
-  //   const regions: any = fetchRegions();
-  //   setRegions(regions.regions)
-  // })
-
   useEffect(() => {
     if (!data) {
       (async () => {
