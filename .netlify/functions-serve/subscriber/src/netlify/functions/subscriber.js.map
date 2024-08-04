@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": ["../../home/tripdata/Desktop/AlcoEmpleo/src/netlify/functions/subscriber.js", "../../home/tripdata/Desktop/AlcoEmpleo/node_modules/@netlify/functions/dist/chunk-DMOQOEJ6.mjs", "../../home/tripdata/Desktop/AlcoEmpleo/node_modules/@netlify/functions/dist/chunk-XSZVKDJB.mjs"],
+  "sourceRoot": "/tmp/tmp-66342-BODm7TmDpauL",
+  "sourcesContent": ["import { schedule } from '@netlify/functions'\n\nexport const handler = schedule('0 1 * * 1,5', async () => {\n  console.log(\"Esto es una funcion programada, para invocarse cada minuto\")\n  return {\n    statusCode: 200\n  }\n})", "// src/lib/schedule.ts\nvar schedule = (cron, handler) => handler;\n\nexport {\n  schedule\n};\n", "// src/lib/stream.ts\nimport { pipeline as pipelineSync } from \"stream\";\nimport { promisify } from \"util\";\nvar pipeline = promisify(pipelineSync);\nvar stream = (handler) => awslambda.streamifyResponse(async (event, responseStream, context) => {\n  const { body, ...httpResponseMetadata } = await handler(event, context);\n  const responseBody = awslambda.HttpResponseStream.from(responseStream, httpResponseMetadata);\n  if (typeof body === \"undefined\") {\n    responseBody.end();\n  } else if (typeof body === \"string\") {\n    responseBody.write(body);\n    responseBody.end();\n  } else {\n    await pipeline(body, responseBody);\n  }\n});\n\nexport {\n  stream\n};\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACCA,IAAI,WAAW,CAAC,MAAMA,aAAYA;;;ACAlC,oBAAyC;AACzC,kBAA0B;AAC1B,IAAI,eAAW,uBAAU,cAAAC,QAAY;;;AFD9B,IAAM,UAAU,SAAS,eAAe,YAAY;AACzD,UAAQ,IAAI,4DAA4D;AACxE,SAAO;AAAA,IACL,YAAY;AAAA,EACd;AACF,CAAC;",
+  "names": ["handler", "pipelineSync"]
+}

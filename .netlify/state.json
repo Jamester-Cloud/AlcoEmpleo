@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Guarenas",
+			"country": {
+				"code": "VE",
+				"name": "Venezuela"
+			},
+			"subdivision": {
+				"code": "M",
+				"name": "Miranda"
+			},
+			"timezone": "America/Caracas",
+			"latitude": 10.4633,
+			"longitude": -66.6177
+		},
+		"timestamp": 1722528341015
+	},
+	"siteId": "1f45a796-f09c-4f61-bec3-53e6ef8de36b"
+}
