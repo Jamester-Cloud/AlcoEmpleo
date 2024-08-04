@@ -22,7 +22,6 @@ import { useForm } from "react-hook-form";
 
 type FormValues = {
   cargo: string,
-  location: string
 }
 
 export default function Oportunidades() {
@@ -57,23 +56,11 @@ export default function Oportunidades() {
   //   setRegions(regions.regions)
   // })
 
-  const fetchRegions = async () => {
-    try {
-      const response = await axios.get("/api/enterprise/candidate/regions");
-      if (response.status === 200) return { regions: response.data.regiones };
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     if (!data) {
       (async () => {
         try {
           await fetchJobs()
-
-          console.log(data);
-
         } catch (err) {
           console.log('Error al cargar los datos el usuario');
         }
@@ -81,16 +68,18 @@ export default function Oportunidades() {
     }
   })
 
-  function deleteItem(event: any): void {
-    throw new Error("Function not implemented.");
+  const onSubmit = async (data: any) => {
+    console.log(data);
+    const response = await axios.post('/api/candidate/jobs/search', data)
+    if(response.status==200) setData(response.data.data)
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-slate-300 p-2 rounded-full text-white w-full max-w-3xl">
-        <form method="post">
+        <form onSubmit={handleSubmit(onSubmit)} >
           <div className="flex flex-col md:flex-row items-center">
-            <input type="text" placeholder="Cargo" className="ml-3 w-100 md:w-auto pl-12 form-control" id="" />
+            <input type="text" {...register('cargo')} placeholder="Cargo" className="ml-3 w-100 md:w-auto pl-12 form-control" id="" />
             <div
               title="cargo"
               className="w-full md:w-auto md:flex-1 mb-2 md:mb-0 md:mr-2"
@@ -120,19 +109,19 @@ export default function Oportunidades() {
               <div className="flex flex-col md:flex-row items-center md:items-start">
                 <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
                   <h2 className="text-2xl text-blue-600 font-bold">
-                    {item.tituloOferta}
-                    <div className="badge text-secondary">{item.modalidadTrabajo}</div>
+                    {item.ofertaTrabajo.tituloOferta}
+                    <div className="badge text-secondary">{item.ofertaTrabajo.modalidadTrabajo}</div>
                   </h2>
-
-                  <p className="text-xl text-gray-600">Inversiones Avícolas C. A</p>
+                  {/* 
+                  <p className="text-xl text-gray-600">Inversiones Avícolas C. A</p> */}
                   <div className="flex flex-row text-gray-600 mt-2">
-                    <p>{item.descripcionOfertaTrabajo}</p>
+                    <p>{item.ofertaTrabajo.descripcionOfertaTrabajo}</p>
                   </div>
                   <div className="flex flex-row text-gray-600 mt-2">
                     <div className="col-md-6">
                       <h6>Beneficios:</h6>
                       <ul>
-                        {item.beneficios.map((item: any, key: number) => {
+                        {item.ofertaTrabajo.beneficios.map((item: any, key: number) => {
                           return (
                             <li key={key}>{item}</li>
                           )
@@ -142,7 +131,7 @@ export default function Oportunidades() {
                     <div className="col-md-6">
                       <h6>Requisitos:</h6>
                       <ul>
-                        {item.requisitos.map((item: any, key: number) => {
+                        {item.ofertaTrabajo.requisitos.map((item: any, key: number) => {
                           return (
                             <li key={key}>{item}</li>
                           )
@@ -152,6 +141,7 @@ export default function Oportunidades() {
                   </div>
                   <button className="btn btn-primary w-25" >Solicitar</button>
                 </div>
+                {/* logo empresarial */}
                 <Image
                   src="/Kiri.png"
                   alt="Admin"

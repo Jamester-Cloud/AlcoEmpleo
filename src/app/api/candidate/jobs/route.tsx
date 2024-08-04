@@ -18,26 +18,16 @@ export async function GET(request: NextRequest) {
                 }
             },
             {
-                $unwind: "$empresaData"
+                $unwind: "$empresaData",
             },
             {
                 $project: {
-                    idPersona: "$usuarioData.idPersona",
-                    usuarioData: "$usuarioData"
+                    "ofertaTrabajo": "$$ROOT",
+                    empresaData: "$empresaData",
                 }
             },
-            {
-                $lookup: {
-                    from: "personas",
-                    localField: "idPersona",
-                    foreignField: "_id",
-                    as: "personaData"
-                }
-            },
-            {
-                $unwind: "$personaData"
-            }
         ])
+        console.log(ofertas)
         //console.log("hello world")
         const response = NextResponse.json({
             message: "Succesfull login",
