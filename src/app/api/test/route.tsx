@@ -14,11 +14,13 @@ export async function GET(request: NextRequest) {
     });
 
     let prompt = `
-    Dame 5 preguntas importantes que le harias a un programador web, en forma de preguntas de opcion multiple, junto con la opcion correcta en español:
+    Dame 5 preguntas importantes que le harias a un programador web, en forma de preguntas de opcion multiple, junto con la opcion correcta en español, en el 
+    siguiente formato:
+    [{pregunta:"", opciones:[{respuesta:""}], correcta:{}}]
     }`;
 
     let result = await model.generateContent(prompt)
-    console.log(result.response.text());
+    console.log(result.response);
     try {
         // await new Cuestionario({
         //     idCandidato: "669e8937da1662e525b8eaf3",
