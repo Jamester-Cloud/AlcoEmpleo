@@ -7,7 +7,7 @@ import Candidato from '@/models/candidato'
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import Rol from "@/models/userRolModel";
-import uploadImage from "@/helpers/uploadImage";
+import uploadImage from "@/helpers/upload";
 //import { sendEmail } from "@/helpers/mailer";
 
 connect()
