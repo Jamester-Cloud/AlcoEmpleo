@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
-import uploadImage from "@/helpers/uploadImage";
-
+import upload from "@/helpers/upload"
+import multer from "multer";
 connect();
 
 export async function POST(request: NextRequest) {
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
                 filter = { _id: formData.get('idPersona') }
 
-                file = await uploadImage(profilePicture,'candidates')
+                //file = await uploadImage(profilePicture,'candidates')
 
                 if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
 
@@ -45,32 +45,26 @@ export async function POST(request: NextRequest) {
                     await Persona.updateOne(filter, update)
 
                 }
-
-
                 break;
             case 'perfil':
                 console.log(formData);
+                //upload()?.single('CV')
+                //let cv = formData.get('perfil[CV]') as File
+                //file = await uploadImage(cv, 'candidates')
+                // filter = {
+                //     idUsuario: formData.get('idUsuario')
+                // }
 
-                let cv = formData.get('perfil[CV]') as File
-
-                file = await uploadImage(cv, 'candidates')
-
-                console.log(file);
-
-                filter = {
-                    idUsuario: formData.get('idUsuario')
-                }
-
-                update = {
-                    $set: {
-                        "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
-                        "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
-                        "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
-                        "perfil.CV": { size: file.size, path: file.path, dataType: file.contentType }
-                    }
-                }
-                //codigo que maneja las peticiones de idiomas
-                await Candidato.updateOne(filter, update);
+                // update = {
+                //     $set: {
+                //         "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
+                //         "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
+                //         "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
+                //         "perfil.CV": { size: file.size, path: file.path, dataType: file.contentType }
+                //     }
+                // }
+                // //codigo que maneja las peticiones de idiomas
+                // await Candidato.updateOne(filter, update);
 
                 break;
             case 'exp':

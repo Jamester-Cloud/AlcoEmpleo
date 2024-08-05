@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 export async function connect() {
     try {
-
+        let bucket;
+        
         mongoose.connect(process.env.MONGO_URI!);
         const connection = mongoose.connection;
 
@@ -10,6 +11,10 @@ export async function connect() {
 
         connection.on('connected', () => {
             console.log('MongoDB connected successfully');
+            bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+                bucketName: "filesBucket",
+              });
+            console.log("Bucket initialized!")
         })
 
         connection.on('error', (err) => {

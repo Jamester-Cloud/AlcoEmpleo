@@ -2,39 +2,29 @@
 import { writeFile, readFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { fileValidator, fileSizeValidator } from "./fileValidator";
-import Grid from 'gridfs-stream'
-import { connect } from "@/dbConfig/dbConfig";
-import mongoose from "mongoose";
-import fs from 'fs'
+import multer from "multer";
+import { GridFsStorage } from 'multer-gridfs-storage'
 /**
  * @param File
- * upload functions for images or docs
+ * upload functions for images or docs to mongoDB buckets
  */
-export default async function uploadImage(formFile: File, pathType: string) {
-
-    const connection: any = connect()
-    let bucket = new mongoose.mongo.GridFSBucket(connection, { bucketName: 'archivos' })
-
-
-
+export default async function upload() {
     try {
-        const file:any = formFile;
-        file.arrayBuffer
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = new Uint8Array(arrayBuffer);
-        fs.createReadStream(file.stream).
-            pipe(bucket.openUploadStream('archivo', {
-                chunkSizeBytes: 1048576,
-                metadata: { field: 'myField', value: 'myValue' }
-            }));
-        console.log("El archivo es:", file)
-        console.log("la ruta de este archivo es:", __dirname)
-        let isValid = fileValidator(file.type)
-        let validSize = fileSizeValidator(file.size)
-        console.log("Tamaño de archivo es: ", file.size)
-        console.log("extension de archivo es: ", isValid)
+        const mongodbUrl: any = process.env.MONGO_URI
+        const storage = new GridFsStorage({
+            url: mongodbUrl,
+            file: (req, file) => {
+                return new Promise((resolve, _reject) => {
+                    const fileInfo = {
+                        filename: file.originalname,
+                        bucketName: "filesBucket",
+                    };
+                    resolve(fileInfo);
+                });
+            },
+        });
 
-
+        return multer({ storage });
         // if (isValid && validSize) {
         //     const arrayBuffer = await file.arrayBuffer();
         //     const buffer = new Uint8Array(arrayBuffer);
