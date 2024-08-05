@@ -1,6 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import HomePage from '@/models/homepageModel'
 import { NextRequest, NextResponse } from "next/server";
+import { Types } from "mongoose";
 connect()
 
 
@@ -11,23 +12,24 @@ export async function POST(request: NextRequest) {
         let update;
 
         const reqJson = await request.json()
+        console.log(reqJson);
 
-        let { data: { banners, direccion, sliders, secciones, telefonos, politicaPrivacidad, idUsuario } } = reqJson;
-
-        filter = { idUsuarioAdministrador: idUsuario }
+        let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad } } = reqJson;
+        console.log(reqJson.data)
+        filter = { idUsuarioAdministrador: Types.ObjectId.createFromHexString('669fbe254ee5de405072dfcd') }
 
         update = {
             $set: {
-                "banner": banners,
+                "banner": banner,
                 "direccion": direccion,
                 "sliders": sliders,
                 "secciones": secciones,
-                "celular": telefonos,
+                "celular": celular,
                 "politicaPrivacidad": politicaPrivacidad,
             }
         };
         //planeo hacer el paginado aca
-        await HomePage.updateOne(filter, update)
+        await HomePage.findOneAndUpdate(filter, update)
 
         const response = NextResponse.json({
             message: "Succesfull data update",

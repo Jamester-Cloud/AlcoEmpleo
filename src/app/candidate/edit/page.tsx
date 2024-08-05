@@ -22,6 +22,7 @@ export default function UserCandidate() {
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
   const [modalType, setModalDataType] = useState("");
+  
   const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
     setModalDataType(dataType)

@@ -4,7 +4,6 @@ import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
 import uploadImage from "@/helpers/uploadImage";
-import { Console } from "console";
 
 connect();
 

@@ -28,8 +28,6 @@ export default function LogInForm() {
 
             localStorage.setItem('idUsuario', response.data.idUsuario)
             localStorage.setItem('idPersona', response.data.idPersona)
-            console.log(localStorage.getItem('idPersona'));
-            console.log(localStorage.getItem('idUsuario'));
 
             let rol = response.data.userRol
             console.log(rol)
