@@ -8,6 +8,7 @@ import "tailwindcss/tailwind.css";
 export default function SubscriptionPage() {
   const { register, handleSubmit } = useForm();
   const [processor, setProcessor] = useState("");
+  //todo agregar el numero del Sr.Ezequiel
   const [paymentData, setPaymentData] = useState({
     email: "admgrupoalco@gmail.com",
     monto: "5$",
