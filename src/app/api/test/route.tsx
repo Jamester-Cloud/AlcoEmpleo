@@ -1,26 +1,54 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Cuestionario from '@/models/cuestionarios'
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai'
 connect()
 
 export async function GET(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
 
+    let cargoDeseado = "Ingeniero de software";
+
     let model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
-        // Set the `responseMimeType` to output JSON
-        generationConfig: { responseMimeType: "application/json" }
+        generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: FunctionDeclarationSchemaType.ARRAY,
+                items: {
+                    type: FunctionDeclarationSchemaType.OBJECT,
+                    properties: {
+                        pregunta: {
+                            type: FunctionDeclarationSchemaType.STRING,
+                        },
+                        respuestas: {
+                            type: FunctionDeclarationSchemaType.ARRAY,
+                            items: {
+                                type: FunctionDeclarationSchemaType.OBJECT,
+                                properties: {
+                                    respuesta: { type: FunctionDeclarationSchemaType.STRING },
+                                    RespuestaCorrecta: {
+                                        type: FunctionDeclarationSchemaType.STRING,
+                                    },
+                                }
+                            }
+                        },
+                    },
+                },
+            },
+        }
     });
 
-    let prompt = `
-    Dame 5 preguntas importantes que le harias a un programador web, en forma de preguntas de opcion multiple, junto con la opcion correcta en español, en el 
-    siguiente formato:
-    [{pregunta:"", opciones:[{respuesta:""}], correcta:{}}]
-    }`;
+    let prompt = `Dame 5 preguntas importantes que le harias a un ${cargoDeseado} para certificarlo en un cargo dentro empresa, junto con la respuestas correctas y su vez con un grado de dificultad alto en español.`;
 
     let result = await model.generateContent(prompt)
-    console.log(result.response);
+    let preguntas: any = JSON.parse(result.response.text());
+    preguntas.map((item: any, key: number) => {
+        console.log(item)
+    })
+    // preguntas?.map((item:any, key:Number)=>{
+    //     console.log(item)
+    // })
     try {
         // await new Cuestionario({
         //     idCandidato: "669e8937da1662e525b8eaf3",
