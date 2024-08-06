@@ -183,7 +183,7 @@ export default function AdminPage() {
   };
 
   const nextPageCandidate = async (nextPage: number) => {
-    
+
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: nextPage, limit: 10 } }
@@ -198,27 +198,27 @@ export default function AdminPage() {
     }
   };
   const prevPageCandidate = async (prevPage: number) => {
-    
+
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: prevPage, limit: 10 } }
     );
-    
+
     setCandidates(candidateData.data.data);
     setCandidatePageCount(candidateData.data.pagination.pageCount);
-    
+
     if (candidateData.status == 200) {
       setPageCandidate(prevPage);
     }
   };
 
   const goToPageCandidate = async (pageNumber: number) => {
-   
+
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: pageNumber, limit: 10 } }
     );
-   
+
     setCandidates(candidateData.data.data);
     setPageCandidate(pageNumber);
   };
@@ -394,10 +394,10 @@ export default function AdminPage() {
           <tbody>
             {candidates?.map((item: any, key: number) => (
               <tr key={key}>
-              <td>
-              <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80}/>
-                
-              </td>
+                <td>
+                  <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
+
+                </td>
                 <td className="py-2 px-4 border-b">
                   {item.personaData.nombre} {item.personaData.apellido}  <FontAwesomeIcon icon={faCheckCircle} className="text-blue-500 ml-1" />
                 </td>
@@ -439,9 +439,10 @@ export default function AdminPage() {
                   </button>
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="bg-purple-500 text-white px-4 py-2 rounded-md">
+                  <Link href={`/admin/quizzes/${item._id}`} className="btn btn-info text-white text-xs py-2 px-4 rounded">
                     Generar Cuestionario
-                  </button>
+                  </Link>
+
                 </td>
               </tr>
             ))}
@@ -507,13 +508,13 @@ export default function AdminPage() {
             {enterprises?.map((item: any, key: number) => (
               <tr key={key}>
                 <td className="py-2 px-4 border-b">
-                              <Image
-                              width={50}
-                              height={80}
-                              className="img-fluid rounded-2xl p-1"
-                              src="/AlcoSloganLogo.png"
-                              alt="GrupoAlco"
-                            />
+                  <Image
+                    width={50}
+                    height={80}
+                    className="img-fluid rounded-2xl p-1"
+                    src="/AlcoSloganLogo.png"
+                    alt="GrupoAlco"
+                  />
                 </td>
                 <td className="py-2 px-4 border-b">
                   {item.personaData.nombre} {item.personaData.apellido}

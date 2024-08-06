@@ -2,8 +2,9 @@ import mongoose, { Types } from "mongoose";
 
 const cuestionarioSchema = new mongoose.Schema({
     idCandidato: Types.ObjectId,
-    preguntas: [{ pregunta: String }],
-    respuestas: [{ respuesta: String }],
+    preguntas: [{ pregunta: String, respuestaCorrecta:String, respuestas:[{respuesta:string}] }],
+    respuestasCandidato: [{ respuesta: String }],
+    dificultad:String,
     calificacion: Number,
     createadAt: { type: Date, default: Date.now },
     finalizada:Boolean,
