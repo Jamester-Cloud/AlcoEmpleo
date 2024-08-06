@@ -159,7 +159,6 @@ export default function AdminPage() {
   //siteData
   const fetchData = async () => {
     try {
-      const enterpriseData = await axios.post("/api/administrator/enterprise");
       const homeData = await axios.post("/api/administrator/homepage");
 
       Promise.all([homeData]).then((values: any) => {
@@ -184,12 +183,12 @@ export default function AdminPage() {
   };
 
   const nextPageCandidate = async (nextPage: number) => {
-    console.log("Pagina siguiente");
-    console.log(pageCandidate);
+    
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: nextPage, limit: 10 } }
     );
+
     setCandidates(candidateData.data.data);
     setCandidatePageCount(candidateData.data.pagination.pageCount);
 
@@ -199,23 +198,27 @@ export default function AdminPage() {
     }
   };
   const prevPageCandidate = async (prevPage: number) => {
-    console.log("Pagina previa");
+    
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: prevPage, limit: 10 } }
     );
+    
     setCandidates(candidateData.data.data);
     setCandidatePageCount(candidateData.data.pagination.pageCount);
+    
     if (candidateData.status == 200) {
       setPageCandidate(prevPage);
     }
   };
 
   const goToPageCandidate = async (pageNumber: number) => {
+   
     const candidateData = await axios.post(
       "/api/administrator/candidates/pagination",
       { query: { page: pageNumber, limit: 10 } }
     );
+   
     setCandidates(candidateData.data.data);
     setPageCandidate(pageNumber);
   };
@@ -385,6 +388,7 @@ export default function AdminPage() {
               <th className="py-2 px-4 border-b">Subscripción</th>
               <th className="py-2 px-4 border-b">Perfil</th>
               <th className="py-2 px-4 border-b">Suspender</th>
+              <th className="py-2 px-4 border-b">Generar Cuestionario</th>
             </tr>
           </thead>
           <tbody>
@@ -432,6 +436,11 @@ export default function AdminPage() {
                 <td className="py-2 px-4 border-b">
                   <button className="bg-gray-500 text-white px-4 py-2 rounded-md">
                     Suspender Usuario
+                  </button>
+                </td>
+                <td className="py-2 px-4 border-b">
+                  <button className="bg-purple-500 text-white px-4 py-2 rounded-md">
+                    Generar Cuestionario
                   </button>
                 </td>
               </tr>
