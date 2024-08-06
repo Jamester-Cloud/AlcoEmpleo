@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { UNSTABLE_REVALIDATE_RENAME_ERROR } from "next/dist/lib/constants";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 

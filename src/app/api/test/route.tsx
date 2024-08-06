@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
     const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
 
     let cargoDeseado = "Ingeniero de software";
+    let dificultad = "media";
 
     let model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
@@ -27,11 +28,11 @@ export async function GET(request: NextRequest) {
                                 type: FunctionDeclarationSchemaType.OBJECT,
                                 properties: {
                                     respuesta: { type: FunctionDeclarationSchemaType.STRING },
-                                    RespuestaCorrecta: {
-                                        type: FunctionDeclarationSchemaType.STRING,
-                                    },
                                 }
                             }
+                        },
+                        correcta: {
+                            type: FunctionDeclarationSchemaType.STRING,
                         },
                     },
                 },
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
         }
     });
 
-    let prompt = `Dame 5 preguntas importantes que le harias a un ${cargoDeseado} para certificarlo en un cargo dentro empresa, junto con la respuestas correctas y su vez con un grado de dificultad alto en español.`;
+    let prompt = `Dame 5 preguntas importantes de seleccion multiple, que le harias a un ${cargoDeseado} para certificarlo en un cargo dentro de una empresa, junto con la respuesta correcta y su vez con un grado de dificultad alto, en español, tambien que sean preguntas diferentes no me generes las mismas si te lo pregunto varias veces, y no cambies la estructura de los datos.`;
 
     let result = await model.generateContent(prompt)
     let preguntas: any = JSON.parse(result.response.text());
@@ -64,7 +65,6 @@ export async function GET(request: NextRequest) {
         //     calificacion: 5,
         //     createadAt: new Date("2024-07-31T00:00:00Z")
         // }).save()
-
         return NextResponse.json({ message: 'Consulta creada exitosamente', success: true, result: result })
     } catch (error) {
         console.log(error)
