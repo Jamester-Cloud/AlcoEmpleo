@@ -73,7 +73,7 @@ export default function Quizzes() {
                 <table className="min-w-full bg-white shadow-md rounded mb-4">
                     <thead>
                         <tr>
-                            <th className="py-2 px-4 border-b">Icono</th>
+                            <th className="py-2 px-4 border-b"></th>
                             <th className="py-2 px-4 border-b">Dificultad</th>
                             <th className="py-2 px-4 border-b">Calificacíon</th>
                             <th className="py-2 px-4 border-b">Finalizado</th>

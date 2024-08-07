@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
             preguntas:preguntas,
             dificultad:dificultad,
             tituloCuestionario:tituloCuestionario,
+            calificacion:0,
             finalizada:false
         }).save()
 
