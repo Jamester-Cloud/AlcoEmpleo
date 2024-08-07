@@ -22,7 +22,7 @@ export default function NestedFields({ nestIndex, control, register, errors }: a
                                 {...register(`quiz[${nestIndex}].respuestas[${k}].respuesta` as const, {
                                     required: true
                                 })}
-                                className="form-control mt-2"
+                                className="form-control mt-2 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             />
                             <button
                                 type="button"
@@ -34,11 +34,11 @@ export default function NestedFields({ nestIndex, control, register, errors }: a
                         </div>
                     );
                 })}
-
+<br />
                 <button
                     type="button"
                     onClick={() => append({ field1: "field1" })}
-                    className="btn btn-danger mt-5"
+                    className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
                 >
                     Agregar respuesta
                 </button>
