@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
 import NestedFields from '@/app/components/Forms/NestedArray';
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import Spinner from '@/app/components/Spinner/Spinner';
+import { useRouter } from "next/navigation"
 type FormValues = {
     quiz: {
         pregunta: string,
@@ -18,9 +20,12 @@ type FormValues = {
 
 export default function Quizzes({ params }: any) {
 
+    const router = useRouter()
+
     let { id } = params;
 
     const [quiz, setQuiz]: any = useState();
+    const [isLoading, setLoading] = useState(false)
 
     const [dificultad, setDificultad] = useState("medio");
     const [cargoDeseadoCandidato, setCargoDeseado] = useState("");
@@ -68,7 +73,7 @@ export default function Quizzes({ params }: any) {
     const handleSubmitQuiz = async (data: any) => {
         console.log(data);
         try {
-            await axios.post('/api/administrator/candidates/quizzes/save/', { preguntas: data.quiz, dificultad: data.dificultad, idCandidato: data.idCandidato })
+            const response = await axios.post('/api/administrator/candidates/quizzes/save/', { preguntas: data.quiz, dificultad: data.dificultad, idCandidato: data.idCandidato })
             toast.success("Cuestionario generado", {
                 position: "top-right",
                 autoClose: 5000,
@@ -80,6 +85,9 @@ export default function Quizzes({ params }: any) {
                 theme: "light",
                 transition: Bounce,
             });
+            setTimeout(() => {
+                if (response.status == 200) router.push("/admin")
+            }, 3000);
         } catch (error) {
             toast.error("Cuestionario no generado, contacte a soporte tecnico", {
                 position: "top-right",
@@ -94,6 +102,10 @@ export default function Quizzes({ params }: any) {
             });
             console.log("Error")
         }
+    }
+
+    if (isLoading) {
+        return <Spinner />;
     }
 
     return (
