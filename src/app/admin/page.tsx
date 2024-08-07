@@ -369,7 +369,7 @@ export default function AdminPage() {
                   {...register("cedula")}
                   maxLength={15}
                   className="form-control"
-                  placeholder="Cedula"
+                  placeholder="Cedula EJ: V123456789"
                 />
               </div>
               <div className="col-md-6">
@@ -483,7 +483,7 @@ export default function AdminPage() {
                   {...register("riff")}
                   maxLength={15}
                   className="form-control"
-                  placeholder="Riff"
+                  placeholder="Riff EJ: J123456789"
                 />
               </div>
               <div className="col-md-6">

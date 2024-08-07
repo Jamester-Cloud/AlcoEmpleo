@@ -19,10 +19,10 @@ export async function POST(request: NextRequest) {
 
         console.log(formData);
 
-        if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
-            logoPicture = formData.get('logo[]') as File
-            logoPicture = await uploadImage(logoPicture, 'enterprises')
-        }
+        // if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
+        //     logoPicture = formData.get('logo[]') as File
+        //     logoPicture = await uploadImage(logoPicture, 'enterprises')
+        // }
 
         let email, password: any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type, estado
 
@@ -90,14 +90,14 @@ export async function POST(request: NextRequest) {
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
 
         //todo Se carga el logo (se debe resolver el problema de almacenamiento de imagenes y archivos primero)
-        if (type === 'Empresas') {
+        // if (type === 'Empresas') {
 
-            let update = {
-                logo: { path: logoPicture?.path, dataType: logoPicture?.contentType, size: logoPicture?.size }
-            }
+        //     let update = {
+        //         logo: { path: logoPicture?.path, dataType: logoPicture?.contentType, size: logoPicture?.size }
+        //     }
 
-            await Empresa.updateOne({ _id: newEmpresa._id }, update)
-        }
+        //     await Empresa.updateOne({ _id: newEmpresa._id }, update)
+        // }
 
         return NextResponse.json({ message: 'User created succesfully', success: true })
 
