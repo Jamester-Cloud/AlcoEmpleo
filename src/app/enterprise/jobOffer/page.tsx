@@ -143,17 +143,17 @@ export default function JobOffer() {
                             <form className="form-card" onSubmit={handleSubmit} >
                                 <div className="row justify-content-between text-left">
                                     <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Titulo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="tituloOferta" required name="tituloOferta" onChange={onHandleInputChange} className="form-control" placeholder="Titulo de la oferta de empleo" />
+                                        <input type="text" id="tituloOferta" required name="tituloOferta" onChange={onHandleInputChange} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Titulo de la oferta de empleo" />
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-sm-12 flex-column d-flex"> <label className="form-control-label px-3">Descripcion de la oferta<span className="text-danger"> *</span></label>
-                                        <textarea id="descripcionOferta" className="form-control" name="descripcionOferta" onChange={onHandleInputChange} placeholder="Descripcion de la oferta de empleo" />
+                                        <textarea id="descripcionOferta" className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" name="descripcionOferta" onChange={onHandleInputChange} placeholder="Descripcion de la oferta de empleo" />
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Modalidad de Trabajo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="modalidadTrabajo" required name="modalidadTrabajo" onChange={onHandleInputChange} className="form-control" placeholder="Modalidad de la oferta de empleo" />
+                                        <input type="text" id="modalidadTrabajo" required name="modalidadTrabajo" onChange={onHandleInputChange} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Modalidad de la oferta de empleo" />
                                     </div>
                                 </div>
                                 {/* colocar para el guardado de datos */}
@@ -161,7 +161,7 @@ export default function JobOffer() {
                                 {/*  Array */}
                                 <div className="row mt-3">
                                     <div className="col-md-12 text-left"> <label className="form-control-label px-3">Beneficios<span className="text-danger"> *</span></label>
-                                        <input type="text" id="beneficios" name="beneficios" onChange={onHandleBeneficiosChange} value={beneficio} className="form-control" placeholder="Beneficios de la oferta" />
+                                        <input type="text" id="beneficios" name="beneficios" onChange={onHandleBeneficiosChange} value={beneficio} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Beneficios de la oferta" />
                                     </div>
                                     <div className="col-md-3 text-start justify-content-between mt-2">
                                         <button onClick={loadBeneficio} className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
@@ -172,7 +172,7 @@ export default function JobOffer() {
                                 {/* Array */}
                                 <div className="row justify-content-between text-left mt-3">
                                     <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Requisitos<span className="text-danger"> *</span></label>
-                                        <input type="text" id="requisito" name="requisito" onChange={onHandleRequisitosChange} value={requisito} className="form-control" placeholder="Requisitos de la oferta" />
+                                        <input type="text" id="requisito" name="requisito" onChange={onHandleRequisitosChange} value={requisito} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Requisitos de la oferta" />
                                     </div>
                                     <div className="col-md-3 text-start justify-content-between mt-2">
                                         <button onClick={loadRequisito} className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>

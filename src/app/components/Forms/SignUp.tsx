@@ -181,7 +181,7 @@ export default function SignUpForm(props: any) {
                                                         name="rif"
                                                         id="rif"
                                                         onChange={onHandleInputChange}
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
                                                     />
                                                     {hasTyped && !isInvalid ? <label htmlFor="rif" className="text-danger">Formato invalido</label> : <label htmlFor="riff">RIF</label>}
                                                     <br /><span className="text-fade">Formato: J-G: 123456789, Ejemplo: J123456789</span>
@@ -197,11 +197,11 @@ export default function SignUpForm(props: any) {
                                                         id="cedula"
                                                         maxLength={13}
                                                         onChange={onHandleInputChange}
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid  mt-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control mt-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
 
                                                     />
                                               
-                                                    {hasTyped && !isInvalid ? <label htmlFor="cedula" className="text-danger">Formato invalido</label> : <label htmlFor="riff">Cédula V-E: V123456789</label>}
+                                                    {hasTyped && !isInvalid ? <label htmlFor="cedula" className="text-danger">Formato invalido Ejemplo: V-E V123456789</label> : <label htmlFor="riff">Cédula V-E: V123456789</label>}
                                                     
                                                     <hr />
                                                 </div>
@@ -223,7 +223,7 @@ export default function SignUpForm(props: any) {
                                                             onChange={handleAdimages}
                                                             multiple
                                                             accept=".jpg, .jpeg, .png"
-                                                            className="BrowseImageInput form-control"
+                                                            className="BrowseImageInput form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                         />
                                                         {AdImageInputErr && (
                                                             <p className="px-3 text-danger">
@@ -247,7 +247,7 @@ export default function SignUpForm(props: any) {
                                                         type="text"
                                                         onChange={onHandleInputChange}
                                                         id="razonSocial"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
                                                     />
                                                     <label className="form-label mt-2" htmlFor="razonSocial">Razon Social</label>
                                                 </div>
@@ -259,7 +259,7 @@ export default function SignUpForm(props: any) {
                                                         type="text"
                                                         onChange={onHandleInputChange}
                                                         id="nombres"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
                                                     />
                                                     <label className="form-label" htmlFor="nombres">Nombres</label>
                                                 </div>
@@ -269,7 +269,7 @@ export default function SignUpForm(props: any) {
                                                         id="apellidos"
                                                         name="apellidos"
                                                         onChange={onHandleInputChange}
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'} />
                                                     <label className="form-label" htmlFor="apellidos">Apellidos</label>
                                                 </div>
                                             </div>}
@@ -283,7 +283,7 @@ export default function SignUpForm(props: any) {
                                                         onChange={onHandleInputChange}
                                                         id="email"
                                                         name="email"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control  t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'} />
                                                     <label className="form-label" htmlFor="email">Email</label>
                                                 </div>
 
@@ -295,7 +295,7 @@ export default function SignUpForm(props: any) {
                                                         maxLength={14}
                                                         onChange={onHandleInputChange}
                                                         id="telefono"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'} />
                                                     <label className="form-label" htmlFor="telefono">Telefono de contacto</label>
                                                 </div>
                                             </div>
@@ -309,7 +309,7 @@ export default function SignUpForm(props: any) {
                                                         name="password"
                                                         onChange={onHandleInputChange}
                                                         autoComplete="current-password"
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'} />
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'} />
                                                     <label className="form-label" htmlFor="password">Contraseña</label>
                                                 </div>
                                                 <i className="fas fa-key fa-lg me-3 fa-fw"></i>
@@ -321,7 +321,7 @@ export default function SignUpForm(props: any) {
                                                         value={repeatedPassword}
                                                         id="passwordrep"
                                                         onChange={(e) => setRepeatedPassword(e.target.value)}
-                                                        className={'form-control'}
+                                                        className={'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
                                                     />
                                                     <label className={repeatedPassword == userData?.password ? "" : "text-danger"} htmlFor="passwordrep"> {repeatedPassword == userData?.password ? "Repite tu contraseña" : "Las contraseñas no coinciden"}</label>
 
@@ -353,7 +353,7 @@ export default function SignUpForm(props: any) {
                                                 <div className=" flex-fill mb-0">
                                         
                                                     <textarea
-                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid' : 'form-control'}
+                                                        className={hasTyped && !isInvalid ? 'form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' : 'form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'}
                                                         onChange={onHandleInputChange}
                                                         id="direccion"
                                                         name="direccion"

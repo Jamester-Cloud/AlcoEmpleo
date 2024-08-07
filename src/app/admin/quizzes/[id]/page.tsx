@@ -145,25 +145,30 @@ export default function Quizzes({ params }: any) {
                                         <h6>Preguntas</h6>
                                         <div className="col-md-6">
                                             <label className="labels">Pregunta:</label>
-                                            <input type="text" className="form-control" {...register(`quiz.${index}.pregunta` as const, {
+                                            <textarea  className="form-control  w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" {...register(`quiz.${index}.pregunta` as const, {
                                                 required: true
                                             })} placeholder="Pregunta" />
                                         </div>
                                         <div className="col-md-6">
                                             <label className="labels">Respuesta Correcta:</label>
-                                            <input type="text" className="form-control" {...register(`quiz.${index}.respuestaCorrecta` as const, {
+
+                                           
+                                            <textarea  className="form-control  w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" {...register(`quiz.${index}.respuestaCorrecta` as const, {
                                                 required: true
                                             })} placeholder="Respuesta correcta" />
                                         </div>
                                         <div className="col-md-3">
-                                            <button type="button" className='btn mt-3' onClick={() => removeQuiz(index)}>
+                                            <button type="button" className='btn mt-3 btn btn-danger ' onClick={() => removeQuiz(index)}>
                                                 Eliminar Pregunta
                                             </button>
+                                        
                                         </div>
                                     </section>
                                     <section>
+                                    <br />
                                         <h6>Respuestas a la pregunta</h6>
                                         <NestedFields
+                                        className=' w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
                                             nestIndex={index}
                                             {...{ control, register, errors }}
                                         />
