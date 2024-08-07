@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
         let cargoDeseado = candidato.perfil.puestoDeseado;
 
         console.log(cargoDeseado);
-        if(!cargoDeseado) return NextResponse.json({ message: 'Error, no hay cargo para generar', success: false })
+        if(!cargoDeseado) return NextResponse.json({ message: 'Error, no hay cargo para generar', success: false }, { status: 500 })
 
         const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
 
@@ -65,6 +65,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'Consulta creada exitosamente', preguntas: preguntas, success: true, cargoDeseado: cargoDeseado })
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false })
+        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })
     }
 }
