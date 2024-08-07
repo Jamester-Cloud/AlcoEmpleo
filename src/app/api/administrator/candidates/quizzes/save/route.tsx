@@ -8,13 +8,14 @@ export async function POST(request: NextRequest) {
     try {
         const reqJson = await request.json()
 
-        let { idCandidato, dificultad, preguntas } = reqJson;
+        let { idCandidato, dificultad, preguntas, tituloCuestionario } = reqJson;
 
         console.log(reqJson);
         await new Cuestionario({
             idCandidato:idCandidato,
             preguntas:preguntas,
             dificultad:dificultad,
+            tituloCuestionario:tituloCuestionario,
             finalizada:false
         }).save()
 

@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         >
           <li className="nav-item">
             <Link
-              href="/candidate/edit"
+              href="/admin"
               className="nav-link d-flex align-items-center"
               id="dropdownUser1"
             >

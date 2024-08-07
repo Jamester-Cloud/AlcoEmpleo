@@ -3,14 +3,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useEffect, useState } from "react";
-import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
 import axios from "axios";
 import { useForm, useFieldArray } from "react-hook-form";
 import Link from "next/link";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import CandidatePage from "../candidate/page";
-import { set } from "mongoose";
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
