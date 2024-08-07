@@ -43,7 +43,7 @@ export default function Quizzes() {
 
     useEffect(() => {
         fetchData()
-    },[!quizz])
+    }, [!quizz])
 
 
     return (
@@ -80,45 +80,38 @@ export default function Quizzes() {
                         </tr>
                     </thead>
                     <tbody>
+                        {quizz.map((item: any, key: number) => {
+                            console.log(item);
+                            return (
+                                <tr key={key}>
+                                    <td>
+                                        <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        {item.dificultad} 
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+
+                                    </td>
+                                    <td className="py-2 px-4 border-b">
+                                        {item.finalizada}
+                                    </td>
+                                </tr>)
+                        })}
                         {/* {quizz?.map((item: any, key: number) => (
                             <tr key={key}>
                                 <td>
                                     <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
-
                                 </td>
                                 <td className="py-2 px-4 border-b">
-                                    {item.personaData.nombre} {item.personaData.apellido}  <FontAwesomeIcon icon={faCheckCircle} className="text-blue-500 ml-1" />
+                                    {item.tituloCuestionario} }  <FontAwesomeIcon icon={faCheckCircle} className="text-blue-500 ml-1" />
                                 </td>
                                 <td className="py-2 px-4 border-b">
-                                    {item.usuarioData.isPremium ? (
-                                        <button
-                                            onClick={() =>
-                                                handleUserSubscripcion(
-                                                    item.usuarioData._id,
-                                                    item.usuarioData.isPremium
-                                                )
-                                            }
-                                            className="bg-red-500 text-white px-4 py-2 rounded-md"
-                                        >
-                                            Anular Subscripción
-                                        </button>
-                                    ) : (
-                                        <button
-                                            onClick={() =>
-                                                handleUserSubscripcion(
-                                                    item.usuarioData._id,
-                                                    item.usuarioData.isPremium
-                                                )
-                                            }
-                                            className="bg-green-500 text-white px-4 py-2 rounded-md"
-                                        >
-                                            Aprobar Subscripción
-                                        </button>
-                                    )}
+                                    
                                 </td>
                                 <td className="py-2 px-4 border-b">
                                     <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                                        Ver Perfil
+                                        Completar
                                     </button>
                                 </td>
                                 <td className="py-2 px-4 border-b">
@@ -127,10 +120,7 @@ export default function Quizzes() {
                                     </button>
                                 </td>
                                 <td className="py-2 px-4 border-b">
-                                    <Link href={`/admin/quizzes/${item._id}`} className="btn btn-info text-white text-xs py-2 px-4 rounded">
-                                        Generar Cuestionario
-                                    </Link>
-
+                                    {item.finalizada}
                                 </td>
                             </tr>
                         ))} */}

@@ -14,6 +14,7 @@ type FormValues = {
         }[],
         respuestaCorrecta: string,
     }[],
+    tituloCuestionario:string
     idCandidato: string,
     dificultad: string
 }
