@@ -2,6 +2,7 @@ import mongoose, { Types } from "mongoose";
 
 const cuestionarioSchema = new mongoose.Schema({
     idCandidato: Types.ObjectId,
+    tituloCuestionario:String,
     preguntas: [{ pregunta: String, respuestaCorrecta: String, respuestas: [{ respuesta: String }] }],
     respuestasCandidato: [{ respuesta: String }],
     dificultad: String,

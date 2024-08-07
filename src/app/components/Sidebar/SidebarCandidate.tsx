@@ -91,8 +91,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </a>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+               href="/candidate/quizz"
               className="nav-link align-middle d-flex align-items-center"
             >
               <FontAwesomeIcon
@@ -104,7 +104,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <span className="ms-1 text-white d-none d-sm-inline">
                 Cuestionarios
               </span>
-            </a>
+            </Link>
           </li>
           {" "}
 
