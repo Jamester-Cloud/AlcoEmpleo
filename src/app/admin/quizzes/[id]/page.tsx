@@ -6,6 +6,7 @@ import NestedFields from '@/app/components/Forms/NestedArray';
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import Spinner from '@/app/components/Spinner/Spinner';
 import { useRouter } from "next/navigation"
+
 type FormValues = {
     quiz: {
         pregunta: string,
@@ -61,10 +62,20 @@ export default function Quizzes({ params }: any) {
     });
 
     const generateQuestions = async () => {
-        console.log(dificultad)
-        const questions = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad })
-        if (questions.status == 200) setQuiz(questions.data.preguntas), setCargoDeseado(questions.data.cargoDeseado)
-    }
+        setLoading(true); // Empieza la carga
+        try {
+            console.log(dificultad);
+            const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
+            if (response.status === 200) {
+                setQuiz(response.data.preguntas);
+                setCargoDeseado(response.data.cargoDeseado);
+            }
+        } catch (error) {
+            console.error('Error fetching questions:', error);
+        } finally {
+            setLoading(false); // Termina la carga
+        }
+    };
 
     useEffect(() => {
         generateQuestions()
@@ -104,26 +115,35 @@ export default function Quizzes({ params }: any) {
         }
     }
 
-    if (isLoading) {
-        return <Spinner />;
-    }
-
     return (
         <div className='container-fluid p-5'>
             <div className="row">
-                <h6 className='mt-3'>Generar Quiz</h6>
-                <div className="col-md-6">
-
-                    <label htmlFor="">Dificultad</label>
-                    <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
-                        <option value="medio">Medio</option>
-                        <option value="Alta">Alta</option>
-                    </select>
-                </div>
-                <div className="col-md-6 mt-3">
-                    <button className='bg-purple-500 text-white px-4 py-2 rounded-md mb-4' onClick={() => generateQuestions()}>Generar Cuestionario</button>
-                </div>
+             
+                {isLoading ? (
+                    <h1 className=' text-center'>Generando Datos por IA</h1>
+                
+                ) : (
+                    <>
+                       <h6 className='mt-3'>Generar Quiz: {cargoDeseadoCandidato}</h6>
+                        <div className="col-md-6">
+                            <label htmlFor="">Dificultad</label>
+                            <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
+                                <option value="medio">Medio</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6 mt-3">
+                            <button className='bg-purple-500 text-white px-4 py-2 rounded-md mb-4' onClick={() => generateQuestions()}>Generar Cuestionario</button>
+                        </div>
+                    </>
+                )}
             </div>
+
+            <div>
+            {isLoading ? (
+                    <h2 className=' text-center hidden' >Cargando Preguntas</h2>
+                ) :( 
+                    <>
             <form className='form' onSubmit={handleSubmit(handleSubmitQuiz)} >
                 <div className="row">
 
@@ -151,8 +171,6 @@ export default function Quizzes({ params }: any) {
                                         </div>
                                         <div className="col-md-6">
                                             <label className="labels">Respuesta Correcta:</label>
-
-                                           
                                             <textarea  className="form-control  w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" {...register(`quiz.${index}.respuestaCorrecta` as const, {
                                                 required: true
                                             })} placeholder="Respuesta correcta" />
@@ -195,8 +213,11 @@ export default function Quizzes({ params }: any) {
                 pauseOnHover
                 theme="light"
             />
+         </>
+             )}
+        </div>
+      
+    
         </div>
     )
 }
-
-
