@@ -10,7 +10,7 @@ export default function NestedFields({ nestIndex, control, register, errors }: a
 
     return (
         <div>
-            <div style={{ marginLeft: 10, borderLeft: "2px solid red" }}>
+            <div className="p-5">
                 {fields.map((item: any, k: number) => {
                     return (
                         <div
@@ -22,14 +22,14 @@ export default function NestedFields({ nestIndex, control, register, errors }: a
                                 {...register(`quiz[${nestIndex}].respuestas[${k}].respuesta` as const, {
                                     required: true
                                 })}
-                                className="form-control"
+                                className="form-control mt-2"
                             />
                             <button
                                 type="button"
                                 onClick={() => remove(k)}
-                                className="btn btn-danger"
+                                className="btn btn-danger p-2 ml-2 mt-2"
                             >
-                                Delete
+                                Eliminar
                             </button>
                         </div>
                     );
@@ -38,7 +38,7 @@ export default function NestedFields({ nestIndex, control, register, errors }: a
                 <button
                     type="button"
                     onClick={() => append({ field1: "field1" })}
-                    className="btn btn-danger"
+                    className="btn btn-danger mt-5"
                 >
                     Agregar respuesta
                 </button>

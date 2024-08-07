@@ -1,5 +1,5 @@
 import { connect } from "@/dbConfig/dbConfig";
-import Cuestionario from '@/models/cuestionarios'
+import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai'
 connect()
@@ -8,11 +8,18 @@ export async function POST(request: NextRequest) {
     try {
         const reqJson = await request.json()
 
-        let { query: cargo, dificultad } = reqJson;
+        let { idCandidato, dificultad } = reqJson;
+
+        //consultamos la data del candidato
+        console.log(idCandidato)
+        const candidato = await Candidato.findOne({ _id: idCandidato })
+        console.log(candidato);
+        let cargoDeseado = candidato.perfil.puestoDeseado;
+
+        console.log(cargoDeseado);
+        if(!cargoDeseado) return NextResponse.json({ message: 'Error, no hay cargo para generar', success: false })
 
         const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
-
-        let cargoDeseado = "Profesor de programacion";
 
         let model = genAI.getGenerativeModel({
             model: "gemini-1.5-flash",
@@ -51,11 +58,11 @@ export async function POST(request: NextRequest) {
         let result = await model.generateContent(prompt)
         let preguntas: any = JSON.parse(result.response.text());
 
-        preguntas.map((item: any, key: number) => {
-            console.log(item)
-        })
+        // preguntas.map((item: any, key: number) => {
+        //     console.log(item)
+        // })
 
-        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true, preguntas: preguntas })
+        return NextResponse.json({ message: 'Consulta creada exitosamente', preguntas: preguntas, success: true, cargoDeseado: cargoDeseado })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ message: 'Consulta creada erroneamente', success: false })
