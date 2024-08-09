@@ -48,42 +48,7 @@ export default function Quizzes({ params }: any) {
 
     useEffect(() => {
         fetchQuizData()
-        console.log(quiz)
     }, [!quiz])
-
-    const handleSubmitQuiz = async (data: any) => {
-        console.log(data);
-        try {
-            const response = await axios.post('/api/candidate/quizzes/save', { preguntas: data.quiz, dificultad: data.dificultad, idCandidato: data.idCandidato, tituloCuestionario: data.tituloCuestionario })
-            toast.success("Cuestionario generado", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            setTimeout(() => {
-                if (response.status == 200) router.push("/admin")
-            }, 3000);
-        } catch (error) {
-            toast.error("Cuestionario no generado, contacte a soporte tecnico", {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-            });
-            console.log("Error")
-        }
-    }
 
     return (
         <div className='container-fluid p-5'>

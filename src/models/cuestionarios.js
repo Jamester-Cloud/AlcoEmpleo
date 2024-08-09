@@ -4,7 +4,7 @@ const cuestionarioSchema = new mongoose.Schema({
     idCandidato: Types.ObjectId,
     tituloCuestionario:String,
     preguntas: [{ pregunta: String, respuestaCorrecta: String, respuestas: [{ respuesta: String }] }],
-    respuestasCandidato: [{ respuesta: String }],
+    respuestasCandidato: [{ respuesta: String, correcta:Boolean }],
     dificultad: String,
     calificacion: Number,
     createadAt: { type: Date, default: Date.now },
