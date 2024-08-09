@@ -154,7 +154,7 @@ export default function Quizzes({ params }: any) {
                                 <hr />
                                 <div className="col-md-12">
                                     <label className="labels p-2">Titulo del cuestionario:</label>
-                                    <input type="text" className='form-control'  {...register("tituloCuestionario", { required: true })} />
+                                    <input type="text" className='form-control' placeholder='Especifique el titulo con el que se diferenciara de los demas cuestionarios generados'  {...register("tituloCuestionario", { required: true })} />
                                     <hr />
                                 </div>
                                 <div className="col-md-12 mt-3 ">

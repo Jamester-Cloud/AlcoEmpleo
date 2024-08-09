@@ -7,6 +7,7 @@ import Pagination from "react-bootstrap/Pagination";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 
 type FormValues = {
@@ -50,51 +51,39 @@ export default function Quizzes() {
         <div className="container mx-auto p-4">
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4"> Cuestionarios</h2>
-                {/* <form>
-                    <>
-                        <div className="row">
-                            <div className="col-md-6">
-                                <input
-                                    type="text"
-                                    {...register("I")}
-                                    maxLength={15}
-                                    className="form-control"
-                                    placeholder="Cedula EJ: V123456789"
-                                />
-                            </div>
-                            <div className="col-md-6">
-                                <button className="btn btn-primary" type="submit">
-                                    Buscar
-                                </button>
-                            </div>
-                        </div>
-                    </>
-                </form> */}
+
                 <table className="min-w-full bg-white shadow-md rounded mb-4">
                     <thead>
                         <tr>
                             <th className="py-2 px-4 border-b"></th>
                             <th className="py-2 px-4 border-b">Dificultad</th>
                             <th className="py-2 px-4 border-b">Calificacíon</th>
-                            <th className="py-2 px-4 border-b">Finalizado</th>
+                            <th className="py-2 px-4 border-b">Estado</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {quizz.map((item: any, key: number) => {
+                        {quizz?.map((item: any, key: number) => {
                             console.log(item);
                             return (
                                 <tr key={key}>
                                     <td>
-                                        <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
+                                        <Image className="rounded-full m-2" src={"/AlcoLogo.png"} alt={""} width={80} height={80} />
+                                        {item.tituloCuestionario}
+                                    </td>
+                                    <td className="py-2 px-4 border-b text-capitalize">
+                                        {item.dificultad}
                                     </td>
                                     <td className="py-2 px-4 border-b">
-                                        {item.dificultad} 
+                                        {item.calificacion} Estrellas
                                     </td>
                                     <td className="py-2 px-4 border-b">
-
+                                        {item.finalizada ? 'Completado' : 'Sin Completar'}
                                     </td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.finalizada}
+                                    <td className="py-2 px-4 border-b" style={{textDecoration:"none"}}>
+                                        {item.finalizada ? <>Completado</> : <Link href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                            Completar
+                                        </Link>}
                                     </td>
                                 </tr>)
                         })}
