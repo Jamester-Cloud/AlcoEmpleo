@@ -48,9 +48,9 @@ export const FormStepper = (props: any) => {
                 theme: "light",
                 transition: Bounce,
             });
-            // setTimeout(() => {
-            //     if (response.status == 200) router.push("/admin")
-            // }, 3000);
+            setTimeout(() => {
+                if (response.status == 200) router.push("/candidate/quizz")
+            }, 3000);
         } catch (error) {
             toast.error("Error en red, contacte a soporte tecnico", {
                 position: "top-right",

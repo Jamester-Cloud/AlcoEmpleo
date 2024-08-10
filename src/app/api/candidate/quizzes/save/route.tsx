@@ -1,5 +1,4 @@
 import { connect } from "@/dbConfig/dbConfig";
-import Candidato from "@/models/candidato";
 import Cuestionario from "@/models/cuestionarios";
 import { NextRequest, NextResponse } from "next/server";
 connect()
@@ -10,13 +9,15 @@ export async function POST(request: NextRequest) {
         let update;
         const reqJson = await request.json()
 
-        let { calificacion, respuestasCandidato, idQuiz } = reqJson;
+        let { calificacion, respuestasCandidatos, idQuiz } = reqJson;
 
-        filter = { idQuiz: idQuiz }
-        update = { calificacion: calificacion, respuestasCandidato: respuestasCandidato }
+        console.log(respuestasCandidatos);
 
-        await Candidato.updateOne(filter, update)
-        console.log(reqJson);
+        filter = { _id: idQuiz }
+        update = { $set: { calificacion: calificacion, respuestasCandidato: respuestasCandidatos, finalizada:true } }
+        
+        await Cuestionario.updateOne(filter, update)
+
 
 
         return NextResponse.json({ message: 'Cuestionario guardado exitosamente' })
