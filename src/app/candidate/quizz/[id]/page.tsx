@@ -1,24 +1,8 @@
 "use client"
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from 'axios';
-
-import { ToastContainer, toast, Bounce } from "react-toastify";
-import Spinner from '@/app/components/Spinner/Spinner';
 import { FormStepper } from "@/app/components/Forms/FormStepper";
 import { useRouter } from "next/navigation"
-
-// type FormValues = {
-//     quiz: {
-//         pregunta: string,
-//         respuestas: {
-//             respuesta: string
-//         }[],
-//         respuestaCorrecta: string,
-//     }[],
-//     tituloCuestionario: string
-//     idCandidato: string,
-//     dificultad: string
-// }
 
 export default function Quizzes({ params }: any) {
 
@@ -35,9 +19,9 @@ export default function Quizzes({ params }: any) {
         try {
             const response = await axios.post('/api/candidate/quizzes/get', { idQuizz: id });
             if (response.status === 200) {
-                //console.log(response.data)
+                console.log(response.data)
                 setQuiz(response.data.quiz);
-                setCandidato(response.data.quiz.idCandidato)
+                setCandidato(response.data.idCandidato)
             }
         } catch (error) {
             console.error('Error fetching questions:', error);
@@ -53,7 +37,7 @@ export default function Quizzes({ params }: any) {
     return (
         <div className='container-fluid p-5'>
             <div className="row">
-                <FormStepper data={quiz} />
+                <FormStepper data={quiz} idCandidato={idCandidato} idQuiz={id} />
             </div>
         </div>
     )

@@ -9,18 +9,17 @@ export async function POST(request: NextRequest) {
     let { idQuizz } = reqJson
     try {
         //planeo hacer el paginado aca
-        const cuestionario = await Cuestionario.findById(idQuizz);
-
-        //console.log(cuestionario)
+        const cuestionario = await Cuestionario.findById(idQuizz); 
+        console.log(cuestionario.idCandidato) 
+        //console.log(cuestionario);
         let quiz = cuestionario.preguntas.map((item: any, key: number) => {
             return { page: key + 1, pregunta: item.pregunta, respuestas: item.respuestas, respuestaCorrecta: item.respuestaCorrecta }
         })
 
-        quiz.idCandidato = cuestionario.idCandidato
-
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
-            quiz: quiz
+            quiz: quiz,
+            idCandidato:cuestionario.idCandidato
         })
         return response;
 

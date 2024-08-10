@@ -17,10 +17,6 @@ type FormValues = {
 export default function Quizzes() {
 
     const [quizz, setQuizzes]: any = useState();
-
-    // const [pageCandidate, setPageCandidate] = useState(1);
-    // const [pageCandidateCount, setCandidatePageCount]: any = useState(1);
-
     const methods = useForm<FormValues>({
         defaultValues: {
             idCandidato: "",
@@ -39,7 +35,7 @@ export default function Quizzes() {
 
     const fetchData = async () => {
         const res = await axios.post('/api/candidate/quizzes', { idUsuario: localStorage?.getItem('idUsuario') })
-        if (res.status == 200) setQuizzes(res.data.cuestionarios), console.log(res.data.cuestionarios)
+        if (res.status == 200) setQuizzes(res.data.cuestionarios)
     }
 
     useEffect(() => {
@@ -64,7 +60,6 @@ export default function Quizzes() {
                     </thead>
                     <tbody>
                         {quizz?.map((item: any, key: number) => {
-                            console.log(item);
                             return (
                                 <tr key={key}>
                                     <td>

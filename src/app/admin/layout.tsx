@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import CabeceraCandidato from "../components/cabeceras/cabeceraCandidato";
 import Footer from "../components/Footer/footer";
 import Sidebar from "../components/Sidebar/SidebarAdmin";
-import { useRouter } from "next/router";
-import Contact from "../components/Contact/Contact";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
