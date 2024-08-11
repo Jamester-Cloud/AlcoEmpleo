@@ -88,9 +88,7 @@ export const FormStepper = (props: any) => {
                                 <div key={key}>
                                     <div className="col-md-12 mb-3">
                                         {item.pregunta}
-                                        <br />
-                                        preguntaCorrecta(Testing): {item.respuestaCorrecta}
-                                        <br />
+                                    
                                     </div>
                                     <div className="col-md-12">
                                         {/* Name input field */}

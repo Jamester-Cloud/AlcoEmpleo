@@ -89,7 +89,7 @@ export default function SubscriptionPage() {
                     <img
                       src={`/${method}.png`}
                       alt={method}
-                      className="mx-4 my-4"
+                       className="mx-0 my-4 md:mx-4"
                     />
                     <input
                       type="radio"
