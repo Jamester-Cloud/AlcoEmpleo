@@ -61,7 +61,10 @@ type FormValues = {
 
 export default function DataModal(props: any) {
 
-    let { data, title, show, onHide, candidatoData, setCandidatoData, setShow, modalType } = props;
+    let { data, title, show, onHide, candidatoData, setCandidatoData, setShow, modalType, id, setQuiz } = props;
+    console.log(id)
+    console.log(modalType);
+
 
     const methods = useForm<FormValues>({
         defaultValues: {
@@ -87,7 +90,7 @@ export default function DataModal(props: any) {
             fechaNacimiento: undefined,
         }
     });
-
+   
 
     const getUserDetails = async () => {
 
@@ -130,6 +133,8 @@ export default function DataModal(props: any) {
 
         reset({ ...defaultValues })
     }, [data?.idiomas])
+
+ 
 
     useEffect(() => {
         let defaultValues = {
@@ -210,6 +215,7 @@ export default function DataModal(props: any) {
             console.log(error);
         }
     }
+
 
     const form = (title: string) => {
         switch (title) {

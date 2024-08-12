@@ -18,8 +18,6 @@ export async function POST(request: NextRequest) {
         
         await Cuestionario.updateOne(filter, update)
 
-
-
         return NextResponse.json({ message: 'Cuestionario guardado exitosamente' })
     } catch (error) {
         console.log(error)

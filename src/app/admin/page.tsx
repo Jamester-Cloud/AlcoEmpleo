@@ -331,10 +331,12 @@ export default function AdminPage() {
       console.log("empresas", search);
     }
   };
+  
   // const handlUserStatus = async (data: any) => {
   //     const search = await axios.post('/api/administrator/searchUser/search', {cedula:data.cedula})
   //     if(search.status == 200) console.log("Exito")
   // }
+
   //HomePage data
   const onSubmit = async (data: any) => {
     const res = await axios.post("/api/administrator/homepage/edit", { data });
@@ -393,7 +395,7 @@ export default function AdminPage() {
               <tr key={key}>
                 <td>
                   <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
-
+                  {item.personaData.cedula}
                 </td>
                 <td className="py-2 px-4 border-b">
                   {item.personaData.nombre} {item.personaData.apellido}  <FontAwesomeIcon icon={faCheckCircle} className="text-blue-500 ml-1" />
