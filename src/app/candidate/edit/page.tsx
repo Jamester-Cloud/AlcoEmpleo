@@ -22,7 +22,7 @@ export default function UserCandidate() {
   // State data load
   const [candidatoData, setCandidatoData]: any = useState(null);
   const [modalType, setModalDataType] = useState("");
-  
+
   const handleModal = (e: any, title: string, data: any, id: string, dataType: string) => {
     e.preventDefault();
     setModalDataType(dataType)
@@ -45,10 +45,15 @@ export default function UserCandidate() {
           emailUsuario: res.data.emailUsuario,
         },
         candidatoData: res.data.dataCandidato,
+        documentos: res.data.documentos
       });
       console.log(res.data)
     }
   };
+
+  const downloadCv = async () => {
+    const res = await axios.post('/api/candidate/download', { idArchivo: candidatoData.documentos.filename })
+  }
 
   useEffect(() => {
     if (!candidatoData) {
@@ -197,6 +202,25 @@ export default function UserCandidate() {
                 <h6>{candidatoData?.candidatoData.perfil?.descripcionPersonal} </h6>
               </div>
               <hr />
+              <div className="col-md-12">
+                <label htmlFor=""></label>
+                <div className="card">
+                  <div className="card-header">
+                    Curriculum en uso:
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      {candidatoData?.documentos?.filename ? <><div className="col-md-6">
+                        {candidatoData?.documentos?.filename}
+                      </div>
+                        <div className="col-md-6">
+                          <button onClick={() => downloadCv()} className="btn btn-primary">Descargar</button>
+                        </div></> : "Sin CV"}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="mb-5">

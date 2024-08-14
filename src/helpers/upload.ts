@@ -1,28 +1,37 @@
-import { writeFile, readFile } from "fs/promises";
 import { revalidatePath } from "next/cache";
 import { fileValidator, fileSizeValidator } from "./fileValidator";
-import multer from "multer";
-import { GridFsStorage } from 'multer-gridfs-storage'
+import { Readable } from "stream";
+import { connect } from "@/dbConfig/dbConfig";
+import mongoose from "mongoose";
 /**
  * @param File
+ * @param bucketName
  * upload functions for images or docs to mongoDB buckets
  */
-export default function upload() {
+export default async function upload(file: File, bucketName: String, context:String) {
+
   const mongodbUrl: any = process.env.MONGO_URI
-  const storage = new GridFsStorage({
-    url: mongodbUrl,
-    file: (req, file) => {
-      console.log(req)
-      return new Promise((resolve, _reject) => {
-        const fileInfo = {
-          filename: file.originalname,
-          bucketName: "uploads",
-        };
-        console.log("Archivo subido")
-        resolve(fileInfo);
-      });
-    },
+
+  await mongoose.connect(mongodbUrl)
+  let arrayBuffer = await file.arrayBuffer()
+  let buffer = new Uint8Array(arrayBuffer)
+  let readBuffer = new Readable()
+
+  readBuffer.push(buffer)
+  readBuffer.push(null)
+  let { db } = mongoose.connection
+
+  let bucket = new mongoose.mongo.GridFSBucket(db, {
+    bucketName: `${bucketName}`,
   });
 
-  return multer({ storage });
+  let uploadStream = bucket.openUploadStream(file.name, {
+    chunkSizeBytes: 1048576,
+    metadata: { field: `${bucketName}`, value: context }
+  })
+
+  //retornamos el id
+  return readBuffer.pipe(uploadStream).id
+
+  //return multer({ storage });
 }

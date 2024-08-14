@@ -3,13 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
+import Documento from "@/models/documentos";
 import multer from "multer";
-import { Readable } from "stream";
-connect();
-import { GridFsStorage } from 'multer-gridfs-storage'
+import { MongoClient } from "mongodb";
 
-var storage = multer.memoryStorage()
-var upload = multer({ storage: storage, limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 }});
+import upload from "@/helpers/upload";
 
 
 export const POST = async (request: NextRequest) => {
@@ -53,30 +51,42 @@ export const POST = async (request: NextRequest) => {
                 break;
             case 'perfil':
                 console.log(formData.get("perfil[CV]"));
-                //convertimos el archivo a buffer
-                //luego a readable stream
-                // pasamos ese archivo a la funcion de gridfs, para posterior subida a mongo
-                //uploader = upload().single('perfil[CV')
-                //file = await uploadImage(cv, 'candidates')
-                const file = formData.get('perfil[CV');
+                console.log(formData);
+                //convertimos el archivo
+                let file = formData.get('perfil[CV]') as File;
+                let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
+                console.log(idCv);
+                // si los sube, hay que colocar una forma de recuperarlos mediante
+                //
+                filter = {
+                    idUsuario: formData.get('idUsuario')
+                }
+                //CV
+                update = {
+                    $set: {
+                        idUsuario: formData.get('idUsuario'),
+                        filename: file.name,
+                        idArchivo: idCv,
+                        originalname: file.name,
+                        contentType: file.type,
+                        size: file.size,
+                        bucketName: "candidateDocuments",
+                    }
+                }
 
-                
+                await Documento.updateOne(filter, update, { upsert: true })
+                //Perfil Data
+                update = {
+                    $set: {
+                        "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
+                        "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
+                        "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
+                    }
+                }
+                //codigo que maneja las peticiones de idiomas
+                await Candidato.updateOne(filter, update);
 
-                // filter = {
-                //     idUsuario: formData.get('idUsuario')
-                // }
-
-                // update = {
-                //     $set: {
-                //         "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
-                //         "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
-                //         "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
-                //         "perfil.CV": { size: file.size, path: file.path, dataType: file.contentType }
-                //     }
-                // }
-                // //codigo que maneja las peticiones de idiomas
-                // await Candidato.updateOne(filter, update);
-
+                console.log("Proceso de guardado de documentos finalizado")
                 break;
             case 'exp':
 

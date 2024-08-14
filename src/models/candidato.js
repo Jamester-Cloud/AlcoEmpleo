@@ -42,11 +42,6 @@ const candidatoSchema = new mongoose.Schema({
     ],
     perfil:
     {
-        CV: {
-            path: {type:String},
-            dataType: {type:String},
-            size: {type:Number}
-        },
         descripcionPersonal: {
             type: String
         },
