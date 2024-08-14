@@ -39,6 +39,7 @@ export default function CandidateSearch() {
       const response: any = await axios.get(
         "/api/enterprise/candidateList/premiums"
       );
+      console.log("Response Data:", response.data); // <-- Agrega esto
       if (response.status === 200)
         return {
           candidatosPremiums: response.data.dataCandidatosPremium,
@@ -48,6 +49,7 @@ export default function CandidateSearch() {
       console.error(error);
     }
   };
+  
 
   const fetchRegions = async () => {
     try {
@@ -65,6 +67,14 @@ export default function CandidateSearch() {
       setCandidateList(data.paginatedQuery);
     }
   }, [data]);
+
+  useEffect(() => {
+    const loadPremiumData = async () => {
+      const premiumData = await fetchPremiumCandidates();
+      setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
+    };
+    loadPremiumData();
+  }, []);
 
   useEffect(() => {
     if (!regions) {
@@ -200,11 +210,11 @@ export default function CandidateSearch() {
         <p className="text-sm text-blue-900 md:text-lg my-2">
           Descubra su próximo paso profesional, trabajo independiente o pasantía
         </p>
-        {premiumsData === undefined ? (
-          <div>Cargando...</div>
+        {premiumsData === undefined || premiumsData.length === 0 ? (
+      <div className=" font-bold">No hay Candidatos Premiums Registrados</div>
         ) : (
-          <ListCarousel data={premiumsData} />
-        )}
+      <ListCarousel data={premiumsData} />
+    )}
       </div>
       <div className="w-full text-left mt-20">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">

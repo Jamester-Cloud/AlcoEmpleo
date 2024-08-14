@@ -6,9 +6,8 @@ import { useForm } from "react-hook-form";
 import "tailwindcss/tailwind.css";
 
 export default function SubscriptionPage() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue, reset } = useForm();
   const [processor, setProcessor] = useState("");
-  //todo agregar el numero del Sr.Ezequiel
   const [paymentData, setPaymentData] = useState({
     email: "admgrupoalco@gmail.com",
     monto: "5$",
@@ -18,19 +17,24 @@ export default function SubscriptionPage() {
   });
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleProcessor = (data:any) => {
+  const handleProcessor = (data: string) => {
     setProcessor(data);
+    setValue("proccesor", data);
     setModalVisible(true);
   };
 
-  const submit = async (data:any) => {
+  const submit = async (data: any) => {
     console.log(data);
     let whatsappMessage = encodeURIComponent(
-      `Saludos!, mi nombre es, ${data.nombre} ${data.apellidos}. Adjunto la informacion de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${paymentData.monto}.`
+      `Saludos!, mi nombre es ${data.nombre} ${data.apellidos}. Adjunto la información de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${paymentData.monto}.`
     );
     window.open(
       `https://wa.me/${paymentData.telefono}?text=${whatsappMessage}`
     );
+
+    
+    setModalVisible(false);
+    reset();
   };
 
   const loadPaymentData = () => {
@@ -59,25 +63,28 @@ export default function SubscriptionPage() {
       case "Pago movil":
         return (
           <ul>
-            <li>Telefono : {paymentData.telefono}</li>
+            <li>Teléfono: {paymentData.telefono}</li>
             <li>Banco: {paymentData.banco}</li>
-            <li>cedula: {paymentData.cedula}</li>
+            <li>Cédula: {paymentData.cedula}</li>
             <li>Monto: {paymentData.monto}</li>
           </ul>
         );
+      default:
+        return null;
     }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h3 className="text-3xl font-bold text-blue-900">Subscripcion</h3>
-      {/* Hay que hacer el card para la subscripcion activa si tiene una activa */}
-      <h2 className="text-2xl font-bold">Seleccione un metodo de pago para ver el precio del plan</h2>
+      <h3 className="text-3xl font-bold text-blue-900">Subscripción</h3>
+      <h2 className="text-2xl font-bold">
+        Seleccione un método de pago para ver el precio del plan
+      </h2>
       <div className="mt-5">
         <form onSubmit={handleSubmit(submit)}>
           <div className="card bg-white shadow p-4">
             <div className="card-header text-lg font-semibold mb-4">
-              Metodos de pago
+              Métodos de pago
             </div>
             <div className="card-body">
               <ul className="grid grid-cols-4 gap-4">
@@ -90,7 +97,7 @@ export default function SubscriptionPage() {
                     <img
                       src={`/${method}.png`}
                       alt={method}
-                      className="mx-4 my-4"
+                      className="w-full sm:w-full object-contain my-4"
                     />
                     <input
                       type="radio"
@@ -109,16 +116,20 @@ export default function SubscriptionPage() {
               <div className="bg-white p-8 rounded shadow-md">
                 <div className="modal-header text-lg font-semibold mb-4">
                   Reporte de pagos
+              
                 </div>
+                <span className=" font-bold">Nota:</span><h6> Al reportar el Pago se le redireccionara al whatsapp junto a los datos llenados</h6>
+                <br />
+                
                 <div className="modal-body">
                   <strong>{processor}</strong>
-                  <strong>{loadPaymentData()}</strong>
+                  <div>{loadPaymentData()}</div>
                   <div className="grid grid-cols-1 gap-4 mt-4">
                     <input
                       className="form-control p-2 border rounded"
                       type="text"
                       {...register("cedula", { required: true })}
-                      placeholder="Cedula"
+                      placeholder="Cédula"
                     />
                     <input
                       className="form-control p-2 border rounded"
@@ -135,7 +146,7 @@ export default function SubscriptionPage() {
                     <textarea
                       className="form-control p-2 border rounded"
                       {...register("direccion", { required: true })}
-                      placeholder="Direccion"
+                      placeholder="Dirección"
                     />
                     <input
                       className="form-control p-2 border rounded"

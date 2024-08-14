@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import "tailwindcss/tailwind.css";
 
 export default function SubscriptionPage() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,setValue, reset  } = useForm();
   const [processor, setProcessor] = useState("");
   const [paymentData, setPaymentData] = useState({
     email: "admgrupoalco@gmail.com",
@@ -19,6 +19,7 @@ export default function SubscriptionPage() {
 
   const handleProcessor = (data:any) => {
     setProcessor(data);
+    setValue("proccesor", data);
     setModalVisible(true);
   };
 
@@ -30,6 +31,9 @@ export default function SubscriptionPage() {
     window.open(
       `https://wa.me/${paymentData.telefono}?text=${whatsappMessage}`
     );
+
+    setModalVisible(false);
+    reset();
   };
 
   const loadPaymentData = () => {
@@ -89,7 +93,7 @@ export default function SubscriptionPage() {
                     <img
                       src={`/${method}.png`}
                       alt={method}
-                      className="mx-4 my-4"
+                         className="w-full sm:w-full object-contain my-4"
                     />
                     <input
                       type="radio"
@@ -108,7 +112,11 @@ export default function SubscriptionPage() {
               <div className="bg-white p-8 rounded shadow-md">
                 <div className="modal-header text-lg font-semibold mb-4">
                   Reporte de pagos
+                
+             
                 </div>
+                <span className=" font-bold">Nota:</span><h6> Al reportar el Pago se le redireccionara al whatsapp junto a los datos llenados</h6>
+                <br />
                 <div className="modal-body">
                   <strong>{processor}</strong>
                   <strong>{loadPaymentData()}</strong>
@@ -117,7 +125,8 @@ export default function SubscriptionPage() {
                       className="form-control p-2 border rounded"
                       type="text"
                       {...register("cedula", { required: true })}
-                      placeholder="Cedula"
+                      placeholder="Rif de la Empresa"
+                      
                     />
                     <input
                       className="form-control p-2 border rounded"
