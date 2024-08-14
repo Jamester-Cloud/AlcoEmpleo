@@ -2,20 +2,24 @@ import mongoose from "mongoose";
 
 export async function connect() {
     try {
-        let bucket;
-        
+
+
         mongoose.connect(process.env.MONGO_URI!);
         const connection = mongoose.connection;
 
         await connection.startSession()
 
-        connection.on('connected', () => {
-            console.log('MongoDB connected successfully');
-            bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-                bucketName: "filesBucket",
-              });
-            console.log("Bucket initialized!")
-        })
+        let {db} = mongoose.connection
+
+        let bucket;
+        (() => {
+            mongoose.connection.on("connected", () => {
+                bucket = new mongoose.mongo.GridFSBucket(db, {
+                    bucketName: "uploads",
+                });
+            });
+            console.log("Bucket initialized")
+        })();
 
         connection.on('error', (err) => {
             console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err);

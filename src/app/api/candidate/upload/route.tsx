@@ -3,11 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
-import upload from "@/helpers/upload"
 import multer from "multer";
+import { Readable } from "stream";
 connect();
+import { GridFsStorage } from 'multer-gridfs-storage'
 
-export async function POST(request: NextRequest) {
+var storage = multer.memoryStorage()
+var upload = multer({ storage: storage, limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 }});
+
+
+export const POST = async (request: NextRequest) => {
     try {
 
         let filter;
@@ -16,8 +21,8 @@ export async function POST(request: NextRequest) {
         let data;
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
-        console.log(formData);
         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
+
         switch (dataType) {
             //funciona con redes
             case 'datosPersonales':
@@ -26,31 +31,37 @@ export async function POST(request: NextRequest) {
 
                 filter = { _id: formData.get('idPersona') }
 
-                //file = await uploadImage(profilePicture,'candidates')
+                // //file = await uploadImage(profilePicture,'candidates')
 
-                if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
+                // if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
 
 
-                if (file !== 'extension de archivo invalida. Rectifique') {
+                // if (file !== 'extension de archivo invalida. Rectifique') {
 
-                    update = {
-                        nombre: formData.get('nombre'),
-                        apellido: formData.get('apellido'),
-                        email: formData.get('email'),
-                        telefono: formData.get('telefono'),
-                        direccion: formData.get('direccion'),
-                        fotoPerfil: { size: file.size, path: file.path, dataType: file.contentType }
-                    }
+                //     update = {
+                //         nombre: formData.get('nombre'),
+                //         apellido: formData.get('apellido'),
+                //         email: formData.get('email'),
+                //         telefono: formData.get('telefono'),
+                //         direccion: formData.get('direccion'),
+                //         fotoPerfil: { size: file.size, path: file.path, dataType: file.contentType }
+                //     }
 
-                    await Persona.updateOne(filter, update)
+                //     await Persona.updateOne(filter, update)
 
-                }
+                // }
                 break;
             case 'perfil':
-                console.log(formData);
-                //upload()?.single('CV')
-                //let cv = formData.get('perfil[CV]') as File
+                console.log(formData.get("perfil[CV]"));
+                //convertimos el archivo a buffer
+                //luego a readable stream
+                // pasamos ese archivo a la funcion de gridfs, para posterior subida a mongo
+                //uploader = upload().single('perfil[CV')
                 //file = await uploadImage(cv, 'candidates')
+                const file = formData.get('perfil[CV');
+
+                
+
                 // filter = {
                 //     idUsuario: formData.get('idUsuario')
                 // }

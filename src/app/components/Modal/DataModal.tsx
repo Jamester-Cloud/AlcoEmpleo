@@ -90,7 +90,7 @@ export default function DataModal(props: any) {
             fechaNacimiento: undefined,
         }
     });
-   
+
 
     const getUserDetails = async () => {
 
@@ -134,7 +134,7 @@ export default function DataModal(props: any) {
         reset({ ...defaultValues })
     }, [data?.idiomas])
 
- 
+
 
     useEffect(() => {
         let defaultValues = {
@@ -187,7 +187,7 @@ export default function DataModal(props: any) {
             data?.perfil?.CV ? data.perfil.CV = data.perfil.CV[0] : data.profilePicture = data.profilePicture[0]
             data.dataType = modalType
             console.log(data)
-            // const res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
+            await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
             // if (res.status == 200) {
             //     console.log("edicion exitosa");
             //     await getUserDetails()
