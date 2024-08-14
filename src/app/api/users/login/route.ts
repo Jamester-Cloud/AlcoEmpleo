@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
             success: true,
             idPersona: user.idPersona,
             idUsuario: user._id,
+            isPremium: user.isPremium,
             userRol: rol == 'admin' ? rol : rol.rol
         })
 
