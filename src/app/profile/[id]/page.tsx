@@ -1,18 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+
 import Image from "next/image";
 import CabeceraEmpresa from "@/app/components/cabeceras/cabeceraEmpresa";
-import Contact from "@/app/components/Contact/Contact";
-import Footer from "@/app/components/Footer/footer";
+
 import {
   faCheckCircle,
-  faCopy,
-  faFlag,
-  faPencil,
-  faPlus,
-  faTrashAlt,
+
 } from "@fortawesome/free-solid-svg-icons";
 import DataModal from "@/app/components/Modal/DataModal";
 import "@/app/candidate/edit/css/style.css";
@@ -131,10 +126,11 @@ export default function UserProfile({ params }: any) {
     if (petition?.status == 200) await getUserDetails();
   };
   return (
-    <div className="container">
-      <CabeceraEmpresa />
-      <div className="container mx-auto mt-5 p-4">
-        <div className="bg-white shadow-md rounded-lg p-6 relative">
+    <div className="">
+    <CabeceraEmpresa />
+    <div className="container mx-auto mt-5 p-4">
+      <div className="bg-white shadow-md rounded-lg p-6 relative">
+        <div className="flex justify-between">
           <button
             onClick={(e) =>
               handleModal(
@@ -145,67 +141,64 @@ export default function UserProfile({ params }: any) {
                 "datosPersonales"
               )
             }
-            className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
           >
             Editar datos
           </button>
-          <button
-            className="absolute top-4 right-60 bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
             Cargar carta constitutiva
           </button>
-          <div className="flex flex-col md:flex-row items-center md:items-start">
-            <Image
-              src="/Imagen-card.png"
-              alt="Admin"
-              className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
-              width={800}
-              height={800}
-            />
-            <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
-              <h2 className="text-2xl font-bold">
-                {candidatoData?.userData?.nombre || ""}{" "}
-                {candidatoData?.userData?.apellido || ""}{" "}
-                <span className="badge bg-success rounded-full ml-4">
-                  <FontAwesomeIcon icon={faCheckCircle} /> Verificado
-                </span>
-              </h2>
-              <p className="text-xl text-gray-600">
-                {candidatoData?.candidatoData?.perfil?.puestoDeseado}
-              </p>
-              <div className="flex flex-col md:flex-row mt-2 text-gray-500">
-                <div className="flex flex-row mb-2 md:mb-0">
-                  <p className="text-blue-800">Teléfono:</p>{" "}
-                  <p>{candidatoData?.userData?.telefono}</p>
-                </div>
-                <div className="flex flex-row md:ml-10">
-                  <p className="text-blue-800">Email:</p>{" "}
-                  <p>{candidatoData?.userData?.emailUsuario || ""}</p>
-                </div>
+        </div>
+        <div className="flex flex-col md:flex-row items-center md:items-start mt-4">
+          <Image
+            src="/Imagen-card.png"
+            alt="Admin"
+            className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
+            width={800}
+            height={800}
+          />
+          <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
+            <h2 className="text-2xl font-bold">
+              {candidatoData?.userData?.nombre || ""}{" "}
+              {candidatoData?.userData?.apellido || ""}{" "}
+              <span className="badge bg-success rounded-full ml-4">
+                <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+              </span>
+            </h2>
+            <p className="text-xl text-gray-600">
+              {candidatoData?.candidatoData?.perfil?.puestoDeseado}
+            </p>
+            <div className="flex flex-col md:flex-row mt-2 text-gray-500">
+              <div className="flex flex-row mb-2 md:mb-0">
+                <p className="text-blue-800 mr-2">Teléfono:</p>{" "}
+                <p>{candidatoData?.userData?.telefono}</p>
               </div>
-              <div className="flex flex-row text-gray-600 mt-2">
-                <p className="text-blue-800">Dirección:</p>{" "}
-                <p>{candidatoData?.userData?.direccion}</p>
-              </div>
-              <div className="flex flex-row text-gray-600 mt-2">
-                <p className="text-blue-800">Razón Social:</p>{" "}
-                <p>{candidatoData?.userData?.direccion}</p>
+              <div className="flex flex-row md:ml-10">
+                <p className="text-blue-800 mr-2">Email:</p>{" "}
+                <p>{candidatoData?.userData?.emailUsuario || ""}</p>
               </div>
             </div>
-          </div>
-          <div className="mt-6 flex flex-col md:flex-row">
-            <div className="md:ml-40 w-full">
-              <h3 className="text-xl font-semibold mb-2">Descripción</h3>
-              <hr />
-              <p className="text-gray-600">
-                {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
-              </p>
+            <div className="flex flex-row text-gray-600 mt-2">
+              <p className="text-blue-800 mr-2">Dirección:</p>{" "}
+              <p>{candidatoData?.userData?.direccion}</p>
+            </div>
+            <div className="flex flex-row text-gray-600 mt-2">
+              <p className="text-blue-800 mr-2">Razón Social:</p>{" "}
+              <p>{candidatoData?.userData?.razonSocial || ""}</p>
             </div>
           </div>
         </div>
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold mb-2">Descripción</h3>
+          <hr />
+          <p className="text-gray-600">
+            {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
+          </p>
+        </div>
       </div>
+    </div>
 
-      {/* <DataModal
+       {/* <DataModal
       show={show}
       setShow={setShow}
       candidatoData={candidatoData}
@@ -215,6 +208,7 @@ export default function UserProfile({ params }: any) {
       modalType={modalType}
       title={modalTitle}
     /> */}
-    </div>
+  </div>
+  
   );
 }

@@ -53,7 +53,7 @@ export default function EnterpriseProfilePage({ params }: any) {
         try {
           await fetchCandidateData();
         } catch (err) {
-          console.log("Error al cargar los datos el usuario");
+          console.log("Error al cargar los datos del usuario");
         }
       })();
     }

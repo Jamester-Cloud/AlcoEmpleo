@@ -2,13 +2,12 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocation } from "@fortawesome/free-solid-svg-icons";
+import { faLocation, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { Candidate } from "@/app/interfaces/types";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Link from "next/link";
 import Image from "next/image";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons"; // Import "check-circle" icon
 
 interface Props {
   candidates: Candidate[];
@@ -20,6 +19,16 @@ export function CarouselMulti(props: any) {
   const whatsappMessage = encodeURIComponent(
     "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
   );
+
+ 
+  if (!candidates || candidates.length === 0) {
+    return (
+      //  Dejo este Div Vacio para que no se vea feo el HomePage al no haber candidatos Premiums 
+      <div >
+      </div>
+    );
+  }
+
   return (
     <Carousel
       className="d-flex justify-content-center pb-20"
@@ -43,12 +52,6 @@ export function CarouselMulti(props: any) {
     >
       {candidates?.map((candidato: any, index: number) => (
         <div key={index} className="flex justify-center">
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
-            integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="
-            crossOrigin="anonymous"
-          />
           <Card className="w-64 max-w-64 min-w-64 h-64">
             <Card.Header>
               <div className="">
@@ -62,7 +65,7 @@ export function CarouselMulti(props: any) {
               </div>
             </Card.Header>
             <Card.Body className="">
-              <span className="badge text-right bg-success rounded-pill  top-1/2 -translate-y-1/2">
+              <span className="badge text-right bg-success rounded-pill top-1/2 -translate-y-1/2">
                 <FontAwesomeIcon icon={faCheckCircle} /> Verificado
               </span>
               <h4 className="mb-2">
@@ -75,24 +78,18 @@ export function CarouselMulti(props: any) {
                 <FontAwesomeIcon icon={faLocation} /> Venezuela
               </div>
               <div className="mb-4 pb-2 d-flex justify-content-between">
-                <button
-                  type="button"
-                  className="btn btn-success btn-sm rounded"
-                >
+                <button type="button" className="btn btn-success btn-sm rounded">
                   <Link
                     href={`https://wa.me/${candidato.personaData.telefono}?text=${whatsappMessage}`}
-                    className="mdi mdi-whatsapp  text-white text-decoration-none"
+                    className="mdi mdi-whatsapp text-white text-decoration-none"
                   >
                     Enviar mensaje
                   </Link>
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm rounded"
-                >
+                <button type="button" className="btn btn-primary btn-sm rounded">
                   <Link
                     href={`/enterprise/candidateProfile/${candidato._id}`}
-                    className="mdi  text-white text-decoration-none"
+                    className="mdi text-white text-decoration-none"
                   >
                     Ver Perfil
                   </Link>
