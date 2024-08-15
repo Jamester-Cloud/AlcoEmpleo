@@ -1,5 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
+import Documento from "@/models/documentos";
 import { NextRequest, NextResponse } from "next/server";
 
 connect()
@@ -7,12 +8,12 @@ connect()
 
 export async function GET(request: NextRequest) {
   try {
- 
+
     const candidatosPremiums: any = await Candidato.aggregate([
       {
         $match: {
-          "esDestacado": true
-        }
+          "esDestacado": true,
+        },
       },
       {
         $lookup: {
@@ -26,28 +27,46 @@ export async function GET(request: NextRequest) {
         $unwind: "$usuarioData"
       },
       {
-        $project: {
-          "Candidato": "$$ROOT",
-          idPersona: "$usuarioData.idPersona",
-        }
-      },
-      {
         $lookup: {
           from: "personas",
-          localField: "idPersona",
+          localField: "usuarioData.idPersona",
           foreignField: "_id",
           as: "personaData"
         }
       },
       {
         $unwind: "$personaData"
-      }
-
+      },
+      {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData"
+        }
+      },
+      {
+        $unwind: "$documentosData"
+      },
+      {
+        $project: {
+          "Candidato": "$$ROOT",
+          usuarioData: "$usuarioData",
+          personaData: "$personaData",
+          documentos: "$documentosData"
+        }
+      },
     ])
 
+
+
+    let filtrados = candidatosPremiums.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
+    
+    console.log(filtrados)
+    
     const response = NextResponse.json({
       message: "Succesfull data retrieve",
-      dataCandidatosPremium: candidatosPremiums,
+      dataCandidatosPremium: filtrados,
       success: true,
     })
     //console.log("hello world")

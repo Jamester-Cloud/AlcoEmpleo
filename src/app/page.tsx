@@ -39,7 +39,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [!data]);
 
   if (loading) {
     return <Spinner />;
@@ -83,7 +83,7 @@ export default function Home() {
         </h1>
         <h4 className="text-blue-900 pb-20">Recomendados por otras empresas</h4>
       </div>
-      <CarouselMulti candidates={data.dataCandidatosPremium} />
+      <CarouselMulti candidates={data.dataCandidatosPremium} idProfilePicture={data.dataCandidatosPremium} />
       <div
         className="relative min-h-screen bg-cover bg-center"
         style={{ backgroundImage: "url('/bgLogin.png')" }}

@@ -37,7 +37,7 @@ export default function UserCandidate() {
       idPersona: localStorage.getItem("idPersona"),
       idUsuario: localStorage.getItem("idUsuario"),
     });
-
+    console.log(localStorage.getItem("idUsuario"))
     if (res.status === 200 && res.data.success) {
       setCandidatoData({
         userData: {

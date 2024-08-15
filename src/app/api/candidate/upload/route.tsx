@@ -30,7 +30,7 @@ export const POST = async (request: NextRequest) => {
                 filter = { _id: formData.get('idPersona') }
 
                 let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
-                console.log(idProfilePic)
+                console.log("Proceso de guardado de documentos finalizado")
                 update = {
                     $set: {
                         idUsuario: formData.get('idUsuario'),

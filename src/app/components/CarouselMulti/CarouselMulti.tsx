@@ -14,7 +14,9 @@ interface Props {
   candidates: Candidate[];
 }
 
-export function CarouselMulti({ candidates }: Props) {
+export function CarouselMulti(props: any) {
+  let { candidates, idProfilePicture } = props
+  console.log(candidates)
   const whatsappMessage = encodeURIComponent(
     "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
   );
@@ -39,7 +41,7 @@ export function CarouselMulti({ candidates }: Props) {
       autoPlaySpeed={3000}
       infinite={true}
     >
-      {candidates?.map((candidato, index) => (
+      {candidates?.map((candidato: any, index: number) => (
         <div key={index} className="flex justify-center">
           <link
             rel="stylesheet"
@@ -51,7 +53,7 @@ export function CarouselMulti({ candidates }: Props) {
             <Card.Header>
               <div className="">
                 <Image
-                  src="/Imagen-card.png"
+                  src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
                   height={400}
                   width={400}
                   className="w-full"

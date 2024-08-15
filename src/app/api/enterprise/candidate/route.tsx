@@ -7,10 +7,10 @@ connect()
 export async function POST(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
-    const reqJson =  await request.json()
+    const reqJson = await request.json()
     console.log(reqJson)
     const candidato: any = await Candidato.aggregate([
-      { $match: { $expr : { $eq: [ '$_id' , { $toObjectId: reqJson.id } ] } } },
+      { $match: { $expr: { $eq: ['$_id', { $toObjectId: reqJson.id }] } } },
       {
         $lookup: {
           from: "users",
@@ -22,30 +22,51 @@ export async function POST(request: NextRequest) {
       {
         $unwind: "$usuarioData"
       },
-      {
-        $project: {
-          idPersona: "$usuarioData.idPersona",
-          "candidato": "$$ROOT",
-        }
-      },
+
       {
         $lookup: {
           from: "personas",
-          localField: "idPersona",
+          localField: "usuarioData.idPersona",
           foreignField: "_id",
           as: "personaData"
         }
       },
       {
         $unwind: "$personaData"
-      }
+      },
+      {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData"
+        }
+      },
+      {
+        $unwind: "$documentosData"
+      },
+      {
+        $project: {
+          usuarioData: "$usuarioData",
+          "candidato": "$$ROOT",
+          "documentos": "$documentosData"
+        }
+      },
     ])
-    console.log(candidato);
-    
+
+    //console.log(candidato)
+    let pdf = candidato.filter((item: any) => { if (item.documentos.contentType == 'application/pdf') return item.documentos.idArchivo })
+    let profilePicture = candidato.filter((item: any) => { if (item.documentos.contentType != 'application/pdf') return item.documentos.idArchivo })
+
+    console.log("Cv ", pdf);
+    console.log("ProfilePicture ", profilePicture);
+
     const response = NextResponse.json({
       message: "Succesfull data retrieving",
       success: true,
-      data:candidato
+      data: candidato,
+      cv: pdf,
+      profilePicture: profilePicture
     })
 
     return response;

@@ -16,12 +16,12 @@ export async function POST(request: NextRequest) {
         const persona = await Persona.findOne({ _id: idPersona })
         const candidato = await Candidato.findOne({ idUsuario: idUsuario })
         const usuario = await User.findOne({ _id: idUsuario })
-        const pdfDoc = await Documento.findOne({ idUsuario: idUsuario, contentType: "application/pdf" })
-        const imageDoc = await Documento.findOne({ $or: [{ idUsuario: idUsuario }, { contentType: "image/jpeg" }, { contentType: 'image/jpg' }, { contentType: 'image/png' }] })
+        const docs = await Documento.find({ idUsuario: idUsuario })
 
+        let pdf:any
+        let profilePicture:any
 
-        console.log("Documentos", pdfDoc)
-        console.log("Imagenes", imageDoc)
+        if (docs !== null) pdf = docs?.filter((item: any) => { return item.contentType == 'application/pdf' }), profilePicture = docs?.filter((item: any) => { return item.contentType != 'application/pdf' })
 
         return NextResponse.json({
             message: 'Candidate found',
@@ -29,12 +29,12 @@ export async function POST(request: NextRequest) {
             dataCandidato: candidato,
             idCandidato: candidato._id,
             emailUsuario: usuario.email,
-            cv: pdfDoc,
-            profilePic: imageDoc,
+            profilePic: profilePicture[0] || false,
+            cv: pdf[0] || false,
             success: true
         });
 
     } catch (error: any) {
-        return NextResponse.json({ error: error.message })
+        return NextResponse.json({ error: error.message }, { status: 500 })
     }
 }
