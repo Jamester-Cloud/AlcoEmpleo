@@ -8,7 +8,7 @@ import mongoose from "mongoose";
  * @param bucketName
  * upload functions for images or docs to mongoDB buckets
  */
-export default async function upload(file: File, bucketName: String, context:String) {
+export default async function upload(file: File, bucketName: String, context: String) {
 
   const mongodbUrl: any = process.env.MONGO_URI
 
@@ -33,5 +33,4 @@ export default async function upload(file: File, bucketName: String, context:Str
   //retornamos el id
   return readBuffer.pipe(uploadStream).id
 
-  //return multer({ storage });
 }

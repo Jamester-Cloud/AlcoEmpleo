@@ -24,30 +24,37 @@ export const POST = async (request: NextRequest) => {
         switch (dataType) {
             //funciona con redes
             case 'datosPersonales':
-
-                const profilePicture = formData.get('profilePicture') as File
-
+                console.log(formData)
+                const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
+                console.log(profilePicture);
                 filter = { _id: formData.get('idPersona') }
 
-                // //file = await uploadImage(profilePicture,'candidates')
+                let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
+                console.log(idProfilePic)
+                update = {
+                    $set: {
+                        idUsuario: formData.get('idUsuario'),
+                        filename: profilePicture.name,
+                        idArchivo: idProfilePic,
+                        originalname: profilePicture.name,
+                        contentType: profilePicture.type,
+                        size: profilePicture.size,
+                        bucketName: "candidateProfilePics",
+                    }
+                }
 
-                // if (file == 'extension de archivo invalida. Rectifique') return NextResponse.json({ error: "Archivo con extension invalida" }, { status: 500 })
+                await Documento.updateOne(filter, update, { upsert: true })
 
+                update = {
+                    nombre: formData.get('nombre'),
+                    apellido: formData.get('apellido'),
+                    email: formData.get('email'),
+                    telefono: formData.get('telefono'),
+                    direccion: formData.get('direccion')
+                }
 
-                // if (file !== 'extension de archivo invalida. Rectifique') {
+                await Persona.updateOne(filter, update)
 
-                //     update = {
-                //         nombre: formData.get('nombre'),
-                //         apellido: formData.get('apellido'),
-                //         email: formData.get('email'),
-                //         telefono: formData.get('telefono'),
-                //         direccion: formData.get('direccion'),
-                //         fotoPerfil: { size: file.size, path: file.path, dataType: file.contentType }
-                //     }
-
-                //     await Persona.updateOne(filter, update)
-
-                // }
                 break;
             case 'perfil':
                 console.log(formData.get("perfil[CV]"));

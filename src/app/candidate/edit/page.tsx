@@ -44,16 +44,14 @@ export default function UserCandidate() {
           ...res.data.dataPersona,
           emailUsuario: res.data.emailUsuario,
         },
+        personaData: res.data.personaData,
         candidatoData: res.data.dataCandidato,
-        documentos: res.data.documentos
+        cv: res.data.cv,
+        profilePicture: res.data.profilePic
       });
       console.log(res.data)
     }
   };
-
-  const downloadCv = async () => {
-    const res = await axios.post('/api/candidate/download', { idArchivo: candidatoData.documentos.filename })
-  }
 
   useEffect(() => {
     if (!candidatoData) {
@@ -114,7 +112,7 @@ export default function UserCandidate() {
                 e,
                 "Datos personales",
                 candidatoData?.userData,
-                candidatoData?.userData?._id,
+                candidatoData?.personaData?._id,
                 "datosPersonales"
               )
             }
@@ -123,8 +121,9 @@ export default function UserCandidate() {
             Editar datos personales
           </button>
           <div className="flex flex-col md:flex-row items-center md:items-start">
+
             <Image
-              src="/Imagen-card.png"
+              src={candidatoData?.profilePicture?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidatoData.profilePicture.idArchivo}` : '/Imagen-card.png'}
               alt="Admin"
               className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
               width={800}
@@ -210,11 +209,11 @@ export default function UserCandidate() {
                   </div>
                   <div className="card-body">
                     <div className="row">
-                      {candidatoData?.documentos?.filename ? <><div className="col-md-6">
-                        {candidatoData?.documentos?.filename}
+                      {candidatoData?.cv?.filename ? <><div className="col-md-6">
+                        {candidatoData?.cv?.filename}
                       </div>
                         <div className="col-md-6">
-                          <button onClick={() => downloadCv()} className="btn btn-primary">Descargar</button>
+                          <a href={`/api/candidate/download?idArchivo=${candidatoData.cv.idArchivo}`} className="btn btn-primary">Descargar</a>
                         </div></> : "Sin CV"}
 
                     </div>

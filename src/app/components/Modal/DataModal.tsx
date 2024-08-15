@@ -323,6 +323,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-6"><label className="labels">Nombre</label><input type="text"
                                 className="form-control" defaultValue={data?.nombre} {...register("nombre", { required: true })} placeholder="Nombre" />
                                 <input type="hidden" {...register('idPersona')} defaultValue={data._id} />
+                                <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
                             </div>
                             <div className="col-md-6"><label className="labels">Apellido</label><input type="text"
                                 className="form-control" defaultValue={data?.apellido} placeholder="Apellido" {...register("apellido")} />
