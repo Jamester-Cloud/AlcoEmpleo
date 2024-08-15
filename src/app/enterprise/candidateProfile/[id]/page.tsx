@@ -32,6 +32,7 @@ export default function EnterpriseProfilePage({ params }: any) {
         id: id,
       });
       console.log(response.data.data)
+     
       setData(response.data.data[0]);
 
       console.log(data);
@@ -46,11 +47,15 @@ export default function EnterpriseProfilePage({ params }: any) {
         try {
           await fetchCandidateData();
         } catch (err) {
-          console.log("Error al cargar los datos el usuario");
+          console.log("Error al cargar los datos del usuario");
         }
       })();
     }
-  });
+  }, [data]);
+
+
+
+  
  
 
   return (
@@ -66,7 +71,19 @@ export default function EnterpriseProfilePage({ params }: any) {
               className="rounded-full"
               width={100}
             />
+
+         
             <h4>{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
+
+            <p
+              className={`${
+                data?.candidato?.esDestacado
+                  ? "bg-green-800 text-white font-bold py-2 px-4 rounded-full shadow-lg border border-green-900 animate-bounce"
+                  : ""
+              }`}
+            >
+              {data?.candidato?.esDestacado && "Destacado"}
+            </p>
             <p className="text-secondary mb-0">{data?.candidato?.perfil?.puestoDeseado}</p>
             <div className="mt-2 space-y-2 w-full">
               <button className="btn btn-primary w-full">
