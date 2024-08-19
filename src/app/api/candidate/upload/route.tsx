@@ -63,11 +63,10 @@ export const POST = async (request: NextRequest) => {
                 break;
             case 'perfil':
                 console.log(formData);
-                //convertimos el archivo
                 let file = formData.get('perfil[CV]') as File;
                 let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
-                // si los sube, hay que colocar una forma de recuperarlos mediante
-                //
+
+                // //
                 filter = {
                     idUsuario: formData.get('idUsuario'),
                     bucketName: 'candidateDocuments'
@@ -84,9 +83,13 @@ export const POST = async (request: NextRequest) => {
                         bucketName: "candidateDocuments",
                     }
                 }
-
+                //actualizamos el documento
                 await Documento.updateOne(filter, update, { upsert: true })
                 //Perfil Data
+                filter = {
+                    idUsuario: formData.get('idUsuario'),
+                }
+
                 update = {
                     $set: {
                         "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
@@ -97,7 +100,7 @@ export const POST = async (request: NextRequest) => {
                 //codigo que maneja las peticiones de idiomas
                 await Candidato.updateOne(filter, update);
 
-                console.log("Proceso de guardado de documentos finalizado")
+                //console.log("Proceso de guardado de documentos finalizado")
                 break;
             case 'exp':
 

@@ -191,7 +191,7 @@ export default function DataModal(props: any) {
             let res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
             if (res.status == 200) {
                 console.log("edicion exitosa");
-                await getUserDetails()
+                //await getUserDetails()
                 setShow(false)
                 window.location.reload()
             }
@@ -453,7 +453,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-12 mt-4">
                                 <label className="labels">Curriculum</label>
                                 <div className="d-flex flex-column align-items-center ">
-                                    <input type="file" accept=".jpg, .jpeg, .png, .pdf" placeholder="Actualizar CV" {...register("perfil.CV", { required: true })} className="form-group form-control" />
+                                    <input type="file" accept=".pdf" placeholder="Actualizar CV" {...register("perfil.CV", { required: true })} className="form-group form-control" />
                                 </div>
                             </div>
                         </div>

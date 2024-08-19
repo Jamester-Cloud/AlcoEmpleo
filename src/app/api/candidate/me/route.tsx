@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
         const persona = await Persona.findOne({ _id: idPersona })
         const candidatoData = await Candidato.findOne({ idUsuario: idUsuario })
-        
+
         const candidato = await Candidato.aggregate([
             { $match: { $expr: { $eq: ['$idUsuario', { $toObjectId: idUsuario }] } } },
             {
@@ -51,22 +51,18 @@ export async function POST(request: NextRequest) {
         let pic;
         let cv;
         let emailUsuario;
-        
+
         candidato.map((item) => {
             item.documentos.contentType === "application/pdf" ? cv = item.documentos : pic = item.documentos
             emailUsuario = item.usuarioData.email
         })
-
-        console.log(pic);
-        console.log(cv);
-
         return NextResponse.json({
             message: 'Candidate found',
             dataPersona: persona,
             dataCandidato: candidatoData,
             profilePicture: pic,
             cv: cv,
-            emailUsuario:emailUsuario,
+            emailUsuario: emailUsuario,
             success: true
         });
 
