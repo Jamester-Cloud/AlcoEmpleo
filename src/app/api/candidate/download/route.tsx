@@ -5,7 +5,7 @@ import fs from 'fs'
 
 export async function GET(request: NextRequest) {
     try {
-        const chunks: any = [];
+
         let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
 
         console.log(idArchivo)

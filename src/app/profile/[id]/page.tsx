@@ -1,214 +1,71 @@
-"use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
+"use client"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 import Image from "next/image";
-import CabeceraEmpresa from "@/app/components/cabeceras/cabeceraEmpresa";
-
-import {
-  faCheckCircle,
-
-} from "@fortawesome/free-solid-svg-icons";
-import DataModal from "@/app/components/Modal/DataModal";
-import "@/app/candidate/edit/css/style.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+// Visor de perfiles, para usuarios publicos
 export default function UserProfile({ params }: any) {
-  const [userData, setUserData]: any = useState();
 
-  const getUserDetails = async () => {
-    const res = await axios.get("../api/users/me");
-    return res.data.personaData;
-  };
+    const [userData, setUserData] : any = useState()
 
-  useEffect(() => {
-    if (!userData) {
-      (async () => {
-        try {
-          const userData = await getUserDetails();
-          console.log(userData);
-          setUserData(userData);
-        } catch (err) {
-          console.log("Error al cargar los datos el usuario");
+    const getUserDetails = async () => {
+        const res = await axios.get("../api/users/me");
+        return res.data.personaData
+    }
+
+    useEffect(() => {
+        if (!userData) {
+            (async () => {
+                try {
+                    const userData = await getUserDetails()
+                    console.log(userData);
+                    setUserData(userData);
+
+                } catch (err) {
+                    console.log('Error al cargar los datos el usuario');
+                }
+            })()
         }
-      })();
-    }
-    console.log(userData);
-  }, [userData]);
+        console.log(userData);
+    }, [userData])
 
-  // Modal controls
-  const [show, setShow] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalData, setModalData] = useState({});
-  const handleClose = () => setShow(false);
-
-  // State data load
-  const [candidatoData, setCandidatoData]: any = useState(null);
-  const [modalType, setModalDataType] = useState("");
-  const handleModal = (
-    e: any,
-    title: string,
-    data: any,
-    id: string,
-    dataType: string
-  ) => {
-    e.preventDefault();
-    setModalDataType(dataType);
-    setModalTitle(title);
-    setModalData({ ...data, id });
-    setShow(true);
-  };
-
-  useEffect(() => {
-    if (!candidatoData) {
-      (async () => {
-        try {
-          await getUserDetails();
-        } catch (err) {
-          console.log("Error al cargar los datos del usuario", err);
-        }
-      })();
-    }
-  }, [candidatoData]);
-
-  //funcion para borrar items de idiomas, experiencias(por id), habilidades, formaciones academicas(Por id)
-  const popItem = async (type: string) => {
-    let petition;
-    switch (type) {
-      case "habilidad":
-        candidatoData.candidatoData.habilidad?.pop();
-        petition = await axios.post("/api/candidate/upload/delete", {
-          dataType: type,
-          data: candidatoData.candidatoData.habilidad,
-          idUsuario: localStorage.getItem("idUsuario"),
-        });
-        break;
-      case "idioma":
-        candidatoData.candidatoData.idiomas?.pop();
-        petition = await axios.post("/api/candidate/upload/delete", {
-          dataType: type,
-          data: candidatoData.candidatoData.idiomas,
-          idUsuario: localStorage.getItem("idUsuario"),
-        });
-        break;
-      case "redes":
-        candidatoData.candidatoData.redes?.pop();
-        petition = await axios.post("/api/candidate/upload/delete", {
-          dataType: type,
-          data: candidatoData.candidatoData.redes,
-          idUsuario: localStorage.getItem("idUsuario"),
-        });
-        break;
-    }
-    //Re-render
-    if (petition?.status == 200) await getUserDetails();
-  };
-
-  const deleteItem = async (type: string, id: string) => {
-    let petition;
-    switch (type) {
-      case "exp":
-        petition = await axios.post("/api/candidate/upload/delete", {
-          dataType: type,
-          id: id,
-          idUsuario: localStorage.getItem("idUsuario"),
-        });
-        break;
-      case "academics":
-        petition = await axios.post("/api/candidate/upload/delete", {
-          dataType: type,
-          id: id,
-          idUsuario: localStorage.getItem("idUsuario"),
-        });
-        break;
-    }
-    //re-render
-    if (petition?.status == 200) await getUserDetails();
-  };
-  return (
-    <div className="">
-    <CabeceraEmpresa />
-    <div className="container mx-auto mt-5 p-4">
-      <div className="bg-white shadow-md rounded-lg p-6 relative">
-        <div className="flex justify-between">
-          <button
-            onClick={(e) =>
-              handleModal(
-                e,
-                "Datos personales",
-                candidatoData?.userData,
-                candidatoData?.userData?._id,
-                "datosPersonales"
-              )
-            }
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
-            Editar datos
-          </button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
-            Cargar carta constitutiva
-          </button>
-        </div>
-        <div className="flex flex-col md:flex-row items-center md:items-start mt-4">
-          <Image
-            src="/Imagen-card.png"
-            alt="Admin"
-            className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
-            width={800}
-            height={800}
-          />
-          <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
-            <h2 className="text-2xl font-bold">
-              {candidatoData?.userData?.nombre || ""}{" "}
-              {candidatoData?.userData?.apellido || ""}{" "}
-              <span className="badge bg-success rounded-full ml-4">
-                <FontAwesomeIcon icon={faCheckCircle} /> Verificado
-              </span>
-            </h2>
-            <p className="text-xl text-gray-600">
-              {candidatoData?.candidatoData?.perfil?.puestoDeseado}
-            </p>
-            <div className="flex flex-col md:flex-row mt-2 text-gray-500">
-              <div className="flex flex-row mb-2 md:mb-0">
-                <p className="text-blue-800 mr-2">Teléfono:</p>{" "}
-                <p>{candidatoData?.userData?.telefono}</p>
-              </div>
-              <div className="flex flex-row md:ml-10">
-                <p className="text-blue-800 mr-2">Email:</p>{" "}
-                <p>{candidatoData?.userData?.emailUsuario || ""}</p>
-              </div>
+    return (
+        <div className="container rounded bg-white mt-5 mb-5">
+            <div className="row">
+                <div className="col-md-3 border-right">
+                    {/* Profile photo */}
+                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><Image className="rounded-circle mt-5" width={100} src="/alcologo.png" height={100} alt="GrupoAlcoLogo" /><span className="font-weight-bold">{userData?.nombre || ''} {userData?.apellido || ''}</span><span className="text-black-50">{userData?.email || ''}</span><span> </span></div>
+                </div>
+                <div className="col-md-5 border-right">
+                    <div className="p-3 py-5">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h4 className="text-right">Edicion de perfil</h4>
+                        </div>
+                        <div className="row mt-2">
+                            <div className="col-md-6"><label className="labels">Nombre</label><input type="text" className="form-control" placeholder="Nombre" defaultValue={userData?.nombre || ''} /></div>
+                            <div className="col-md-6"><label className="labels">Apellido</label><input type="text" className="form-control" placeholder="Apellido"  defaultValue={userData?.apellido || ''} /></div>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col-md-12"><label className="labels">Telefono</label><input type="text" className="form-control" placeholder="telefono de contacto" defaultValue={userData?.telefono} /></div>
+                            <div className="col-md-12"><label className="labels">Direccion</label><input type="text" className="form-control" placeholder="Direccion" defaultValue={userData?.direccion}/></div>
+                            <div className="col-md-12"><label className="labels">Email</label><input type="text" className="form-control" placeholder="enter email id" defaultValue={userData?.email}/></div>
+                        </div>
+                        {/* <div className="row mt-3">
+                            <div className="col-md-6"><label className="labels">Pais</label><input type="text" className="form-control" placeholder="country" /></div>
+                            <div className="col-md-6"><label className="labels">Estado/Region</label><input type="text" className="form-control" placeholder="state" /></div>
+                        </div> */}
+                        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="p-3 py-5">
+                        <div className="d-flex justify-content-between align-items-center experience"><span></span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experiencias</span></div><br />
+                        <div className="col-md-12"><label className="labels">Experience in Designing</label><input type="text" className="form-control" placeholder="experience" /></div> <br />
+                        <div className="col-md-12"><label className="labels">Detalles adicionales</label><input type="text" className="form-control" placeholder="additional details" /></div>
+                    </div>
+                </div>
             </div>
-            <div className="flex flex-row text-gray-600 mt-2">
-              <p className="text-blue-800 mr-2">Dirección:</p>{" "}
-              <p>{candidatoData?.userData?.direccion}</p>
-            </div>
-            <div className="flex flex-row text-gray-600 mt-2">
-              <p className="text-blue-800 mr-2">Razón Social:</p>{" "}
-              <p>{candidatoData?.userData?.razonSocial || ""}</p>
-            </div>
-          </div>
         </div>
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-2">Descripción</h3>
-          <hr />
-          <p className="text-gray-600">
-            {candidatoData?.candidatoData?.perfil?.descripcionPersonal}
-          </p>
-        </div>
-      </div>
-    </div>
-
-       {/* <DataModal
-      show={show}
-      setShow={setShow}
-      candidatoData={candidatoData}
-      setCandidatoData={setCandidatoData}
-      onHide={handleClose}
-      data={modalData}
-      modalType={modalType}
-      title={modalTitle}
-    /> */}
-  </div>
-  
-  );
+    )
 }

@@ -32,10 +32,11 @@ export default function EnterpriseProfilePage({ params }: any) {
 
   const fetchCandidateData = async () => {
     try {
+      
       const response = await axios.post("/api/enterprise/candidate", {
         id: id,
       });
-      console.log(response.data)
+
       setCv(response?.data?.cv[0]?.documentos?.idArchivo)
       setProfilePicture(response.data.profilePicture[0].documentos.idArchivo)
 
@@ -67,18 +68,19 @@ export default function EnterpriseProfilePage({ params }: any) {
           <div className="card mb-3">
             <div className="card-body flex flex-col items-center text-center">
               <Image
-                 src={profilePicture ? `/api/candidate/profilePic?idArchivo=${profilePicture}` : '/Imagen-card.png'}
+                src={profilePicture ? `/api/candidate/profilePic?idArchivo=${profilePicture}` : '/Imagen-card.png'}
                 alt="Admin"
                 height={50}
                 className="rounded-full"
                 width={100}
               />
               <h4>{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
+              <h6 className="text-blue-500">{data?.emailUsuario}</h6>
               <p className="text-secondary mb-0">{data?.candidato?.perfil?.puestoDeseado}</p>
               <div className="mt-2 space-y-2 w-full">
                 {cv ? <a href={`/api/candidate/download?idArchivo=${cv}`} className="btn btn-primary w-full">
                   Descargar CV
-                </a>: 'Sin Curriculum Vitae'}
+                </a> : 'Sin Curriculum Vitae'}
                 <button className="btn btn-success w-full">
                   <Link
                     href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}

@@ -14,23 +14,59 @@ export async function POST(request: NextRequest) {
         let { idPersona, idUsuario } = reqBody
 
         const persona = await Persona.findOne({ _id: idPersona })
-        const candidato = await Candidato.findOne({ idUsuario: idUsuario })
-        const usuario = await User.findOne({ _id: idUsuario })
-        const docs = await Documento.find({ idUsuario: idUsuario })
+        const candidatoData = await Candidato.findOne({ idUsuario: idUsuario })
+        
+        const candidato = await Candidato.aggregate([
+            { $match: { $expr: { $eq: ['$idUsuario', { $toObjectId: idUsuario }] } } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "idUsuario",
+                    foreignField: "_id",
+                    as: "usuarioData"
+                }
+            },
+            {
+                $unwind: "$usuarioData"
+            },
 
-        let pdf:any
-        let profilePicture:any
+            {
+                $lookup: {
+                    from: "documentos",
+                    localField: "usuarioData._id",
+                    foreignField: "idUsuario",
+                    as: "documentosData"
+                }
+            },
+            {
+                $unwind: "$documentosData"
+            },
+            {
+                $project: {
+                    usuarioData: "$usuarioData",
+                    "documentos": "$documentosData",
+                }
+            },
+        ])
+        let pic;
+        let cv;
+        let emailUsuario;
+        
+        candidato.map((item) => {
+            item.documentos.contentType === "application/pdf" ? cv = item.documentos : pic = item.documentos
+            emailUsuario = item.usuarioData.email
+        })
 
-        if (docs !== null) pdf = docs?.filter((item: any) => { return item.contentType == 'application/pdf' }), profilePicture = docs?.filter((item: any) => { return item.contentType != 'application/pdf' })
+        console.log(pic);
+        console.log(cv);
 
         return NextResponse.json({
             message: 'Candidate found',
             dataPersona: persona,
-            dataCandidato: candidato,
-            idCandidato: candidato._id,
-            emailUsuario: usuario.email,
-            profilePic: profilePicture[0] || false,
-            cv: pdf[0] || false,
+            dataCandidato: candidatoData,
+            profilePicture: pic,
+            cv: cv,
+            emailUsuario:emailUsuario,
             success: true
         });
 

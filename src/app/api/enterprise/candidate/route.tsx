@@ -49,7 +49,8 @@ export async function POST(request: NextRequest) {
         $project: {
           usuarioData: "$usuarioData",
           "candidato": "$$ROOT",
-          "documentos": "$documentosData"
+          "documentos": "$documentosData",
+          "personaData":"$personaData"
         }
       },
     ])

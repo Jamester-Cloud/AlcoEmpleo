@@ -42,8 +42,6 @@ export default function Oportunidades() {
   }
   const { register, handleSubmit } = useForm();
 
-  // State data load
-  const [candidatoData, setCandidatoData]: any = useState(null);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -66,9 +64,9 @@ export default function Oportunidades() {
   const onSubmit = async (data: any) => {
     console.log(data);
     const response = await axios.post('/api/candidate/jobs/search', data)
-    if(response.status==200) setData(response.data.data)
+    if (response.status == 200) setData(response.data.data)
   }
-
+  //src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-slate-300 p-2 rounded-full text-white w-full max-w-3xl">
@@ -134,15 +132,15 @@ export default function Oportunidades() {
                       </ul>
                     </div>
                   </div>
-                  <button className="btn btn-primary w-25" >Solicitar</button>
+                  {/* <button className="btn btn-primary w-25" >Solicitar</button> */}
                 </div>
                 {/* logo empresarial */}
                 <Image
-                  src="/Kiri.png"
-                  alt="Admin"
+                  src={item.documentosData ? `/api/enterprise/enterpriseLogo?idArchivo=${item.documentosData}` : '/AlcoLogo.png'}
+                  alt="Oportunidad"
                   className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
-                  width={800}
-                  height={800}
+                  width={700}
+                  height={700}
                 />
               </div>
               <hr />

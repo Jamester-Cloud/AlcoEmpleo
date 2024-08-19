@@ -183,17 +183,18 @@ export default function DataModal(props: any) {
     const { fields: fieldsSkills, append: appendSkills, remove: removeSkills } = useFieldArray({ name: "habilidad", control })
 
     const onSubmitWithFiles = async (data: any) => {
+        //console.log(data);
         try {
             data?.perfil?.CV ? data.perfil.CV = data.perfil.CV[0] : data.profilePicture = data.profilePicture[0]
             data.dataType = modalType
             console.log(data)
-            await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
-            // if (res.status == 200) {
-            //     console.log("edicion exitosa");
-            //     await getUserDetails()
-            //     setShow(false)
-            //     reset()
-            // }
+            let res = await axios.post("/api/candidate/upload", data, { headers: { 'content-type': 'multipart/form-data' } })
+            if (res.status == 200) {
+                console.log("edicion exitosa");
+                await getUserDetails()
+                setShow(false)
+                window.location.reload()
+            }
         } catch (error) {
             console.log(error);
         }

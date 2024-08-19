@@ -66,23 +66,30 @@ aplicar validaciones de renderizacion exclusivas para premiums (lo aplico Angel,
 aplicar metodos de pago, para pagina candidatos (Listo)
 aplicar correciones para busqueda de candidatos general y ajustar paginado (lo hare hoy al terminar mas vistas dinamicas)
 implementar sistema de guardado de archivos (listo)
-finalizar funciones simples del panel (ver perfil usuario, suspender usuario (esto requiere un reajuste al inicio de sesion))
+implementar registro de logos al registro de empresa(listo)
+//para despues
+finalizar funciones simples del panel administrador (ver perfil usuario, suspender usuario (esto requiere un reajuste al inicio de sesion))
+//
 terminar vista de oportunidades candidato (listo, falta paginacion, tiene busqueda dinamica) 
 terminar vista de empleos aplicados (falta por realizar, debo copiarme de alguna hecha, junto con funcionabilidad)
+//
 terminar aplicacion y postulacion a empleos (para despues de la primera iteracion)
+//
 implementar servicio de olvido su contraseña con correos
-
+terminar editar datos de empresa
 
 //faltantes por imagenes dinamicas
+registro empresa logo
 Homepage(listo)
 empresa vista general de candidatos
 perfil de candidatos desde empresa(listo)
 perfil empresa (logos)
 perfil empresa candidatos homepage(listo)
 logos de empresas en oportunidades(en proceso)
-registro de logo empresarial(en proceso)
+registro de logo empresarial(listo)
 // para despues
 logos empresa en administrador
 asi como en candidato
+
 
 

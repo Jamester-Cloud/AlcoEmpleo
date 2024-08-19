@@ -7,8 +7,9 @@ import Candidato from '@/models/candidato'
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import Rol from "@/models/userRolModel";
-import uploadImage from "@/helpers/upload";
-//import { sendEmail } from "@/helpers/mailer";
+import upload from "@/helpers/upload";
+import Documento from "@/models/documentos";
+
 
 connect()
 
@@ -18,11 +19,7 @@ export async function POST(request: NextRequest) {
         const formData = await request.formData()
 
         console.log(formData);
-
-        // if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
-        //     logoPicture = formData.get('logo[]') as File
-        //     logoPicture = await uploadImage(logoPicture, 'enterprises')
-        // }
+        let update;
 
         let email, password: any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type, estado
 
@@ -66,7 +63,7 @@ export async function POST(request: NextRequest) {
 
         const savedPersona = await newPersona.save()
         console.log("Persona registrada en la base de datos")
-        //then users table
+
         const newUser = new User({
             email: email,
             password: hashedPassword, fechaIngreso: new Date(),
@@ -79,25 +76,37 @@ export async function POST(request: NextRequest) {
         console.log("Usuario registrado")
 
         const newEmpresa = new Empresa({ idUsuario: savedUser._id, logo: { path: logoPicture?.path, dataType: logoPicture?.dataType, size: logoPicture?.size } })
+
         const newCandidato = new Candidato({
             idUsuario: savedUser._id,
             perfil: {},
             idRegion: estado
-
         })
+
+        console.log(savedUser._id);
 
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
 
-        //todo Se carga el logo (se debe resolver el problema de almacenamiento de imagenes y archivos primero)
-        // if (type === 'Empresas') {
+        if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
+            logoPicture = formData.get('logo[]') as File
+            let idLogo = await upload(logoPicture, 'enterprisesBucket', 'Enterprise logo')
 
-        //     let update = {
-        //         logo: { path: logoPicture?.path, dataType: logoPicture?.contentType, size: logoPicture?.size }
-        //     }
+            update = {
+                $set: {
+                    idUsuario: savedUser._id,
+                    filename: logoPicture.name,
+                    idArchivo: idLogo,
+                    originalname: logoPicture.name,
+                    contentType: logoPicture.type,
+                    size: logoPicture.size,
+                    bucketName: "enterprisesBucket",
+                }
+            }
 
-        //     await Empresa.updateOne({ _id: newEmpresa._id }, update)
-        // }
+            await Documento.updateOne({ idUsuario: savedUser._id, bucketName: "enterprisesBucket" }, update, { upsert: true })
+            console.log("Logo registrado exitosamente")
+        }
 
         return NextResponse.json({ message: 'User created succesfully', success: true })
 

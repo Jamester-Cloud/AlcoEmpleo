@@ -1,6 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import Subscripcion from '@/models/subscripcion'
+import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 connect()
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
 
         filter = { _id: Types.ObjectId.createFromHexString(idUsuario) }
         // primero debo verificar si ya tiene subscripcion y si no, creo una 
+        //aparte de eso debo destacar al candidato
         let isSubscribed: any = await Subscripcion.findOne({ idUsuario: idUsuario }).countDocuments().session(session)
         // no esta suscrito actualmente y no es premium(el estado premium debe solo aprobarse por esta funcion en especifico) 
         //pues se crea una nueva subscripcion para el usuario y se cambia su estado a usuario premium

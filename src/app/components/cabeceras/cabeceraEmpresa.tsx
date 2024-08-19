@@ -60,7 +60,7 @@ export default function CabeceraEmpresa() {
                     <a className="text-white text-decoration-none mt-2 transition-opacity duration-300 hover:opacity-50 cursor-pointer" onClick={logout}>
                         Salir
                     </a>
-                    <Link className="btn btn-primary text-white rounded-pill hover:bg-primary-dark transition-all duration-300" href="/profile/me">
+                    <Link className="btn btn-primary text-white rounded-pill hover:bg-primary-dark transition-all duration-300" href="/enterprise/profile">
                         Perfil
                     </Link>
                 </nav>

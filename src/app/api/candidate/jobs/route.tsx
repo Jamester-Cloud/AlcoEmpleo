@@ -1,7 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import OfertaTrabajo from "@/models/ofertaTrabajo";
 import { NextRequest, NextResponse } from "next/server";
-
+import Documento from "@/models/documentos";
 connect()
 
 
@@ -21,9 +21,32 @@ export async function GET(request: NextRequest) {
                 $unwind: "$empresaData",
             },
             {
+                $lookup: {
+                    from: "users",
+                    localField: "empresaData.idUsuario",
+                    foreignField: "_id",
+                    as: "usuarioData"
+                }
+            },
+            {
+                $unwind: "$usuarioData"
+            },
+            {
+                $lookup: {
+                    from: "documentos",
+                    localField: "usuarioData._id",
+                    foreignField: "idUsuario",
+                    as: "documentosData"
+                }
+            },
+            {
+                $unwind: "$documentosData"
+            },
+            {
                 $project: {
-                    "ofertaTrabajo": "$$ROOT",
+                    ofertaTrabajo: "$$ROOT",
                     empresaData: "$empresaData",
+                    documentosData: "$documentosData.idArchivo"
                 }
             },
         ])

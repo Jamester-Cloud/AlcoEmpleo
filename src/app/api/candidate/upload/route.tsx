@@ -4,8 +4,6 @@ import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
 import { connect } from "@/dbConfig/dbConfig";
 import Documento from "@/models/documentos";
-import multer from "multer";
-import { MongoClient } from "mongodb";
 
 import upload from "@/helpers/upload";
 
@@ -20,17 +18,21 @@ export const POST = async (request: NextRequest) => {
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
-
+        console.log(dataType)
         switch (dataType) {
             //funciona con redes
             case 'datosPersonales':
                 console.log(formData)
+
                 const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
-                console.log(profilePicture);
-                filter = { _id: formData.get('idPersona') }
 
                 let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
                 console.log("Proceso de guardado de documentos finalizado")
+
+                filter = {
+                    idUsuario: formData.get('idUsuario'),
+                    bucketName: 'candidateProfilePics'
+                }
                 update = {
                     $set: {
                         idUsuario: formData.get('idUsuario'),
@@ -45,28 +47,30 @@ export const POST = async (request: NextRequest) => {
 
                 await Documento.updateOne(filter, update, { upsert: true })
 
+                filter = { _id: formData.get('idPersona') }
+
                 update = {
-                    nombre: formData.get('nombre'),
-                    apellido: formData.get('apellido'),
-                    email: formData.get('email'),
-                    telefono: formData.get('telefono'),
-                    direccion: formData.get('direccion')
+                    $set: {
+                        nombre: formData.get('nombre'),
+                        apellido: formData.get('apellido'),
+                        email: formData.get('email'),
+                        telefono: formData.get('telefono'),
+                        direccion: formData.get('direccion')
+                    }
                 }
 
                 await Persona.updateOne(filter, update)
-
                 break;
             case 'perfil':
-                console.log(formData.get("perfil[CV]"));
                 console.log(formData);
                 //convertimos el archivo
                 let file = formData.get('perfil[CV]') as File;
                 let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
-                console.log(idCv);
                 // si los sube, hay que colocar una forma de recuperarlos mediante
                 //
                 filter = {
-                    idUsuario: formData.get('idUsuario')
+                    idUsuario: formData.get('idUsuario'),
+                    bucketName: 'candidateDocuments'
                 }
                 //CV
                 update = {

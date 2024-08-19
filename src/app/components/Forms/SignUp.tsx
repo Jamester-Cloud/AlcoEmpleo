@@ -66,6 +66,7 @@ export default function SignUpForm(props: any) {
         console.log(selectedAdImages)
         try {
             setLoading(true)
+            console.log(userData);
             const response = await axios.post("/api/users/signup",
                 { ...userData, type, logo: type === 'Empresas' ? selectedAdImages : 'noLogo' },
                 { headers: { 'content-type': 'multipart/form-data' } })
@@ -82,9 +83,9 @@ export default function SignUpForm(props: any) {
                 transition: Bounce,
             });
 
-            setTimeout(() => {
-                if (response.status === 200) router.push("/login")
-            }, 2000);
+            // setTimeout(() => {
+            //     if (response.status === 200) router.push("/login")
+            // }, 2000);
 
         } catch (error: any) {
             toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
@@ -362,13 +363,6 @@ export default function SignUpForm(props: any) {
                                                     <label className="form-label" htmlFor="direccion">{type === 'Empresas' ? 'Direccion fiscal' : 'Dirección de habitación'}</label>
                                                 </div>
                                             </div>
-
-                                            {/* <div className="form-check d-flex justify-content-center mb-5">
-                                                <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                                                <label className="form-check-label" htmlFor="form2Example3">
-                                                    Estoy de acuerdo a los <a href="#!">Terminos de servicio del GrupoAlco</a>
-                                                </label>
-                                            </div> */}
 
                                         </form>
                                         <div className="text-center">

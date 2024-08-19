@@ -113,7 +113,7 @@ export default function JobOffer() {
         
         setTimeout(() => {
             if (response.status === 200) {
-                router.push('/enterprise/jobOffers')
+                router.push('/enterprise/')
             }
         }, 2000);
 
