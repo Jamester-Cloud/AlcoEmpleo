@@ -15,9 +15,11 @@ export async function GET(request: NextRequest) {
         const user = await User.findOne({ _id: userData.id })
         const empresa = await Empresa.findOne({ idUsuario: userData.id })
         const documentos = await Documento.find({ idUsuario: userData.id })
+        
         let acta = documentos.find((item: any) => item.contentType == 'application/pdf')
         let logo = documentos.find((item: any) => item.contentType != 'application/pdf')
-        return NextResponse.json({ logo: logo, acta: acta, userData: user, personaData: persona, empresa: empresa });
+        
+        return NextResponse.json({ logo: logo, acta: acta, userData: user, personaData: persona, empresa: empresa, idEmpresa:empresa._id });
 
     } catch (error: any) {
         return NextResponse.json({ error: error.message })

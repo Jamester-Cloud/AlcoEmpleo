@@ -6,7 +6,6 @@ import mongoose, { Types } from "mongoose";
  * See images or docs in mongoDB buckets
  */
 export default async function imageVisor(idArchivo: string, bucketName: String) {
-    console.log(idArchivo);
     //connection
     const mongodbUrl: any = process.env.MONGO_URI
     await mongoose.connect(mongodbUrl)

@@ -90,8 +90,9 @@ export default function JobOffer() {
     };
     //Getting the data for enterprise user
     const getUserDetails = async () => {
-        const res = await axios.post("/api/enterprise/me");
-        setData({ ...data, empresa: res.data?.empresaNombre, idEmpresa: res?.data.idEmpresa });
+        const res = await axios.get("/api/enterprise/me");
+        console.log(res.data);
+        setData({ ...data, empresa: res.data?.personaData.nombre, idEmpresa: res?.data.empresa._id });
     }
 
     const handleSubmit = async (e: any) => {
@@ -128,7 +129,7 @@ export default function JobOffer() {
                 console.log('Error al cargar los datos el usuario');
             }
         })()
-    })
+    },[!data])
 
     return (
 
