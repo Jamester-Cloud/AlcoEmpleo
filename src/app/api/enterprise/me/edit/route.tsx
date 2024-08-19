@@ -12,58 +12,77 @@ export async function POST(request: NextRequest) {
         let idLogo;
         let update;
         let filter;
-        //primero persona, luego documentos si existen
+
         console.log(formData);
-        let logo = formData.get('logo[]') as File
-        let acta = formData.get('actaConstitutiva[]') as File
-        //acta
-        idDocumento = await upload(acta, 'enterprisesLegalDocumentsBucket', 'Acta constitutiva')
-        //logo
-        idLogo = await upload(logo, 'enterprisesBucket', 'Logo de la empresa')
-        //actualizando documento acta
-        filter = { idUsuario: formData.get('idUsuario'), bucketName: 'enterprisesLegalDocumentsBucket' }
+        switch (formData.get('dataType')) {
+            case 'Acta':
 
-        update = {
-            $set: {
-                idUsuario: formData.get('idUsuario'),
-                filename: acta.name,
-                idArchivo: idDocumento,
-                originalname: acta.name,
-                contentType: acta.type,
-                size: acta.size,
-                bucketName: "enterprisesLegalDocumentsBucket",
-            }
+                let acta = formData.get('acta') as File
+                //acta
+                idDocumento = await upload(acta, 'enterprisesLegalDocumentsBucket', 'Acta constitutiva')
+                // //actualizando documento acta
+                filter = { idUsuario: formData.get('idUsuario'), bucketName: 'enterprisesLegalDocumentsBucket' }
+
+                update = {
+                    $set: {
+                        idUsuario: formData.get('idUsuario'),
+                        filename: acta.name,
+                        idArchivo: idDocumento,
+                        originalname: acta.name,
+                        contentType: acta.type,
+                        size: acta.size,
+                        bucketName: "enterprisesLegalDocumentsBucket",
+                    }
+                }
+
+                await Documento.updateOne(filter, update, { upsert: true })
+                break;
+
+            case 'Logo':
+                let logo = formData.get('logo') as File
+
+                console.log(logo);
+
+                idLogo = await upload(logo, 'enterprisesBucket', 'Logo de la empresa')
+
+                filter = { idUsuario: formData.get('idUsuario'), bucketName: 'enterprisesBucket' }
+
+                update = {
+                    $set: {
+                        idUsuario: formData.get('idUsuario'),
+                        filename: logo.name,
+                        idArchivo: idLogo,
+                        originalname: logo.name,
+                        contentType: logo.type,
+                        size: logo.size,
+                        bucketName: "enterprisesBucket",
+                    }
+                }
+
+                await Documento.updateOne(filter, update, { upsert: true })
+
+                break;
+
+
+            case 'Personas':
+
+                filter = { _id: formData.get('data[idPersona]') }
+
+                update = {
+                    nombre: formData.get('data[razonSocial]'),
+                    apellido: formData.get('data[razonSocial]'),
+                    cedula: formData.get('data[riff]'),
+                    telefono: formData.get('data[telefono]'),
+                    direccion: formData.get('data[direccionFiscal]'),
+                }
+                await Persona.updateOne(filter, update);
+
+                break;
+
         }
 
-        await Documento.updateOne(filter, update, { upsert: true })
-        //actualizando Logo
-        filter = { idUsuario: formData.get('idUsuario'), bucketName: 'enterprisesBucket' }
+        // //Actualizando datos de persona
 
-        update = {
-            $set: {
-                idUsuario: formData.get('idUsuario'),
-                filename: logo.name,
-                idArchivo: idLogo,
-                originalname: logo.name,
-                contentType: logo.type,
-                size: logo.size,
-                bucketName: "enterprisesBucket",
-            }
-        }
-
-        await Documento.updateOne(filter, update, { upsert: true })
-
-        //Actualizando datos de persona
-        filter = { _id: formData.get('idPersona') }
-        console.log(filter)
-        update = {
-            nombre: formData.get('razonSocial'),
-            apellido: formData.get('razonSocial'),
-            cedula: formData.get('riff'),
-            telefono: formData.get('telefono'),
-            direccion: formData.get('direccionFiscal'),
-        }
-        await Persona.updateOne(filter, update);
 
         return NextResponse.json({ message: 'Succesfull request' });
 

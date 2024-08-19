@@ -68,7 +68,31 @@ export default function UserProfile() {
 
   const handleSubmitForm = async (data: any) => {
     try {
-      const res = await axios.post('/api/enterprise/me/edit', data, { headers: { 'content-type': 'multipart/form-data' } })
+      const res = await axios.post('/api/enterprise/me/edit', { data: data, dataType: 'Personas' }, { headers: { 'content-type': 'multipart/form-data' } })
+      if (res.status == 200) {
+        console.log(res.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleLogoForm = async (data: any) => {
+    console.log(data);
+    try {
+      const res = await axios.post('/api/enterprise/me/edit', { logo: data.logo[0], idUsuario: data.idUsuario, dataType: 'Logo' }, { headers: { 'content-type': 'multipart/form-data' } })
+      if (res.status == 200) {
+        console.log(res.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleActaForm = async (data: any) => {
+    console.log(data)
+    try {
+      const res = await axios.post('/api/enterprise/me/edit', { acta: data.actaConstitutiva[0], idUsuario: data.idUsuario, dataType: 'Acta' }, { headers: { 'content-type': 'multipart/form-data' } })
       if (res.status == 200) {
         console.log(res.data)
       }
@@ -110,18 +134,7 @@ export default function UserProfile() {
                 className="col-md-12"><label className="labels">Telefono</label><textarea className="form-control"
                   {...register("telefono")} placeholder="Telefono" defaultValue={data?.personaData?.telefono} />
               </div>
-              <div className="col-md-12 mt-4">
-                <label className="labels">Acta constitutiva</label>
-                <div className="d-flex flex-column align-items-center ">
-                  <input type="file" accept=".pdf" placeholder="Actualizar Acta" {...register("actaConstitutiva", { required: true })} className="form-group form-control" />
-                </div>
-              </div>
-              <div className="col-md-12 mt-4">
-                <label className="labels">Logo institucional</label>
-                <div className="d-flex flex-column align-items-center ">
-                  <input type="file" accept=".jpg, .jpeg, .png" placeholder="Actualizar Logo" {...register("logo", { required: true })} className="form-group form-control" />
-                </div>
-              </div>
+
               <div className="col-md-12 text-center mt-5">
                 <button className="btn btn-primary btn-block" type='submit'>Guardar cambios</button>
               </div>
@@ -129,6 +142,40 @@ export default function UserProfile() {
             </form>
           </>
         )
+      case 'Actualizar logo':
+        return (
+          <form onSubmit={handleSubmit(handleLogoForm)} className='form '>
+            <div className="col-md-12 mt-4">
+              <label className="labels">Logo institucional</label>
+              <div className="d-flex flex-column align-items-center ">
+                <input type="hidden"   {...register("idUsuario")} defaultValue={data?._id} />
+                <input type="file" accept=".jpg, .jpeg, .png" placeholder="Actualizar Logo" {...register("logo", { required: true })} className="form-group form-control" />
+              </div>
+            </div>
+            <div className="col-md-12 text-center mt-5">
+              <button className="btn btn-primary btn-block" type='submit'>Guardar cambios</button>
+            </div>
+
+          </form>
+        )
+        break;
+      case 'Actualizar Acta':
+        return (
+          <form onSubmit={handleSubmit(handleActaForm)} className='form '>
+            <div className="col-md-12 mt-4">
+              <label className="labels">Acta constitutiva</label>
+              <div className="d-flex flex-column align-items-center ">
+                <input type="hidden"   {...register("idUsuario")} defaultValue={data?._id} />
+                <input type="file" accept=".pdf" placeholder="Actualizar Acta" {...register("actaConstitutiva", { required: true })} className="form-group form-control" />
+              </div>
+            </div>
+            <div className="col-md-12 text-center mt-5">
+              <button className="btn btn-primary btn-block" type='submit'>Guardar cambios</button>
+            </div>
+
+          </form>
+        )
+        break;
     }
   }
 
@@ -141,7 +188,19 @@ export default function UserProfile() {
               onClick={(e) => handleModal(e, 'Editar datos empresa', {})}
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
-              Editar datos
+              Actualizar informacíon basica
+            </button>
+            <button
+              onClick={(e) => handleModal(e, 'Actualizar logo', {})}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Editar Logo
+            </button>
+            <button
+              onClick={(e) => handleModal(e, 'Actualizar Acta', {})}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Editar Acta
             </button>
             {userData?.acta?.idArchivo ? <a href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
               Descargar Acta constitutiva
