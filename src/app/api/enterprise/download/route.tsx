@@ -1,31 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connect } from "@/dbConfig/dbConfig";
-import mongoose, { Types } from "mongoose";
-import fs from 'fs'
+import downloader from "@/helpers/downloader";
 
 export async function GET(request: NextRequest) {
     try {
 
         let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
 
-        console.log(idArchivo)
-        const mongodbUrl: any = process.env.MONGO_URI
+        let archive: any = await downloader(idArchivo, 'enterprisesLegalDocumentsBucket')
 
-        await mongoose.connect(mongodbUrl)
-
-        let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'candidateDocuments' })
-
-        let archivo = await gfs.find({ _id: Types.ObjectId.createFromHexString(idArchivo) }).toArray()
-
-        //let downloadStream = gfs.openDownloadStreamByName(archivo[0].filename).pipe(fs.createWriteStream(`${archivo[0].filename}`))
-        let downloadStream: any = gfs.openDownloadStream(Types.ObjectId.createFromHexString(idArchivo))
-
-        return new NextResponse(downloadStream, {
-            headers: { "Content-Type": 'application/pdf', 'Content-Disposition': `attachment; filename="${archivo[0].filename}"` },
+        return new NextResponse(archive.downloadStream, {
+            headers: { "Content-Type": 'application/pdf', 'Content-Disposition': `attachment; filename="${archive.fileName}"` },
         });
-
-
-        //return NextResponse.json({ file: downloadStream }, { status: 200 })//res.body(downloadStream)
+        
     } catch (error: any) {
         console.log(error);
         return NextResponse.json({ error: error.message }, { status: 500 })

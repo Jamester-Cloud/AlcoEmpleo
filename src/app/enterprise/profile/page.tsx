@@ -51,7 +51,7 @@ export default function UserProfile() {
 
   const getUserDetails = async () => {
     const res = await axios.get("../api/enterprise/me");
-    console.log(res.data.logo.idArchivo)
+    console.log(res.data)
     setUserData({ ...res.data.userData, personaData: res.data.personaData, logoEmpresa: res.data.logo.idArchivo, acta: res.data.acta })
   };
 
@@ -77,8 +77,6 @@ export default function UserProfile() {
     }
   }
 
-
-
   useEffect(() => {
     getUserDetails();
     console.log(userData)
@@ -94,9 +92,9 @@ export default function UserProfile() {
                 className="col-md-12"><label className="labels">Riff</label><input type="text" className="form-control"
                   {...register("riff")} placeholder="Riff" defaultValue={data?.personaData?.cedula} />
               </div> <br />
-              <input type="text"  {...register("idPersona")} defaultValue={data?.personaData?._id} />
+              <input type="hidden"  {...register("idPersona")} defaultValue={data?.personaData?._id} />
 
-              <input type="text"   {...register("idUsuario")} defaultValue={data?._id} />
+              <input type="hidden"   {...register("idUsuario")} defaultValue={data?._id} />
               <div
                 className="col-md-12"><label className="labels">Razon Social</label>
                 <input type="text" className="form-control"
@@ -134,7 +132,6 @@ export default function UserProfile() {
     }
   }
 
-
   return (
     <div className="">
       <div className="container mx-auto mt-5 p-4">
@@ -144,11 +141,11 @@ export default function UserProfile() {
               onClick={(e) => handleModal(e, 'Editar datos empresa', {})}
               className="bg-blue-500 text-white px-4 py-2 rounded-md"
             >
-              Editar datos 
+              Editar datos
             </button>
-            {/* {cv ? <a href={`/api/candidate/download?idArchivo=${cv}`} className="btn btn-primary w-full">
-              DescargarActa
-            </a> : 'Sin Curriculum Vitae'} */}
+            {userData?.acta?.idArchivo ? <a href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+              Descargar Acta constitutiva
+            </a> : 'Sin Acta constitutiva'}
           </div>
           <div className="flex flex-col md:flex-row items-center md:items-start mt-4">
             <Image
@@ -214,7 +211,6 @@ export default function UserProfile() {
           </div>
         </Modal.Body>
       </Modal>
-      <Footer />
     </div>
 
   );
