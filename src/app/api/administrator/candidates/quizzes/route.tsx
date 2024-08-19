@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
         let { idCandidato, dificultad } = reqJson;
 
         const candidato = await Candidato.findOne({ _id: idCandidato })
+        console.log(idCandidato)
         let cargoDeseado = candidato.perfil.puestoDeseado;
 
         if(!cargoDeseado) return NextResponse.json({ message: 'Error, no hay cargo para generar', success: false }, { status: 500 })

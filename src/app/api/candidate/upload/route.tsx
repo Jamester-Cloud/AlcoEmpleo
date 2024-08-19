@@ -51,6 +51,7 @@ export const POST = async (request: NextRequest) => {
 
                 update = {
                     $set: {
+                        cedula: formData.get('cedula'),
                         nombre: formData.get('nombre'),
                         apellido: formData.get('apellido'),
                         email: formData.get('email'),

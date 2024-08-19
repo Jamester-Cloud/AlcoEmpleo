@@ -27,9 +27,7 @@ export default function Quizzes({ params }: any) {
     const router = useRouter()
 
     let { id } = params;
-
-    
-
+    console.log(id)
     const [quiz, setQuiz]: any = useState();
     const [isLoading, setLoading] = useState(false)
     const [idCandidato, setCandidato] = useState(id);
@@ -89,6 +87,7 @@ export default function Quizzes({ params }: any) {
             console.log(dificultad);
             const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
             if (response.status === 200) {
+                console.log(response.data)
                 setQuiz(response.data.preguntas);
                 setCargoDeseado(response.data.cargoDeseado);
             }
@@ -107,6 +106,7 @@ export default function Quizzes({ params }: any) {
 
     const getquizzes = async () => {
         const res = await axios.post('/api/administrator/candidates/quizzes/get', { idCandidato: idCandidato })
+        console.log(res.data)
         if (res.status == 200) setQuizzData(res.data.quiz);
     }
 
@@ -285,13 +285,13 @@ export default function Quizzes({ params }: any) {
                                 </div> : ''}
 
                                 <div className="col-md-12 mt-3 ">
-                                    <button
+                                    {/* <button
                                         type="button"
                                         onClick={() => appendQuiz({ pregunta: "", respuestas: [{ respuesta: "" }], respuestaCorrecta: "" })}
                                         className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
                                     >
                                         Agregar pregunta
-                                    </button>
+                                    </button> */}
                                     {fieldQuiz.map((field: any, index: number) => {
                                         return (
                                             <div key={field.id}>
