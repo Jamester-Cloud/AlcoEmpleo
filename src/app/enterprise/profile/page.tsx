@@ -71,6 +71,8 @@ export default function UserProfile() {
       const res = await axios.post('/api/enterprise/me/edit', { data: data, dataType: 'Personas' }, { headers: { 'content-type': 'multipart/form-data' } })
       if (res.status == 200) {
         console.log(res.data)
+        setShow(false);
+        await getUserDetails()
       }
     } catch (error) {
       console.log(error)
@@ -83,6 +85,8 @@ export default function UserProfile() {
       const res = await axios.post('/api/enterprise/me/edit', { logo: data.logo[0], idUsuario: data.idUsuario, dataType: 'Logo' }, { headers: { 'content-type': 'multipart/form-data' } })
       if (res.status == 200) {
         console.log(res.data)
+        setShow(false);
+        await getUserDetails()
       }
     } catch (error) {
       console.log(error)
@@ -95,6 +99,8 @@ export default function UserProfile() {
       const res = await axios.post('/api/enterprise/me/edit', { acta: data.actaConstitutiva[0], idUsuario: data.idUsuario, dataType: 'Acta' }, { headers: { 'content-type': 'multipart/form-data' } })
       if (res.status == 200) {
         console.log(res.data)
+        setShow(false);
+        await getUserDetails()
       }
     } catch (error) {
       console.log(error)
