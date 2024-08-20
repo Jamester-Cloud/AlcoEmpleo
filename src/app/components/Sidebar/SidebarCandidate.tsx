@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
   faCartShopping,
-  faQuestion
+  faQuestion,faHome,faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +35,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               id="dropdownUser1"
             >
               <span className="text-white d-none d-sm-inline mx-1">
+              <FontAwesomeIcon
+                className="text-white"
+                icon={faHome}
+                width="30"
+                height="30"
+              />
                 Inicio
               </span>
             </Link>
@@ -71,6 +77,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               />
               <span className="ms-1 text-white d-none d-sm-inline">
                 Oportunidades
+              </span>
+            </Link>
+            <Link
+              href="/candidate/subscription"
+              className="nav-link align-middle d-flex align-items-center"
+            >
+              <FontAwesomeIcon
+                className="text-white"
+                icon={faCartShopping}
+                width="30"
+                height="30"
+              />
+              <span className="ms-1 text-white d-none d-sm-inline">
+                Subcripción
               </span>
             </Link>
           </li>

@@ -54,60 +54,63 @@ export default function Quizzes() {
 
     return (
         <div className="container mx-auto p-4">
-            <div className="mb-6">
-                <h2 className="text-xl font-bold mb-4">Cuestionarios</h2>
-                
-                {isPremium === false ? (
-                    <p className="text-red-500 text-lg">
-                        Para realizar el cuestionario, debe suscribirse a la página.
-                    </p>
-                ) : (
-                    <table className="min-w-full bg-white shadow-md rounded mb-4">
-                        <thead>
-                            <tr>
-                                <th className="py-2 px-4 border-b"></th>
-                                <th className="py-2 px-4 border-b">Dificultad</th>
-                                <th className="py-2 px-4 border-b">Calificación</th>
-                                <th className="py-2 px-4 border-b">Estado</th>
-                                <th></th>
+    <div className="mb-6">
+        <h2 className="text-xl font-bold mb-4">Cuestionarios</h2>
+        
+        {isPremium === false ? (
+            <p className="text-red-500 text-lg">
+                Para realizar el cuestionario, debe suscribirse a la página.
+            </p>
+        ) : (
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white shadow-md rounded mb-4">
+                    <thead>
+                        <tr>
+                            <th className="py-2 px-4 border-b"></th>
+                            <th className="py-2 px-4 border-b">Dificultad</th>
+                            <th className="py-2 px-4 border-b">Calificación</th>
+                            <th className="py-2 px-4 border-b">Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {quizz?.map((item: any, key: number) => (
+                            <tr key={key}>
+                                <td className="py-2 px-4 border-b flex items-center space-x-2">
+                                    <Image className="rounded-full" src={"/AlcoLogo.png"} alt={""} width={50} height={50} />
+                                    <span>{item.tituloCuestionario}</span>
+                                </td>
+                                <td className="py-2 px-4 border-b text-capitalize">
+                                    {item.dificultad}
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    {item.calificacion} Estrellas
+                                </td>
+                                <td className="py-2 px-4 border-b">
+                                    {item.finalizada ? 'Completado' : 'Sin Completar'}
+                                </td>
+                                <td className="py-2 px-4 border-b text-center">
+                                    {item.finalizada ? (
+                                        <>Completado</>
+                                    ) : (
+                                        <Link href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                            Completar
+                                        </Link>
+                                    )}
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {quizz?.map((item: any, key: number) => (
-                                <tr key={key}>
-                                    <td>
-                                        <Image className="rounded-full m-2" src={"/AlcoLogo.png"} alt={""} width={80} height={80} />
-                                        {item.tituloCuestionario}
-                                    </td>
-                                    <td className="py-2 px-4 border-b text-capitalize">
-                                        {item.dificultad}
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.calificacion} Estrellas
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.finalizada ? 'Completado' : 'Sin Completar'}
-                                    </td>
-                                    <td className="py-2 px-4 border-b" style={{ textDecoration: "none" }}>
-                                        {item.finalizada ? (
-                                            <>Completado</>
-                                        ) : (
-                                            <Link href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                                                Completar
-                                            </Link>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
-
-                {/* Paginación (comentada por ahora) */}
-                {/* <Pagination>
-                    // Paginación aquí
-                </Pagination> */}
+                        ))}
+                    </tbody>
+                </table>
             </div>
-        </div>
+        )}
+
+        {/* Paginación (comentada por ahora) */}
+        {/* <Pagination>
+            // Paginación aquí
+        </Pagination> */}
+    </div>
+</div>
+
     );
 }
