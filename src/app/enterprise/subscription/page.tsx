@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import "tailwindcss/tailwind.css";
@@ -8,14 +8,37 @@ import "tailwindcss/tailwind.css";
 export default function SubscriptionPage() {
   const { register, handleSubmit,setValue, reset  } = useForm();
   const [processor, setProcessor] = useState("");
-  const [paymentData, setPaymentData] = useState({
-    email: "admgrupoalco@gmail.com",
-    monto: "5$",
-    cedula: "12247978",
-    telefono: "+584145299886",
-    banco: "Exterior",
-  });
+  const [paymentData, setPaymentData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  
+   // Función para realizar la consulta
+   const fetchData = async () => {
+    try {
+      const response = await axios.post("/api/administrator/homepage");
+
+      // Verifica que los datos están correctamente recibidos
+      console.log("Datos recibidos:", response.data);
+      console.log(response.data.homePage[0].metodopago);
+      // Accede al primer objeto del array y extrae 'metodopago'
+      const metodoPago = response.data.homePage[0].metodopago  
+     ;
+
+     if (metodoPago) {
+      setPaymentData(metodoPago);
+     }
+   
+
+    } catch (error) {
+      console.log("Error en la petición de datos para el panel", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   const handleProcessor = (data:any) => {
     setProcessor(data);
@@ -26,10 +49,13 @@ export default function SubscriptionPage() {
   const submit = async (data:any) => {
     console.log(data);
     let whatsappMessage = encodeURIComponent(
-      `Saludos!, mi nombre es, ${data.nombre} ${data.apellidos}. Adjunto la informacion de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${paymentData.monto}.`
+      `Saludos!, mi nombre es, ${data.nombre} ${data.apellidos}. Adjunto la informacion de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: Añadir Monto`
     );
+
+    console.log(paymentData);
+    
     window.open(
-      `https://wa.me/${paymentData.telefono}?text=${whatsappMessage}`
+      `https://wa.me/${paymentData}?text=${whatsappMessage}`
     );
 
     setModalVisible(false);
@@ -41,31 +67,31 @@ export default function SubscriptionPage() {
       case "Zinli":
         return (
           <ul>
-            <li>Email Zinli: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+            <li>Email Zinli: </li>
+            <li>Monto: {}</li>
           </ul>
         );
       case "Paypal":
         return (
           <ul>
-            <li>Email Paypal: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+            <li>Email Paypal: {}</li>
+            <li>Monto: {}</li>
           </ul>
         );
       case "Binance":
         return (
           <ul>
-            <li>Email Binance: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+            <li>Email Binance: {}</li>
+            <li>Monto: {}</li>
           </ul>
         );
       case "Pago movil":
         return (
           <ul>
-            <li>Telefono : {paymentData.telefono}</li>
-            <li>Banco: {paymentData.banco}</li>
-            <li>cedula: {paymentData.cedula}</li>
-            <li>Monto: {paymentData.monto}</li>
+            <li>Telefono : {}</li>
+            <li>Banco: {}</li>
+            <li>cedula: {}</li>
+            <li>Monto: {}</li>
           </ul>
         );
     }
