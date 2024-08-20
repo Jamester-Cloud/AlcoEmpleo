@@ -35,7 +35,7 @@ export default function Quizzes() {
         formState: { errors },
     } = methods;
 
-    const retryQuizz = async(idquizz:string) => {
+    const retryQuizz = async (idquizz: string) => {
 
     }
 
@@ -96,9 +96,10 @@ export default function Quizzes() {
                                         {item.finalizada ? (
                                             <>
                                                 Completado
-                                                <button style={{ textDecoration: 'none' }} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
+                                                {/* Todo corregir esto por data dinamica desde la db */}
+                                                {localStorage.getItem('isPremium') === 'true' ? <button style={{ textDecoration: 'none' }} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
                                                     Reintentar
-                                                </button>
+                                                </button> : ''}
                                             </>
                                         ) : (
                                             <Link style={{ textDecoration: 'none' }} href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
