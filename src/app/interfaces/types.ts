@@ -16,3 +16,14 @@ export interface Candidate {
 export interface CandidateListResponse {
   dataCandidatosPremium: Candidate[];
 }
+
+export interface PaymentData {
+  emailZinli?: string;
+  emailPaypal?: string;
+  emailBinance?: string;
+  pagowhatsapp?:string;
+  pagotelefono?: string;
+  banco?: string;
+  pagocedula?: string;
+  monto?: string;
+}

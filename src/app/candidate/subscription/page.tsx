@@ -1,21 +1,37 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import "tailwindcss/tailwind.css";
+import { PaymentData } from "@/app/interfaces/types";
 
 export default function SubscriptionPage() {
   const { register, handleSubmit, setValue, reset } = useForm();
   const [processor, setProcessor] = useState("");
-  const [paymentData, setPaymentData] = useState({
-    email: "admgrupoalco@gmail.com",
-    monto: "5$",
-    cedula: "12247978",
-    telefono: "+584122696463",
-    banco: "Exterior",
-  });
+  const [paymentData, setPaymentData] = useState<PaymentData>({});
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post("/api/administrator/homepage");
+  
+    
+      const metodoPago: PaymentData = response.data.homePage[0].metodopago;
+  
+      if (metodoPago) {
+        setPaymentData(metodoPago);
+      }
+    } catch (error) {
+      console.log("Error en la petición de datos para el panel", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
 
   const handleProcessor = (data: string) => {
     setProcessor(data);
@@ -23,13 +39,15 @@ export default function SubscriptionPage() {
     setModalVisible(true);
   };
 
+  
+
   const submit = async (data: any) => {
     console.log(data);
     let whatsappMessage = encodeURIComponent(
-      `Saludos!, mi nombre es ${data.nombre} ${data.apellidos}. Adjunto la información de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${paymentData.monto}.`
+      `Saludos!, mi nombre es ${data.nombre} ${data.apellidos}. Adjunto la información de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${data.monto}.`
     );
     window.open(
-      `https://wa.me/${paymentData.telefono}?text=${whatsappMessage}`
+      `https://wa.me/${paymentData.pagowhatsapp}?text=${whatsappMessage}`
     );
 
     
@@ -42,30 +60,30 @@ export default function SubscriptionPage() {
       case "Zinli":
         return (
           <ul>
-            <li>Email Zinli: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+             <li>Email Zinli:{paymentData.emailZinli} </li>
+             <li>Monto: {paymentData.monto}</li>
           </ul>
         );
       case "Paypal":
         return (
           <ul>
-            <li>Email Paypal: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+             <li>Email Paypal: {paymentData.emailPaypal}</li>
+             <li>Monto: {paymentData.monto}</li>
           </ul>
         );
       case "Binance":
         return (
           <ul>
-            <li>Email Binance: {paymentData.email}</li>
-            <li>Monto: {paymentData.monto}</li>
+                <li>Email Paypal: {paymentData.emailPaypal}</li>
+                <li>Monto: {paymentData.monto}</li>
           </ul>
         );
       case "Pago movil":
         return (
           <ul>
-            <li>Teléfono: {paymentData.telefono}</li>
+          <li>Telefono : {paymentData.pagotelefono}</li>
             <li>Banco: {paymentData.banco}</li>
-            <li>Cédula: {paymentData.cedula}</li>
+            <li>cedula: {paymentData.pagocedula}</li>
             <li>Monto: {paymentData.monto}</li>
           </ul>
         );
@@ -118,7 +136,7 @@ export default function SubscriptionPage() {
                   Reporte de pagos
               
                 </div>
-                <span className=" font-bold">Nota:</span><h6> Al reportar el Pago se le redireccionara al whatsapp junto a los datos llenados</h6>
+                <span className=" font-bold">Nota:</span><h6> Al reportar el Pago se le redireccionara al whatsapp junto a los datos llenados, Por favor Especificar si es en Bs o $</h6>
                 <br />
                 
                 <div className="modal-body">
@@ -153,6 +171,13 @@ export default function SubscriptionPage() {
                       type="text"
                       {...register("referencia", { required: true })}
                       placeholder="Referencia"
+                    />
+
+                  <input
+                      className="form-control p-2 border rounded"
+                      type="text"
+                      {...register("monto", { required: true })}
+                      placeholder="Monto: 5$ o 100bs"
                     />
                   </div>
                   <div className="mt-4 flex justify-end">
