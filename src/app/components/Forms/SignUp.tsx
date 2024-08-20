@@ -152,9 +152,12 @@ export default function SignUpForm(props: any) {
     }
 
 
+   
     useEffect(() => {
-        setButtonDisabled(!isFormUserValid() || !isOnlyLetters() || !isEmailOnly())
-    }, [userData]);
+        setButtonDisabled(
+            !isFormUserValid() || !isOnlyLetters() || !isEmailOnly() || (type === 'Candidatos' && !selectedLocation)
+        );
+    }, [userData, selectedLocation, type]);
 
 
 

@@ -506,14 +506,16 @@ export default function AdminPage() {
           <tbody>
             {enterprises?.map((item: any, key: number) => (
               <tr key={key}>
+                
                 <td className="py-2 px-4 border-b">
                   <Image
-                    width={50}
+                    width={80}
                     height={80}
                     className="img-fluid rounded-2xl p-1"
                     src="/AlcoSloganLogo.png"
                     alt="GrupoAlco"
                   />
+                  {item.personaData.cedula}
                 </td>
                 <td className="py-2 px-4 border-b">
                   {item.personaData.nombre} {item.personaData.apellido}
