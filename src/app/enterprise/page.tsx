@@ -5,12 +5,11 @@ import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
 import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
-import { useForm, useFieldArray } from "react-hook-form";
+import Pagination from "react-bootstrap/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fetcherGet } from "@/constants/fetcher";
 import {
   faCheckCircle,
-  faBriefcase,
   faWallet,
   faMapMarker,
   faAngleDoubleLeft,
@@ -31,8 +30,45 @@ export default function CandidateSearch() {
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
   const [premiumsData, setPremiumsData] = React.useState<any>();
+  //pagination
+  const [enterprises, setEnterprises]: any = React.useState();
+  const [pageEnterprise, setPageEnterprise] = React.useState(1);
+  const [pageEnterpriseCount, setEnterprisePageCount]: any = React.useState(1);
+  const goToPageEnterprise = async (pageNumber: number) => {
+    const enterpriseData = await axios.post(
+      "/api/administrator/enterprise/pagination",
+      { query: { page: pageNumber, limit: 5 } }
+    );
+    setEnterprises(enterpriseData.data.data);
+    setPageEnterprise(pageNumber);
+  };
 
   const candidateListRef = useRef<HTMLDivElement>(null);
+  const nextPageEnterprise = async (nextPage: number) => {
+    console.log("Pagina siguiente");
+    const enterpriseData = await axios.post(
+      "/api/administrator/enterprise/pagination",
+      { query: { page: nextPage, limit: 5 } }
+    );
+    setEnterprises(enterpriseData.data.data);
+    setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
+
+    if (enterpriseData.status == 200) {
+      setEnterprises(nextPage);
+    }
+  };
+  const prevPageEnterprise = async (prevPage: number) => {
+    console.log("Pagina previa");
+    const enterpriseData = await axios.post(
+      "/api/administrator/enterprise/pagination",
+      { query: { page: prevPage, limit: 5 } }
+    );
+    setEnterprises(enterpriseData.data.data);
+    setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
+    if (enterpriseData.status == 200) {
+      setPageEnterprise(prevPage);
+    }
+  };
 
   const fetchPremiumCandidates = async () => {
     try {
@@ -49,7 +85,7 @@ export default function CandidateSearch() {
       console.error(error);
     }
   };
-  
+
 
   const fetchRegions = async () => {
     try {
@@ -162,18 +198,10 @@ export default function CandidateSearch() {
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
-                    <Select
-                      options={specialty}
-                      value={selectedSpecialty}
-                      onChange={handleSpecialtiesChange}
+                    <input
                       placeholder="Cargo"
-                      isClearable={true}
                       className="w-full"
-                      name="estado"
-                      menuPortalTarget={document?.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
+                      name="cargo"
                     />
                   </div>
                   <div className="flex items-center">
@@ -211,10 +239,10 @@ export default function CandidateSearch() {
           Descubra su próximo paso profesional, trabajo independiente o pasantía
         </p>
         {premiumsData === undefined || premiumsData.length === 0 ? (
-      <div className=" font-bold">No hay Candidatos Premiums Registrados</div>
+          <div className=" font-bold">No hay Candidatos Premiums Registrados</div>
         ) : (
-      <ListCarousel data={premiumsData} />
-    )}
+          <ListCarousel data={premiumsData} />
+        )}
       </div>
       <div className="w-full text-left mt-20">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
@@ -290,47 +318,28 @@ export default function CandidateSearch() {
       </div>
       {/* Pagination normal candidates */}
       <div className="w-full flex justify-center mt-10">
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item">
-              {/* Izquierda */}
-              <button
-                type="button"
-                disabled={page === 1}
-                onClick={handlePrevious}
-                className="page-link"
-              >
-                <FontAwesomeIcon icon={faAngleDoubleLeft} size="xs" />
-              </button>
-            </li>
-            <li className="page-item">
-              <select
-                className="btn"
-                value={page}
-                onChange={(event) => handlePageChange(Number(event.target.value))}
-              >
-                {Array(pageCount)
-                  .fill(null)
-                  .map((_, index) => (
-                    <option key={index} value={index + 1}>
-                      {index + 1}
-                    </option>
-                  ))}
-              </select>
-            </li>
-            <li className="page-item">
-              {/* Derecha */}
-              <button
-                type="button"
-                disabled={page === pageCount}
-                onClick={handleNext}
-                className="page-link"
-              >
-                <FontAwesomeIcon icon={faAngleDoubleRight} size="xs" />
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => prevPageEnterprise(pageEnterprise - 1)}
+            disabled={pageEnterprise == 1}
+          />
+          {Array(parseInt(pageEnterpriseCount))
+            .fill(null)
+            .map((_, key) => {
+              return (
+                <Pagination.Item
+                  key={key}
+                  onClick={() => goToPageEnterprise(key + 1)}
+                >
+                  {key + 1}
+                </Pagination.Item>
+              );
+            })}
+          <Pagination.Next
+            onClick={() => nextPageEnterprise(pageEnterprise + 1)}
+            disabled={pageEnterprise == pageEnterpriseCount}
+          />
+        </Pagination>
       </div>
     </section>
   );
