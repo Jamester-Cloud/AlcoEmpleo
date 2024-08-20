@@ -31,8 +31,6 @@ export async function POST(request: NextRequest) {
             },
 
         ]);
-        //console.log(cuestionario[0].candidatoData.perfil);
-        console.log(cuestionario[0].candidatoData._id)
 
         const response = NextResponse.json({
             quiz: cuestionario[0].cuestionario,

@@ -315,6 +315,7 @@ export default function DataModal(props: any) {
 
                 break
             case 'Datos personales':
+                console.log(data);
                 return (
                     <form className='form' encType='multipart/form-data' method='post' onSubmit={handleSubmit(onSubmitWithFiles)}>
                         <div className="row" >

@@ -4,25 +4,27 @@ import { NextRequest, NextResponse } from "next/server";
 connect()
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
+  //aca trae los candidatos normales
+  const reqJson = await request.json()
 
-  let page:any = request.nextUrl.searchParams.get("page")
-  
-  const PER_PAGE = 4
+  let { page } = reqJson;
+  console.log(page)
+
+  const PER_PAGE = 10
 
   try {
 
     //Consulta desde candidatos hasta personas. esto es para candidato normal
     const skip = (page - 1) * PER_PAGE;
 
-    const count = await Candidato.countDocuments({ esDestacado: false })
-    //planeo hacer el paginado aca
-    const paginatedQuery: any = await Candidato.aggregate([
+    let count = await Candidato.aggregate([
       {
         $match: {
           "esDestacado": false
         }
       },
+
       {
         $lookup: {
           from: "users",
@@ -35,36 +37,108 @@ export async function GET(request: NextRequest) {
         $unwind: "$usuarioData"
       },
       {
-        $project: {
-          "Candidato": "$$ROOT",
-          idPersona: "$usuarioData.idPersona",
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData"
         }
       },
       {
+        $unwind: "$documentosData"
+      },
+
+      {
         $lookup: {
           from: "personas",
-          localField: "idPersona",
+          localField: "usuarioData.idPersona",
           foreignField: "_id",
           as: "personaData"
         }
       },
+
       {
         $unwind: "$personaData"
-      }
+      },
+      {
+        $project: {
+          "candidato": "$$ROOT",
+          personaData: "$personaData",
+          "documentosData": "$documentosData"
+        }
+      },
+
+    ])
+    //planeo hacer el paginado aca
+    let paginatedQuery = await Candidato.aggregate([
+      {
+        $match: {
+          "esDestacado": false
+        }
+      },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "idUsuario",
+          foreignField: "_id",
+          as: "usuarioData"
+        }
+      },
+      {
+        $unwind: "$usuarioData"
+      },
+      {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData"
+        }
+      },
+      {
+        $unwind: "$documentosData"
+      },
+
+      {
+        $lookup: {
+          from: "personas",
+          localField: "usuarioData.idPersona",
+          foreignField: "_id",
+          as: "personaData"
+        }
+      },
+
+      {
+        $unwind: "$personaData"
+      },
+      {
+        $project: {
+          "candidato": "$$ROOT",
+          personaData: "$personaData",
+          "documentosData": "$documentosData"
+        }
+      },
+
     ]).skip(skip).limit(PER_PAGE)
 
-    const pageCount = count / PER_PAGE;
+    //filtros para solo traerme los candidatos y sus fotos de perfil
+    paginatedQuery = paginatedQuery.filter((filter) => filter.documentosData.contentType != "application/pdf")
+    //  aplicando el mismo filtro para count
+    count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
+
+
+    const pageCount = count.length / PER_PAGE;
 
     const response = NextResponse.json({
-      message: "Succesfull login",
+      message: "Succesfull data retrieve",
       pagination: {
-        count,
-        pageCount,
+        count: count.length,
+        pageCount:pageCount,
       },
-      paginatedQuery,
+      data: paginatedQuery,
       success: true,
     })
-    //console.log("hello world")
 
     return response;
 

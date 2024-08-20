@@ -17,74 +17,73 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
-import useSWR from "swr";
 
 export default function CandidateSearch() {
   // States
   const [page, setPage] = React.useState<any>(1);
-  const { data, error, mutate } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url));
+  //const { data, error, mutate } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url));
   const [regions, setRegions] = React.useState<any>();
   const [specialty, setSpecialtys] = React.useState<any>();
-  const [candidateList, setCandidateList] = React.useState<any>();
-  const [pageCount, setPageCount] = React.useState<number>(0);
+  //const [candidateList, setCandidateList] = React.useState<any>();
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
   const [premiumsData, setPremiumsData] = React.useState<any>();
-  //pagination
-  const [enterprises, setEnterprises]: any = React.useState();
-  const [pageEnterprise, setPageEnterprise] = React.useState(1);
-  const [pageEnterpriseCount, setEnterprisePageCount]: any = React.useState(1);
-  const goToPageEnterprise = async (pageNumber: number) => {
-    const enterpriseData = await axios.post(
+  //pagination normal
+  const [candidatesNormal, setCandidateNormal]: any = React.useState();
+  const [pageCandidateNormal, setPageCandidateNormal] = React.useState(1);
+  const [pageNormalCandidateCount, setPageNormalCandidateCount]: any = React.useState(1);
+  //paginacion premium
+
+  const goToPageNormalCandidate = async (pageNumber: number) => {
+    const candidateData = await axios.post(
       "/api/administrator/enterprise/pagination",
-      { query: { page: pageNumber, limit: 5 } }
+      { page: pageNumber }
     );
-    setEnterprises(enterpriseData.data.data);
-    setPageEnterprise(pageNumber);
+    setCandidateNormal(candidateData.data.data);
+    setPageCandidateNormal(pageNumber);
   };
 
-  const candidateListRef = useRef<HTMLDivElement>(null);
-  const nextPageEnterprise = async (nextPage: number) => {
-    console.log("Pagina siguiente");
-    const enterpriseData = await axios.post(
-      "/api/administrator/enterprise/pagination",
-      { query: { page: nextPage, limit: 5 } }
-    );
-    setEnterprises(enterpriseData.data.data);
-    setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
 
-    if (enterpriseData.status == 200) {
-      setEnterprises(nextPage);
+  const nextPageCandidateNormal = async (nextPage: number) => {
+    console.log("Pagina siguiente");
+    const candidateData = await axios.post(
+      "/api/enterprise/candidateList", { page: nextPage }
+    );
+    setCandidateNormal(candidateData.data.data);
+    setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
+
+    if (candidateData.status == 200) {
+      setPageCandidateNormal(nextPage);
     }
   };
-  const prevPageEnterprise = async (prevPage: number) => {
+  const prevPageCandidateNormal = async (prevPage: number) => {
     console.log("Pagina previa");
     const enterpriseData = await axios.post(
-      "/api/administrator/enterprise/pagination",
-      { query: { page: prevPage, limit: 5 } }
+      "/api/enterprise/pagination",
+      { page: prevPage }
     );
-    setEnterprises(enterpriseData.data.data);
-    setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
+    setCandidateNormal(enterpriseData.data.data);
+    setPageNormalCandidateCount(enterpriseData.data.pagination.pageCount);
     if (enterpriseData.status == 200) {
-      setPageEnterprise(prevPage);
+      setPageCandidateNormal(prevPage);
     }
   };
 
-  const fetchPremiumCandidates = async () => {
-    try {
-      const response: any = await axios.get(
-        "/api/enterprise/candidateList/premiums"
-      );
-      console.log("Response Data:", response.data); // <-- Agrega esto
-      if (response.status === 200)
-        return {
-          candidatosPremiums: response.data.dataCandidatosPremium,
-          candidatosTotales: parseInt(response.data.totalCandidates),
-        };
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const fetchPremiumCandidates = async () => {
+  //   try {
+  //     const response: any = await axios.post(
+  //       "/api/enterprise/candidateList/premiums"
+  //     );
+  //     console.log("Response Data:", response.data); // <-- Agrega esto
+  //     if (response.status === 200)
+  //       return {
+  //         candidatosPremiums: response.data.dataCandidatosPremium,
+  //         candidatosTotales: parseInt(response.data.totalCandidates),
+  //       };
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
 
   const fetchRegions = async () => {
@@ -96,21 +95,32 @@ export default function CandidateSearch() {
     }
   };
 
-
-  useEffect(() => {
-    if (data) {
-      setPageCount(parseInt(data.pagination.pageCount));
-      setCandidateList(data.paginatedQuery);
+  const fetchNormalCandidates = async () => {
+    try {
+      const res = await axios.post('/api/enterprise/candidateList', { page: pageCandidateNormal })
+      if (res.status == 200) {
+        console.log(res.data)
+        setCandidateNormal(res.data.data);
+        setPageNormalCandidateCount(res.data.pagination.pageCount);
+        console.log(candidatesNormal)
+      }
+    } catch (error) {
+      console.error(Error)
     }
-  }, [data]);
+  }
 
   useEffect(() => {
-    const loadPremiumData = async () => {
-      const premiumData = await fetchPremiumCandidates();
-      setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
-    };
-    loadPremiumData();
-  }, []);
+    fetchNormalCandidates()
+    console.log(candidatesNormal)
+  }, [!candidatesNormal])
+
+  // useEffect(() => {
+  //   const loadPremiumData = async () => {
+  //     const premiumData = await fetchPremiumCandidates();
+  //     setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
+  //   };
+  //   loadPremiumData();
+  // }, []);
 
   useEffect(() => {
     if (!regions) {
@@ -131,37 +141,37 @@ export default function CandidateSearch() {
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
-        setPremiumsData(response.data.candidatePremiums);
-        setCandidateList(response.data.paginatedQuery);
+        //setPremiumsData(response.data.candidatePremiums);
+        //setCandidateList(response.data.paginatedQuery);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  if (error) {
-    return <div>{JSON.stringify(error)}</div>;
-  }
+  // if (error) {
+  //   return <div>{JSON.stringify(error)}</div>;
+  // }
 
-  if (!data) {
-    return <p>Loading...</p>;
-  }
+  // if (!data) {
+  //   return <p>Loading...</p>;
+  // }
 
-  const handlePageChange = async (newPage: number) => {
-    setPage(newPage);
-    await mutate();
-  };
+  // const handlePageChange = async (newPage: number) => {
+  //   setPage(newPage);
+  //   //await mutate();
+  // };
 
-  const handlePrevious = () => {
-    if (page > 1) {
-      handlePageChange(page - 1);
-    }
-  };
+  // const handlePrevious = () => {
+  //   // if (page > 1) {
+  //   //   handlePageChange(page - 1);
+  //   // }
+  // };
 
   const handleNext = () => {
-    if (page < pageCount) {
-      handlePageChange(page + 1);
-    }
+    //   if (page < pageCount) {
+    //     handlePageChange(page + 1);
+    //   }
   };
 
   const handleLocationChange = (selectedOption: any) => {
@@ -200,7 +210,7 @@ export default function CandidateSearch() {
                   <div className="flex items-center">
                     <input
                       placeholder="Cargo"
-                      className="w-full"
+                      className="w-full form-control"
                       name="cargo"
                     />
                   </div>
@@ -255,8 +265,9 @@ export default function CandidateSearch() {
       <div className="w-full flex justify-center">
         <div className="w-full md:w-11/12">
           <hr className="my-4" />
-          <div className="candidate-list" ref={candidateListRef}>
-            {candidateList?.map((item: any) => (
+          <div className="candidate-list">
+
+            {candidatesNormal?.map((item: any) => (
               <div className="card mt-4" key={item._id}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
@@ -281,7 +292,7 @@ export default function CandidateSearch() {
                         </span>
                       </h5>
                       <p className="text-sm text-gray-600">
-                        {item.Candidato.perfil.puestoDeseado}
+                        {item.candidato.perfil.puestoDeseado}
                       </p>
                       <ul className="list-none p-0">
                         <li className="text-gray-600 text-sm flex items-center">
@@ -293,7 +304,7 @@ export default function CandidateSearch() {
                         </li>
                         <li className="text-gray-600 text-sm flex items-center">
                           <FontAwesomeIcon icon={faWallet} className="mr-1" />{" "}
-                          {item.Candidato.perfil.salarioDeseado} $
+                          {item.candidato.perfil.salarioDeseado} $
                         </li>
                       </ul>
                     </div>
@@ -316,28 +327,28 @@ export default function CandidateSearch() {
           </div>
         </div>
       </div>
-      {/* Pagination normal candidates */}
+      {/* Pagination normal candidates and premiums */}
       <div className="w-full flex justify-center mt-10">
         <Pagination>
           <Pagination.Prev
-            onClick={() => prevPageEnterprise(pageEnterprise - 1)}
-            disabled={pageEnterprise == 1}
+            onClick={() => prevPageCandidateNormal(pageCandidateNormal - 1)}
+            disabled={pageCandidateNormal == 1}
           />
-          {Array(parseInt(pageEnterpriseCount))
+          {Array(parseInt(pageNormalCandidateCount))
             .fill(null)
             .map((_, key) => {
               return (
                 <Pagination.Item
                   key={key}
-                  onClick={() => goToPageEnterprise(key + 1)}
+                  onClick={() => goToPageNormalCandidate(key + 1)}
                 >
                   {key + 1}
                 </Pagination.Item>
               );
             })}
           <Pagination.Next
-            onClick={() => nextPageEnterprise(pageEnterprise + 1)}
-            disabled={pageEnterprise == pageEnterpriseCount}
+            onClick={() => nextPageCandidateNormal(pageCandidateNormal + 1)}
+            disabled={pageCandidateNormal == pageNormalCandidateCount}
           />
         </Pagination>
       </div>

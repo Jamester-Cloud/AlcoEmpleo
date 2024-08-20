@@ -35,14 +35,18 @@ export default function Quizzes() {
         formState: { errors },
     } = methods;
 
+    const retryQuizz = async(idquizz:string) => {
+
+    }
+
     const fetchData = async () => {
         //Tomo isPremium en el localStorage, si es Verdadero Continua, si es Falso, no muestra el Cuestionario
-        const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true'; 
+        const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
         setIsPremium(isPremiumFromStorage);
-
         if (isPremiumFromStorage) {
             const res = await axios.post('/api/candidate/quizzes', { idUsuario: localStorage?.getItem('idUsuario') });
             if (res.status === 200) {
+                console.log(res)
                 setQuizzes(res.data.cuestionarios);
             }
         }
@@ -56,7 +60,7 @@ export default function Quizzes() {
         <div className="container mx-auto p-4">
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Cuestionarios</h2>
-                
+
                 {isPremium === false ? (
                     <p className="text-red-500 text-lg">
                         Para realizar el cuestionario, debe suscribirse a la página.
@@ -90,9 +94,14 @@ export default function Quizzes() {
                                     </td>
                                     <td className="py-2 px-4 border-b" style={{ textDecoration: "none" }}>
                                         {item.finalizada ? (
-                                            <>Completado</>
+                                            <>
+                                                Completado
+                                                <button style={{ textDecoration: 'none' }} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
+                                                    Reintentar
+                                                </button>
+                                            </>
                                         ) : (
-                                            <Link href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                            <Link style={{ textDecoration: 'none' }} href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
                                                 Completar
                                             </Link>
                                         )}

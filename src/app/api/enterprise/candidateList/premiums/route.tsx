@@ -8,7 +8,7 @@ connect()
 
 export async function GET(request: NextRequest) {
   try {
-
+    // debo traer aca las paginas de los candidatos
     const candidatosPremiums: any = await Candidato.aggregate([
       {
         $match: {
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     ])
 
 
-
+    // trae solo los candidatos que tengan foto de perfil
     let filtrados = candidatosPremiums.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
     
     console.log(filtrados)

@@ -7,7 +7,6 @@ connect()
 export async function POST(request: NextRequest) {
     try {
         //planeo hacer el paginado aca
-        //todos los cuestionarios pertenecientes a este candidato
         const cuestionario = await Cuestionario.aggregate([
             {
                 $lookup: {
@@ -51,7 +50,7 @@ export async function POST(request: NextRequest) {
                 }
             },
         ]);
-        console.log(cuestionario);
+        //console.log(cuestionario);
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
             quiz: cuestionario,
