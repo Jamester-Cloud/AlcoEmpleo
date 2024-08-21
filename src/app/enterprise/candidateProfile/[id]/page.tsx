@@ -25,6 +25,12 @@ export default function EnterpriseProfilePage({ params }: any) {
   const whatsappMessage = encodeURIComponent(
     "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
   );
+   
+  const [isPremium, setIsPremium] = useState<boolean | null>(null); 
+  useEffect(() => {
+    const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
+    setIsPremium(isPremiumFromStorage);
+  }, []);
 
   const handleButtonClick = () => {
     setIsVisible(!isVisible);
@@ -90,15 +96,19 @@ export default function EnterpriseProfilePage({ params }: any) {
                 {cv ? <a href={`/api/candidate/download?idArchivo=${cv}`} className="btn btn-primary w-full">
                   Descargar CV
                 </a> : 'Sin Curriculum Vitae'}
-                <button className="btn btn-success w-full">
-                  <Link
-                    href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
-                    className="mdi mdi-whatsapp text-white text-decoration-none w-full"
-                    passHref
-                  >
-                    Contactar
-                  </Link>
-                </button>
+
+                
+              {isPremium && (
+            <button className="btn btn-success w-full">
+              <Link
+                href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
+                className="mdi mdi-whatsapp text-white text-decoration-none w-full"
+                passHref
+              >
+                Contactar
+              </Link>
+            </button>
+              )}
               </div>
             </div>
           </div>
