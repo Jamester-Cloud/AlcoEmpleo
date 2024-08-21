@@ -9,14 +9,14 @@ export async function POST(request: NextRequest) {
   const reqJson = await request.json()
 
   let { page } = reqJson;
-  console.log(page)
 
-  const PER_PAGE = 10
+  const PER_PAGE = 1
 
   try {
-
     //Consulta desde candidatos hasta personas. esto es para candidato normal
     const skip = (page - 1) * PER_PAGE;
+
+    console.log(skip)
 
     let count = await Candidato.aggregate([
       {
@@ -121,20 +121,21 @@ export async function POST(request: NextRequest) {
       },
 
     ]).skip(skip).limit(PER_PAGE)
-
     //filtros para solo traerme los candidatos y sus fotos de perfil
-    paginatedQuery = paginatedQuery.filter((filter) => filter.documentosData.contentType != "application/pdf")
+    //paginatedQuery = paginatedQuery.filter((filter) => filter.documentosData.contentType != "application/pdf")
     //  aplicando el mismo filtro para count
     count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
 
-
     const pageCount = count.length / PER_PAGE;
+
+    console.log("Hay un total de:",count.length, "Candidatos sin destacar")
+    console.log("Candidatos despues de los filtros y el paginado: ", paginatedQuery, "en la pagina:", page)
 
     const response = NextResponse.json({
       message: "Succesfull data retrieve",
       pagination: {
         count: count.length,
-        pageCount:pageCount,
+        pageCount: pageCount,
       },
       data: paginatedQuery,
       success: true,

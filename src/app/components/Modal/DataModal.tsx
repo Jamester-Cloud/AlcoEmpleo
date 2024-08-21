@@ -210,7 +210,8 @@ export default function DataModal(props: any) {
                 console.log("edicion exitosa");
                 await getUserDetails()
                 setShow(false)
-                reset()
+                window.location.reload()
+
 
             }
         } catch (error) {

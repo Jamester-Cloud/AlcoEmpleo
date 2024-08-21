@@ -35,12 +35,15 @@ export default function CandidateSearch() {
   //paginacion premium
 
   const goToPageNormalCandidate = async (pageNumber: number) => {
+    console.log(pageNumber)
     const candidateData = await axios.post(
-      "/api/administrator/enterprise/pagination",
+      "/api/enterprise/candidateList",
       { page: pageNumber }
     );
-    setCandidateNormal(candidateData.data.data);
-    setPageCandidateNormal(pageNumber);
+    if (candidateData.status == 200) {
+      setCandidateNormal(candidateData.data.data);
+      setPageCandidateNormal(pageNumber);
+    }
   };
 
 
