@@ -32,7 +32,9 @@ export default function CabeceraAdmin({
     const logout = async () => {
         try {
             await axios.get("/api/users/logout");
+            localStorage.clear();
             router.push("/login");
+         
         } catch (error: any) {
             console.log(error.message);
         }
