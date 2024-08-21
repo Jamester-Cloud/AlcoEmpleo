@@ -19,7 +19,7 @@ export default function ProfilePage() {
         try {
             //destruye el token
             await axios.get('/api/users/logout')
-
+            localStorage.clear();
             router.push("/login")
         } catch (error: any) {
             console.log(error.message)

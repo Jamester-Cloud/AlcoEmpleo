@@ -23,7 +23,7 @@ export default function LogInForm() {
             setLoading(true)
 
             const response = await axios.post("/api/users/login", user)
-            //Storing the data in sessionStore
+          
             console.log(response.data)
 
             localStorage.setItem('idUsuario', response.data.idUsuario)

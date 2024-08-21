@@ -14,6 +14,7 @@ import {
 
 export default function JobOffer() {
     const router = useRouter()
+    const [isPremium, setIsPremium] = useState<boolean | null>(null);
     const [data, setData]: any = useState({
         tituloOferta: "",
         descripcionOferta: "",
@@ -90,6 +91,8 @@ export default function JobOffer() {
     };
     //Getting the data for enterprise user
     const getUserDetails = async () => {
+        const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
+        setIsPremium(isPremiumFromStorage);
         const res = await axios.get("/api/enterprise/me");
         console.log(res.data);
         setData({ ...data, empresa: res.data?.personaData.nombre, idEmpresa: res?.data.empresa._id });
@@ -135,49 +138,118 @@ export default function JobOffer() {
 
 
         <div className="row g-0">
+    {isPremium === false ? (
+        <h1 className="text-red-500   text-center py-96">
+            Para Ofertar el Empleo Debe de ser Premium
+        </h1>
+    ) : (
+        <>
             <div className="col-lg-6 p-3 mb-2">
                 <div className="px-1 py-5 mx-auto">
                     <div className="row d-flex justify-content-center">
                         <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                             <h3>Oferta de trabajo</h3>
                             <p className="blue-text">Datos de la publicacion</p>
-                            <form className="form-card" onSubmit={handleSubmit} >
+                            <form className="form-card" onSubmit={handleSubmit}>
                                 <div className="row justify-content-between text-left">
-                                    <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Titulo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="tituloOferta" required name="tituloOferta" onChange={onHandleInputChange} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Titulo de la oferta de empleo" />
+                                    <div className="form-group col-md-12 flex-column d-flex">
+                                        <label className="form-control-label px-3">Titulo<span className="text-danger"> *</span></label>
+                                        <input
+                                            type="text"
+                                            id="tituloOferta"
+                                            required
+                                            name="tituloOferta"
+                                            onChange={onHandleInputChange}
+                                            className="form-control t-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Titulo de la oferta de empleo"
+                                        />
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
-                                    <div className="form-group col-sm-12 flex-column d-flex"> <label className="form-control-label px-3">Descripcion de la oferta<span className="text-danger"> *</span></label>
-                                        <textarea id="descripcionOferta" className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" name="descripcionOferta" onChange={onHandleInputChange} placeholder="Descripcion de la oferta de empleo" />
+                                    <div className="form-group col-sm-12 flex-column d-flex">
+                                        <label className="form-control-label px-3">Descripcion de la oferta<span className="text-danger"> *</span></label>
+                                        <textarea
+                                            id="descripcionOferta"
+                                            className="form-control t-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            name="descripcionOferta"
+                                            onChange={onHandleInputChange}
+                                            placeholder="Descripcion de la oferta de empleo"
+                                        />
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
-                                    <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Modalidad de Trabajo<span className="text-danger"> *</span></label>
-                                        <input type="text" id="modalidadTrabajo" required name="modalidadTrabajo" onChange={onHandleInputChange} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Modalidad de la oferta de empleo" />
+                                    <div className="form-group col-md-12 flex-column d-flex">
+                                        <label className="form-control-label px-3">Modalidad de Trabajo<span className="text-danger"> *</span></label>
+                                        <input
+                                            type="text"
+                                            id="modalidadTrabajo"
+                                            required
+                                            name="modalidadTrabajo"
+                                            onChange={onHandleInputChange}
+                                            className="form-control t-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Modalidad de la oferta de empleo"
+                                        />
                                     </div>
                                 </div>
-                                {/* colocar para el guardado de datos */}
                                 <hr />
-                                {/*  Array */}
                                 <div className="row mt-3">
-                                    <div className="col-md-12 text-left"> <label className="form-control-label px-3">Beneficios<span className="text-danger"> *</span></label>
-                                        <input type="text" id="beneficios" name="beneficios" onChange={onHandleBeneficiosChange} value={beneficio} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Beneficios de la oferta" />
+                                    <div className="col-md-12 text-left">
+                                        <label className="form-control-label px-3">Beneficios<span className="text-danger"> *</span></label>
+                                        <input
+                                            type="text"
+                                            id="beneficios"
+                                            name="beneficios"
+                                            onChange={onHandleBeneficiosChange}
+                                            value={beneficio}
+                                            className="form-control t-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Beneficios de la oferta"
+                                        />
                                     </div>
                                     <div className="col-md-3 text-start justify-content-between mt-2">
-                                        <button onClick={loadBeneficio} className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
-                                        <button onClick={deleteBeneficio} className="btn btn-sm btn-danger rounded ml-2"><FontAwesomeIcon icon={faDeleteLeft}></FontAwesomeIcon></button>
+                                        <button
+                                            type="button"
+                                            onClick={loadBeneficio}
+                                            className="btn btn-sm btn-primary rounded"
+                                        >
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={deleteBeneficio}
+                                            className="btn btn-sm btn-danger rounded ml-2"
+                                        >
+                                            <FontAwesomeIcon icon={faDeleteLeft} />
+                                        </button>
                                     </div>
-
                                 </div>
-                                {/* Array */}
                                 <div className="row justify-content-between text-left mt-3">
-                                    <div className="form-group col-md-12 flex-column d-flex"> <label className="form-control-label px-3">Requisitos<span className="text-danger"> *</span></label>
-                                        <input type="text" id="requisito" name="requisito" onChange={onHandleRequisitosChange} value={requisito} className="form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Requisitos de la oferta" />
+                                    <div className="form-group col-md-12 flex-column d-flex">
+                                        <label className="form-control-label px-3">Requisitos<span className="text-danger"> *</span></label>
+                                        <input
+                                            type="text"
+                                            id="requisito"
+                                            name="requisito"
+                                            onChange={onHandleRequisitosChange}
+                                            value={requisito}
+                                            className="form-control t-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            placeholder="Requisitos de la oferta"
+                                        />
                                     </div>
                                     <div className="col-md-3 text-start justify-content-between mt-2">
-                                        <button onClick={loadRequisito} className="btn btn-sm btn-primary rounded"><FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>
-                                        <button onClick={deleteRequisito} className="btn btn-sm btn-danger rounded ml-2"><FontAwesomeIcon icon={faDeleteLeft}></FontAwesomeIcon></button>
+                                        <button
+                                            type="button"
+                                            onClick={loadRequisito}
+                                            className="btn btn-sm btn-primary rounded"
+                                        >
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={deleteRequisito}
+                                            className="btn btn-sm btn-danger rounded ml-2"
+                                        >
+                                            <FontAwesomeIcon icon={faDeleteLeft} />
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="row justify-content-between text-left mt-3">
@@ -207,6 +279,8 @@ export default function JobOffer() {
                 <h3>Publicación: </h3>
                 <CardOffer data={data} />
             </div>
-        </div>
+        </>
+    )}
+</div>
     )
 }

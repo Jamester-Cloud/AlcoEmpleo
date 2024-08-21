@@ -71,7 +71,7 @@ export default function Quizzes() {
     }, []);
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 ">
             <div className="mb-6">
                 <h2 className="text-xl font-bold mb-4">Cuestionarios</h2>
 
@@ -80,6 +80,7 @@ export default function Quizzes() {
                         Para realizar el cuestionario, debe suscribirse a la página.
                     </p>
                 ) : (
+                    <div className="overflow-x-auto ">
                     <table className="min-w-full bg-white shadow-md rounded mb-4">
                         <thead>
                             <tr>
@@ -125,6 +126,8 @@ export default function Quizzes() {
                             ))}
                         </tbody>
                     </table>
+
+                    </div>
                 )}
 
         {/* Paginación (comentada por ahora) */}

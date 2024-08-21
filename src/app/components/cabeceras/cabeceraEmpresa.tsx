@@ -24,6 +24,7 @@ export default function CabeceraEmpresa() {
         try {
             //destruye el token
             await axios.get('/api/users/logout')
+            localStorage.clear();
 
             router.push("/login")
         } catch (error: any) {
