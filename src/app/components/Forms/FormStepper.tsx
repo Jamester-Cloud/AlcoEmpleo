@@ -132,10 +132,7 @@ export const FormStepper = (props: any) => {
                         <p>Calificacíon final:{puntuacion}</p>
                         <br />
                         <p className="text-danger">Tus respuestas no se guardaran!</p>
-                        <div className="col-md-6">
-
-                            <button className="btn btn-info" onClick={() => window.location.reload()}>Intentar de nuevo</button>
-                        </div>
+                      
                         <div className="col-md-6">
                             <button className="btn btn-info btn-block" onClick={() => sendData()}>Enviar</button>
                         </div>
