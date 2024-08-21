@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
         const reqJson = await request.json()
         console.log(reqJson);
 
-        let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad } } = reqJson;
+        let { data: { banner, direccion, sliders, secciones, celular, politicaPrivacidad,metodopago } } = reqJson;
         console.log(reqJson.data)
         filter = { idUsuarioAdministrador: Types.ObjectId.createFromHexString('669fbe254ee5de405072dfcd') }
 
@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
                 "secciones": secciones,
                 "celular": celular,
                 "politicaPrivacidad": politicaPrivacidad,
+                "metodopago": metodopago,
             }
         };
         //planeo hacer el paginado aca

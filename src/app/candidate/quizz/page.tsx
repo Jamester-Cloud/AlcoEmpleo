@@ -127,11 +127,12 @@ export default function Quizzes() {
                     </table>
                 )}
 
-                {/* Paginación (comentada por ahora) */}
-                {/* <Pagination>
-                    // Paginación aquí
-                </Pagination> */}
-            </div>
-        </div>
+        {/* Paginación (comentada por ahora) */}
+        {/* <Pagination>
+            // Paginación aquí
+        </Pagination> */}
+    </div>
+</div>
+
     );
 }

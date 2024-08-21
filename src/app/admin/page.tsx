@@ -11,6 +11,7 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
 type FormValues = {
   sliders: {
     titulo: string;
@@ -20,6 +21,7 @@ type FormValues = {
   celular: {
     numero: string;
   }[];
+
   banner: {
     titulo: string;
     texto: string;
@@ -33,6 +35,21 @@ type FormValues = {
   idUsuario: string;
   cedula: string;
   riff: string;
+
+  metodopago:{
+    banco:string;
+    monto: string;
+    pagocedula: string;
+    pagotelefono: string;
+    pagowhatsapp: string;
+    emailBinance:string;
+    emailPaypal:string;
+    emailZinli:string;
+   
+
+  }
+
+  
 };
 export default function AdminPage() {
   const methods = useForm<FormValues>({
@@ -43,6 +60,16 @@ export default function AdminPage() {
       secciones: [{ titulo: "", texto: "" }],
       politicaPrivacidad: "",
       direccion: "",
+      metodopago: {
+        banco:"",
+        monto: "",
+        pagocedula: "",
+        pagotelefono: "",
+        pagowhatsapp: "",
+        emailBinance: "",
+        emailPaypal: "",
+        emailZinli: "",
+      },
     },
   });
 
@@ -101,8 +128,7 @@ export default function AdminPage() {
   const [pageEnterpriseCount, setEnterprisePageCount]: any = useState(1);
   //states homepage
   const [siteData, setSiteData]: any = useState();
-  //UseEffects
-  //siteData
+ 
   useEffect(() => {
     let defaultValues = {
       celular: [],
@@ -111,6 +137,16 @@ export default function AdminPage() {
       sliders: [],
       direccion: "",
       politicaPrivacidad: "",
+      metodopago: {
+        banco:"",
+        monto: "",
+        pagocedula: "",
+        pagotelefono: "",
+        pagowhatsapp: "",
+        emailBinance: "",
+        emailPaypal: "",
+        emailZinli: "",
+      },
     };
 
     defaultValues.celular = siteData?.homePage[0]?.celular?.map((item: any) => {
@@ -134,6 +170,19 @@ export default function AdminPage() {
     defaultValues.direccion = siteData?.homePage[0]?.direccion;
     defaultValues.politicaPrivacidad =
       siteData?.homePage[0]?.politicaPrivacidad;
+
+      if (siteData?.homePage[0]?.metodopago) {
+        defaultValues.metodopago = {
+          banco: siteData.homePage[0].metodopago.banco || "",
+          monto: siteData.homePage[0].metodopago.monto || "",
+          pagocedula: siteData.homePage[0].metodopago.pagocedula || "",
+          pagotelefono: siteData.homePage[0].metodopago.pagotelefono || "",
+          pagowhatsapp: siteData.homePage[0].metodopago.pagowhatsapp || "",
+          emailBinance: siteData.homePage[0].metodopago.emailBinance || "",
+          emailPaypal: siteData.homePage[0].metodopago.emailPaypal || "",
+          emailZinli: siteData.homePage[0].metodopago.emailZinli || "",
+        };
+      }
 
     reset({ ...defaultValues });
   }, [siteData?.homePage[0]]);
@@ -160,6 +209,8 @@ export default function AdminPage() {
 
       Promise.all([homeData]).then((values: any) => {
         setSiteData(values[0].data);
+        console.log(values[0].data);
+        
       });
     } catch (error) {
       console.log("error en la peticion de datos para el panel", error);
@@ -600,6 +651,7 @@ export default function AdminPage() {
               {...register("direccion", { required: true })}
             ></textarea>
           </div>
+        
           <div className="mb-4">
             <label
               htmlFor="politicaPrivacidad"
@@ -614,6 +666,143 @@ export default function AdminPage() {
               id="politicaPrivacidad"
             />
           </div>
+
+          {/* AGREGANDO metodopago AQUI */}
+          <h2 className="text-xl font-bold mb-4">Metodo de Pagos</h2>
+                {/* Div de Pago */}
+
+          <div className="grid grid-cols-2 gap-4">  
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.banco"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Banco
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.banco", { required: true })}
+              id="metodopago.banco"
+            />
+          </div>
+                {/* Fin de Pago */}
+             {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.monto"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Monto
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.monto", { required: true })}
+              id="metodopago.monto"
+            />
+          </div>
+             {/* Fin  de Pago */}
+            {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.pagocedula"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Cedula del Pago Movil
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.pagocedula", { required: true })}
+              id="metodopago.pagocedula"
+            />
+          </div>
+            {/* Fin de Pago */}
+          {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.pagotelefono"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Telefono de Pago Movil
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.pagotelefono", { required: true })}
+              id="metodopago.pagotelefono"
+            />
+          </div>
+          {/* Fin Div de PAgo */}
+          {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.pagowhatsapp"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Whatsapp Para para enviar el mensaje de pagos
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.pagowhatsapp", { required: true })}
+              id="metodopago.pagowhatsapp"
+            />
+          </div>
+          {/* Fin Div de PAgo */}
+          {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.emailBinance"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Email Binance
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.emailBinance", { required: true })}
+              id="metodopago.emailBinance"
+            />
+          </div>
+          {/* Fin Div de PAgo */}
+          {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.emailPaypal"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Email Paypal
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.emailPaypal", { required: true })}
+              id="metodopago.emailPaypal"
+            />
+          </div>
+          {/* Fin Div de PAgo */}
+          {/* Div de Pago */}
+          <div className="mb-4">
+            <label
+              htmlFor="metodopago.emailZinli"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Email Zinli
+            </label>
+            <input
+              type="text"
+              className="form-control w-full mt-1 p-2 border rounded-md"
+              {...register("metodopago.emailZinli", { required: true })}
+              id="metodopago.emailZinli"
+            />
+          </div>
+
+          </div>
+          {/* Fin Div de PAgo */}
+      
+          {/* TERMINANDO PAGO MOVIL AQUI */}
           <div className="mb-4">
             <h3 className="text-lg font-bold mb-2">Texto Sliders</h3>
             {fieldsSliders.map((field, index) => (

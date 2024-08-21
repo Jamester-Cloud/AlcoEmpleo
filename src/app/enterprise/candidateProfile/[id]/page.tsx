@@ -75,6 +75,15 @@ export default function EnterpriseProfilePage({ params }: any) {
                 width={100}
               />
               <h4>{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
+              <p
+              className={`${
+                data?.candidato?.esDestacado
+                  ? "bg-green-800 text-white font-bold py-2 px-4 rounded-full shadow-lg border border-green-900 animate-bounce"
+                  : ""
+              }`}
+            >
+              {data?.candidato?.esDestacado && "Destacado"}
+            </p>
               <h6 className="text-blue-500">{data?.emailUsuario}</h6>
               <p className="text-secondary mb-0">{data?.candidato?.perfil?.puestoDeseado}</p>
               <div className="mt-2 space-y-2 w-full">
