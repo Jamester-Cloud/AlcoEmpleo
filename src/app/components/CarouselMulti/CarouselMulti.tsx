@@ -14,6 +14,7 @@ interface Props {
 }
 
 export function CarouselMulti(props: any) {
+
   let { candidates, idProfilePicture } = props
   console.log(candidates)
   const whatsappMessage = encodeURIComponent(

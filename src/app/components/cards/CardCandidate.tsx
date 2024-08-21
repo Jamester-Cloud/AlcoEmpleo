@@ -7,7 +7,6 @@ import Image from "next/image";
 
 export default function CardCandidate(props: any) {
   const { data } = props;
-  console.log(data)
   const whatsappMessage = encodeURIComponent("Saludos cordiales, hemos visto tu perfil en alcoempleo.com");
 
   return (
@@ -21,7 +20,7 @@ export default function CardCandidate(props: any) {
           width={96}
           height={96}
           alt="Profile Image"
-          src="/Imagen-card.png"
+          src={data?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${data.documentos.idArchivo}` : '/Imagen-card.png'}
           className="rounded-full"
         />
       </div>

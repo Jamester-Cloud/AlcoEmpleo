@@ -69,21 +69,21 @@ export default function CandidateSearch() {
     }
   };
 
-  // const fetchPremiumCandidates = async () => {
-  //   try {
-  //     const response: any = await axios.post(
-  //       "/api/enterprise/candidateList/premiums"
-  //     );
-  //     console.log("Response Data:", response.data); // <-- Agrega esto
-  //     if (response.status === 200)
-  //       return {
-  //         candidatosPremiums: response.data.dataCandidatosPremium,
-  //         candidatosTotales: parseInt(response.data.totalCandidates),
-  //       };
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const fetchPremiumCandidates = async () => {
+    try {
+      const response: any = await axios.get(
+        "/api/enterprise/candidateList/premiums"
+      );
+      console.log("Response Data:", response.data); // <-- Agrega esto
+      if (response.status === 200)
+        return {
+          candidatosPremiums: response.data.dataCandidatosPremium,
+          candidatosTotales: parseInt(response.data.totalCandidates),
+        };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   const fetchRegions = async () => {
@@ -114,13 +114,13 @@ export default function CandidateSearch() {
     console.log(candidatesNormal)
   }, [!candidatesNormal])
 
-  // useEffect(() => {
-  //   const loadPremiumData = async () => {
-  //     const premiumData = await fetchPremiumCandidates();
-  //     setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
-  //   };
-  //   loadPremiumData();
-  // }, []);
+  useEffect(() => {
+    const loadPremiumData = async () => {
+      const premiumData = await fetchPremiumCandidates();
+      setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
+    };
+    loadPremiumData();
+  }, []);
 
   useEffect(() => {
     if (!regions) {
@@ -254,7 +254,7 @@ export default function CandidateSearch() {
           <ListCarousel data={premiumsData} />
         )}
       </div>
-      <div className="w-full text-left mt-20">
+      <div className="w-full text-left ">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
           Otros candidatos
         </h3>

@@ -80,7 +80,7 @@ export const FormStepper = (props: any) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(goNext)} >
+            <form onSubmit={handleSubmit(goNext)} className="p-5">
                 {data?.map((item: any, key: number) => {
                     return (
                         <div className="form" key={key}>
@@ -88,7 +88,6 @@ export const FormStepper = (props: any) => {
                                 <div key={key}>
                                     <div className="col-md-12 mb-3">
                                         {item.pregunta}
-                                    
                                     </div>
                                     <div className="col-md-12">
                                         {/* Name input field */}

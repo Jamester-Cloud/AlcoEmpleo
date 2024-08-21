@@ -1,6 +1,7 @@
 "use client";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import Image from 'next/image';
+import { useRouter } from "next/navigation"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "react-bootstrap/Pagination";
@@ -15,6 +16,8 @@ type FormValues = {
 };
 
 export default function Quizzes() {
+
+    const router = useRouter()
 
     const [quizz, setQuizzes]: any = useState();
     const [isPremium, setIsPremium] = useState<boolean | null>(null); // Estado para isPremium
@@ -35,8 +38,19 @@ export default function Quizzes() {
         formState: { errors },
     } = methods;
 
-    const retryQuizz = async (idquizz: string) => {
+    const retryQuizz = async (idCandidato: string, idQuizz: string) => {
+        console.log(idCandidato)
+        console.log(idQuizz)
 
+        try {
+            let res = await axios.post('/api/administrator/candidates/quizzes/retry', { idCandidato: idCandidato, idQuizz: idQuizz, dificultad:'media' })
+            if (res.status == 200){
+                //Redireccionar con el id del quiz hacia el nuevo cuestionario generado
+                router.push(`/candidate/quizz/${idQuizz}`)
+            }
+        } catch (error) {
+
+        }
     }
 
     const fetchData = async () => {
@@ -97,7 +111,7 @@ export default function Quizzes() {
                                             <>
                                                 Completado
                                                 {/* Todo corregir esto por data dinamica desde la db */}
-                                                {localStorage.getItem('isPremium') === 'true' ? <button style={{ textDecoration: 'none' }} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
+                                                {localStorage.getItem('isPremium') === 'true' ? <button style={{ textDecoration: 'none' }} onClick={() => retryQuizz(item.idCandidato, item._id)} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
                                                     Reintentar
                                                 </button> : ''}
                                             </>
