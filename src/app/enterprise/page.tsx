@@ -288,7 +288,7 @@ export default function CandidateSearch() {
                     <div className="flex-grow ml-4">
                       <h5 className="text-lg font-bold">
                         <a className="text-blue-900" href="#">
-                          {item.personaData.nombre}
+                          {item.personaData.nombre}  {item.personaData.apellido}
                         </a>
                         <span className="badge bg-success rounded-full ml-4">
                           <FontAwesomeIcon icon={faCheckCircle} /> Verificado
@@ -345,7 +345,7 @@ export default function CandidateSearch() {
                   key={key}
                   onClick={() => goToPageNormalCandidate(key + 1)}
                 >
-                  {key + 1}
+                  {key + 1}s
                 </Pagination.Item>
               );
             })}

@@ -8,7 +8,7 @@ connect()
 export async function GET(request: NextRequest) {
     try {
         //Consulta desde candidatos hasta personas
-        const ofertas = await OfertaTrabajo.aggregate([
+        let ofertas = await OfertaTrabajo.aggregate([
             {
                 $lookup: {
                     from: "empresas",
@@ -46,10 +46,15 @@ export async function GET(request: NextRequest) {
                 $project: {
                     ofertaTrabajo: "$$ROOT",
                     empresaData: "$empresaData",
-                    documentosData: "$documentosData.idArchivo"
+                    documentosData: "$documentosData"
                 }
             },
         ])
+
+        //filtros para solo traerme los candidatos y sus fotos de perfil
+        ofertas = ofertas.filter((filter) => filter.documentosData.contentType != "application/pdf")
+        //  aplicando el mismo filtro para count
+        //count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
         console.log(ofertas)
         //console.log("hello world")
         const response = NextResponse.json({

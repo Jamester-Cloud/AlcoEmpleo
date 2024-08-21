@@ -110,5 +110,22 @@ Perfil Candidato
 Ya se puede hacer los cuestionarios (Falta que se repita)
 Ya se generan cuestionarios a los candidatos
 
+En editar perfil que el CV se seleccione solo para subir (Igual como se hizo en Perfil de Empresa)
+Agregar Calificación del Candidato
+Paginado de Empresa
+Paginado de Candidato buscando a Empres
+Que el Candidato Pueda Repetir su cuestionario y que este cambio y si esta completado que también lo pueda repetir otra vez(listo)
+bug en perfiles de candidatos visto desde empresa
+agregar tablas para eliminacion/actualizacion de ofertas de empleo (salen para mañana miercoles)
+Mergear cambios que hice (Agregue una validación para que mandara la Region también en el Form Candidato)
+Arreglar Búsqueda de candidato en la Vista de Empresa 
+Falta solicitar el Empleo a la empresa (salen para mañana miercoles)
+En la vista admin agregar la redirección hacia el perfil del Candidato o Empresa (baja prioridad hasta finalizar los candidatos y empresa)
+Sugerencia: Que los datos del pago móvil se puedan actualizar desde el Administrador (Es sugerencia netamente mía)
 
+Ya actualiza Perfil Empresa
+
+Perfil Candidato
+Ya se puede hacer los cuestionarios (Falta que se repita)
+Ya se generan cuestionarios a los candidatos
 

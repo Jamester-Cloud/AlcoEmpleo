@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 
 export default function CardOffer(props: any) {
     let { data } = props;
-    console.log(data)
+    //console.log(data)
     return (
         <div className="row">
             <div className="col-md-12">

@@ -6,7 +6,8 @@ connect()
 export async function POST(request: NextRequest) {
 
     const reqJson = await request.json()
-    
+    let update;
+    let filter;
     let {
         data: {
             tituloOferta,
@@ -14,18 +15,50 @@ export async function POST(request: NextRequest) {
             beneficios,
             requisitos,
             modalidadTrabajo,
-            idEmpresa
-        }
+            idEmpresa,
+        },
+        isUpdate,
+        idOferta
     } = reqJson;
 
-    await new OfertaTrabajo({
-        tituloOferta: tituloOferta,
-        descripcionOfertaTrabajo: descripcionOferta,
-        beneficios: beneficios,
-        requisitos: requisitos,
-        idEmpresa: idEmpresa,
-        modalidadTrabajo: modalidadTrabajo
-    }).save()
+    console.log(reqJson);
+
+    console.log(isUpdate);
+
+    if (isUpdate) {
+
+        console.log("Oferta actualizada exitosamente")
+
+        filter = { _id: idOferta }
+        console.log(filter);
+
+        update = {
+            $set: {
+                tituloOferta: tituloOferta,
+                beneficios: beneficios,
+                requisitos: requisitos,
+                idEmpresa: idEmpresa,
+                modalidadTrabajo: modalidadTrabajo,
+                descripcionOfertaTrabajo:descripcionOferta
+            }
+        }
+
+        console.log(update)
+
+        await OfertaTrabajo.updateOne(filter, update);
+
+    } else {
+        console.log("Oferta guardada exitosamente")
+        await new OfertaTrabajo({
+            tituloOferta: tituloOferta,
+            descripcionOfertaTrabajo: descripcionOferta,
+            beneficios: beneficios,
+            requisitos: requisitos,
+            idEmpresa: idEmpresa,
+            modalidadTrabajo: modalidadTrabajo
+        }).save()
+    }
+
 
 
     const response = NextResponse.json({
