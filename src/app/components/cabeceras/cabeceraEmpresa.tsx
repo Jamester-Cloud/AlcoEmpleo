@@ -49,6 +49,9 @@ export default function CabeceraEmpresa() {
                     </button>
                 </div>
                 <nav className="md:flex md:flex-column space-x-4 hidden">
+                    <Link href="/enterprise/requests" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
+                        Solicitudes
+                    </Link>
                     <Link href="/enterprise/" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
                         Buscar Candidato
                     </Link>
@@ -68,6 +71,9 @@ export default function CabeceraEmpresa() {
             </div>
             {showMenu && (
                 <div className="w-full bg-primary text-center z-30">
+                    <Link href="/enterprise/requests" className="text-white mt-2 text-decoration-none transition-opacity duration-300 hover:opacity-50">
+                        Solicitudes
+                    </Link>
                     <Link href="/enterprise/" className="block text-white text-decoration-none transition-opacity duration-300 hover:opacity-50 p-2">
                         Buscar Candidato
                     </Link>

@@ -6,6 +6,6 @@ const postulacionesCandidatoSchema = new mongoose.Schema({
     fechaPostulacion:Date,
 })
 
-const PostulacionesCandidato = mongoose.models.empresa || mongoose.model("postulacionesCandidato", postulacionesCandidatoSchema)
+const PostulacionesCandidato = mongoose.models.postulacionesCandidato || mongoose.model("postulacionesCandidato", postulacionesCandidatoSchema)
 
 export default PostulacionesCandidato;

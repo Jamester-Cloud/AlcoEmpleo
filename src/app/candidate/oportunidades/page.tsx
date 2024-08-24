@@ -13,6 +13,7 @@ import {
   faPlus,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 import Image from "next/image";
 import Select from "react-select";
 import "@/app/candidate/edit/css/style.css";
@@ -49,6 +50,41 @@ export default function Oportunidades() {
     setIsVisible(!isVisible);
   };
 
+  const requestOffer = async (id: string) => {
+
+    try {
+      let res = await axios.post('/api/enterprise/requests', { idUsuario: localStorage?.getItem('idUsuario'), idOferta: id })
+      if (res.status == 200 && res.data.message != 'Ya se postulo a esta oferta') {
+        toast.success("Puesto solicitado exitosamente", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+      else if (res.status == 200 && res.data.message == 'Ya se postulo a esta oferta') {
+        toast.error(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+    } catch (error) {
+
+    }
+  }
+
   useEffect(() => {
     if (!data) {
       (async () => {
@@ -59,6 +95,7 @@ export default function Oportunidades() {
         }
       })();
     }
+    console.log(data);
   })
 
   const onSubmit = async (data: any) => {
@@ -132,11 +169,11 @@ export default function Oportunidades() {
                       </ul>
                     </div>
                   </div>
-                  {/* <button className="btn btn-primary w-25" >Solicitar</button> */}
+                  <button onClick={() => requestOffer(item.ofertaTrabajo._id)} className="btn btn-primary w-25" >Solicitar</button>
                 </div>
                 {/* logo empresarial */}
                 <Image
-                  src={item.documentosData ? `/api/enterprise/enterpriseLogo?idArchivo=${item.documentosData}` : '/AlcoLogo.png'}
+                  src={item.documentosData ? `/api/enterprise/enterpriseLogo?idArchivo=${item.documentosData.idArchivo}` : '/AlcoLogo.png'}
                   alt="Oportunidad"
                   className="rounded-2xl mb-4 md:mb-0 md:mr-4 w-full md:w-72"
                   width={700}
@@ -147,6 +184,18 @@ export default function Oportunidades() {
             </div>
           )
         })}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </div>
   );

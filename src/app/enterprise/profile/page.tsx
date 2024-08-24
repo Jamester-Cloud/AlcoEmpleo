@@ -52,7 +52,7 @@ export default function UserProfile() {
   const getUserDetails = async () => {
     const res = await axios.get("../api/enterprise/me");
     console.log(res.data)
-    setUserData({ ...res.data.userData, personaData: res.data.personaData, logoEmpresa: res.data.logo.idArchivo, acta: res.data.acta })
+    setUserData({ ...res.data.userData, personaData: res.data.personaData, logoEmpresa: res?.data?.logo?.idArchivo, acta: res?.data?.acta })
   };
 
   const [show, setShow] = useState(false);

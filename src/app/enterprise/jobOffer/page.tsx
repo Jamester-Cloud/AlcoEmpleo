@@ -262,9 +262,12 @@ export default function JobOffer() {
                         <div className="px-1 py-5 mx-auto">
 
                             <div className="row d-flex justify-content-center">
-                                <div className="col-md-12 text-right">
+                                <div className="col-md-6 text-right">
                                     <button className='btn btn-primary' onClick={(e) => handleModal(e, 'Administrar ofertas', {})}> Publicacíones</button>
                                 </div>
+                                {/* <div className="col-md-6 text-right">
+                                    <button className='btn btn-primary' onClick={(e) => handleModal(e, 'Administrar ofertas', {})}> Solicitudes</button>
+                                </div> */}
                                 <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                                     <h3>Oferta de trabajo</h3>
 
