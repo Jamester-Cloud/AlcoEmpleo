@@ -6,8 +6,7 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-    let page: any = request.nextUrl.searchParams.get("page")
-
+   
     const PER_PAGE = 5
 
     try {

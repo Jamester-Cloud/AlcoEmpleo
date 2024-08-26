@@ -10,8 +10,6 @@ connect()
 
 export async function GET(request: NextRequest) {
     try {
-
-        let tipoUsuario = request.nextUrl.searchParams.get('tipoUsuario')
         //autenticando
         const userData = getDataFromToken(request);
 
