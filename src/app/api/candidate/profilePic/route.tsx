@@ -6,14 +6,12 @@ import fs from 'fs'
 
 export async function GET(request: NextRequest) {
     let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
+    let docInfo = await Documento.findOne({ idArchivo: idArchivo })
+    const mongodbUrl: any = process.env.MONGO_URI
+    await mongoose.connect(mongodbUrl)
     try {
 
 
-        let docInfo = await Documento.findOne({ idArchivo: idArchivo })
-
-        const mongodbUrl: any = process.env.MONGO_URI
-
-        await mongoose.connect(mongodbUrl)
 
         let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'candidateProfilePics' })
 

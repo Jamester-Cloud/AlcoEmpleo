@@ -4,14 +4,13 @@ import mongoose, { Types } from "mongoose";
 import fs from 'fs'
 
 export async function GET(request: NextRequest) {
+    let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
+    const mongodbUrl: any = process.env.MONGO_URI
+
+    await mongoose.connect(mongodbUrl)
     try {
-
-        let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
-
         console.log(idArchivo)
-        const mongodbUrl: any = process.env.MONGO_URI
 
-        await mongoose.connect(mongodbUrl)
 
         let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'candidateDocuments' })
 
