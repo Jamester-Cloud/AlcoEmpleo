@@ -7,7 +7,6 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import Spinner from '@/app/components/Spinner/Spinner';
 import { useRouter } from "next/navigation"
 import Modal from 'react-bootstrap/Modal'
-import { set } from 'mongoose';
 type FormValues = {
     quiz: {
         pregunta: string,

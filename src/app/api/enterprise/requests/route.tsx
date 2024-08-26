@@ -12,8 +12,6 @@ export async function POST(request: NextRequest) {
 
         const candidato = await Candidato.findOne({ idUsuario: idUsuario });
 
-        //console.log(candidato)
-
         const postulacion = await PostulacionesCandidato.findOne({ idCandidato: candidato._id, idOferta: idOferta })
 
         if (postulacion) return NextResponse.json({ message: "Ya se postulo a esta oferta" }, { status: 200 });
