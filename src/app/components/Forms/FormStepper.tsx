@@ -123,7 +123,7 @@ export const FormStepper = (props: any) => {
                         {respuestasCandidatos?.map((item: any, key: number) => {
                             return (
                                 <div key={key}>
-                                    <p>"¿{item.respuesta}?"</p>
+                                    <p>{item.respuesta}</p>
                                     <>{item.correcta ? <p className="text-success">Respuesta correcta</p> : <p className="text-danger">Respuesta incorrecta</p>}</>
                                     <hr />
                                 </div>
