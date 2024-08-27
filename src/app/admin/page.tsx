@@ -323,12 +323,13 @@ export default function AdminPage() {
   };
 
   //table functions
-  const handleUserSubscripcion = async (id: string, isPremium: boolean, userType: String) => {
+  const handleUserSubscripcion = async (id: string, isPremium: boolean, userType: String, requestType:boolean) => {
     try {
       const subscription = await axios.post("/api/administrator/subscription", {
         idUsuario: id,
         isPremium: isPremium,
-        userType:userType
+        userType:userType,
+        requestType:requestType
       });
       if (subscription.status === 200)
         console.log("Peticion completada exitosamente"),
@@ -454,7 +455,8 @@ export default function AdminPage() {
                         handleUserSubscripcion(
                           item.usuarioData._id,
                           item.usuarioData.isPremium,
-                          "candidato"
+                          "candidato",
+                          false
                         )
                       }
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
@@ -467,7 +469,8 @@ export default function AdminPage() {
                         handleUserSubscripcion(
                           item.usuarioData._id,
                           item.usuarioData.isPremium,
-                          "candidato"
+                          "candidato",
+                          true
                         )
                       }
                       className="bg-green-500 text-white px-4 py-2 rounded-md"
@@ -576,7 +579,8 @@ export default function AdminPage() {
                         handleUserSubscripcion(
                           item.usuarioData._id,
                           item.usuarioData.isPremium,
-                          "empresa"
+                          "empresa",
+                          false
                         )
                       }
                       className="bg-red-500 text-white px-4 py-2 rounded-md"
@@ -589,7 +593,8 @@ export default function AdminPage() {
                         handleUserSubscripcion(
                           item.usuarioData._id,
                           item.usuarioData.isPremium,
-                          "empresa"
+                          "empresa",
+                          true
                         )
                       }
                       className="bg-green-500 text-white px-4 py-2 rounded-md"

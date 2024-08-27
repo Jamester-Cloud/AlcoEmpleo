@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     //
     const session = await User.startSession();
 
-    let { idUsuario, isPremium, userType } = reqJson;
+    let { idUsuario, isPremium, userType, requestType } = reqJson;
 
     let update;
     let filter;
@@ -30,34 +30,26 @@ export async function POST(request: NextRequest) {
         let isSubscribed: any = await Subscripcion.findOne({ idUsuario: idUsuario })
         // si hay subscripcion
         if (isSubscribed) {
-            if (isSubscribed?.estatus && isPremium) {
-                console.log("Creando subscripcion y revocando. Para volver a reactivar manualmente")
-                if (userType == 'candidato') await Candidato.findOneAndUpdate({ idUsuario: idUsuario }, { $set: { "esDestacado": false } })
-                await new Subscripcion({ idUsuario: idUsuario, fechaInicio: fechaActual, fechaFin: fechaActual.setTime(treintaDiasEnMilisegundos), monto: "$5", estatus: false }).save()
-                await Subscripcion.updateOne(filter, { estatus: false }).session(session)
-                update = { $set: { "isPremium": false } }
-
-            }
+            console.log(isSubscribed)
             //Esta subscrito y esta activo y su usuario ya es premium (entonces se procede a una revocacion)
-            if (isSubscribed?.estatus && isPremium) {
+            if (!requestType) {
                 console.log("Revocando subscripcion")
-
                 if (userType == 'candidato') await Candidato.findOneAndUpdate({ idUsuario: idUsuario }, { $set: { "esDestacado": false } })
                 await Subscripcion.updateOne(filter, { estatus: false }).session(session)
                 update = { $set: { "isPremium": false } }
             }
 
-            if (!isSubscribed.estatus && !isPremium) {
-                console.log("Reactivando subscripcion")
-
+            if (requestType) {
+                console.log("Subscripcion existente. Reactivandp subscripcion")
                 if (userType == 'candidato') await Candidato.findOneAndUpdate({ idUsuario: idUsuario }, { $set: { "esDestacado": true } })
                 await Subscripcion.updateOne(filter, { estatus: true }).session(session)
                 update = { $set: { "isPremium": true } }
             }
+
         }
         //no hay subscripcion
         else {
-            if (!isPremium) {
+            if (requestType) {
                 console.log("Creando subscripcion")
                 if (userType == 'candidato') await Candidato.findOneAndUpdate({ idUsuario: idUsuario }, { $set: { "esDestacado": true } })
                 await new Subscripcion({ idUsuario: idUsuario, fechaInicio: fechaActual, fechaFin: fechaActual.setTime(treintaDiasEnMilisegundos), monto: "$5", estatus: true }).save()

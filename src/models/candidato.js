@@ -23,8 +23,8 @@ const candidatoSchema = new mongoose.Schema({
             descripcion: {
                 type: String
             },
-            estatus:{
-                type:Boolean
+            estatus: {
+                type: Boolean
             }
         },
     ],
@@ -48,7 +48,10 @@ const candidatoSchema = new mongoose.Schema({
         fechaPublicacion: { type: Date },
         puestoDeseado: { type: String },
         salarioDeseado: { type: String },
-        calificaciones:Number
+        calificaciones: {
+            type: Number,
+            default: 1
+        }
     },
     redes: [{ enlace: String }],
     formacionesAcademicas: [

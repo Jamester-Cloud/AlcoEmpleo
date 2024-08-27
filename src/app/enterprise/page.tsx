@@ -7,7 +7,6 @@ import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import Pagination from "react-bootstrap/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetcherGet } from "@/constants/fetcher";
 import {
   faCheckCircle,
   faWallet,
@@ -21,9 +20,7 @@ import Select from "react-select";
 export default function CandidateSearch() {
   // States
   const [page, setPage] = React.useState<any>(1);
-  //const { data, error, mutate } = useSWR(`/api/enterprise/candidateList/?page=${page}`, (url) => fetcherGet(url));
   const [regions, setRegions] = React.useState<any>();
-  const [specialty, setSpecialtys] = React.useState<any>();
   //const [candidateList, setCandidateList] = React.useState<any>();
   const [selectedLocation, setSelectedLocation] = React.useState<any>();
   const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
@@ -33,7 +30,11 @@ export default function CandidateSearch() {
   const [pageCandidateNormal, setPageCandidateNormal] = React.useState(1);
   const [pageNormalCandidateCount, setPageNormalCandidateCount]: any = React.useState(1);
   //paginacion premium
+  const [candidatesPremiums, setCandidatePremiums]: any = React.useState();
+  const [pageCandidatePremiums, setPageCandidatePremiums] = React.useState(1);
+  const [pagePremiumsCandidateCount, setPagePremiumsCandidateCount]: any = React.useState(1);
 
+  //Normal control page
   const goToPageNormalCandidate = async (pageNumber: number) => {
     console.log(pageNumber)
     const candidateData = await axios.post(
@@ -45,7 +46,6 @@ export default function CandidateSearch() {
       setPageCandidateNormal(pageNumber);
     }
   };
-
 
   const nextPageCandidateNormal = async (nextPage: number) => {
     console.log("Pagina siguiente");
@@ -59,7 +59,46 @@ export default function CandidateSearch() {
       setPageCandidateNormal(nextPage);
     }
   };
+
   const prevPageCandidateNormal = async (prevPage: number) => {
+    console.log("Pagina previa");
+    const enterpriseData = await axios.post(
+      "/api/enterprise/pagination",
+      { page: prevPage }
+    );
+    setCandidateNormal(enterpriseData.data.data);
+    setPageNormalCandidateCount(enterpriseData.data.pagination.pageCount);
+    if (enterpriseData.status == 200) {
+      setPageCandidateNormal(prevPage);
+    }
+  };
+  //Premium Page
+  const goToPagePremiumCandidate = async (pageNumber: number) => {
+    console.log(pageNumber)
+    const candidateData = await axios.post(
+      "/api/enterprise/candidateList",
+      { page: pageNumber }
+    );
+    if (candidateData.status == 200) {
+      setCandidateNormal(candidateData.data.data);
+      setPageCandidateNormal(pageNumber);
+    }
+  };
+
+  const nextPageCandidatePremium = async (nextPage: number) => {
+    console.log("Pagina siguiente");
+    const candidateData = await axios.post(
+      "/api/enterprise/candidateList", { page: nextPage }
+    );
+    setCandidateNormal(candidateData.data.data);
+    setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
+
+    if (candidateData.status == 200) {
+      setPageCandidateNormal(nextPage);
+    }
+  };
+
+  const prevPageCandidatePremium = async (prevPage: number) => {
     console.log("Pagina previa");
     const enterpriseData = await axios.post(
       "/api/enterprise/pagination",
@@ -74,14 +113,14 @@ export default function CandidateSearch() {
 
   const fetchPremiumCandidates = async () => {
     try {
-      const response: any = await axios.get(
-        "/api/enterprise/candidateList/premiums"
+      const response: any = await axios.post(
+        "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
       );
       console.log("Response Data:", response.data); // <-- Agrega esto
       if (response.status === 200)
         return {
           candidatosPremiums: response.data.dataCandidatosPremium,
-          candidatosTotales: parseInt(response.data.totalCandidates),
+          candidatosTotales: parseInt(response.data.pagination.count),
         };
     } catch (error) {
       console.error(error);
@@ -256,6 +295,31 @@ export default function CandidateSearch() {
         ) : (
           <ListCarousel data={premiumsData} />
         )}
+        <div className="text-center">
+          {/* Paginado para candidatos premiums */}
+          <Pagination>
+            <Pagination.Prev
+              onClick={() => prevPageCandidateNormal(pageCandidateNormal - 1)}
+              disabled={pageCandidateNormal == 1}
+            />
+            {Array(parseInt(pageNormalCandidateCount))
+              .fill(null)
+              .map((_, key) => {
+                return (
+                  <Pagination.Item
+                    key={key}
+                    onClick={() => goToPageNormalCandidate(key + 1)}
+                  >
+                    {key + 1}s
+                  </Pagination.Item>
+                );
+              })}
+            <Pagination.Next
+              onClick={() => nextPageCandidateNormal(pageCandidateNormal + 1)}
+              disabled={pageCandidateNormal == pageNormalCandidateCount}
+            />
+          </Pagination>
+        </div>
       </div>
       <div className="w-full text-left ">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
@@ -330,7 +394,7 @@ export default function CandidateSearch() {
           </div>
         </div>
       </div>
-      {/* Pagination normal candidates and premiums */}
+      {/* Pagination normal candidates */}
       <div className="w-full flex justify-center mt-10">
         <Pagination>
           <Pagination.Prev

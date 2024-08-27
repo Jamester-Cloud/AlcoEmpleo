@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     //Consulta desde candidatos hasta personas. esto es para candidato normal
     const skip = (page - 1) * PER_PAGE;
 
-    console.log(skip)
+    //console.log(skip)
 
     let count = await Candidato.aggregate([
       {
@@ -128,8 +128,8 @@ export async function POST(request: NextRequest) {
 
     const pageCount = count.length / PER_PAGE;
 
-    console.log("Hay un total de:", count.length, "Candidatos sin destacar")
-    console.log("Candidatos despues de los filtros y el paginado: ", paginatedQuery, "en la pagina:", page)
+    // console.log("Hay un total de:", count.length, "Candidatos sin destacar")
+    // console.log("Candidatos despues de los filtros y el paginado: ", paginatedQuery, "en la pagina:", page)
 
     const response = NextResponse.json({
       message: "Succesfull data retrieve",

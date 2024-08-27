@@ -19,10 +19,14 @@ export async function POST(request: NextRequest) {
         let count = await Candidato.aggregate([
             {
                 $match: {
-                    "esDestacado": true
+                    "esDestacado": true,
+                },
+            },
+            {
+                $sort: {
+                    "perfil.calificaciones": -1
                 }
             },
-
             {
                 $lookup: {
                     from: "users",
@@ -36,6 +40,17 @@ export async function POST(request: NextRequest) {
             },
             {
                 $lookup: {
+                    from: "personas",
+                    localField: "usuarioData.idPersona",
+                    foreignField: "_id",
+                    as: "personaData"
+                }
+            },
+            {
+                $unwind: "$personaData"
+            },
+            {
+                $lookup: {
                     from: "documentos",
                     localField: "usuarioData._id",
                     foreignField: "idUsuario",
@@ -45,27 +60,14 @@ export async function POST(request: NextRequest) {
             {
                 $unwind: "$documentosData"
             },
-
-            {
-                $lookup: {
-                    from: "personas",
-                    localField: "usuarioData.idPersona",
-                    foreignField: "_id",
-                    as: "personaData"
-                }
-            },
-
-            {
-                $unwind: "$personaData"
-            },
             {
                 $project: {
-                    "candidato": "$$ROOT",
+                    "Candidato": "$$ROOT",
+                    usuarioData: "$usuarioData",
                     personaData: "$personaData",
-                    "documentosData": "$documentosData"
+                    documentos: "$documentosData"
                 }
             },
-
         ])
         // debo traer aca las paginas de los candidatos
         let candidatosPremiums: any = await Candidato.aggregate([
@@ -73,6 +75,11 @@ export async function POST(request: NextRequest) {
                 $match: {
                     "esDestacado": true,
                 },
+            },
+            {
+                $sort: {
+                    "perfil.calificaciones": -1
+                }
             },
             {
                 $lookup: {
@@ -117,25 +124,31 @@ export async function POST(request: NextRequest) {
             },
         ]).skip(skip).limit(PER_PAGE)
 
-        // trae solo los candidatos que tengan foto de perfil
-     
-
+        console.log(candidatosPremiums)
         //filtros para solo traerme los candidatos y sus fotos de perfil
-        candidatosPremiums = candidatosPremiums.filter((filter:any) => filter.documentosData.contentType != "application/pdf")
+        candidatosPremiums = candidatosPremiums.filter((filter: any) => filter.documentos.contentType != "application/pdf")
         //  aplicando el mismo filtro para count
-        count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
+        count = count.filter((filter) => filter.documentos.contentType != "application/pdf")
 
 
         const pageCount = count.length / PER_PAGE;
+
+        console.log("Contador de paginas", pageCount)
+
+        console.log("Pagina", page)
+
+        console.log("Offset de", skip)
+
+        console.log("Elementos por pagina", PER_PAGE)
 
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
             pagination: {
                 count: count.length,
-                pageCount:pageCount,
-              },
-              data: candidatosPremiums,
-              success: true,
+                pageCount: pageCount,
+            },
+            dataCandidatosPremium: candidatosPremiums,
+            success: true,
         })
         //console.log("hello world")
 
