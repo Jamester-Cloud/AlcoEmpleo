@@ -80,64 +80,81 @@ export const FormStepper = (props: any) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(goNext)} className="p-5">
+           <form onSubmit={handleSubmit(goNext)} className="p-5 space-y-6  w-full flex   justify-center items-center">
                 {data?.map((item: any, key: number) => {
                     return (
-                        <div className="form" key={key}>
+                        <div className="form text-center " key={key}>
                             {step === item.page && (
-                                <div key={key}>
-                                    <div className="col-md-12 mb-3">
-                                        {item.pregunta}
+                                <div className="bg-white p-6 rounded-lg shadow-md " key={key}>
+                                    <div className="mb-4">
+                                        <h2 className="text-lg font-semibold text-gray-800">{item.pregunta}</h2>
                                     </div>
-                                    <div className="col-md-12">
-                                        {/* Name input field */}
+                                    <div className="space-y-3">
+                                        {/* Opciones de respuesta */}
                                         {item.respuestas.map((respuestas: any, keyField: number) => {
                                             return (
-                                                <div key={keyField}>
-                                                    <ul>
-                                                        <li>
-                                                            <input type="radio" {...register(`respuestasCandidato`, {
-                                                                required: true
-                                                            })} value={respuestas.respuesta} />
-                                                            {respuestas.respuesta}
-                                                        </li>
-                                                    </ul>
-
-
+                                                <div key={keyField} className="flex items-center space-x-2">
+                                                    <input 
+                                                        type="radio" 
+                                                        {...register(`respuestasCandidato`, { required: true })}
+                                                        value={respuestas.respuesta}
+                                                        className="form-radio h-4 w-4 text-blue-600"
+                                                    />
+                                                    <label className="text-gray-700  text-justify">{respuestas.respuesta}</label>
                                                 </div>
-                                            )
+                                            );
                                         })}
+                                    </div>
 
-                                        <input type="hidden" {...register('pregunta')} value={item.pregunta} />
-                                        <input type="submit" value="Siguiente" className="mt-3 btn btn-primary" />
+                                    {/* Input oculto */}
+                                    <input type="hidden" {...register('pregunta')} value={item.pregunta} />
+                                    
+                                    {/* Botón siguiente */}
+                                    <div className="mt-5">
+                                        <input 
+                                            type="submit" 
+                                            value="Siguiente" 
+                                            className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+                                        />
                                     </div>
                                 </div>
                             )}
                         </div>
-                    )
+                    );
                 })}
+
+                {/* Mensaje al finalizar el cuestionario */}
                 {step > data?.length && (
-                    <div className="row">
-                        Cuestionario finalizado
-                        Tus respuestas:
+                    <div className="bg-gray-50 p-6 rounded-lg shadow-md space-y-4 ">
+                        <h3 className="text-lg font-bold text-gray-800 text-center">Cuestionario finalizado</h3>
+                        <p className="text-gray-600">Tus respuestas:</p>
                         {respuestasCandidatos?.map((item: any, key: number) => {
                             return (
-                                <div key={key}>
-                                    <p>{item.respuesta}</p>
-                                    <>{item.correcta ? <p className="text-success">Respuesta correcta</p> : <p className="text-danger">Respuesta incorrecta</p>}</>
-                                    <hr />
+                                <div key={key} className="space-y-2">
+                                    <p className="text-gray-800">"{item.respuesta}"</p>
+                                    {item.correcta ? 
+                                        <p className="text-green-600 font-semibold">Respuesta correcta</p> :
+                                        <p className="text-red-600 font-semibold">Respuesta incorrecta</p>}
+                                    <hr className="border-gray-200" />
                                 </div>
-                            )
+                            );
                         })}
-                        <p>Calificacíon final:{puntuacion}</p>
-                        <br />
-                        <p className="text-danger">Tus respuestas no se guardaran!</p>
-                      
-                        <div className="col-md-6">
-                            <button className="btn btn-info btn-block" onClick={() => sendData()}>Enviar</button>
+                        <p className="text-xl font-bold text-gray-800">Calificación final: {puntuacion}</p>
+                        <p className="text-red-500">¡Tus respuestas no se guardarán!</p>
+
+                        {/* Botón enviar */}
+                        <div className="pt-4">
+                            <button 
+                                className="w-full py-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+                                onClick={() => sendData()}
+                            >
+                                Enviar
+                            </button>
                         </div>
                     </div>
                 )}
+
+                {/* ToastContainer */}
                 <ToastContainer
                     position="top-right"
                     autoClose={5000}

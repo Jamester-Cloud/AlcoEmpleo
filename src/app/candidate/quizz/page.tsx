@@ -20,7 +20,9 @@ export default function Quizzes() {
     const router = useRouter()
 
     const [quizz, setQuizzes]: any = useState();
+   
     const [isPremium, setIsPremium] = useState<boolean | null>(null); // Estado para isPremium
+    const [loading, setLoading] = useState<string | null>(null); 
 
     const methods = useForm<FormValues>({
         defaultValues: {
@@ -39,6 +41,8 @@ export default function Quizzes() {
     } = methods;
 
     const retryQuizz = async (idCandidato: string, idQuizz: string) => {
+        
+        setLoading(idQuizz); // Establecer el estado de carga para el id del cuestionario
         console.log(idCandidato)
         console.log(idQuizz)
 
@@ -111,10 +115,21 @@ export default function Quizzes() {
                                         {item.finalizada ? (
                                             <>
                                                 Completado
-                                                {/* Todo corregir esto por data dinamica desde la db */}
-                                                {localStorage.getItem('isPremium') === 'true' ? <button style={{ textDecoration: 'none' }} onClick={() => retryQuizz(item.idCandidato, item._id)} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md">
-                                                    Reintentar
-                                                </button> : ''}
+                                                {isPremium && (
+                                                        loading === item._id ? (
+                                                            <button className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md" disabled>
+                                                                Cargando...
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                style={{ textDecoration: 'none' }}
+                                                                onClick={() => retryQuizz(item.idCandidato, item._id)}
+                                                                className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md"
+                                                            >
+                                                                Reintentar
+                                                            </button>
+                                                        )
+                                                    )}
                                             </>
                                         ) : (
                                             <Link style={{ textDecoration: 'none' }} href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
