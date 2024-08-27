@@ -80,7 +80,8 @@ export async function POST(request: NextRequest) {
         const newCandidato = new Candidato({
             idUsuario: savedUser._id,
             perfil: {},
-            idRegion: estado
+            idRegion: estado,
+            esDestacado:false
         })
 
         console.log(savedUser._id);
