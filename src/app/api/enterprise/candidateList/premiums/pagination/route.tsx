@@ -130,7 +130,6 @@ export async function POST(request: NextRequest) {
         //  aplicando el mismo filtro para count
         count = count.filter((filter) => filter.documentos.contentType != "application/pdf")
 
-
         const pageCount = count.length / PER_PAGE;
 
         console.log("Contador de paginas", pageCount)

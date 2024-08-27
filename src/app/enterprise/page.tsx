@@ -75,39 +75,37 @@ export default function CandidateSearch() {
   //Premium Page
   const goToPagePremiumCandidate = async (pageNumber: number) => {
     console.log(pageNumber)
-    const candidateData = await axios.post(
-      "/api/enterprise/candidateList",
-      { page: pageNumber }
+    const response: any = await axios.post(
+      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
     );
-    if (candidateData.status == 200) {
-      setCandidateNormal(candidateData.data.data);
-      setPageCandidateNormal(pageNumber);
+    if (response.status == 200) {
+      setCandidatePremiums(response.data.data);
+      setPageCandidatePremiums(pageNumber);
     }
   };
 
   const nextPageCandidatePremium = async (nextPage: number) => {
     console.log("Pagina siguiente");
-    const candidateData = await axios.post(
-      "/api/enterprise/candidateList", { page: nextPage }
+    const response: any = await axios.post(
+      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
     );
-    setCandidateNormal(candidateData.data.data);
-    setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
+    setCandidateNormal(response.data.data);
+    setPagePremiumsCandidateCount(response.data.pagination.pageCount);
 
-    if (candidateData.status == 200) {
+    if (response.status == 200) {
       setPageCandidateNormal(nextPage);
     }
   };
 
   const prevPageCandidatePremium = async (prevPage: number) => {
     console.log("Pagina previa");
-    const enterpriseData = await axios.post(
-      "/api/enterprise/pagination",
-      { page: prevPage }
+    const response: any = await axios.post(
+      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
     );
-    setCandidateNormal(enterpriseData.data.data);
-    setPageNormalCandidateCount(enterpriseData.data.pagination.pageCount);
-    if (enterpriseData.status == 200) {
-      setPageCandidateNormal(prevPage);
+    setCandidatePremiums(response.data.data);
+    setPagePremiumsCandidateCount(response.data.pagination.pageCount);
+    if (response.status == 200) {
+      setPageCandidatePremiums(prevPage);
     }
   };
 
@@ -220,10 +218,6 @@ export default function CandidateSearch() {
     setSelectedLocation(selectedOption);
   };
 
-  const handleSpecialtiesChange = (e: any) => {
-    setSelectedSpecialty(e.target.value);
-  };
-
   return (
     <section className="w-full">
       <div className="relative h-96 sm:h-80 md:h-96 lg:h-128 xl:h-144 w-full">
@@ -282,7 +276,6 @@ export default function CandidateSearch() {
           </div>
         </div>
       </div>
-
       <div className="w-full text-center my-20">
         <h3 className="text-lg text-blue-900 md:text-2xl font-bold">
           Contrata personas para tu negocio
@@ -295,31 +288,32 @@ export default function CandidateSearch() {
         ) : (
           <ListCarousel data={premiumsData} />
         )}
-        <div className="text-center">
-          {/* Paginado para candidatos premiums */}
-          <Pagination>
-            <Pagination.Prev
-              onClick={() => prevPageCandidateNormal(pageCandidateNormal - 1)}
-              disabled={pageCandidateNormal == 1}
-            />
-            {Array(parseInt(pageNormalCandidateCount))
-              .fill(null)
-              .map((_, key) => {
-                return (
-                  <Pagination.Item
-                    key={key}
-                    onClick={() => goToPageNormalCandidate(key + 1)}
-                  >
-                    {key + 1}s
-                  </Pagination.Item>
-                );
-              })}
-            <Pagination.Next
-              onClick={() => nextPageCandidateNormal(pageCandidateNormal + 1)}
-              disabled={pageCandidateNormal == pageNormalCandidateCount}
-            />
-          </Pagination>
-        </div>
+
+      </div>
+      <div className="text-center mr-5">
+        {/* Paginado para candidatos premiums */}
+        <Pagination>
+          <Pagination.Prev
+            onClick={() => prevPageCandidatePremium(pageCandidateNormal - 1)}
+            disabled={pageCandidateNormal == 1}
+          />
+          {Array(parseInt(pageNormalCandidateCount))
+            .fill(null)
+            .map((_, key) => {
+              return (
+                <Pagination.Item
+                  key={key}
+                  onClick={() => goToPagePremiumCandidate(key + 1)}
+                >
+                  {key + 1}s
+                </Pagination.Item>
+              );
+            })}
+          <Pagination.Next
+            onClick={() => nextPageCandidatePremium(pageCandidateNormal + 1)}
+            disabled={pageCandidateNormal == pageNormalCandidateCount}
+          />
+        </Pagination>
       </div>
       <div className="w-full text-left ">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
