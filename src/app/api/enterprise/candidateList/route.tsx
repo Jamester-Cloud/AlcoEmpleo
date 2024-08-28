@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   let { page } = reqJson;
 
   const PER_PAGE = 10
-
+  page = Math.max(0, page) 
   try {
     //Consulta desde candidatos hasta personas. esto es para candidato normal
     const skip = (page - 1) * PER_PAGE;
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
 
     const pageCount = count.length / PER_PAGE;
-
+    console.log(pageCount);
     // console.log("Hay un total de:", count.length, "Candidatos sin destacar")
     // console.log("Candidatos despues de los filtros y el paginado: ", paginatedQuery, "en la pagina:", page)
 
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
       message: "Succesfull data retrieve",
       pagination: {
         count: count.length,
-        pageCount: Math.floor(pageCount),
+        pageCount: pageCount,
       },
       data: paginatedQuery,
       success: true,

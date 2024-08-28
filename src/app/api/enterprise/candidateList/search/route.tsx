@@ -7,14 +7,15 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-  const { cargo, location, page } = await request.json()
+  const reqJson = await request.json()
 
-  console.log(page);
+  let { cargo, location } = reqJson
+
+
 
   let objectLocationId;
   if (location) objectLocationId = Types.ObjectId.createFromHexString(location)
-  const PER_PAGE = 4
-  const skip = (page - 1) * PER_PAGE;
+  const PER_PAGE = 5
   try {
 
     const candidatePremiums: any = await Candidato.aggregate([
@@ -29,9 +30,11 @@ export async function POST(request: NextRequest) {
       },
       {
         $match: {
-          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') },
-          "idRegion": objectLocationId,
-          "esDestacado": true
+          $or: [
+            { "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') }, },
+            { "idRegion": objectLocationId, },
+            { "esDestacado": true }
+          ]
         }
       },
       {
@@ -94,7 +97,7 @@ export async function POST(request: NextRequest) {
       },
       {
         $project: {
-          "Candidato": "$$ROOT",
+          "candidato": "$$ROOT",
           idPersona: "$usuarioData.idPersona",
         }
       },
@@ -109,14 +112,14 @@ export async function POST(request: NextRequest) {
       {
         $unwind: "$personaData"
       }
-    ]).skip(skip).limit(PER_PAGE)
+    ])
 
     const count = await Candidato.countDocuments({ esDestacado: false })
 
     const pageCount = count / PER_PAGE;
 
     //let mappedData = mapper(candidato);
-    console.log("Consulta paginada: ",paginatedQuery);
+    console.log("Consulta paginada: ", paginatedQuery);
     console.log("Consulta para premiums", candidatePremiums);
 
 

@@ -3,10 +3,10 @@ import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import ListCarousel from "../components/carousel/Carousel";
 import Image from "next/image";
-import CabeceraEmpresa from "../components/cabeceras/cabeceraEmpresa";
 import Link from "next/link";
 import Pagination from "react-bootstrap/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useForm, Controller } from "react-hook-form";
 import {
   faCheckCircle,
   faWallet,
@@ -17,13 +17,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 
+type FormValues = {
+  cargo: string
+  idRegion: string,
+}
+
+
 export default function CandidateSearch() {
   // States
   const [page, setPage] = React.useState<any>(1);
   const [regions, setRegions] = React.useState<any>();
-  //const [candidateList, setCandidateList] = React.useState<any>();
-  const [selectedLocation, setSelectedLocation] = React.useState<any>();
-  const [selectedSpecialty, setSelectedSpecialty] = React.useState(null);
   const [premiumsData, setPremiumsData] = React.useState<any>();
   //pagination normal
   const [candidatesNormal, setCandidateNormal]: any = React.useState();
@@ -34,18 +37,47 @@ export default function CandidateSearch() {
   const [pageCandidatePremiums, setPageCandidatePremiums] = React.useState(1);
   const [pagePremiumsCandidateCount, setPagePremiumsCandidateCount]: any = React.useState(1);
 
-  //Normal control page
-  const goToPageNormalCandidate = async (pageNumber: number) => {
-    console.log(pageNumber)
-    const candidateData = await axios.post(
-      "/api/enterprise/candidateList",
-      { page: pageNumber }
-    );
-    if (candidateData.status == 200) {
-      setCandidateNormal(candidateData.data.data);
-      setPageCandidateNormal(pageNumber);
+
+  const fetchNormalCandidates = async () => {
+    try {
+      const res = await axios.post('/api/enterprise/candidateList', { page: pageCandidateNormal })
+      if (res.status == 200) {
+        console.log(res.data)
+        setCandidateNormal(res.data.data);
+        setPageNormalCandidateCount(res.data.pagination.pageCount);
+        //console.log(candidatesNormal)
+      }
+    } catch (error) {
+      console.error(Error)
     }
-  };
+  }
+
+  const methods = useForm<FormValues>({
+    defaultValues: {
+      cargo: "",
+      idRegion: ""
+    }
+  });
+
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = methods;
+
+  //Normal control page
+  // const goToPageNormalCandidate = async (pageNumber: number) => {
+  //   console.log(pageNumber)
+  //   const candidateData = await axios.post(
+  //     "/api/enterprise/candidateList",
+  //     { page: pageNumber }
+  //   );
+  //   if (candidateData.status == 200) {
+  //     setCandidateNormal(candidateData.data.data);
+  //     setPageCandidateNormal(pageNumber);
+  //   }
+  // };
 
   const nextPageCandidateNormal = async (nextPage: number) => {
     console.log("Pagina siguiente");
@@ -63,7 +95,7 @@ export default function CandidateSearch() {
   const prevPageCandidateNormal = async (prevPage: number) => {
     console.log("Pagina previa");
     const enterpriseData = await axios.post(
-      "/api/enterprise/pagination",
+      "/api/enterprise/candidateList",
       { page: prevPage }
     );
     setCandidateNormal(enterpriseData.data.data);
@@ -73,16 +105,16 @@ export default function CandidateSearch() {
     }
   };
   //Premium Page
-  const goToPagePremiumCandidate = async (pageNumber: number) => {
-    console.log(pageNumber)
-    const response: any = await axios.post(
-      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
-    );
-    if (response.status == 200) {
-      setCandidatePremiums(response.data.data);
-      setPageCandidatePremiums(pageNumber);
-    }
-  };
+  // const goToPagePremiumCandidate = async (pageNumber: number) => {
+  //   console.log(pageNumber)
+  //   const response: any = await axios.post(
+  //     "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
+  //   );
+  //   if (response.status == 200) {
+  //     setCandidatePremiums(response.data.data);
+  //     setPageCandidatePremiums(pageNumber);
+  //   }
+  // };
 
   const nextPageCandidatePremium = async (nextPage: number) => {
     console.log("Pagina siguiente");
@@ -135,23 +167,10 @@ export default function CandidateSearch() {
     }
   };
 
-  const fetchNormalCandidates = async () => {
-    try {
-      const res = await axios.post('/api/enterprise/candidateList', { page: pageCandidateNormal })
-      if (res.status == 200) {
-        console.log(res.data)
-        setCandidateNormal(res.data.data);
-        setPageNormalCandidateCount(res.data.pagination.pageCount);
-        console.log(candidatesNormal)
-      }
-    } catch (error) {
-      console.error(Error)
-    }
-  }
-
   useEffect(() => {
     fetchNormalCandidates()
     console.log(candidatesNormal)
+    console.log(pageNormalCandidateCount);
   }, [!candidatesNormal])
 
   useEffect(() => {
@@ -175,48 +194,21 @@ export default function CandidateSearch() {
     }
   }, [regions]);
 
-  const handleSubmitFilter = async (e: any) => {
-    e.preventDefault();
-    let filter = { cargo: selectedSpecialty || '', location: selectedLocation?.value || '', page: page };
+  const handleSubmitFilter = async (data: any) => {
+    console.log(data);
+    let filter = { cargo: data.cargo || '', location: data.idRegion.value || '', page: page };
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
-        //setPremiumsData(response.data.candidatePremiums);
-        //setCandidateList(response.data.paginatedQuery);
+        response.data
+        setPremiumsData(response.data.candidatePremiums);
+        setCandidateNormal(response.data.paginatedQuery);
       }
     } catch (err) {
       console.log(err);
     }
   };
 
-  // if (error) {
-  //   return <div>{JSON.stringify(error)}</div>;
-  // }
-
-  // if (!data) {
-  //   return <p>Loading...</p>;
-  // }
-
-  // const handlePageChange = async (newPage: number) => {
-  //   setPage(newPage);
-  //   //await mutate();
-  // };
-
-  // const handlePrevious = () => {
-  //   // if (page > 1) {
-  //   //   handlePageChange(page - 1);
-  //   // }
-  // };
-
-  const handleNext = () => {
-    //   if (page < pageCount) {
-    //     handlePageChange(page + 1);
-    //   }
-  };
-
-  const handleLocationChange = (selectedOption: any) => {
-    setSelectedLocation(selectedOption);
-  };
 
   return (
     <section className="w-full">
@@ -240,29 +232,24 @@ export default function CandidateSearch() {
             <h3 className="text-lg md:text-2xl font-bold">
               Búsqueda personalizada
             </h3>
-            <form onSubmit={(e) => handleSubmitFilter(e)} method="post">
+            <form onSubmit={handleSubmit(handleSubmitFilter)} method="post">
               <div className="flex flex-col items-center">
                 <div className="grid grid-cols-2 md:grid-cols-2 gap-4 w-full max-w-lg">
                   <div className="flex items-center">
                     <input
                       placeholder="Cargo"
                       className="w-full form-control"
-                      name="cargo"
+                      {...register('cargo')}
                     />
                   </div>
                   <div className="flex items-center">
-                    <Select
-                      options={regions}
-                      value={selectedLocation}
-                      onChange={handleLocationChange}
-                      placeholder="Ubicación"
-                      isClearable={true}
-                      className="w-full"
-                      name="estado"
-                      menuPortalTarget={document?.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
+                    <Controller
+                      name="idRegion"
+                      control={control}
+                      render={({ field }) => <Select isClearable className="w-full"
+                        {...field}
+                        options={regions}
+                      />}
                     />
                   </div>
                 </div>
@@ -297,7 +284,7 @@ export default function CandidateSearch() {
             onClick={() => prevPageCandidatePremium(pageCandidateNormal - 1)}
             disabled={pageCandidateNormal == 1}
           />
-          {Array(parseInt(pageNormalCandidateCount))
+          {/* {Array(parseInt(pagePremiumsCandidateCount))
             .fill(null)
             .map((_, key) => {
               return (
@@ -305,10 +292,10 @@ export default function CandidateSearch() {
                   key={key}
                   onClick={() => goToPagePremiumCandidate(key + 1)}
                 >
-                  {key + 1}s
+                  {key + 1}
                 </Pagination.Item>
               );
-            })}
+            })} */}
           <Pagination.Next
             onClick={() => nextPageCandidatePremium(pageCandidateNormal + 1)}
             disabled={pageCandidateNormal == pageNormalCandidateCount}
@@ -346,14 +333,14 @@ export default function CandidateSearch() {
                     <div className="flex-grow ml-4">
                       <h5 className="text-lg font-bold">
                         <a className="text-blue-900" href="#">
-                          {item.personaData.nombre}  {item.personaData.apellido}
+                          {item?.personaData?.nombre}  {item?.personaData?.apellido}
                         </a>
                         <span className="badge bg-success rounded-full ml-4">
                           <FontAwesomeIcon icon={faCheckCircle} /> Verificado
                         </span>
                       </h5>
                       <p className="text-sm text-gray-600">
-                        {item.candidato.perfil.puestoDeseado}
+                        {item?.candidato?.perfil?.puestoDeseado}
                       </p>
                       <ul className="list-none p-0">
                         <li className="text-gray-600 text-sm flex items-center">
@@ -365,7 +352,7 @@ export default function CandidateSearch() {
                         </li>
                         <li className="text-gray-600 text-sm flex items-center">
                           <FontAwesomeIcon icon={faWallet} className="mr-1" />{" "}
-                          {item.candidato.perfil.salarioDeseado} $
+                          {item?.candidato?.perfil?.salarioDeseado} $
                         </li>
                       </ul>
                     </div>
@@ -395,7 +382,7 @@ export default function CandidateSearch() {
             onClick={() => prevPageCandidateNormal(pageCandidateNormal - 1)}
             disabled={pageCandidateNormal == 1}
           />
-          {Array(parseInt(pageNormalCandidateCount))
+          {/* {Array(parseInt(pageNormalCandidateCount))
             .fill(null)
             .map((_, key) => {
               return (
@@ -403,10 +390,10 @@ export default function CandidateSearch() {
                   key={key}
                   onClick={() => goToPageNormalCandidate(key + 1)}
                 >
-                  {key + 1}s
+                  {key + 1}
                 </Pagination.Item>
               );
-            })}
+            })} */}
           <Pagination.Next
             onClick={() => nextPageCandidateNormal(pageCandidateNormal + 1)}
             disabled={pageCandidateNormal == pageNormalCandidateCount}

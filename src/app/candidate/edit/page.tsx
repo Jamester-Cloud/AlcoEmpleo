@@ -176,7 +176,7 @@ export default function UserCandidate() {
 
             </div>
             <div className="col-md-2 justify-content-right align-items-right">
-              <button className="ml-5 top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData.perfil, candidatoData._id, "perfil")}>
+              <button className="ml-5 top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md" onClick={(e) => handleModal(e, "Perfil del candidato", candidatoData?.candidatoData, candidatoData._id, "perfil")}>
                 Editar perfil
               </button>
             </div>

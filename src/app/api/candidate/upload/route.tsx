@@ -33,6 +33,7 @@ export const POST = async (request: NextRequest) => {
                     idUsuario: formData.get('idUsuario'),
                     bucketName: 'candidateProfilePics'
                 }
+
                 update = {
                     $set: {
                         idUsuario: formData.get('idUsuario'),
@@ -96,6 +97,7 @@ export const POST = async (request: NextRequest) => {
                         "perfil.descripcionPersonal": formData.get('perfil[descripcionPersonal]'),
                         "perfil.puestoDeseado": formData.get('perfil[puestoDeseado]'),
                         "perfil.salarioDeseado": formData.get('perfil[salarioDeseado]'),
+                        idRegion: formData.get('idRegion[value]')
                     }
                 }
                 //codigo que maneja las peticiones de idiomas

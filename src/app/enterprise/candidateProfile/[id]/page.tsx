@@ -5,6 +5,7 @@ import {
   faCopy,
   faEllipsisV,
   faFlag,
+  faStar,
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -25,8 +26,8 @@ export default function EnterpriseProfilePage({ params }: any) {
   const whatsappMessage = encodeURIComponent(
     "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
   );
-   
-  const [isPremium, setIsPremium] = useState<boolean | null>(null); 
+
+  const [isPremium, setIsPremium] = useState<boolean | null>(null);
   useEffect(() => {
     const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
     setIsPremium(isPremiumFromStorage);
@@ -38,7 +39,7 @@ export default function EnterpriseProfilePage({ params }: any) {
 
   const fetchCandidateData = async () => {
     try {
-      
+
       const response = await axios.post("/api/enterprise/candidate", {
         id: id,
       });
@@ -48,7 +49,7 @@ export default function EnterpriseProfilePage({ params }: any) {
 
       setData(response.data.data[0]);
 
-      console.log(data);
+      console.log(response.data);
     } catch (error) {
       console.log("Peticion errada", error);
     }
@@ -80,16 +81,16 @@ export default function EnterpriseProfilePage({ params }: any) {
                 className="rounded-full"
                 width={100}
               />
-              <h4>{data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
+              <h4> {data?.personaData?.nombre} {data?.personaData?.apellido}</h4>
+
               <p
-              className={`${
-                data?.candidato?.esDestacado
+                className={`${data?.candidato?.esDestacado
                   ? "bg-green-800 text-white font-bold py-2 px-4 rounded-full shadow-lg border border-green-900 animate-bounce"
                   : ""
-              }`}
-            >
-              {data?.candidato?.esDestacado && "Destacado"}
-            </p>
+                  }`}
+              >
+                {data?.candidato?.esDestacado && "Destacado"}
+              </p>
               <h6 className="text-blue-500">{data?.emailUsuario}</h6>
               <p className="text-secondary mb-0">{data?.candidato?.perfil?.puestoDeseado}</p>
               <div className="mt-2 space-y-2 w-full">
@@ -97,18 +98,24 @@ export default function EnterpriseProfilePage({ params }: any) {
                   Descargar CV
                 </a> : 'Sin Curriculum Vitae'}
 
-                
-              {isPremium && (
-            <button className="btn btn-success w-full">
-              <Link
-                href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
-                className="mdi mdi-whatsapp text-white text-decoration-none w-full"
-                passHref
-              >
-                Contactar
-              </Link>
-            </button>
-              )}
+
+                {isPremium && (
+                  <button className="btn btn-success w-full">
+                    <Link
+                      href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
+                      className="mdi mdi-whatsapp text-white text-decoration-none w-full"
+                      passHref
+                    >
+                      Contactar
+                    </Link>
+                  </button>
+                )}
+
+                <p className="mt-3">Calificación en cuestionarios</p>
+                <div className="mt-3 mb-2 p-2">
+
+                  <p><FontAwesomeIcon className="text-info" icon={faStar} />{data?.candidato?.perfil?.calificaciones}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -129,7 +136,9 @@ export default function EnterpriseProfilePage({ params }: any) {
           <div className="card mt-3 mb-2 p-2">
             {data?.candidato?.perfil?.descripcionPersonal}
           </div>
+
         </div>
+
         <div className="w-full md:flex-1 p-2">
           <div className="card mb-3">
             <div className="card-body">

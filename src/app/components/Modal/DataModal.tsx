@@ -2,7 +2,8 @@
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal'
 import React, { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import Select from "react-select";
 import { faDeleteLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ToastContainer, toast, Bounce } from 'react-toastify';
@@ -57,7 +58,8 @@ type FormValues = {
     idAcademic: string
     idUsuario: string,
     idPersona: string,
-    profilePicture: File
+    profilePicture: File,
+    idRegion: string
 };
 
 export default function DataModal(props: any) {
@@ -65,6 +67,8 @@ export default function DataModal(props: any) {
     let { data, title, show, onHide, candidatoData, setCandidatoData, setShow, modalType, id, setQuiz } = props;
     console.log(id)
     console.log(modalType);
+
+    const [regions, setRegions] = React.useState<any>();
 
 
     const methods = useForm<FormValues>({
@@ -135,7 +139,27 @@ export default function DataModal(props: any) {
         reset({ ...defaultValues })
     }, [data?.idiomas])
 
+    const fetchRegions = async () => {
+        try {
+            const response = await axios.get("/api/enterprise/candidate/regions");
+            if (response.status === 200) return { regions: response.data.regiones };
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
+    useEffect(() => {
+        if (!regions) {
+            (async () => {
+                try {
+                    const dataRegions: any = await fetchRegions();
+                    setRegions(dataRegions.regions);
+                } catch (err: any) {
+                    console.error("Error al cargar los datos del usuario", err);
+                }
+            })();
+        }
+    }, [regions]);
 
     useEffect(() => {
         let defaultValues = {
@@ -316,7 +340,7 @@ export default function DataModal(props: any) {
 
                 break
             case 'Datos personales':
-                console.log(data);
+
                 return (
                     <form className='form' encType='multipart/form-data' method='post' onSubmit={handleSubmit(onSubmitWithFiles)}>
                         <div className="row" >
@@ -338,9 +362,11 @@ export default function DataModal(props: any) {
                             <div className="col-md-6"><label className="labels">Email</label><input type="text"
                                 className="form-control" defaultValue={data?.emailUsuario} placeholder="Email" {...register("email")} />
                             </div>
+
                             <div className="col-md-6"><label className="labels">Telefono</label><input type="text"
                                 className="form-control" defaultValue={data?.telefono} placeholder="Telefono"  {...register("telefono")} />
                             </div>
+
                             <div className="col-md-12"><label className="labels">Dirección</label>
                                 <textarea
                                     className="form-control" defaultValue={data?.direccion} placeholder="direccion"  {...register("direccion")} />
@@ -444,17 +470,31 @@ export default function DataModal(props: any) {
                 )
                 break
             case 'Perfil del candidato':
+                console.log(data);
                 return (
                     <form onSubmit={handleSubmit(onSubmitWithFiles)} className='form '>
                         <div className="row" >
                             <div className="col-md-12"><label className="labels">Descripcion Personal</label><textarea className="form-control"
-                                defaultValue={data?.descripcionPersonal} {...register("perfil.descripcionPersonal")} placeholder="experience" /></div> <br />
+                                defaultValue={data?.perfil?.descripcionPersonal} {...register("perfil.descripcionPersonal")} placeholder="experience" /></div> <br />
                             <div className="col-md-6"><label className="labels">Puesto Deseado</label><input type="text"
-                                className="form-control" defaultValue={data?.puestoDeseado} {...register("perfil.puestoDeseado")} placeholder="Puesto deseado" />
+                                className="form-control" defaultValue={data?.perfil?.puestoDeseado} {...register("perfil.puestoDeseado")} placeholder="Puesto deseado" />
                             </div>
                             <div className="col-md-6"><label className="labels">Salario</label><input type="text"
-                                className="form-control" {...register("perfil.salarioDeseado")} defaultValue={data?.salarioDeseado} placeholder="Salario" />
+                                className="form-control" {...register("perfil.salarioDeseado")} defaultValue={data?.perfil?.salarioDeseado} placeholder="Salario" />
                                 <input type="hidden" {...register('idUsuario')} defaultValue={localStorage?.getItem('idUsuario') as string} />
+                            </div>
+                            <div className="col-md-6">
+                                <label className="labels">Region</label>
+                                <Controller
+                                    name="idRegion"
+                                    control={control}
+                                    render={({ field }) =>
+                                        <Select isClearable className="form-control"
+                                            {...field}
+                                            options={regions}
+                                        />
+                                    }
+                                />
                             </div>
                             <div className="col-md-12 mt-4">
                                 <label className="labels">Curriculum</label>
