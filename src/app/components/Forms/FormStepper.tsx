@@ -131,7 +131,7 @@ export const FormStepper = (props: any) => {
                         {respuestasCandidatos?.map((item: any, key: number) => {
                             return (
                                 <div key={key} className="space-y-2">
-                                    <p className="text-gray-800">"{item.respuesta}"</p>
+                                    <p className="text-gray-800">{item.respuesta}</p>
                                     {item.correcta ? 
                                         <p className="text-green-600 font-semibold">Respuesta correcta</p> :
                                         <p className="text-red-600 font-semibold">Respuesta incorrecta</p>}
