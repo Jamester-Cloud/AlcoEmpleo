@@ -6,7 +6,7 @@ import { getDataFromToken } from "@/helpers/getDataFromToken";
 connect()
 
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const userData = getDataFromToken(request);
     try {
         let empresa = await Empresa.findOne({ idUsuario: userData.id });

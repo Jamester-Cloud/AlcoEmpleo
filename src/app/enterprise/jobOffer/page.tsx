@@ -144,7 +144,7 @@ export default function JobOffer() {
     }, [!data])
 
     const getPublicaciones = async () => {
-        const res = await axios.get('/api/enterprise/jobOffer/')
+        const res = await axios.post('/api/enterprise/jobOffer/')
         if (res.status == 200) {
             console.log(res)
             setOfertas(res.data.ofertas);
