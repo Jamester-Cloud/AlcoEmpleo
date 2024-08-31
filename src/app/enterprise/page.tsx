@@ -196,7 +196,7 @@ export default function CandidateSearch() {
 
   const handleSubmitFilter = async (data: any) => {
     console.log(data);
-    let filter = { cargo: data.cargo || '', location: data.idRegion.value || '', page: page };
+    let filter = { cargo: data.cargo || '', location: data?.idRegion?.value || '', page: page };
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {

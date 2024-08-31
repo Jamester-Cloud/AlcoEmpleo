@@ -1,4 +1,4 @@
-import mongoose, {Types} from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 
 const userSchema = new mongoose.Schema({
@@ -11,34 +11,34 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Por favor introduce una contraseña"],
     },
-  
-    isVerified:{
-        type:Boolean,
-        default:false
+
+    isVerified: {
+        type: Boolean,
+        default: false
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
+    isAdmin: {
+        type: Boolean,
+        default: false
     },
-    isPremium:{
-        type:Boolean,
-        default:false
+    isPremium: {
+        type: Boolean,
+        default: false
     },
-    idPersona:{
-        type:Types.ObjectId,
-        required:[true, "IdPersona requerido para relacionar"]
+    idPersona: {
+        type: Types.ObjectId,
+        required: [true, "IdPersona requerido para relacionar"]
     },
-    idRol:{
-        type:Types.ObjectId,
-        required:[true, "IdRol requerido para relacionar al usuario con un rol especifico"]
+    idRol: {
+        type: Types.ObjectId,
+        required: [true, "IdRol requerido para relacionar al usuario con un rol especifico"]
     },
-    forgotPasswordToken:String,
-    forgotPasswordTokenExpire:Date,
-    verifyToken:String,
-    verifyTokenExpiry:Date,
-    fechaIngreso:Date,
-    estatus:Boolean
-    
+    forgotPasswordToken: String,
+    forgotPasswordTokenExpire: Date,
+    verifyToken: String,
+    verifyTokenExpiry: Date,
+    fechaIngreso: Date,
+    estatus: { type: Boolean, default: true }
+
 })
 
 

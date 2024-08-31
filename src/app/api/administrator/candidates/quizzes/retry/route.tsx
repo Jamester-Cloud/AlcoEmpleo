@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
         let result = await model.generateContent(prompt)
         let preguntas: any = JSON.parse(result.response.text());
-        console.log(preguntas)
+        
         let filter = {
             _id: idQuizz
         }

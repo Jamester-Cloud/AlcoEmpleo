@@ -48,9 +48,8 @@ type FormValues = {
 
 
   }
-
-
 };
+
 export default function AdminPage() {
   const methods = useForm<FormValues>({
     defaultValues: {
@@ -226,7 +225,7 @@ export default function AdminPage() {
       setCandidates(candidateData.data.data);
       setPageCandidate(pageCandidate);
       setCandidatePageCount(parseInt(candidateData.data.pagination.pageCount));
-      console.log(candidateData.data.pagination.pageCount);
+      console.log(candidateData.data);
     }
   };
 
@@ -323,13 +322,13 @@ export default function AdminPage() {
   };
 
   //table functions
-  const handleUserSubscripcion = async (id: string, isPremium: boolean, userType: String, requestType:boolean) => {
+  const handleUserSubscripcion = async (id: string, isPremium: boolean, userType: String, requestType: boolean) => {
     try {
       const subscription = await axios.post("/api/administrator/subscription", {
         idUsuario: id,
         isPremium: isPremium,
-        userType:userType,
-        requestType:requestType
+        userType: userType,
+        requestType: requestType
       });
       if (subscription.status === 200)
         console.log("Peticion completada exitosamente"),
@@ -402,6 +401,21 @@ export default function AdminPage() {
           transition: Bounce,
         });
   };
+
+  //Delete User
+  const handleUserStatus = async (idUser: string, requestType: boolean) => {
+    try {
+      console.log(idUser);
+      console.log(requestType);
+      const user = await axios.post('/api/administrator/users', { idUsuario: idUser, requestType: requestType })
+      if (user.status == 200) {
+        await fetchCandidateData()
+        await fetchEnterpriseData()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -480,14 +494,39 @@ export default function AdminPage() {
                   )}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  <Link
+                    href={`/admin/candidateProfile/${item._id}`}
+                    className="btn btn-primary btn-md py-2 px-4 rounded text-white"
+                  >
                     Ver Perfil
-                  </button>
+                  </Link>
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded-md">
-                    Suspender Usuario
-                  </button>
+                  {item.usuarioData.estatus ? (
+                    <button
+                      onClick={() =>
+                        handleUserStatus(
+                          item.usuarioData._id,
+                          false
+                        )
+                      }
+                      className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Suspender usuario
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        handleUserStatus(
+                          item.usuarioData._id,
+                          true
+                        )
+                      }
+                      className="bg-green-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Activar usuario
+                    </button>
+                  )}
                 </td>
                 <td className="py-2 px-4 border-b">
                   <Link href={`/admin/quizzes/${item._id}`} className="btn btn-info text-white text-xs py-2 px-4 rounded">
@@ -609,9 +648,31 @@ export default function AdminPage() {
                   </button>
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded-md">
-                    Suspender Usuario
-                  </button>
+                  {item.usuarioData.estatus ? (
+                    <button
+                      onClick={() =>
+                        handleUserStatus(
+                          item.usuarioData._id,
+                          false
+                        )
+                      }
+                      className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Suspender usuario
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        handleUserStatus(
+                          item.usuarioData._id,
+                          true
+                        )
+                      }
+                      className="bg-green-500 text-white px-4 py-2 rounded-md"
+                    >
+                      Activar usuario
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

@@ -49,7 +49,6 @@ export async function POST(request: NextRequest) {
             paginatedCandidateQuery,
             success: true,
         })
-        //console.log("hello world")
 
         return response;
 

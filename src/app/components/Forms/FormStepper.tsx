@@ -139,7 +139,7 @@ export const FormStepper = (props: any) => {
                                 </div>
                             );
                         })}
-                        <p className="text-xl font-bold text-gray-800">Calificación final: {puntuacion}</p>
+                        <p className="text-xl font-bold text-gray-800">Calificación final: {puntuacion} / 5</p>
                         <p className="text-red-500">¡Tus respuestas no se guardarán!</p>
 
                         {/* Botón enviar */}
