@@ -34,7 +34,7 @@ export default function CabeceraEmpresa() {
     return (
         <header className="w-full bg-blue-950 navbar navbar-expand-lg p-0">
             <div className="container flex justify-between items-center">
-                <a href="/">
+                <Link href="/enterprise">
                     <Image
                         width={110}
                         height={80}
@@ -42,7 +42,7 @@ export default function CabeceraEmpresa() {
                         src="/AlcoSloganLogo.png"
                         alt="GrupoAlco"
                     />
-                </a>
+                </Link>
                 <div className="md:hidden">
                     <button onClick={toggleMenu} className="text-white focus:outline-none">
                         <FontAwesomeIcon icon={faBars} width={30} height={30} />

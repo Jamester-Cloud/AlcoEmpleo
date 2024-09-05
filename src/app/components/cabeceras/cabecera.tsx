@@ -16,15 +16,15 @@ export default function Cabecera() {
   return (
     <header className="w-full top-0 bg-white bg-opacity-75 rounded-2xl z-50">
       <div className="container mx-auto flex justify-between items-center py-3 pb-20">
-        <a className="navbar-brand">
+        <Link href="/">
           <Image
-            width={50}
+            width={110}
             height={80}
-            className="img-fluid rounded-2xl p-1"
+            className="img-fluid rounded-2xl pt-1 pl-1 pb-1"
             src="/AlcoSloganLogo.png"
             alt="GrupoAlco"
           />
-        </a>
+        </Link>
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
