@@ -50,7 +50,7 @@ export default function UserProfile() {
   const [userData, setUserData]: any = useState({});
 
   const getUserDetails = async () => {
-    const res = await axios.get("../api/enterprise/me");
+    const res = await axios.post("../api/enterprise/me", { idUsuario: localStorage.getItem('idUsuario'), idPersona: localStorage.getItem('idPersona') });
     console.log(res.data)
     setUserData({ ...res.data.userData, personaData: res.data.personaData, logoEmpresa: res?.data?.logo?.idArchivo, acta: res?.data?.acta })
   };
