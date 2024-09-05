@@ -5,65 +5,71 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-    const reqJson = await request.json()
-    let update;
-    let filter;
-    let {
-        data: {
-            tituloOferta,
-            descripcionOferta,
-            beneficios,
-            requisitos,
-            modalidadTrabajo,
-            idEmpresa,
-        },
-        isUpdate,
-        idOferta
-    } = reqJson;
+    try {
+        const reqJson = await request.json()
+        let update;
+        let filter;
+        let {
+            data: {
+                tituloOferta,
+                descripcionOferta,
+                beneficios,
+                requisitos,
+                modalidadTrabajo,
+                idEmpresa,
+            },
+            isUpdate,
+            idOferta
+        } = reqJson;
 
-    console.log(reqJson);
+        console.log(reqJson);
 
-    console.log(isUpdate);
+        console.log(isUpdate);
 
-    if (isUpdate) {
+        if (isUpdate) {
 
-        console.log("Oferta actualizada exitosamente")
+            console.log("Oferta actualizada exitosamente")
 
-        filter = { _id: idOferta }
-        console.log(filter);
+            filter = { _id: idOferta }
+            console.log(filter);
 
-        update = {
-            $set: {
+            update = {
+                $set: {
+                    tituloOferta: tituloOferta,
+                    beneficios: beneficios,
+                    requisitos: requisitos,
+                    idEmpresa: idEmpresa,
+                    modalidadTrabajo: modalidadTrabajo,
+                    descripcionOfertaTrabajo: descripcionOferta
+                }
+            }
+
+            console.log(update)
+
+            await OfertaTrabajo.updateOne(filter, update);
+
+        } else {
+            console.log("Oferta guardada exitosamente")
+            await new OfertaTrabajo({
                 tituloOferta: tituloOferta,
+                descripcionOfertaTrabajo: descripcionOferta,
                 beneficios: beneficios,
                 requisitos: requisitos,
                 idEmpresa: idEmpresa,
-                modalidadTrabajo: modalidadTrabajo,
-                descripcionOfertaTrabajo:descripcionOferta
-            }
+                modalidadTrabajo: modalidadTrabajo
+            }).save()
         }
 
-        console.log(update)
 
-        await OfertaTrabajo.updateOne(filter, update);
 
-    } else {
-        console.log("Oferta guardada exitosamente")
-        await new OfertaTrabajo({
-            tituloOferta: tituloOferta,
-            descripcionOfertaTrabajo: descripcionOferta,
-            beneficios: beneficios,
-            requisitos: requisitos,
-            idEmpresa: idEmpresa,
-            modalidadTrabajo: modalidadTrabajo
-        }).save()
+        const response = NextResponse.json({
+            message: "Oferta guardada exitosamente",
+            success: true
+        })
+        return response
+    } catch (error: any) {
+        console.log(error.lineNumber,);
+        return NextResponse.json({ error: error + " and error is:" + error.message + " " + error.lineNumber }, { status: 500 })
+
     }
-
-
-
-    const response = NextResponse.json({
-        message: "Oferta guardada exitosamente",
-        success: true
-    })
-    return response
 }
