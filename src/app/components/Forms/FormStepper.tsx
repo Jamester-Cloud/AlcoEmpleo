@@ -84,41 +84,46 @@ export const FormStepper = (props: any) => {
                 {data?.map((item: any, key: number) => {
                     return (
                         <div className="form text-center " key={key}>
-                            {step === item.page && (
-                                <div className="bg-white p-6 rounded-lg shadow-md " key={key}>
-                                    <div className="mb-4">
-                                        <h2 className="text-lg font-semibold text-gray-800">{item.pregunta}</h2>
-                                    </div>
-                                    <div className="space-y-3">
-                                        {/* Opciones de respuesta */}
-                                        {item.respuestas.map((respuestas: any, keyField: number) => {
-                                            return (
-                                                <div key={keyField} className="flex items-center space-x-2">
-                                                    <input 
-                                                        type="radio" 
-                                                        {...register(`respuestasCandidato`, { required: true })}
-                                                        value={respuestas.respuesta}
-                                                        className="form-radio h-4 w-4 text-blue-600"
-                                                    />
-                                                    <label className="text-gray-700  text-justify">{respuestas.respuesta}</label>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
+                       {step === item.page && (
+  <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md max-w-full mx-auto" key={key}>
+    <div className="mb-4">
+      {/* Ajuste de tamaño y justificación del texto */}
+      <h2 className="text-base sm:text-lg font-semibold text-gray-800 text-justify">
+        {item.pregunta}
+      </h2>
+    </div>
+    <div className="space-y-3">
+      {/* Opciones de respuesta */}
+      {item.respuestas.map((respuestas: any, keyField: number) => {
+        return (
+          <div key={keyField} className="flex items-center space-x-2">
+            <input 
+              type="radio" 
+              {...register(`respuestasCandidato`, { required: true })}
+              value={respuestas.respuesta}
+              className="form-radio h-4 w-4 text-blue-600 "
+            />
+            <label className="text-gray-700  text-xs  sm:text-lg text-justify p-1">
+              {respuestas.respuesta}
+            </label>
+          </div>
+        );
+      })}
+    </div>
 
-                                    {/* Input oculto */}
-                                    <input type="hidden" {...register('pregunta')} value={item.pregunta} />
-                                    
-                                    {/* Botón siguiente */}
-                                    <div className="mt-5">
-                                        <input 
-                                            type="submit" 
-                                            value="Siguiente" 
-                                            className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
-                                        />
-                                    </div>
-                                </div>
-                            )}
+    {/* Input oculto */}
+    <input type="hidden" {...register('pregunta')} value={item.pregunta} />
+    
+    {/* Botón siguiente */}
+    <div className="mt-5 flex justify-center sm:justify-end">
+      <input 
+        type="submit" 
+        value="Siguiente" 
+        className="py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      />
+    </div>
+  </div>
+)}
                         </div>
                     );
                 })}

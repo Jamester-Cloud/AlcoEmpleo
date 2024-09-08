@@ -112,12 +112,12 @@ export default function SubscriptionPage() {
                   <li
                     key={method}
                     onClick={() => handleProcessor(method)}
-                    className={`flex items-center p-4 border rounded cursor-pointer`}
+                    className={`flex items-center  border rounded cursor-pointer`}
                   >
                     <img
                       src={`/${method}.png`}
                       alt={method}
-                         className="w-full sm:w-full object-contain my-4"
+                         className="w-full  object-contain "
                     />
                     <input
                       type="radio"
@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
                       className="form-control p-2 border rounded"
                       type="text"
                       {...register("monto", { required: true })}
-                      placeholder="Monto: 5$ o 100bs"
+                      placeholder="Monto:"
                     />
                   </div>
                   <div className="mt-4 flex justify-end">
