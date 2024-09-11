@@ -8,11 +8,11 @@ export async function middleware(request: NextRequest) {
     //rutas publicas
     const isPublicPath = path === '/login' || path === '/signup/enterprise' || path === '/signup/candidate' || path === '/verifyEmail' || path === '/'
     //rutas para usuarios juridicos(empresas)
-    const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium' || path === 'enterprise/jobOffer' || path === 'enterprise/subscription'
+    const isEnterprisePath = path === '/enterprise' || path === '/enterprise/premium' || path === 'enterprise/jobOffer' || path === 'enterprise/subscription' || path === 'enterprise/requests' || path === 'enterprise/profile'
     //Rutas para candidatos
-    const isCandidatePath = path === '/candidate' || path === '/candidate/premium' || path === '/candidate/edit' || path === '/candidate/subscription'
+    const isCandidatePath = path === '/candidate' || path === '/candidate/premium' || path === '/candidate/edit' || path === '/candidate/subscription' || path === '/candidate/oportunidades' || path === '/candidate/quiz' || path === '/candidate/quiz/[id]'
     //Rutas para administrador
-    const isAdminPath = path === '/admin' || path === '/admin/[id]'
+    const isAdminPath = path === '/admin' || path === '/admin/[id]' || path === '/admin/quizzes/[id]' || path === '/candidateProfile/[id]' || path === '/admin/quizzes'
     //token unico basado en una cookie
     //desincriptando el token para determinar el rol de la persona en el sistema
     //Si estamos logueados porque tenemos token y la ruta en la que estamos es publica, entonces solo veremos inicio
