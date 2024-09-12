@@ -106,7 +106,7 @@ export default function Oportunidades() {
   //src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-slate-300 p-2 rounded-full text-white w-full max-w-3xl">
+      <div className="bg-slate-300 p-2   rounded text-white w-full max-w-3xl">
         <form onSubmit={handleSubmit(onSubmit)} >
           <div className="flex flex-col md:flex-row items-center">
             <input type="text" {...register('cargo')} placeholder="Cargo" className="ml-3 w-100 md:w-auto pl-12 form-control" id="" />
@@ -121,10 +121,10 @@ export default function Oportunidades() {
               className="w-full md:w-auto md:flex-1 mb-2 md:mb-0 md:mr-2"
             >
             </div>
-            <div className=" w-full md:w-auto pl-12">
+            <div className=" w-full md:w-auto flex items-center justify-center ">
               <button
                 type="submit"
-                className="w-1/2  md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                className="w-1/2  md:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold  p-2  rounded-full"
               >
                 Buscar
               </button>
@@ -169,7 +169,7 @@ export default function Oportunidades() {
                       </ul>
                     </div>
                   </div>
-                  <button onClick={() => requestOffer(item.ofertaTrabajo._id)} className="btn btn-primary w-25" >Solicitar</button>
+                  <button onClick={() => requestOffer(item.ofertaTrabajo._id)} className="btn btn-primary w-28 m-1" >Solicitar</button>
                 </div>
                 {/* logo empresarial */}
                 <Image

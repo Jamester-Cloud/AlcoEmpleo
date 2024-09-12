@@ -102,7 +102,7 @@ export default function JobOffer() {
     const getUserDetails = async () => {
         const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
         setIsPremium(isPremiumFromStorage);
-        const res = await axios.get("/api/enterprise/me");
+        const res = await axios.post("/api/enterprise/me", { idUsuario: localStorage.getItem('idUsuario'), idPersona: localStorage.getItem('idPersona') });
         console.log(res.data);
         setData({ ...data, empresa: res.data?.personaData.nombre, idEmpresa: res?.data.empresa._id });
     }

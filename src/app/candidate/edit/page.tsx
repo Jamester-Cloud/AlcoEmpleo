@@ -106,6 +106,7 @@ export default function UserCandidate() {
     <div className="container mx-auto p-4">
       <div className="container mx-auto mt-5 p-4">
         <div className="bg-white shadow-md rounded-lg p-6 relative">
+          <div  className=" flex justify-end items-end">
           <button
             onClick={(e) =>
               handleModal(
@@ -116,10 +117,11 @@ export default function UserCandidate() {
                 "datosPersonales"
               )
             }
-            className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+            className= "  bg-blue-500 text-white  p-2 m-1 rounded-md"
           >
             Editar datos personales
           </button>
+          </div>
           <div className="flex flex-col md:flex-row items-center md:items-start">
 
             <Image
@@ -131,6 +133,7 @@ export default function UserCandidate() {
             />
             <div className="text-left md:flex-1 md:flex md:flex-col md:justify-center">
               <h2 className="text-2xl font-bold">
+              
                 {candidatoData?.userData?.nombre || ""}{" "}
                 {candidatoData?.userData?.apellido || ""}{" "}
                 <span className="badge bg-success rounded-full ml-4">

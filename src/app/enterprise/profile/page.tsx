@@ -189,29 +189,36 @@ export default function UserProfile() {
     <div className="">
       <div className="container mx-auto mt-5 p-4">
         <div className="bg-white shadow-md rounded-lg p-6 relative">
-          <div className="flex justify-between">
-            <button
-              onClick={(e) => handleModal(e, 'Editar datos empresa', {})}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
-              Actualizar informacíon basica
-            </button>
-            <button
-              onClick={(e) => handleModal(e, 'Actualizar logo', {})}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
-              Editar Logo
-            </button>
-            <button
-              onClick={(e) => handleModal(e, 'Actualizar Acta', {})}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
-              Editar Acta
-            </button>
-            {userData?.acta?.idArchivo ? <a href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-              Descargar Acta constitutiva
-            </a> : 'Sin Acta constitutiva'}
-          </div>
+        <div className="flex flex-wrap justify-center sm:justify-between items-center space-y-2 sm:space-y-0">
+                  <button
+                    onClick={(e) => handleModal(e, 'Editar datos empresa', {})}
+                    className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto"
+                  >
+                    Actualizar información básica
+                  </button>
+                  <button
+                    onClick={(e) => handleModal(e, 'Actualizar logo', {})}
+                    className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto"
+                  >
+                    Editar Logo
+                  </button>
+                  <button
+                    onClick={(e) => handleModal(e, 'Actualizar Acta', {})}
+                    className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto"
+                  >
+                    Editar Acta
+                  </button>
+                  {userData?.acta?.idArchivo ? (
+                    <a
+                      href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`}
+                      className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto text-center no-underline	"
+                    >
+                      Descargar Acta constitutiva
+                    </a>
+                  ) : (
+                    <p className="text-gray-500 text-center w-full">Sin Acta constitutiva</p>
+                  )}
+                </div>
           <div className="flex flex-col md:flex-row items-center md:items-start mt-4">
             <Image
               src={userData?.logoEmpresa ? `/api/enterprise/enterpriseLogo?idArchivo=${userData?.logoEmpresa}` : '/AlcoLogo.png'}
