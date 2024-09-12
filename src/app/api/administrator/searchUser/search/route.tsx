@@ -1,6 +1,5 @@
 import { connect } from "@/dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
-import { Query, Types } from "mongoose";
 import Persona from "@/models/personaModel";
 import User from "@/models/userModel";
 import Candidato from "@/models/candidato";

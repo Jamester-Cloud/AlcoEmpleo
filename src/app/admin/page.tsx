@@ -421,7 +421,7 @@ export default function AdminPage() {
   const handleDeleteUser = async (idUser: string) => {
     try {
       console.log(idUser);
-      const user = await axios.post('/api/administrator/users/delete', { idUsuario: idUser})
+      const user = await axios.post('/api/administrator/users/delete', { idUsuario: idUser })
       if (user.status == 200) {
         await fetchCandidateData()
         await fetchEnterpriseData()
@@ -618,6 +618,7 @@ export default function AdminPage() {
               <th className="py-2 px-4 border-b">Nombre</th>
               <th className="py-2 px-4 border-b">Subscripción</th>
               <th className="py-2 px-4 border-b">Perfil</th>
+              <th className="py-2 px-4 border-b">Eliminar</th>
               <th className="py-2 px-4 border-b">Suspender</th>
             </tr>
           </thead>
@@ -672,6 +673,18 @@ export default function AdminPage() {
                 <td className="py-2 px-4 border-b">
                   <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
                     Ver Perfil
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() =>
+                      handleDeleteUser(
+                        item.usuarioData._id,
+                      )
+                    }
+                    className="bg-red-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Eliminar usuario
                   </button>
                 </td>
                 <td className="py-2 px-4 border-b">
