@@ -41,15 +41,16 @@ export default function Contact(props: any) {
             <div className="flex flex-col text-center mt-4">
               {telefonos?.map((item: any, key: number) => {
                 return (
-                  <Link
+                  <a
                     key={key}
+                    target="_blank"
                     href={`https://wa.me/${item.numero}?text=${whatsappMessage}`}
                     className="mdi mdi-whatsapp text-green-600 text-decoration-none"
                   >
                     <span className="text-white transition-opacity duration-300 hover:opacity-50 ">
                      {item.numero}
                     </span>
-                  </Link>
+                  </a>
                 )
               })}
             </div>
