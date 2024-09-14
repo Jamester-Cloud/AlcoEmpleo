@@ -752,7 +752,7 @@ export default function DataModal(props: any) {
                                         <section className={"row"} key={field.id}>
                                             <div className="col-md-6 text-center">
                                                 <label className="labels">Enlace:</label>
-                                                <input type="url" className="form-control" {...register(`redes.${index}.enlace` as const, {
+                                                <input type="text" className="form-control" {...register(`redes.${index}.enlace` as const, {
                                                     required: true
                                                 })} placeholder="Redes" />
                                             </div>
