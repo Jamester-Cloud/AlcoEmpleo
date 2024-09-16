@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
         password = formData.get('password')?.toString()
         direccion = formData.get('direccion')
         genero = formData.get('genero')
-        telefono = formData.get('razonSocial')
+        telefono = formData.get('telefono')
         rif = formData.get('rif')
         razonSocial = formData.get('razonSocial')
         type = formData.get('type')

@@ -29,8 +29,6 @@ export default function SignUpForm(props: any) {
 
     const [AdImageInputErr, setAdImageInputErr] = React.useState(false); // Initialize with false
 
-
-
     const fetchRegions = async () => {
         try {
             const response = await axios.get("/api/enterprise/candidate/regions");
@@ -52,11 +50,11 @@ export default function SignUpForm(props: any) {
             })();
         }
     }, [regions]);
+
     const handleLocationChange = (selectedOption: any) => {
         setSelectedLocation(selectedOption);
         setUserData({ ...userData, estado: selectedOption ? selectedOption.value : '' });
     };
-
 
     const handleAdimages = (event: any) => {
         setSelectedAdImages(event.target.files)
