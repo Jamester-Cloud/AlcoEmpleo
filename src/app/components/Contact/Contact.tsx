@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocation,
   faTowerBroadcast,
-  faPhone,
+  faMessage
 } from "@fortawesome/free-solid-svg-icons";
 import { Col, Image, Row } from "react-bootstrap";
 
@@ -12,12 +12,13 @@ export default function Contact(props: any) {
   let { telefonos, direccionFisica, politicaPrivacidad } = props
   console.log(direccionFisica)
   const whatsappMessage = encodeURIComponent(
-    "Hola Contacto desde AlcoEmpleo, necesito orientación sobre su servicio"
+    "* Hola, requiero más información sobre la página."
   );
 
   return (
     <div className="bg-blue-950 text-white">
       <div className="container ">
+
         <Row
           className=""
         >
@@ -34,21 +35,24 @@ export default function Contact(props: any) {
           <Col className="text-white pt-4 md:w-1/2  md:mb-0 mb-4 h-full">
             {" "}
             {/* Agrega la clase h-full */}
-            <h2 className="text-lg md:text-xl font-bold text-center">
-              <FontAwesomeIcon icon={faPhone} /> Contáctanos
+            <h2 className="text-lg mr-2 md:text-xl font-bold text-center">
+              ¿Tienes alguna duda?
+              Contáctanos
             </h2>
 
             <div className="flex flex-col text-center mt-4">
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
               {telefonos?.map((item: any, key: number) => {
                 return (
                   <a
                     key={key}
                     target="_blank"
                     href={`https://wa.me/${item.numero}?text=${whatsappMessage}`}
-                    className="mdi mdi-whatsapp text-green-600 text-decoration-none"
+                    className=" btn btn-success btn-md rounded-full text-green-600 text-decoration-none"
                   >
+
                     <span className="text-white transition-opacity duration-300 hover:opacity-50 ">
-                     {item.numero}
+                      <i className="bi-whatsapp"></i> Enviar mensaje
                     </span>
                   </a>
                 )

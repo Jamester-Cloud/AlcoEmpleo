@@ -254,7 +254,8 @@ export default function JobOffer() {
         <div className="row g-0">
             {isPremium === false ? (
                 <h1 className="text-red-500   text-center py-96">
-                    Para Ofertar el Empleo Debe de ser Premium
+                    Para ofertar el empleo debe de ser premium
+                    {/* Estas registrado, pero no estas subscrito a la pagina */}
                 </h1>
             ) : (
                 <>

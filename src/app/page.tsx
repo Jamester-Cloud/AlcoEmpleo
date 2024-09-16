@@ -176,56 +176,58 @@ export default function Home() {
       {/* Banner */}
       <div className="mt-20 h-52 items-center justify-between mb-6">
         <h1 className="text-blue-900 mx-10 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
-        {homePageData.homePage[0].banner[0].titulo}
+          {homePageData.homePage[0].banner[0].titulo}
         </h1>
         <p className="text-left mx-10 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6">
-        {homePageData.homePage[0].banner[0].texto}
+          {homePageData.homePage[0].banner[0].texto}
         </p>
       </div>
       <div className="relative min-h-screen bg-cover bg-center">
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
-          <div className="container mx-auto px-4">
+          <div className="container px-4">
             <div className="grid grid-cols-1 gap-6 md:gap-12 xl:gap-16">
               <div className="text-center flex items-start">
                 <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
                   <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                  {homePageData.homePage[0].secciones[4].titulo}
+                    {homePageData.homePage[0].secciones[4].titulo}
                   </p>
                 </div>
                 <div>
                   <h2 className="text-base mt-4 md:text-lg font-bold">
-                  {homePageData.homePage[0].secciones[4].texto}
+                    {homePageData.homePage[0].secciones[4].texto}
                   </h2>
                 </div>
               </div>
               <div className="text-center flex items-start">
                 <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
                   <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                  {homePageData.homePage[0].secciones[5].titulo}
+                    {homePageData.homePage[0].secciones[5].titulo}
                   </p>
                 </div>
                 <div>
                   <h2 className="text-base mt-4 md:text-lg font-bold">
-                  {homePageData.homePage[0].secciones[5].texto}
+                    {homePageData.homePage[0].secciones[5].texto}
                   </h2>
                 </div>
               </div>
               <div className="text-center flex items-start">
                 <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
                   <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                  {homePageData.homePage[0].secciones[6].titulo}
+                    {homePageData.homePage[0].secciones[6].titulo}
                   </p>
                 </div>
                 <div>
-                  <h2 className="text-base mt-4 md:text-lg font-bold">
-                  {homePageData.homePage[0].secciones[6].texto}
+                  <h2 className="text-base mt-4 md:text-md font-bold">
+                    <p>
+                      {homePageData.homePage[0].secciones[6].texto}
+                    </p>
                   </h2>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 bg-blue-950" style={{ clipPath: 'polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%)' }}></div>
+        <div className="absolute inset-0 bg-blue-950 "></div>
         <div className="absolute right-0 top-0 bottom-0 w-50 bg-cover bg-right" style={{ backgroundImage: "url('/chicaLentes.png')" }}></div>
       </div>
       <Container className="py-20">

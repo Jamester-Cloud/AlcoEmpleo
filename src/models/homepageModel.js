@@ -40,6 +40,11 @@ const homepageSchema = new mongoose.Schema({
       required: [true, 'El texto no puede estar vacío']
     }
   }],
+  empresasAfiliadas: [{
+    logo: {
+      ruta: { type: String, required: [true, "Especifique una ruta para la imagen"] }
+    },
+  }],
   metodopago: {
     banco: {
       type: String,
