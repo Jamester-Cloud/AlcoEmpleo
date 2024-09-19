@@ -76,7 +76,6 @@ export async function POST(request: NextRequest) {
           "esDestacado": false
         }
       },
-
       {
         $lookup: {
           from: "users",

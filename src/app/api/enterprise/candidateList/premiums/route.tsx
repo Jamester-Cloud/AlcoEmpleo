@@ -7,6 +7,7 @@ connect()
 
 
 export async function GET(request: NextRequest) {
+  
   try {
     // debo traer aca las paginas de los candidatos
     const candidatosPremiums: any = await Candidato.aggregate([
