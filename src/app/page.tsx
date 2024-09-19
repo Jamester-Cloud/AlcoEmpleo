@@ -78,11 +78,11 @@ export default function Home() {
         })}
       </Carousel>
 
-      <div className="text-center justify-content-center">
-        <h1 className="text-blue-900 font-bold pt-20 sm:pt-32 md:pt-40 lg:pt-48">
+      <div className="text-center justify-content-center  p-10">
+        <h1 className="text-blue-900 font-bold ">
           Expertos Recomendados
         </h1>
-        <h4 className="text-blue-900 pb-20">Recomendados por otras empresas</h4>
+        <h4 className="text-blue-900 ">Recomendados por otras empresas</h4>
       </div>
       <CarouselMulti candidates={data.dataCandidatosPremium} idProfilePicture={data.dataCandidatosPremium} />
       <div
@@ -231,7 +231,9 @@ export default function Home() {
     </div>
   </div>
 </div>
-  {/* Carousel Asociados */}
+
+
+    {/* Carousel Asociados */}
       <Container className="py-20">
       
       <CarouselMultiAsociados/> 
