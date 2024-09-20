@@ -9,23 +9,48 @@ export function CarouselMultiAsociados(props: any) {
   const asociados = [
     {
       id: 1,
-      nombreAsociado: "Alivensa",
-      imagen: "/Imagen-card.png",
+      nombreAsociado: "",
+      imagen: "/logos/BodegonLos7.jpg",
     },
     {
       id: 2,
-      nombreAsociado: "Alco",
-      imagen: "/Imagen-card.png",
+      nombreAsociado: "",
+      imagen: "/logos/logoCleveland.png",
     },
     {
       id: 3,
-      nombreAsociado: "Microsoft",
-      imagen: "/Imagen-card.png",
+      nombreAsociado: "",
+      imagen: "/logos/LOGOMUCURA.jpg",
     },
     {
       id: 4,
-      nombreAsociado: "", // Este no tiene nombre
-      imagen: "/Imagen-card.png",
+      nombreAsociado: "",
+      imagen: "/logos/logo-rojo-metaplas.png",
+    },
+    {
+      id: 5,
+      nombreAsociado: "", 
+      imagen: "/logos/ColegioIlustres.jpg",
+    },
+    {
+      id: 6,
+      nombreAsociado: "", 
+      imagen: "/logos/SimonDiaz.jpg",
+    },
+    {
+      id: 7,
+      nombreAsociado: "", 
+      imagen: "/logos/LogoFarmalidyo.png",
+    },
+    {
+      id: 8,
+      nombreAsociado: "", 
+      imagen: "/logos/perfumesFactory.png",
+    },
+    {
+      id: 9,
+      nombreAsociado: "", 
+      imagen: "/logos/ColegioIlustres.jpg",
     },
   ];
 
@@ -34,7 +59,7 @@ export function CarouselMultiAsociados(props: any) {
       <h3 className=" ml-3 font-bold text-cyan-500 ">Empresas <br /> que Confian en Nosotros</h3>
 
       <Carousel
-        className="d-flex justify-content-center"
+        className="d-flex items-center justify-content-center"
         responsive={{
           desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -55,17 +80,20 @@ export function CarouselMultiAsociados(props: any) {
       >
         {asociados.map((asociado: any, index: number) => (
           <div key={index} className="flex justify-center items-center">
-            <Card className="w-64 max-w-64 min-w-64 h-64 ">
-              <div>
+            <Card className="w-64 h-64 flex justify-center items-center">
+              <div className="flex justify-center items-center h-60">
+              <div className=" ">
                 <Image
                   src={asociado.imagen}
-                  height={400}
+                  
+                  height={300}
                   width={400}
                   className="w-full"
                   alt="Imagen de perfil"
                 />
                 {/* Renderizamos el h4 solo si hay nombre */}
            
+              </div>
               </div>
             </Card>
           </div>
