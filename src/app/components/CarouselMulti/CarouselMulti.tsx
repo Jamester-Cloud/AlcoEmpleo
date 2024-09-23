@@ -32,7 +32,7 @@ export function CarouselMulti(props: any) {
 
   return (
     <Carousel
-      className="d-flex justify-content-center pb-20"
+      className="d-flex justify-content-center   p-3 bg-slate-400"
       responsive={{
         desktop: {
           breakpoint: { max: 3000, min: 1024 },
@@ -52,23 +52,22 @@ export function CarouselMulti(props: any) {
       infinite={true}
     >
       {candidates?.map((candidato: any, index: number) => (
-        <div key={index} className="flex justify-center">
-          <Card className="w-64 max-w-64 min-w-64 h-64">
-            <Card.Header>
-              <div className="">
+        <div key={index} className="flex justify-center  ">
+          <Card className="w-64 max-w-64 min-w-64 h-64 rounded-lg shadow-md ">
+            <Card.Header className=" text-center ">
+            <span className="badge  bg-green-500  rounded-pill  ">
+                <FontAwesomeIcon icon={faCheckCircle} /> Verificado
+              </span>
+              <div className="  flex items-center justify-center">
                 <Image
                   src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
-                  height={400}
-                  width={400}
-                  className="w-full"
+                  height={96}
+                  width={96}
+                  className=" rounded-full"
+              
                   alt="Logo"
                 />
               </div>
-            </Card.Header>
-            <Card.Body className="">
-              <span className="badge text-right bg-success rounded-pill top-1/2 -translate-y-1/2">
-                <FontAwesomeIcon icon={faCheckCircle} /> Verificado
-              </span>
               <h4 className="mb-2">
                 {candidato.personaData.nombre} {candidato.personaData.apellido}
               </h4>
@@ -78,11 +77,11 @@ export function CarouselMulti(props: any) {
               <div className="text-muted mb-4">
                 <FontAwesomeIcon icon={faLocation} /> Venezuela
               </div>
-              <div className="mb-4 pb-2 d-flex justify-content-between">
+              <div className="flex gap-2 ">
                 <button type="button" className="btn btn-success btn-sm rounded">
                   <Link
                     href={`https://wa.me/${candidato.personaData.telefono}?text=${whatsappMessage}`}
-                    className="mdi mdi-whatsapp text-white text-decoration-none"
+                    className="mdi mdi-whatsapp  text-decoration-none btn btn-success text-white text-xs rounded flex items-center"
                   >
                     Enviar mensaje
                   </Link>
@@ -90,13 +89,14 @@ export function CarouselMulti(props: any) {
                 <button type="button" className="btn btn-primary btn-sm rounded">
                   <Link
                     href={`/enterprise/candidateProfile/${candidato._id}`}
-                    className="mdi text-white text-decoration-none"
+                    className="btn btn-primary text-white text-xs rounded"
                   >
                     Ver Perfil
                   </Link>
                 </button>
               </div>
-            </Card.Body>
+            </Card.Header>
+       
           </Card>
         </div>
       ))}

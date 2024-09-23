@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Footer from "./components/Footer/footer";
 import Spinner from "./components/Spinner/Spinner";
-import { Button, Carousel, Col, Container, Form, Row } from "react-bootstrap";
+import { Carousel, Container} from "react-bootstrap";
 import Image from "next/image";
 import { useRouter } from "next/navigation"
 import { CandidateListResponse } from "./interfaces/types";
 import Cabecera from "./components/cabeceras/cabecera";
 import { CarouselMulti } from "./components/CarouselMulti/CarouselMulti";
 import Contact from "./components/Contact/Contact";
+import { CarouselMultiAsociados } from "./components/CarouselMulti/CarouselMultiAsociados";
 
 export default function Home() {
 
@@ -77,11 +78,11 @@ export default function Home() {
         })}
       </Carousel>
 
-      <div className="text-center justify-content-center">
-        <h1 className="text-blue-900 font-bold pt-20 sm:pt-32 md:pt-40 lg:pt-48">
+      <div className="text-center justify-content-center  p-10">
+        <h1 className="text-blue-900 font-bold ">
           Expertos Recomendados
         </h1>
-        <h4 className="text-blue-900 pb-20">Recomendados por otras empresas</h4>
+        <h4 className="text-blue-900 ">Recomendados por otras empresas</h4>
       </div>
       <CarouselMulti candidates={data.dataCandidatosPremium} idProfilePicture={data.dataCandidatosPremium} />
       <div
@@ -182,102 +183,65 @@ export default function Home() {
           {homePageData.homePage[0].banner[0].texto}
         </p>
       </div>
-      <div className="relative min-h-screen bg-cover bg-center">
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white z-10">
-          <div className="container px-4">
-            <div className="grid grid-cols-1 gap-6 md:gap-12 xl:gap-16">
-              <div className="text-center flex items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
-                  <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                    {homePageData.homePage[0].secciones[4].titulo}
-                  </p>
-                </div>
-                <div>
-                  <h2 className="text-base mt-4 md:text-lg font-bold">
-                    {homePageData.homePage[0].secciones[4].texto}
-                  </h2>
-                </div>
-              </div>
-              <div className="text-center flex items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
-                  <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                    {homePageData.homePage[0].secciones[5].titulo}
-                  </p>
-                </div>
-                <div>
-                  <h2 className="text-base mt-4 md:text-lg font-bold">
-                    {homePageData.homePage[0].secciones[5].texto}
-                  </h2>
-                </div>
-              </div>
-              <div className="text-center flex items-start">
-                <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
-                  <p className="text-gray-800 mx-4 my-4 text-4xl md:text-5xl">
-                    {homePageData.homePage[0].secciones[6].titulo}
-                  </p>
-                </div>
-                <div>
-                  <h2 className="text-base mt-4 md:text-md font-bold">
-                    <p>
-                      {homePageData.homePage[0].secciones[6].texto}
-                    </p>
-                  </h2>
-                </div>
-              </div>
+      <div className="relative  bg-transparent">
+  <div className="grid grid-cols-1 md:grid-cols-2">
+        {/* Columna del texto */}
+        <div className="flex flex-col justify-center bg-blue-950 text-white p-8">
+          <div className="mb-6 flex items-center">
+            <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
+              <p className="text-gray-800 text-4xl md:text-5xl mt-3">
+                {homePageData.homePage[0].secciones[4].titulo}
+              </p>
+            </div>
+            <div>
+              <h2 className="text-base md:text-lg font-bold">
+                {homePageData.homePage[0].secciones[4].texto}
+              </h2>
+            </div>
+          </div>
+          <div className="mb-6 flex items-center">
+            <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center ">
+              <p className="text-gray-800 text-4xl md:text-5xl mt-3">
+                {homePageData.homePage[0].secciones[5].titulo}
+              </p>
+            </div>
+            <div>
+              <h2 className="text-base md:text-lg font-bold">
+                {homePageData.homePage[0].secciones[5].texto}
+              </h2>
+            </div>
+          </div>
+          <div className="mb-6 flex items-center">
+            <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
+              <p className="text-gray-800 text-4xl md:text-5xl mt-3">
+                {homePageData.homePage[0].secciones[6].titulo}
+              </p>
+            </div>
+            <div>
+              <h2 className="text-base md:text-md font-bold">
+                <p>{homePageData.homePage[0].secciones[6].texto}</p>
+              </h2>
             </div>
           </div>
         </div>
-        <div className="absolute inset-0 bg-blue-950 "></div>
-        <div className="absolute right-0 top-0 bottom-0 w-50 bg-cover bg-right" style={{ backgroundImage: "url('/chicaLentes.png')" }}></div>
-      </div>
+
+    {/* Columna de la imagen */}
+    <div className="relative bg-cover bg-right" style={{ backgroundImage: "url('/chicaLentes.png')" }}>
+      <div className="absolute inset-0 bg-blue-950 opacity-50"></div>
+    </div>
+  </div>
+</div>
+
+
+    {/* Carousel Asociados */}
       <Container className="py-20">
-        <Row className="justify-content-center">
-          <Col md={6} className="mb-8 md:mb-0">
-            <h1 className="text-blue-900 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4">
-              Contáctanos
-            </h1>
-            <p className="text-center text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl mb-6">
-              ¡Déjanos tus datos para comunicarnos contigo lo antes posible!
-            </p>
-            <Form>
-              <Form.Group controlId="formName">
-                <Form.Label>Nombres y apellidos</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Introduce tu nombre completo"
-                />
-              </Form.Group>
-              <Form.Group controlId="formEmail">
-                <Form.Label>Correo electrónico</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Introduce tu correo electrónico"
-                />
-              </Form.Group>
-              <Form.Group controlId="formMessage">
-                <Form.Label>Deja tu mensaje</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Introduce tu mensaje"
-                />
-              </Form.Group>
-              <Button className="w-full" variant="primary" type="submit">
-                Enviar
-              </Button>
-            </Form>
-          </Col>
-          <Col className="text-center">
-            <Image
-              src="/contactImage.png"
-              width={1730}
-              height={2534}
-              className="w-80"
-              alt="Hombre"
-            />
-          </Col>
-        </Row>
+      
+      <CarouselMultiAsociados/> 
+
       </Container>
+    
+ 
+      
       <Contact telefonos={homePageData.homePage[0].celular} direccionFisica={homePageData.homePage[0].direccion} politicaPrivacidad={homePageData.homePage[0].politicaPrivacidad} />
       <Footer />
     </div>
