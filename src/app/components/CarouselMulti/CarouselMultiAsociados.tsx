@@ -44,16 +44,16 @@ export function CarouselMultiAsociados(props: any) {
       <h3 className="ml-3 font-bold text-cyan-500">Empresas <br /> que Confían en Nosotros</h3>
       <Carousel responsive={responsive} infinite={true}>
         {asociados.map(asociado => (
-             <div className="flex justify-center items-center h-60">
-          <div key={asociado.id} className="flex justify-center items-center">
-         
-            <Image
-              src={asociado.imagen}
-              alt={asociado.nombreAsociado}
-              width={400} 
-              height={300} 
-              className="object-contain  w-full  h-52 " 
-            />
+          <div key={asociado.id} className="flex justify-center items-center h-60">
+            <div  className="flex justify-center items-center">
+
+              <Image
+                src={asociado.imagen}
+                alt={asociado.nombreAsociado}
+                width={400}
+                height={300}
+                className="object-contain  w-full  h-52 "
+              />
             </div>
           </div>
         ))}
