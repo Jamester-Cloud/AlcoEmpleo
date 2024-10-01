@@ -637,7 +637,7 @@ export default function AdminPage() {
                   {item.personaData.cedula}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  {item.personaData.nombre} {item.personaData.apellido}
+                  {item.personaData.nombre}
                 </td>
                 <td className="py-2 px-4 border-b">
                   {item.usuarioData.isPremium ? (
@@ -671,9 +671,12 @@ export default function AdminPage() {
                   )}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                <Link
+                    href={`/admin/enterpriseProfile/${item.usuarioData._id}`}
+                    className="btn btn-primary btn-md py-2 px-4 rounded text-white"
+                  >
                     Ver Perfil
-                  </button>
+                  </Link>
                 </td>
                 <td>
                   <button
