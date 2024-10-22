@@ -14,6 +14,8 @@ export async function POST(request: NextRequest) {
             homePage:homePage
         })
 
+        //console.log(homePage)
+
         return response;
 
     } catch (error: any) {

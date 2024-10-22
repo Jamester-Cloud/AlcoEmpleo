@@ -25,9 +25,21 @@ export async function POST(request: NextRequest) {
             $unwind: "$usuarioData"
         },
         {
+            $lookup: {
+                from: "documentos",
+                localField: "usuarioData._id",
+                foreignField: "idUsuario",
+                as: "documentosData"
+            }
+        },
+        {
+            $unwind: "$documentosData"
+        },
+        {
             $project: {
                 idPersona: "$usuarioData.idPersona",
-                usuarioData: "$usuarioData"
+                usuarioData: "$usuarioData",
+                documentosData: "$documentosData"
             }
         },
         {
@@ -47,12 +59,10 @@ export async function POST(request: NextRequest) {
 
         const skip = (page - 1) * PER_PAGE;
 
-        const data: any = await Empresa.aggregate(q).skip(skip).limit(PER_PAGE);
+        let data: any = await Empresa.aggregate(q).skip(skip).limit(PER_PAGE);
         const count: number = await Empresa.countDocuments();
-        console.log(count);
-
         const pageCount: any = count / PER_PAGE;
-
+        data = data.filter((filter: any) => filter.documentosData.contentType != "application/pdf")
         const response = NextResponse.json({
             message: "Succesfull login",
             data,

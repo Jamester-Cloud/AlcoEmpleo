@@ -40,11 +40,6 @@ const homepageSchema = new mongoose.Schema({
       required: [true, 'El texto no puede estar vacío']
     }
   }],
-  empresasAfiliadas: [{
-    logo: {
-      ruta: { type: String, required: [true, "Especifique una ruta para la imagen"] }
-    },
-  }],
   metodopago: {
     banco: {
       type: String,
@@ -83,7 +78,14 @@ const homepageSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User' // Si tienes una referencia a otra colección.
-  }
+  },
+  logos_asociados:[
+    {
+      logo: {
+        ruta: { type: String }
+      },
+    }
+  ]
 });
 
 const Homepage = mongoose.models.homepage || mongoose.model("homepage", homepageSchema);

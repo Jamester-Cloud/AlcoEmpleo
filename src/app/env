@@ -1,0 +1,7 @@
+MONGO_URI=mongodb+srv://alcoempleo:123Ezequiel789@alcoempleo.d8r1jag.mongodb.net/
+TOKEN_SECRET=TestCluster3
+DOMAIN=http://localhost:3000
+USEREMAIL=eff5f47be3239c
+PASS=2118e3a66df1c6
+NODE_NO_WARNINGS=1
+QUIZ_KEY=AIzaSyBAR9fwxsmbWEOjIF3Y_qFe5RbhrhWRpbc

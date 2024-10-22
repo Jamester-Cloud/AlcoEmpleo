@@ -30,6 +30,9 @@ type FormValues = {
     titulo: string;
     texto: string;
   }[];
+  logos_asociados: {
+    logo: { ruta: string }
+  }[];
   politicaPrivacidad: string;
   direccion: string;
   idUsuario: string;
@@ -45,8 +48,6 @@ type FormValues = {
     emailBinance: string;
     emailPaypal: string;
     emailZinli: string;
-
-
   }
 };
 
@@ -57,6 +58,7 @@ export default function AdminPage() {
       celular: [{ numero: "" }],
       banner: [{ titulo: "", texto: "" }],
       secciones: [{ titulo: "", texto: "" }],
+      logos_asociados: [{ logo: { ruta: "" } }],
       politicaPrivacidad: "",
       direccion: "",
       metodopago: {
@@ -88,6 +90,15 @@ export default function AdminPage() {
     remove: removeSliders,
   } = useFieldArray({
     name: "sliders",
+    control,
+  });
+
+  const {
+    fields: logos_asociados,
+    append: append_logos,
+    remove: remove_logos,
+  } = useFieldArray({
+    name: "logos_asociados",
     control,
   });
 
@@ -135,6 +146,7 @@ export default function AdminPage() {
       banner: [],
       sliders: [],
       direccion: "",
+      logos_asociados: [],
       politicaPrivacidad: "",
       metodopago: {
         banco: "",
@@ -166,6 +178,11 @@ export default function AdminPage() {
     defaultValues.banner = siteData?.homePage[0]?.banner?.map((item: any) => {
       return { titulo: item.titulo, texto: item.texto };
     });
+    defaultValues.logos_asociados = siteData?.homePage[0].logos_asociados?.map((item: any) => {
+     
+      return { logo: { ruta: item.logo.ruta } }
+    })
+  
     defaultValues.direccion = siteData?.homePage[0]?.direccion;
     defaultValues.politicaPrivacidad =
       siteData?.homePage[0]?.politicaPrivacidad;
@@ -207,9 +224,8 @@ export default function AdminPage() {
       const homeData = await axios.post("/api/administrator/homepage");
 
       Promise.all([homeData]).then((values: any) => {
+       
         setSiteData(values[0].data);
-        console.log(values[0].data);
-
       });
     } catch (error) {
       console.log("error en la peticion de datos para el panel", error);
@@ -222,10 +238,11 @@ export default function AdminPage() {
       { query: { limit: 10, page: pageCandidate } }
     );
     if (candidateData.status == 200) {
+      console.log(candidateData.data.data)
       setCandidates(candidateData.data.data);
       setPageCandidate(pageCandidate);
       setCandidatePageCount(parseInt(candidateData.data.pagination.pageCount));
-      console.log(candidateData.data);
+      
     }
   };
 
@@ -240,7 +257,7 @@ export default function AdminPage() {
     setCandidatePageCount(candidateData.data.pagination.pageCount);
 
     if (candidateData.status == 200) {
-      console.log(pageCandidate);
+      
       setPageCandidate(nextPage);
     }
   };
@@ -277,6 +294,7 @@ export default function AdminPage() {
       { query: { limit: 5, page: pageEnterprise } }
     );
     if (enterpriseData.status == 200) {
+   
       setEnterprises(enterpriseData.data.data);
       setPageEnterprise(pageEnterprise);
       setEnterprisePageCount(
@@ -286,7 +304,7 @@ export default function AdminPage() {
   };
 
   const nextPageEnterprise = async (nextPage: number) => {
-    console.log("Pagina siguiente");
+    
     const enterpriseData = await axios.post(
       "/api/administrator/enterprise/pagination",
       { query: { page: nextPage, limit: 5 } }
@@ -295,12 +313,12 @@ export default function AdminPage() {
     setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
 
     if (enterpriseData.status == 200) {
-      console.log(pageCandidate);
+      
       setEnterprises(nextPage);
     }
   };
   const prevPageEnterprise = async (prevPage: number) => {
-    console.log("Pagina previa");
+    
     const enterpriseData = await axios.post(
       "/api/administrator/enterprise/pagination",
       { query: { page: prevPage, limit: 5 } }
@@ -331,7 +349,7 @@ export default function AdminPage() {
         requestType: requestType
       });
       if (subscription.status === 200)
-        console.log("Peticion completada exitosamente"),
+        
           fetchData(),
           toast.success("Registro actualizado", {
             position: "top-right",
@@ -368,7 +386,7 @@ export default function AdminPage() {
       query: { cedula: data.cedula },
     });
     if (search.status == 200) {
-      console.log("candidatos", search);
+     
       setCandidates(search.data.data);
     }
   };
@@ -380,7 +398,7 @@ export default function AdminPage() {
     });
     if (search.status == 200) {
       setEnterprises(search.data.data);
-      console.log("empresas", search);
+      
     }
   };
 
@@ -388,7 +406,7 @@ export default function AdminPage() {
   const onSubmit = async (data: any) => {
     const res = await axios.post("/api/administrator/homepage/edit", { data });
     if (res.status == 200)
-      console.log("Peticion exitosa"),
+      
         toast.success("Informacíon actualizada", {
           position: "top-right",
           autoClose: 5000,
@@ -402,13 +420,10 @@ export default function AdminPage() {
         });
   };
 
-
-
   //Delete User
   const handleUserStatus = async (idUser: string, requestType: boolean) => {
     try {
-      console.log(idUser);
-      console.log(requestType);
+
       const user = await axios.post('/api/administrator/users', { idUsuario: idUser, requestType: requestType })
       if (user.status == 200) {
         await fetchCandidateData()
@@ -420,7 +435,7 @@ export default function AdminPage() {
   }
   const handleDeleteUser = async (idUser: string) => {
     try {
-      console.log(idUser);
+
       const user = await axios.post('/api/administrator/users/delete', { idUsuario: idUser })
       if (user.status == 200) {
         await fetchCandidateData()
@@ -438,7 +453,7 @@ export default function AdminPage() {
         <form onSubmit={handleSubmit(handleCandidateSearch)}>
           <>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 p-2">
                 <input
                   type="text"
                   {...register("cedula")}
@@ -471,7 +486,7 @@ export default function AdminPage() {
             {candidates?.map((item: any, key: number) => (
               <tr key={key}>
                 <td>
-                  <Image className="rounded-full m-2" src={"/Imagen-card.png"} alt={""} width={80} height={80} />
+                  <Image className="rounded-full m-2" src={item?.documentosData.idArchivo ? `/api/candidate/profilePic?idArchivo=${item?.documentosData?.idArchivo}` : '/AlcoLogo.png'} alt={""} width={80} height={80} />
                   {item.personaData.cedula}
                 </td>
                 <td className="py-2 px-4 border-b">
@@ -594,7 +609,7 @@ export default function AdminPage() {
         <form onSubmit={handleSubmit(handleEnterpriseSearch)}>
           <>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 p-2">
                 <input
                   type="text"
                   {...register("riff")}
@@ -631,7 +646,7 @@ export default function AdminPage() {
                     width={80}
                     height={80}
                     className="img-fluid rounded-2xl p-1"
-                    src="/AlcoSloganLogo.png"
+                    src={item?.documentosData ? `/api/enterprise/enterpriseLogo?idArchivo=${item?.documentosData?.idArchivo}` : '/AlcoLogo.png'}
                     alt="GrupoAlco"
                   />
                   {item.personaData.cedula}
@@ -671,7 +686,7 @@ export default function AdminPage() {
                   )}
                 </td>
                 <td className="py-2 px-4 border-b">
-                <Link
+                  <Link
                     href={`/admin/enterpriseProfile/${item.usuarioData._id}`}
                     className="btn btn-primary btn-md py-2 px-4 rounded text-white"
                   >
@@ -746,8 +761,50 @@ export default function AdminPage() {
         </Pagination>
       </div>
       <div className="mb-6">
+
         <h2 className="text-xl font-bold mb-4">Configuración del sitio</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-4">
+            <p className="text-info">
+              Para ingresar imagenes, colocar de la siguiente forma: (/logos/logo_imagen.extension)
+              <br />
+              EJEMPLO: (/logos/elparaiso.jpg)
+            </p>
+            <button
+              type="button"
+              onClick={() => append_logos({ logo: { ruta: "" } })}
+              className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
+            >
+              Agregar Logo de Asociado
+            </button>
+            {logos_asociados.map((field, index) => (
+              <div key={field.id} className="mb-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-info">
+                      Logo de asociado
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control w-full mt-1 p-2 border rounded-md"
+                      {...register(`logos_asociados.${index}.logo.ruta`)}
+                      placeholder="Ruta de la imagen"
+                    />
+                  </div>
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      className="bg-red-500 text-white px-4 py-2 rounded-md"
+                      onClick={() => remove_logos(index)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <hr />
           <div className="mb-4">
             <label
               htmlFor="direccion"
@@ -958,13 +1015,7 @@ export default function AdminPage() {
           </div>
           <div className="mb-4">
             <h3 className="text-lg font-bold mb-2">Teléfonos</h3>
-            <button
-              type="button"
-              onClick={() => appendCelular({ numero: "" })}
-              className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
-            >
-              Agregar Teléfono de Contacto
-            </button>
+
             {fieldsCelular.map((field, index) => (
               <div key={field.id} className="grid grid-cols-2 gap-4 mb-4">
                 <div>
