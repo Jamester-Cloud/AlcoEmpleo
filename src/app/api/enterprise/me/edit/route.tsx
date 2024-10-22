@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Documento from "@/models/documentos";
 import Persona from "@/models/personaModel";
+import User from "@/models/userModel";
 import upload from "@/helpers/upload";
 import { connect } from "@/dbConfig/dbConfig";
 connect()
@@ -75,7 +76,15 @@ export async function POST(request: NextRequest) {
                     telefono: formData.get('data[telefono]'),
                     direccion: formData.get('data[direccionFiscal]'),
                 }
+
+
                 await Persona.updateOne(filter, update);
+
+                update = {
+                    email : formData.get('data[email]')
+                }
+
+                await User.updateOne(filter, update)
 
                 break;
 

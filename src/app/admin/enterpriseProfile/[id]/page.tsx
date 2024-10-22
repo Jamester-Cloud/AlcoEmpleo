@@ -23,6 +23,7 @@ type FormValues = {
   razonSocial: String;
   idPersona: String;
   logo: File;
+  email:String;
 };
 
 export default function UserProfile({ params }: any) {
@@ -127,7 +128,10 @@ export default function UserProfile({ params }: any) {
                 <input type="text" className="form-control"
                   {...register("razonSocial")} placeholder="razonSocial" defaultValue={data?.personaData?.nombre} />
               </div>
-
+              <div
+                className="col-md-12"><label className="labels">Email</label><textarea className="form-control"
+                  {...register("email")} placeholder="Direccion Fiscal" defaultValue={data?.usersData?.email} />
+              </div>
               <div
                 className="col-md-12"><label className="labels">Direccíon Fiscal</label><textarea className="form-control"
                   {...register("direccionFiscal")} placeholder="Direccion Fiscal" defaultValue={data?.personaData?.direccion} />
@@ -240,7 +244,7 @@ export default function UserProfile({ params }: any) {
                 </div>
                 <div className="flex flex-row md:ml-10">
                   <p className="text-blue-800 mr-2">Email:</p>{" "}
-                  <p>{userData?.email || ""}</p>
+                  <p>{userData?.usersData?.email || ""}</p>
                 </div>
               </div>
               <div className="flex flex-row text-gray-600 mt-2">

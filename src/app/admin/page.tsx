@@ -134,7 +134,7 @@ export default function AdminPage() {
   const [pageCandidateCount, setCandidatePageCount]: any = useState(1);
   //states enteprise
   const [enterprises, setEnterprises]: any = useState();
-  const [pageEnterprise, setPageEnterprise] = useState(1);
+  const [pageEnterprise, setPageEnterprise]: any = useState(1);
   const [pageEnterpriseCount, setEnterprisePageCount]: any = useState(1);
   //states homepage
   const [siteData, setSiteData]: any = useState();
@@ -179,10 +179,10 @@ export default function AdminPage() {
       return { titulo: item.titulo, texto: item.texto };
     });
     defaultValues.logos_asociados = siteData?.homePage[0].logos_asociados?.map((item: any) => {
-     
+
       return { logo: { ruta: item.logo.ruta } }
     })
-  
+
     defaultValues.direccion = siteData?.homePage[0]?.direccion;
     defaultValues.politicaPrivacidad =
       siteData?.homePage[0]?.politicaPrivacidad;
@@ -224,7 +224,7 @@ export default function AdminPage() {
       const homeData = await axios.post("/api/administrator/homepage");
 
       Promise.all([homeData]).then((values: any) => {
-       
+
         setSiteData(values[0].data);
       });
     } catch (error) {
@@ -242,7 +242,7 @@ export default function AdminPage() {
       setCandidates(candidateData.data.data);
       setPageCandidate(pageCandidate);
       setCandidatePageCount(parseInt(candidateData.data.pagination.pageCount));
-      
+
     }
   };
 
@@ -257,7 +257,7 @@ export default function AdminPage() {
     setCandidatePageCount(candidateData.data.pagination.pageCount);
 
     if (candidateData.status == 200) {
-      
+
       setPageCandidate(nextPage);
     }
   };
@@ -294,17 +294,19 @@ export default function AdminPage() {
       { query: { limit: 5, page: pageEnterprise } }
     );
     if (enterpriseData.status == 200) {
-   
+
       setEnterprises(enterpriseData.data.data);
       setPageEnterprise(pageEnterprise);
       setEnterprisePageCount(
         parseInt(enterpriseData.data.pagination.pageCount)
       );
     }
+    console.log("Paginas para la empresa", pageEnterprise)
+    console.log("contador de Paginas para la empresa", pageEnterpriseCount)
   };
 
   const nextPageEnterprise = async (nextPage: number) => {
-    
+
     const enterpriseData = await axios.post(
       "/api/administrator/enterprise/pagination",
       { query: { page: nextPage, limit: 5 } }
@@ -313,12 +315,12 @@ export default function AdminPage() {
     setEnterprisePageCount(enterpriseData.data.pagination.pageCount);
 
     if (enterpriseData.status == 200) {
-      
+
       setEnterprises(nextPage);
     }
   };
   const prevPageEnterprise = async (prevPage: number) => {
-    
+
     const enterpriseData = await axios.post(
       "/api/administrator/enterprise/pagination",
       { query: { page: prevPage, limit: 5 } }
@@ -349,8 +351,8 @@ export default function AdminPage() {
         requestType: requestType
       });
       if (subscription.status === 200)
-        
-          fetchData(),
+
+        fetchData(),
           toast.success("Registro actualizado", {
             position: "top-right",
             autoClose: 5000,
@@ -386,7 +388,7 @@ export default function AdminPage() {
       query: { cedula: data.cedula },
     });
     if (search.status == 200) {
-     
+
       setCandidates(search.data.data);
     }
   };
@@ -398,7 +400,7 @@ export default function AdminPage() {
     });
     if (search.status == 200) {
       setEnterprises(search.data.data);
-      
+
     }
   };
 
@@ -406,18 +408,18 @@ export default function AdminPage() {
   const onSubmit = async (data: any) => {
     const res = await axios.post("/api/administrator/homepage/edit", { data });
     if (res.status == 200)
-      
-        toast.success("Informacíon actualizada", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+
+      toast.success("Informacíon actualizada", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
   };
 
   //Delete User
@@ -427,6 +429,7 @@ export default function AdminPage() {
       const user = await axios.post('/api/administrator/users', { idUsuario: idUser, requestType: requestType })
       if (user.status == 200) {
         await fetchCandidateData()
+
         await fetchEnterpriseData()
       }
     } catch (error) {
@@ -600,7 +603,7 @@ export default function AdminPage() {
             })}
           <Pagination.Next
             onClick={() => nextPageCandidate(pageCandidate + 1)}
-            disabled={pageCandidate == pageCandidateCount}
+            disabled={pageCandidate != pageCandidateCount}
           />
         </Pagination>
       </div>
@@ -756,7 +759,7 @@ export default function AdminPage() {
             })}
           <Pagination.Next
             onClick={() => nextPageEnterprise(pageEnterprise + 1)}
-            disabled={pageEnterprise == pageEnterpriseCount}
+            disabled={pageEnterprise != pageEnterpriseCount}
           />
         </Pagination>
       </div>
