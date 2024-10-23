@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         // //console.log(candidato)
         let acta = empresa.filter((item: any) => { if (item.documentos.contentType == 'application/pdf') return item.documentos.idArchivo })
         let logo = empresa.filter((item: any) => { if (item.documentos.contentType != 'application/pdf') return item.documentos.idArchivo })
-
+        console.log(acta)
 
         const response = NextResponse.json({
             message: "Succesfull data retrieving",

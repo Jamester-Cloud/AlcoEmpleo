@@ -23,7 +23,7 @@ type FormValues = {
   razonSocial: String;
   idPersona: String;
   logo: File;
-  email:String;
+  email: String;
 };
 
 export default function UserProfile({ params }: any) {
@@ -49,8 +49,8 @@ export default function UserProfile({ params }: any) {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/administrator/enterprise/getEnterprise", { idUsuario: id });
-    console.log(res.data)
-    setUserData({ ...res.data.data[0], personaData: res.data.data[0].personaData[0], logoEmpresa: res?.data?.logo[0]?.documentos.idArchivo, acta: res?.data?.acta })
+    console.log(res.data.acta[0].documentos)
+    setUserData({ ...res.data.data[0], personaData: res.data.data[0].personaData[0], logoEmpresa: res?.data?.logo[0]?.documentos.idArchivo, acta: res.data.acta[0] })
   };
 
   const [show, setShow] = useState(false);
@@ -107,7 +107,7 @@ export default function UserProfile({ params }: any) {
 
   useEffect(() => {
     getUserDetails();
-    console.log(userData)
+    console.log("Es la data:",userData)
   }, [!userData]);
 
   const form = (title: string, data: any) => {
@@ -209,13 +209,14 @@ export default function UserProfile({ params }: any) {
             >
               Editar Acta
             </button>
-            {userData?.acta?.idArchivo ? (
-              <a
-                href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`}
-                className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto text-center no-underline	"
-              >
-                Descargar Acta constitutiva
-              </a>
+            {userData?.acta ? (
+              <>
+                <div>
+                  <a className="btn btn-primary" target="_blank" href={`/api/enterprise/viewer?idArchivo=${userData.acta.documentos.idArchivo}`}>Ver Acta</a>
+                  {/* <iframe src={`/api/enterprise/viewer?idArchivo=${userData.acta.documentos.idArchivo}`} width="100%" height="500px" />
+                 */}
+                </div>
+                </>
             ) : (
               <p className="text-gray-500 text-center w-full">Sin Acta constitutiva</p>
             )}

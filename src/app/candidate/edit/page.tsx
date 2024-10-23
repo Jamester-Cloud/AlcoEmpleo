@@ -216,7 +216,7 @@ export default function UserCandidate() {
                         {candidatoData?.cv?.filename}
                       </div>
                         <div className="col-md-6">
-                          <a href={`/api/candidate/download?idArchivo=${candidatoData.cv.idArchivo}`} className="btn btn-primary">Descargar</a>
+                          <a href={`/api/candidate/viewer?idArchivo=${candidatoData.cv.idArchivo}`} target="_blank" className="btn btn-primary">Ver CV</a>
                         </div></> : "Sin CV"}
 
                     </div>

@@ -22,6 +22,7 @@ type FormValues = {
   telefono: string;
   razonSocial: String;
   idPersona: String;
+  email:String;
   logo: File;
 };
 
@@ -113,6 +114,7 @@ export default function UserProfile() {
   }, [!userData]);
 
   const form = (title: string, data: any) => {
+    console.log(data)
     switch (title) {
       case 'Editar datos empresa':
         return (
@@ -129,6 +131,12 @@ export default function UserProfile() {
                 className="col-md-12"><label className="labels">Razon Social</label>
                 <input type="text" className="form-control"
                   {...register("razonSocial")} placeholder="razonSocial" defaultValue={data?.personaData?.nombre} />
+              </div>
+
+              <div
+                className="col-md-12"><label className="labels">Emaik:</label>
+                <input type="text" className="form-control"
+                  {...register("email")} placeholder="Email " defaultValue={userData?.email} />
               </div>
 
               <div
@@ -209,12 +217,13 @@ export default function UserProfile() {
                     Editar Acta
                   </button>
                   {userData?.acta?.idArchivo ? (
-                    <a
-                      href={`/api/enterprise/download?idArchivo=${userData.acta.idArchivo}`}
-                      className="bg-blue-500 text-white px-4 py-2 m-1 rounded-md w-full sm:w-auto text-center no-underline	"
-                    >
-                      Descargar Acta constitutiva
-                    </a>
+                    <>
+                    <div>
+                      <a className="btn btn-primary" target="_blank" href={`/api/enterprise/viewer?idArchivo=${userData.acta.idArchivo}`}>Ver Acta</a>
+                      {/* <iframe src={`/api/enterprise/viewer?idArchivo=${userData.acta.documentos.idArchivo}`} width="100%" height="500px" />
+                     */}
+                    </div>
+                    </>
                   ) : (
                     <p className="text-gray-500 text-center w-full">Sin Acta constitutiva</p>
                   )}

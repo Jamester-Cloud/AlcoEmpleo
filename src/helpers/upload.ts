@@ -13,6 +13,7 @@ export default async function upload(file: File, bucketName: String, context: St
   const mongodbUrl: any = process.env.MONGO_URI
 
   await mongoose.connect(mongodbUrl)
+  //we treat the image
   let arrayBuffer = await file.arrayBuffer()
   let buffer = new Uint8Array(arrayBuffer)
   let readBuffer = new Readable()
