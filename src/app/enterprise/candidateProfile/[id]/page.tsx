@@ -94,8 +94,8 @@ export default function EnterpriseProfilePage({ params }: any) {
               <h6 className="text-blue-500">{data?.emailUsuario}</h6>
               <p className="text-secondary mb-0">{data?.candidato?.perfil?.puestoDeseado}</p>
               <div className="mt-2 space-y-2 w-full">
-                {cv ? <a href={`/api/candidate/download?idArchivo=${cv}`} className="btn btn-primary w-full">
-                  Descargar CV
+                {cv ? <a target="_blank" href={`/api/candidate/viewer?idArchivo=${cv}`} className="btn btn-primary w-full">
+                  Ver CV
                 </a> : 'Sin Curriculum Vitae'}
 
 

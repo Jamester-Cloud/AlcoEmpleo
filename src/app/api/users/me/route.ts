@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
         const empresa = await Empresa.findOne({ idUsuario: userData.id })
 
-        const documentos = await Documento.findOne({ idUsuario: userData.id })
+        const documentos = await Documento.findOne({ idUsuario: userData.id, contentType: 'image/jpeg' })
 
         const persona = await Persona.findOne({ _id: userData.idPersona })
 

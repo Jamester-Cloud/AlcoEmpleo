@@ -51,6 +51,18 @@ export default function CabeceraCandidato({
     };
   }, [menuRef]);
 
+  const [userData, setData]:any = useState();
+
+  const getUserDetails = async () => {
+    const res = await axios.get("/api/users/me");
+    console.log(res.data)
+    setData(res.data);
+  }
+
+  useEffect(() => {
+    getUserDetails()
+  }, [!userData])
+
   return (
     <header className="navbar navbar-expand-lg bg-blue-900 p-3 text-sm justify-between items-center">
       <div className="flex items-center">
@@ -61,9 +73,11 @@ export default function CabeceraCandidato({
           <FontAwesomeIcon icon={faBars} color="white" width={30} height={30} />
         </button>
       </div>
+      <div style={{marginLeft:"15%"}} className="flex items-left ml-auto text-white mr-auto space-x-4">
+        {userData?.personaData?.nombre}
+      </div>
       <div className="flex items-center ml-auto space-x-4">
         <nav className="hidden md:flex md:flex-column space-x-4">
-      
           <a
             className="text-decoration-none mt-2 text-white transition-opacity duration-300 hover:opacity-50 cursor-pointer"
             onClick={logout}

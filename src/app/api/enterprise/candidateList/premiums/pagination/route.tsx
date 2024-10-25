@@ -124,21 +124,13 @@ export async function POST(request: NextRequest) {
             },
         ]).skip(skip).limit(PER_PAGE)
 
-        console.log(candidatosPremiums)
+     
         //filtros para solo traerme los candidatos y sus fotos de perfil
         candidatosPremiums = candidatosPremiums.filter((filter: any) => filter.documentos.contentType != "application/pdf")
         //  aplicando el mismo filtro para count
         count = count.filter((filter) => filter.documentos.contentType != "application/pdf")
 
         const pageCount = count.length / PER_PAGE;
-
-        console.log("Contador de paginas", pageCount)
-
-        console.log("Pagina", page)
-
-        console.log("Offset de", skip)
-
-        console.log("Elementos por pagina", PER_PAGE)
 
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
@@ -149,7 +141,6 @@ export async function POST(request: NextRequest) {
             dataCandidatosPremium: candidatosPremiums,
             success: true,
         })
-        //console.log("hello world")
 
         return response;
 

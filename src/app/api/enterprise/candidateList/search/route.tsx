@@ -119,8 +119,7 @@ export async function POST(request: NextRequest) {
     const pageCount = count / PER_PAGE;
 
     //let mappedData = mapper(candidato);
-    console.log("Consulta paginada: ", paginatedQuery);
-    console.log("Consulta para premiums", candidatePremiums);
+
 
 
 

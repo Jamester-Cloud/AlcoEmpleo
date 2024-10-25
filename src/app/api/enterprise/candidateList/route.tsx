@@ -120,16 +120,13 @@ export async function POST(request: NextRequest) {
       },
 
     ]).skip(skip).limit(PER_PAGE)
-    console.log(paginatedQuery)
+  
     //filtros para solo traerme los candidatos y sus fotos de perfil
     paginatedQuery = paginatedQuery.filter((filter) => filter.documentosData.contentType != "application/pdf")
     // aplicando el mismo filtro para count
     count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
 
     const pageCount = count.length / PER_PAGE;
-    console.log(pageCount);
-    // console.log("Hay un total de:", count.length, "Candidatos sin destacar")
-    // console.log("Candidatos despues de los filtros y el paginado: ", paginatedQuery, "en la pagina:", page)
 
     const response = NextResponse.json({
       message: "Succesfull data retrieve",

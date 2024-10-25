@@ -346,7 +346,7 @@ export default function DataModal(props: any) {
                         <div className="row" >
                             <div className="col-md-12">
                                 <label htmlFor="file">Actualizar foto de perfil</label>
-                                <input type="file" placeholder="Actualizar foto" {...register("profilePicture", { required: true })} className="form-group form-control" id="profilePicture" name="profilePicture" />
+                                <input type="file" accept="image/png, image/gif, image/jpeg"  placeholder="Actualizar foto" {...register("profilePicture", { required: true })} className="form-group form-control" id="profilePicture" name="profilePicture" />
                             </div><br />
                             <div className="col-md-6"><label className="labels">Cedula</label><input type="text"
                                 className="form-control" defaultValue={data?.cedula} placeholder="Cedula de identidad" {...register("cedula")} />

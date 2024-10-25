@@ -106,7 +106,9 @@ export default function Oportunidades() {
   //src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <span className="mb-5">Oportunidades Disponibles:</span>
       <div className="bg-slate-300 p-2   rounded text-white w-full max-w-3xl">
+        
         <form onSubmit={handleSubmit(onSubmit)} >
           <div className="flex flex-col md:flex-row items-center">
             <input type="text" {...register('cargo')} placeholder="Cargo" className="ml-3 w-100 md:w-auto pl-12 form-control" id="" />

@@ -1,5 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
+import Persona from "@/models/personaModel";
+import Documento from "@/models/documentos";
 import Rol from "@/models/userRolModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
@@ -19,7 +21,7 @@ export async function POST(request: NextRequest) {
         if (!user) {
             return NextResponse.json({ error: "El usuario no existe" }, { status: 400 })
         }
-        console.log("user exists");
+        
         if (user.estatus === false) return NextResponse.json({ error: "El usuario se encuentra desactivado" }, { status: 400 })
         //check if password is correct
         const validPassword = await bcryptjs.compare(password, user.password)
@@ -29,14 +31,23 @@ export async function POST(request: NextRequest) {
         }
 
         const rol = user.isAdmin ? 'admin' : await Rol.findOne({ _id: user.idRol })
+        //
+        const personaData = await Persona.findOne({_id:user.idPersona})
+        const docs = await Documento.findOne({idUsuario:user._id})
+        console.log(docs)
         //create token data
         const tokenData = {
             id: user._id,
+            realName : personaData.nombre,
+            lastName : personaData.apellido,
             username: user.username,
             email: user.email,
+            fotoPerfil: rol == 'admin' ? '' : docs.idArchivo,
             idPersona: user.idPersona,
             rol: rol == 'admin' ? rol : rol.rol
         }
+
+        console.log(tokenData)
         //create token
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
 

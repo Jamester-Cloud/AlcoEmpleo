@@ -1,13 +1,14 @@
 "use client";
-
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
   faCartShopping,
-  faQuestion,faHome,faRightFromBracket
+  faQuestion, faHome, faRightFromBracket
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+  
   return (
     <div
       className={`fixed top-0 left-0 h-full bg-blue-950 shadow-lg z-50 transform ${isOpen ? "translate-x-0" : "-translate-x-full"
@@ -35,14 +37,23 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               id="dropdownUser1"
             >
               <span className="text-white d-none d-sm-inline mx-1">
-              <FontAwesomeIcon
-                className="text-white"
-                icon={faHome}
-                width="30"
-                height="30"
-              />
-                Inicio
+                <FontAwesomeIcon
+                  className="text-white"
+                  icon={faHome}
+                  width="30"
+                  height="30"
+                />
+                
               </span>
+              {/* <span className="text-white d-none d-sm-inline mx-1">
+                <FontAwesomeIcon
+                  className="text-white"
+                  icon={faHome}
+                  width="30"
+                  height="30"
+                />
+                Inicio
+              </span> */}
             </Link>
           </li>
           <li className="nav-item">
@@ -96,7 +107,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           </li>
           <li>
             <Link
-               href="/candidate/quizz"
+              href="/candidate/quizz"
               className="nav-link align-middle d-flex align-items-center"
             >
               <FontAwesomeIcon

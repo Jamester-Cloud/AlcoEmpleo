@@ -238,7 +238,6 @@ export default function AdminPage() {
       { query: { limit: 10, page: pageCandidate } }
     );
     if (candidateData.status == 200) {
-      console.log(candidateData.data.data)
       setCandidates(candidateData.data.data);
       setPageCandidate(pageCandidate);
       setCandidatePageCount(parseInt(candidateData.data.pagination.pageCount));
@@ -301,8 +300,6 @@ export default function AdminPage() {
         parseInt(enterpriseData.data.pagination.pageCount)
       );
     }
-    console.log("Paginas para la empresa", pageEnterprise)
-    console.log("contador de Paginas para la empresa", pageEnterpriseCount)
   };
 
   const nextPageEnterprise = async (nextPage: number) => {
