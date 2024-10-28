@@ -346,7 +346,7 @@ export default function DataModal(props: any) {
                         <div className="row" >
                             <div className="col-md-12">
                                 <label htmlFor="file">Actualizar foto de perfil</label>
-                                <input type="file" accept="image/png, image/gif, image/jpeg"  placeholder="Actualizar foto" {...register("profilePicture", { required: true })} className="form-group form-control" id="profilePicture" name="profilePicture" />
+                                <input type="file" accept="image/png, image/gif, image/jpeg"  placeholder="Actualizar foto" {...register("profilePicture")} className="form-group form-control" id="profilePicture" name="profilePicture" />
                             </div><br />
                             <div className="col-md-6"><label className="labels">Cedula</label><input type="text"
                                 className="form-control" defaultValue={data?.cedula} placeholder="Cedula de identidad" {...register("cedula")} />
@@ -470,7 +470,6 @@ export default function DataModal(props: any) {
                 )
                 break
             case 'Perfil del candidato':
-                console.log(data);
                 return (
                     <form onSubmit={handleSubmit(onSubmitWithFiles)} className='form '>
                         <div className="row" >
@@ -499,7 +498,7 @@ export default function DataModal(props: any) {
                             <div className="col-md-12 mt-4">
                                 <label className="labels">Curriculum</label>
                                 <div className="d-flex flex-column align-items-center ">
-                                    <input type="file" accept=".pdf" placeholder="Actualizar CV" {...register("perfil.CV", { required: true })} className="form-group form-control" />
+                                    <input type="file" accept=".pdf" placeholder="Actualizar CV" {...register("perfil.CV")} className="form-group form-control" />
                                 </div>
                             </div>
                         </div>

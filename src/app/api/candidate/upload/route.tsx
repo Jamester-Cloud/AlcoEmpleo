@@ -13,7 +13,6 @@ export const POST = async (request: NextRequest) => {
 
         let filter;
         let update;
-        let file: any;
         let data;
 
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
@@ -23,30 +22,30 @@ export const POST = async (request: NextRequest) => {
             //funciona con redes
             case 'datosPersonales':
                 console.log(formData)
-
-                const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
-
-                let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
-                console.log("Proceso de guardado de documentos finalizado")
-
-                filter = {
-                    idUsuario: formData.get('idUsuario'),
-                    bucketName: 'candidateProfilePics'
-                }
-
-                update = {
-                    $set: {
+                if (formData.get('profilePicture') as File || formData.get('profilePicture[]') as File){
+                    const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
+                    let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
+                    console.log("Proceso de guardado de documentos finalizado")
+    
+                    filter = {
                         idUsuario: formData.get('idUsuario'),
-                        filename: profilePicture.name,
-                        idArchivo: idProfilePic,
-                        originalname: profilePicture.name,
-                        contentType: profilePicture.type,
-                        size: profilePicture.size,
-                        bucketName: "candidateProfilePics",
+                        bucketName: 'candidateProfilePics'
                     }
+    
+                    update = {
+                        $set: {
+                            idUsuario: formData.get('idUsuario'),
+                            filename: profilePicture.name,
+                            idArchivo: idProfilePic,
+                            originalname: profilePicture.name,
+                            contentType: profilePicture.type,
+                            size: profilePicture.size,
+                            bucketName: "candidateProfilePics",
+                        }
+                    }
+    
+                    await Documento.updateOne(filter, update, { upsert: true })
                 }
-
-                await Documento.updateOne(filter, update, { upsert: true })
 
                 filter = { _id: formData.get('idPersona') }
 
@@ -64,30 +63,32 @@ export const POST = async (request: NextRequest) => {
                 await Persona.updateOne(filter, update)
                 break;
             case 'perfil':
-                console.log(formData);
-                let file = formData.get('perfil[CV]') as File;
-                let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
+                if (formData.get('perfil[CV]')) {
 
-                // //
-                filter = {
-                    idUsuario: formData.get('idUsuario'),
-                    bucketName: 'candidateDocuments'
-                }
-                //CV
-                update = {
-                    $set: {
+                    let file = formData.get('perfil[CV]') as File
+
+                    filter = {
                         idUsuario: formData.get('idUsuario'),
-                        filename: file.name,
-                        idArchivo: idCv,
-                        originalname: file.name,
-                        contentType: file.type,
-                        size: file.size,
-                        bucketName: "candidateDocuments",
+                        bucketName: 'candidateDocuments'
                     }
+
+                    let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
+
+                    update = {
+                        $set: {
+                            idUsuario: formData.get('idUsuario'),
+                            filename: file.name,
+                            idArchivo: idCv,
+                            originalname: file.name,
+                            contentType: file.type,
+                            size: file.size,
+                            bucketName: "candidateDocuments",
+                        }
+                    }
+
+                    await Documento.updateOne(filter, update, { upsert: true })
                 }
-                //actualizamos el documento
-                await Documento.updateOne(filter, update, { upsert: true })
-                //Perfil Data
+
                 filter = {
                     idUsuario: formData.get('idUsuario'),
                 }
@@ -100,10 +101,9 @@ export const POST = async (request: NextRequest) => {
                         idRegion: formData.get('idRegion[value]')
                     }
                 }
-                //codigo que maneja las peticiones de idiomas
+
                 await Candidato.updateOne(filter, update);
 
-                //console.log("Proceso de guardado de documentos finalizado")
                 break;
             case 'exp':
 

@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import axios from "axios"
 import Link from "next/link"
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Image from 'next/image';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+
 
 
 export default function CabeceraEmpresa() {
@@ -31,6 +26,17 @@ export default function CabeceraEmpresa() {
             console.log(error.message)
         }
     }
+    const [userData, setData]:any = useState();
+
+    const getUserDetails = async () => {
+      const res = await axios.get("/api/users/me");
+      console.log(res.data)
+      setData(res.data);
+    }
+  
+    useEffect(() => {
+      getUserDetails()
+    }, [!userData])
     return (
         <header className="w-full bg-blue-950 navbar navbar-expand-lg p-0">
             <div className="container flex justify-between items-center">
@@ -39,7 +45,7 @@ export default function CabeceraEmpresa() {
                         width={110}
                         height={80}
                         className="img-fluid rounded-2xl pt-1 pl-1 pb-1"
-                        src="/AlcoSloganLogo.png"
+                        src={userData?.documentos.idArchivo ? `/api/enterprise/enterpriseLogo?idArchivo=${userData?.documentos?.idArchivo}` : '/AlcoLogo.png'}
                         alt="GrupoAlco"
                     />
                 </Link>

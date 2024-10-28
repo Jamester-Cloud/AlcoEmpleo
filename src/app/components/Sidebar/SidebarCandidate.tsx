@@ -43,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   width="30"
                   height="30"
                 />
-                
+                Inicio
               </span>
               {/* <span className="text-white d-none d-sm-inline mx-1">
                 <FontAwesomeIcon

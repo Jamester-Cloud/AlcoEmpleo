@@ -246,8 +246,15 @@ export default function Quizzes({ params }: any) {
                         <div className="col-md-6">
                             <label htmlFor="">Dificultad</label>
                             <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
-                                <option value="medio">Medio</option>
+                                <option value="medio">Media</option>
                                 <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                        <div className="col-md-6">
+                            <label htmlFor="">Tipo de cuestionario</label>
+                            <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
+                                <option value="normal">Normal</option>
+                                <option value="PsicoTecnica">PsicoTecnico</option>
                             </select>
                         </div>
                         <div className="col-md-6 mt-3">

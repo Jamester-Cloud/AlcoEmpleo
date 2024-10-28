@@ -55,7 +55,6 @@ export default function CabeceraCandidato({
 
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/me");
-    console.log(res.data)
     setData(res.data);
   }
 
@@ -74,7 +73,7 @@ export default function CabeceraCandidato({
         </button>
       </div>
       <div style={{marginLeft:"15%"}} className="flex items-left ml-auto text-white mr-auto space-x-4">
-        {userData?.personaData?.nombre}
+        {userData?.personaData?.nombre} {userData?.personaData?.apellido}
       </div>
       <div className="flex items-center ml-auto space-x-4">
         <nav className="hidden md:flex md:flex-column space-x-4">
@@ -90,7 +89,7 @@ export default function CabeceraCandidato({
             width={50}
             height={80}
             className="img-fluid rounded-2xl p-1"
-            src="/AlcoSloganLogo.png"
+            src={userData?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${userData.documentos.idArchivo}` : '/AlcoSloganLogo.png'}
             alt="GrupoAlco"
           />
         </Link>

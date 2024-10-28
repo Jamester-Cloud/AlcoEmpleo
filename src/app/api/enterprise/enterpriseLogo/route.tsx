@@ -4,6 +4,7 @@ import imageVisor from "@/helpers/imageVisor";
 
 export async function GET(request: NextRequest) {
     let idArchivo: any = request.nextUrl.searchParams.get("idArchivo")
+    console.log(idArchivo)
     let docInfo = await Documento.findOne({ idArchivo: idArchivo })
     let downloadStream = await imageVisor(idArchivo, 'enterprisesBucket')
     try {
