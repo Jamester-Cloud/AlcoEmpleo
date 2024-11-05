@@ -9,6 +9,7 @@ const cuestionarioSchema = new mongoose.Schema({
     calificacion: Number,
     createadAt: { type: Date, default: Date.now },
     finalizada: Boolean,
+    tipo:String
 })
 
 const Cuestionario = mongoose.models.cuestionario || mongoose.model("cuestionario", cuestionarioSchema)

@@ -58,11 +58,12 @@ export async function POST(request: NextRequest) {
         const skip = (page - 1) * PER_PAGE;
 
         let data = await Candidato.aggregate(q).skip(skip).limit(PER_PAGE)
-        console.log(data);
+        
         const count = await Candidato.countDocuments()
         const pageCount = count / PER_PAGE;
-        console.log(data)
+        
         data = data?.filter((filter: any) => filter.documentosData.contentType != "application/pdf")
+        
         const response = NextResponse.json({
             message: "Succesfull pagination",
             data,

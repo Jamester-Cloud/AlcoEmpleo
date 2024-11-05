@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
     //Rutas para candidatos
     const isCandidatePath = path === '/candidate' || path === '/candidate/premium' || path === '/candidate/edit' || path === '/candidate/subscription' || path === '/candidate/oportunidades' || path === '/candidate/quiz' || path === '/candidate/quiz/[id]'
     //Rutas para administrador
-    const isAdminPath = path === '/admin' || path === '/admin/[id]' || path === '/admin/quizzes/[id]' || path === '/candidateProfile/[id]' || path === '/admin/quizzes'
+    const isAdminPath = path === '/admin' || path === '/admin/[id]' || path === '/admin/quizzes/[id]' || path === '/candidateProfile/[id]' || path === '/admin/quizzes' || path === '/admin/quizzes/psychotechnical'
     //token unico basado en una cookie
     //desincriptando el token para determinar el rol de la persona en el sistema
     //Si estamos logueados porque tenemos token y la ruta en la que estamos es publica, entonces solo veremos inicio

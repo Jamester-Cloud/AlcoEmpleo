@@ -141,7 +141,7 @@ export default function Quizzes({ params }: any) {
             console.log("Error")
         }
     }
-    
+
     const updateQuiz = async (idQuiz: string) => {
         console.log(idQuiz)
         const res = await axios.post('/api/administrator/candidates/quizzes/update', { idQuiz: idQuiz })
@@ -218,7 +218,7 @@ export default function Quizzes({ params }: any) {
                                             </button>
                                         </td>
                                         <td className='mt-2'>
-                                            <button onClick={()=> deleteQuiz(item._id)} className="bg-red-500 text-white px-4 py-2 rounded-md">
+                                            <button onClick={() => deleteQuiz(item._id)} className="bg-red-500 text-white px-4 py-2 rounded-md">
                                                 Eliminar
                                             </button>
                                         </td>
@@ -237,11 +237,20 @@ export default function Quizzes({ params }: any) {
 
     return (
         <div className='container-fluid p-5'>
+            <ul className="nav justify-content-center">
+                <li className="nav-item">
+                    <a className="nav-link active" aria-current="page" href="#">Tecnico</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Psicotecnico</a>
+                </li>
+            </ul>
             <div className="row">
                 {isLoading ? (
                     <h1 className=' text-center'>Generando Datos por IA</h1>
                 ) : (
                     <>
+
                         <h6 className='mt-3'>Generar Quiz: {cargoDeseadoCandidato || (<p className='text-danger'>Debe Especificar un cargo para poder generar</p>)}</h6>
                         <div className="col-md-6">
                             <label htmlFor="">Dificultad</label>

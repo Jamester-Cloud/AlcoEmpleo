@@ -17,7 +17,6 @@ export default function CabeceraEmpresa() {
     };
     const logout = async () => {
         try {
-            //destruye el token
             await axios.get('/api/users/logout')
             localStorage.clear();
 

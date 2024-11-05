@@ -11,8 +11,6 @@ import {
   faCheckCircle,
   faWallet,
   faMapMarker,
-  faAngleDoubleLeft,
-  faAngleDoubleRight,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
@@ -42,10 +40,10 @@ export default function CandidateSearch() {
     try {
       const res = await axios.post('/api/enterprise/candidateList', { page: pageCandidateNormal })
       if (res.status == 200) {
-        console.log(res.data)
+        
         setCandidateNormal(res.data.data);
         setPageNormalCandidateCount(res.data.pagination.pageCount);
-        //console.log(candidatesNormal)
+        
       }
     } catch (error) {
       console.error(Error)
@@ -104,18 +102,7 @@ export default function CandidateSearch() {
       setPageCandidateNormal(prevPage);
     }
   };
-  //Premium Page
-  // const goToPagePremiumCandidate = async (pageNumber: number) => {
-  //   console.log(pageNumber)
-  //   const response: any = await axios.post(
-  //     "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
-  //   );
-  //   if (response.status == 200) {
-  //     setCandidatePremiums(response.data.data);
-  //     setPageCandidatePremiums(pageNumber);
-  //   }
-  // };
-
+  
   const nextPageCandidatePremium = async (nextPage: number) => {
     console.log("Pagina siguiente");
     const response: any = await axios.post(
@@ -169,8 +156,6 @@ export default function CandidateSearch() {
 
   useEffect(() => {
     fetchNormalCandidates()
-    console.log(candidatesNormal)
-    console.log(pageNormalCandidateCount);
   }, [!candidatesNormal])
 
   useEffect(() => {
@@ -242,7 +227,7 @@ export default function CandidateSearch() {
                       {...register('cargo')}
                     />
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center z-3">
                     <Controller
                       name="idRegion"
                       control={control}
@@ -322,7 +307,7 @@ export default function CandidateSearch() {
                     <div className="flex-shrink-0">
                       <a href="#">
                         <Image
-                          src="/Imagen-card.png"
+                          src={item.documentosData.idArchivo ? `/api/candidate/profilePic?idArchivo=${item.documentosData.idArchivo}` : "/Imagen-card.png"}
                           width={100}
                           height={100}
                           alt=""
