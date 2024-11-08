@@ -346,6 +346,7 @@ export default function DataModal(props: any) {
                         <div className="row" >
                             <div className="col-md-12">
                                 <label htmlFor="file">Actualizar foto de perfil</label>
+                                <p className='text-info'> (Debe volver a iniciar sesion para ver los cambios de la foto de perfil)</p>
                                 <input type="file" accept="image/png, image/gif, image/jpeg"  placeholder="Actualizar foto" {...register("profilePicture")} className="form-group form-control" id="profilePicture" name="profilePicture" />
                             </div><br />
                             <div className="col-md-6"><label className="labels">Cedula</label><input type="text"

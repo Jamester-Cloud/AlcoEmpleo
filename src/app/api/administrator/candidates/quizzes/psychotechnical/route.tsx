@@ -1,13 +1,11 @@
 import { connect } from "@/dbConfig/dbConfig";
-import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai'
 connect()
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     try {
-        const reqJson = await request.json()
-
+        
         const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
 
         let model = genAI.getGenerativeModel({
@@ -38,7 +36,7 @@ export async function GET(request: NextRequest) {
         });
 
         let prompt = `
-       Crea un instrumento de evaluación con 5 preguntas de  selección múltiple que sirva para medir con fines corporativos las habilidades blandas, 
+        Crea un instrumento de evaluación con 10 preguntas de  selección múltiple que sirva para medir con fines corporativos las habilidades blandas, 
         en forma precisa, específicamente que nos permita precisar el nivel que posee una persona en cuanto a sus habilidades de:
         comunicación efectiva, 
         liderazgo, 
@@ -50,9 +48,10 @@ export async function GET(request: NextRequest) {
         `;
 
         let result = await model.generateContent(prompt)
+        console.log(result)
         let preguntas: any = JSON.parse(result.response.text());
-
-        return NextResponse.json({ message: 'Consulta creada exitosamente', preguntas: preguntas, success: true })
+        console.log(preguntas)
+        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })

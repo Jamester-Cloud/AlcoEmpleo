@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
             lastName : personaData.apellido,
             username: user.username,
             email: user.email,
-            fotoPerfil: rol == 'admin' ? '' : docs.idArchivo,
+            fotoPerfil: rol == 'admin' ? '' : docs?.idArchivo || '',
             idPersona: user.idPersona,
             rol: rol == 'admin' ? rol : rol.rol
         }

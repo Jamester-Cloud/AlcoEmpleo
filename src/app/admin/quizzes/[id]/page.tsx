@@ -4,9 +4,10 @@ import axios from 'axios';
 import { useForm, useFieldArray } from "react-hook-form";
 import NestedFields from '@/app/components/Forms/NestedArray';
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import Spinner from '@/app/components/Spinner/Spinner';
+import { Psicotecnic } from '../psicotecnic/paget';
 import { useRouter } from "next/navigation"
 import Modal from 'react-bootstrap/Modal'
+
 type FormValues = {
     quiz: {
         pregunta: string,
@@ -26,8 +27,8 @@ export default function Quizzes({ params }: any) {
     const router = useRouter()
 
     let { id } = params;
-    console.log(id)
     const [quiz, setQuiz]: any = useState();
+    const [typeQuiz, setTypeQuiz] = useState("")
     const [isLoading, setLoading] = useState(false)
     const [idCandidato, setCandidato] = useState(id);
     //General tables
@@ -83,10 +84,8 @@ export default function Quizzes({ params }: any) {
     const generateQuestions = async () => {
         setLoading(true); // Empieza la carga
         try {
-            console.log(dificultad);
             const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
             if (response.status === 200) {
-                console.log(response.data)
                 setQuiz(response.data.preguntas);
                 setCargoDeseado(response.data.cargoDeseado);
             }
@@ -98,8 +97,8 @@ export default function Quizzes({ params }: any) {
     };
 
     useEffect(() => {
-        generateQuestions()
-        // general table
+        //generateQuestions()
+        //load the table
         getquizzes()
     }, [!quiz])
 
@@ -111,6 +110,7 @@ export default function Quizzes({ params }: any) {
 
     const handleSubmitQuiz = async (data: any) => {
         try {
+
             const response = await axios.post('/api/administrator/candidates/quizzes/save/', { preguntas: data.quiz, dificultad: data.dificultad, idCandidato: data.idCandidato, tituloCuestionario: data.tituloCuestionario })
             toast.success("Cuestionario generado", {
                 position: "top-right",
@@ -237,20 +237,11 @@ export default function Quizzes({ params }: any) {
 
     return (
         <div className='container-fluid p-5'>
-            <ul className="nav justify-content-center">
-                <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" href="#">Tecnico</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Psicotecnico</a>
-                </li>
-            </ul>
             <div className="row">
                 {isLoading ? (
                     <h1 className=' text-center'>Generando Datos por IA</h1>
                 ) : (
                     <>
-
                         <h6 className='mt-3'>Generar Quiz: {cargoDeseadoCandidato || (<p className='text-danger'>Debe Especificar un cargo para poder generar</p>)}</h6>
                         <div className="col-md-6">
                             <label htmlFor="">Dificultad</label>
@@ -261,13 +252,14 @@ export default function Quizzes({ params }: any) {
                         </div>
                         <div className="col-md-6">
                             <label htmlFor="">Tipo de cuestionario</label>
-                            <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
+                            <select onChange={(e: any) => setTypeQuiz(e.target.value)} className='form-control'>
+                                <option value=""></option>
                                 <option value="normal">Normal</option>
                                 <option value="PsicoTecnica">PsicoTecnico</option>
                             </select>
+
                         </div>
                         <div className="col-md-6 mt-3">
-                            <button className='bg-purple-500 text-white px-4 py-2 rounded-md mb-4' onClick={() => generateQuestions()}>Generar Cuestionario</button>
                             <button onClick={(e) => handleModal(e, 'Administrar Cuestionarios', {}, id, "adminQuiz")} className="text-white px-4 py-2 rounded-md mb-4 ml-5 bg-green-500">
                                 Ver cuestionarios generados
                             </button>
@@ -275,15 +267,21 @@ export default function Quizzes({ params }: any) {
                     </>
                 )}
             </div>
-
+            <hr />
             <div>
                 {isLoading ? (
                     <h2 className=' text-center hidden' >Cargando Preguntas</h2>
                 ) : (
-                    <>
+                    typeQuiz === 'normal' ? <>
+
                         <form className='form' onSubmit={handleSubmit(handleSubmitQuiz)} >
                             <div className="row">
-
+                                <div className="col-md-6">
+                                    <button className='bg-purple-500 text-white px-4 py-2 rounded-md mb-4' onClick={() => generateQuestions()}>Generar Cuestionario</button>
+                                </div>
+                                <div className="col-md-6">
+                                    <button type='submit' className="btn btn-primary btn-block">Guardar cambios</button>
+                                </div>
                                 <input type="hidden" {...register("idCandidato")} value={idCandidato} />
                                 <input type="hidden" {...register("dificultad")} value={dificultad} />
                                 <hr />
@@ -301,12 +299,12 @@ export default function Quizzes({ params }: any) {
 
                                 <div className="col-md-12 mt-3 ">
                                     {/* <button
-                                        type="button"
-                                        onClick={() => appendQuiz({ pregunta: "", respuestas: [{ respuesta: "" }], respuestaCorrecta: "" })}
-                                        className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
-                                    >
-                                        Agregar pregunta
-                                    </button> */}
+                                   type="button"
+                                   onClick={() => appendQuiz({ pregunta: "", respuestas: [{ respuesta: "" }], respuestaCorrecta: "" })}
+                                   className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
+                               >
+                                   Agregar pregunta
+                               </button> */}
                                     {fieldQuiz.map((field: any, index: number) => {
                                         return (
                                             <div key={field.id}>
@@ -345,10 +343,6 @@ export default function Quizzes({ params }: any) {
                                     })}
                                 </div>
                             </div>
-
-                            <div className="row text-center mt-5">
-                                <button type='submit' className="btn btn-primary btn-block">Guardar cambios</button>
-                            </div>
                         </form>
                         <ToastContainer
                             position="top-right"
@@ -380,7 +374,7 @@ export default function Quizzes({ params }: any) {
                                 </div>
                             </Modal.Body>
                         </Modal>
-                    </>
+                    </> : <Psicotecnic idCandidato={id} />
                 )}
             </div>
 
