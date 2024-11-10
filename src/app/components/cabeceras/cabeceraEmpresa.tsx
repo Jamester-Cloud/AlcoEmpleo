@@ -44,7 +44,7 @@ export default function CabeceraEmpresa() {
                         width={110}
                         height={80}
                         className="img-fluid rounded-2xl pt-1 pl-1 pb-1"
-                        src={userData?.documentos.idArchivo ? `/api/enterprise/enterpriseLogo?idArchivo=${userData?.documentos?.idArchivo}` : '/AlcoLogo.png'}
+                        src={userData?.documentos?.idArchivo ? `/api/enterprise/enterpriseLogo?idArchivo=${userData?.documentos?.idArchivo}` : '/AlcoLogo.png'}
                         alt="GrupoAlco"
                     />
                 </Link>
