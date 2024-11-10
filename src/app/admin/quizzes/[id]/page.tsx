@@ -28,7 +28,7 @@ export default function Quizzes({ params }: any) {
 
     let { id } = params;
     const [quiz, setQuiz]: any = useState();
-    const [typeQuiz, setTypeQuiz] = useState("")
+    const [typeQuiz, setTypeQuiz] = useState("normal")
     const [isLoading, setLoading] = useState(false)
     const [idCandidato, setCandidato] = useState(id);
     //General tables
@@ -97,7 +97,7 @@ export default function Quizzes({ params }: any) {
     };
 
     useEffect(() => {
-        //generateQuestions()
+        generateQuestions()
         //load the table
         getquizzes()
     }, [!quiz])
@@ -253,9 +253,9 @@ export default function Quizzes({ params }: any) {
                         <div className="col-md-6">
                             <label htmlFor="">Tipo de cuestionario</label>
                             <select onChange={(e: any) => setTypeQuiz(e.target.value)} className='form-control'>
-                                <option value=""></option>
+                                
                                 <option value="normal">Normal</option>
-                                <option value="PsicoTecnica">PsicoTecnico</option>
+                                <option value="PsicoTecnica" disabled>PsicoTecnico</option>
                             </select>
 
                         </div>
