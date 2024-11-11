@@ -62,7 +62,8 @@ export async function GET(request: NextRequest) {
           documentos: "$documentosData"
         }
       },
-    ])
+    ]).limit(50)
+    
 
     // trae solo los candidatos que tengan foto de perfil
     let filtrados = candidatosPremiums.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
@@ -74,7 +75,6 @@ export async function GET(request: NextRequest) {
       dataCandidatosPremium: filtrados,
       success: true,
     })
-    //console.log("hello world")
 
     return response;
 

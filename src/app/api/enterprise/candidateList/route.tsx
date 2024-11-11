@@ -21,10 +21,14 @@ export async function POST(request: NextRequest) {
     let count = await Candidato.aggregate([
       {
         $match: {
-          "esDestacado": false
+          "esDestacado": false,
+        },
+      },
+      {
+        $sort: {
+          "perfil.calificaciones": -1
         }
       },
-
       {
         $lookup: {
           from: "users",
@@ -38,6 +42,17 @@ export async function POST(request: NextRequest) {
       },
       {
         $lookup: {
+          from: "personas",
+          localField: "usuarioData.idPersona",
+          foreignField: "_id",
+          as: "personaData"
+        }
+      },
+      {
+        $unwind: "$personaData"
+      },
+      {
+        $lookup: {
           from: "documentos",
           localField: "usuarioData._id",
           foreignField: "idUsuario",
@@ -47,33 +62,25 @@ export async function POST(request: NextRequest) {
       {
         $unwind: "$documentosData"
       },
-
-      {
-        $lookup: {
-          from: "personas",
-          localField: "usuarioData.idPersona",
-          foreignField: "_id",
-          as: "personaData"
-        }
-      },
-
-      {
-        $unwind: "$personaData"
-      },
       {
         $project: {
-          "candidato": "$$ROOT",
+          "Candidato": "$$ROOT",
+          usuarioData: "$usuarioData",
           personaData: "$personaData",
           "documentosData": "$documentosData"
         }
       },
-
     ])
     //planeo hacer el paginado aca
     let paginatedQuery = await Candidato.aggregate([
       {
         $match: {
-          "esDestacado": false
+          "esDestacado": false,
+        },
+      },
+      {
+        $sort: {
+          "perfil.calificaciones": -1
         }
       },
       {
@@ -89,6 +96,17 @@ export async function POST(request: NextRequest) {
       },
       {
         $lookup: {
+          from: "personas",
+          localField: "usuarioData.idPersona",
+          foreignField: "_id",
+          as: "personaData"
+        }
+      },
+      {
+        $unwind: "$personaData"
+      },
+      {
+        $lookup: {
           from: "documentos",
           localField: "usuarioData._id",
           foreignField: "idUsuario",
@@ -98,27 +116,14 @@ export async function POST(request: NextRequest) {
       {
         $unwind: "$documentosData"
       },
-
-      {
-        $lookup: {
-          from: "personas",
-          localField: "usuarioData.idPersona",
-          foreignField: "_id",
-          as: "personaData"
-        }
-      },
-
-      {
-        $unwind: "$personaData"
-      },
       {
         $project: {
-          "candidato": "$$ROOT",
+          "Candidato": "$$ROOT",
+          usuarioData: "$usuarioData",
           personaData: "$personaData",
-          "documentosData": "$documentosData"
+          documentosData: "$documentosData"
         }
       },
-
     ]).skip(skip).limit(PER_PAGE)
   
     //filtros para solo traerme los candidatos y sus fotos de perfil

@@ -10,10 +10,9 @@ export async function POST(request: NextRequest) {
 
     const reqJson = await request.json()
     let { page } = reqJson;
-    //console.log(page)
 
-    const PER_PAGE = 5
-    const skip = (page - 1) * PER_PAGE;
+    const PER_PAGE = 6
+    const skip = (parseInt(page) - 1) * PER_PAGE;
 
     try {
         let count = await Candidato.aggregate([
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest) {
                     "Candidato": "$$ROOT",
                     usuarioData: "$usuarioData",
                     personaData: "$personaData",
-                    documentos: "$documentosData"
+                    "documentos": "$documentosData"
                 }
             },
         ])
@@ -119,16 +118,17 @@ export async function POST(request: NextRequest) {
                     "Candidato": "$$ROOT",
                     usuarioData: "$usuarioData",
                     personaData: "$personaData",
-                    documentos: "$documentosData"
+                    "documentos": "$documentosData"
                 }
             },
-        ]).skip(skip).limit(PER_PAGE)
+        ]).skip(skip).limit(10)
 
-     
+
         //filtros para solo traerme los candidatos y sus fotos de perfil
-        candidatosPremiums = candidatosPremiums.filter((filter: any) => filter.documentos.contentType != "application/pdf")
+        candidatosPremiums = candidatosPremiums.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
+        console.log(candidatosPremiums.length)
         //  aplicando el mismo filtro para count
-        count = count.filter((filter) => filter.documentos.contentType != "application/pdf")
+        count = count.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
 
         const pageCount = count.length / PER_PAGE;
 
