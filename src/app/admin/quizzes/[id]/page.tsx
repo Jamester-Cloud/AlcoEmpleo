@@ -27,11 +27,12 @@ export default function Quizzes({ params }: any) {
     const router = useRouter()
 
     let { id } = params;
+    //Questions
     const [quiz, setQuiz]: any = useState();
     const [typeQuiz, setTypeQuiz] = useState("normal")
     const [isLoading, setLoading] = useState(false)
     const [idCandidato, setCandidato] = useState(id);
-    //General tables
+    //All the quizzes
     const [quizzData, setQuizzData]: any = useState();
 
     const [dificultad, setDificultad] = useState("medio");
@@ -82,7 +83,7 @@ export default function Quizzes({ params }: any) {
     });
 
     const generateQuestions = async () => {
-        setLoading(true); // Empieza la carga
+        setLoading(true);
         try {
             const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
             if (response.status === 200) {
@@ -104,7 +105,6 @@ export default function Quizzes({ params }: any) {
 
     const getquizzes = async () => {
         const res = await axios.post('/api/administrator/candidates/quizzes/get', { idCandidato: idCandidato })
-        console.log(res.data)
         if (res.status == 200) setQuizzData(res.data.quiz);
     }
 
@@ -253,7 +253,6 @@ export default function Quizzes({ params }: any) {
                         <div className="col-md-6">
                             <label htmlFor="">Tipo de cuestionario</label>
                             <select onChange={(e: any) => setTypeQuiz(e.target.value)} className='form-control'>
-                                
                                 <option value="normal">Normal</option>
                                 <option value="PsicoTecnica" disabled>PsicoTecnico</option>
                             </select>
@@ -333,7 +332,7 @@ export default function Quizzes({ params }: any) {
                                                     <br />
                                                     <h6>Respuestas a la pregunta</h6>
                                                     <NestedFields
-                                                        className=' w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+                                                        className='w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
                                                         nestIndex={index}
                                                         {...{ control, register, errors }}
                                                     />
