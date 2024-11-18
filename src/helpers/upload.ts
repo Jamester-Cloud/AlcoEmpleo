@@ -11,7 +11,6 @@ import mongoose from "mongoose";
 export default async function upload(file: File, bucketName: String, context: String) {
 
   const mongodbUrl: any = process.env.MONGO_URI
-
   await mongoose.connect(mongodbUrl)
   //we treat the image
   let arrayBuffer = await file.arrayBuffer()
@@ -28,7 +27,9 @@ export default async function upload(file: File, bucketName: String, context: St
     bucketName: `${bucketName}`,
   });
 
-  let uploadStream = bucket.openUploadStream(file.name, {
+  let newFileName = file.name.replace(/\.[^/.]+$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/_+/, '_')
+
+  let uploadStream = bucket.openUploadStream(newFileName, {
     chunkSizeBytes: 1048576,
     metadata: { field: `${bucketName}`, value: context }
   })

@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
             $project: {
                 usuarioData: "$usuarioData",
                 idPersona: "$usuarioData.idPersona",
-                documentosData: "$documentosData"
+                documentosData: "$documentosData",
+                candidatoData: "$$ROOT"
             }
         },
         {
@@ -53,18 +54,6 @@ export async function POST(request: NextRequest) {
             $unwind: "$personaData"
         },
         {
-            $group: {
-                _id: "$personaData._id",
-                personaData: { $first: "$personaData" },
-                usuarioData: { $first: "$usuarioData" },
-                candidatoData: { $first: "$$ROOT" },
-                documentosData: {
-                    $first: "$documentosData"
-                }
-            },
-
-        },
-        {
             $match: {
                 "documentosData.contentType": { $ne: 'application/pdf' }
             }
@@ -76,8 +65,8 @@ export async function POST(request: NextRequest) {
     try {
         const skip = (page - 1) * PER_PAGE;
 
-        let data = await Candidato.aggregate(q).skip(skip).limit(PER_PAGE)
-        
+        let data = await Candidato.aggregate(q).skip(skip)
+        console.log(data)
         const count = await Candidato.countDocuments()
         const pageCount = count / PER_PAGE;
 
