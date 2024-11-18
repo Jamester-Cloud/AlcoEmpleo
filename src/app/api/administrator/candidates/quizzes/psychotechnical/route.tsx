@@ -20,6 +20,9 @@ export async function POST(request: NextRequest) {
                             pregunta: {
                                 type: FunctionDeclarationSchemaType.STRING,
                             },
+                            tipoPregunta:{
+                                type: FunctionDeclarationSchemaType.STRING
+                            },
                             respuestas: {
                                 type: FunctionDeclarationSchemaType.ARRAY,
                                 items: {
@@ -29,6 +32,9 @@ export async function POST(request: NextRequest) {
                                     }
                                 }
                             },
+                            respuestaCorrecta: {
+                                type: FunctionDeclarationSchemaType.STRING,
+                            },
                         },
                     },
                 },
@@ -36,7 +42,7 @@ export async function POST(request: NextRequest) {
         });
 
         let prompt = `
-        Crea un instrumento de evaluación con 10 preguntas de  selección múltiple que sirva para medir con fines corporativos las habilidades blandas, 
+        Crea un instrumento de evaluación con 5 preguntas de selección múltiple y 5 preguntas de desarrollo que sirva para medir con fines corporativos las habilidades blandas, 
         en forma precisa, específicamente que nos permita precisar el nivel que posee una persona en cuanto a sus habilidades de:
         comunicación efectiva, 
         liderazgo, 
@@ -44,14 +50,14 @@ export async function POST(request: NextRequest) {
         resolución de conflictos, 
         empatía, 
         adaptabilidad 
-        y honestidad
+        y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple y las de desarrollo solo necesito 
+        la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre 5 de seleccion, 5 de desarrollo
         `;
 
         let result = await model.generateContent(prompt)
-        console.log(result)
         let preguntas: any = JSON.parse(result.response.text());
-        console.log(preguntas)
-        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true })
+        
+        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true, preguntas:preguntas })
     } catch (error) {
         console.log(error)
         return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })

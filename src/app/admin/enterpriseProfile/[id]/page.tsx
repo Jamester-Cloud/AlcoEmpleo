@@ -49,7 +49,6 @@ export default function UserProfile({ params }: any) {
 
   const getUserDetails = async () => {
     const res = await axios.post("/api/administrator/enterprise/getEnterprise", { idUsuario: id });
-    console.log(res.data.acta[0].documentos)
     setUserData({ ...res.data.data[0], personaData: res.data.data[0].personaData[0], logoEmpresa: res?.data?.logo[0]?.documentos.idArchivo, acta: res.data.acta[0] })
   };
 
@@ -213,8 +212,6 @@ export default function UserProfile({ params }: any) {
               <>
                 <div>
                   <a className="btn btn-primary" target="_blank" href={`/api/enterprise/viewer?idArchivo=${userData.acta.documentos.idArchivo}`}>Ver Acta</a>
-                  {/* <iframe src={`/api/enterprise/viewer?idArchivo=${userData.acta.documentos.idArchivo}`} width="100%" height="500px" />
-                 */}
                 </div>
                 </>
             ) : (

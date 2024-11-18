@@ -2,6 +2,7 @@ import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai'
+
 connect()
 
 export async function POST(request: NextRequest) {
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
         });
 
         let prompt = `
-        Dame 5 preguntas importantes que le harias a un ${cargoDeseado} para certificarlo en un cargo dentro empresa, junto con la respuestas correctas y su vez con un grado de dificultad ${dificultad} en español. Cambia las preguntas por cada consulta por favor y asegurate de que la respuesta correcta este entre las respuestas generadas por favor.
+        Dame 5 preguntas importantes que le harias a un ${cargoDeseado} para certificarlo en un cargo dentro empresa, junto con la respuestas correctas y su vez con un grado de dificultad ${dificultad} en español. Cambia las preguntas por cada consulta por favor y asegurate de que la respuesta correcta este entre las respuestas generadas por favor. Para preguntas con leyes, el contexto siempre sera la ley venezolana
         `;
 
         let result = await model.generateContent(prompt)
