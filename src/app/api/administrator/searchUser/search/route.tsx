@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const { query } = await request.json()
     let data: any;
     let user;
-    let candidatos;
+    let candidatoData;
     let q: any =
     {
         "cedula": query.cedula ? query.cedula : query.riff
@@ -29,18 +29,18 @@ export async function POST(request: NextRequest) {
 
         user = await User.findOne({ idPersona: data._id })
         
-
-        candidatos = await Candidato.findOne({ idUsuario: user._id })
-
+        candidatoData = await Candidato.findOne({ idUsuario: user._id })
+        console.log(candidatoData._id);
         pfp = await Documento.findOne({idUsuario: user._id})
 
-        data = [{ personaData: data, usuarioData: user, _id: candidatos._id, documentosData:pfp }]
+        data = [{ personaData: data, usuarioData: user, candidatoData: candidatoData, documentosData:pfp }]
+        
         const response = NextResponse.json({
             message: "Succesfull data retrieve",
             success: true,
             data,
         })
-        //console.log("hello world")
+        
         return response;
 
     } catch (error: any) {

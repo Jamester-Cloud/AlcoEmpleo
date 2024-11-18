@@ -385,7 +385,6 @@ export default function AdminPage() {
       query: { cedula: data.cedula },
     });
     if (search.status == 200) {
-
       setCandidates(search.data.data);
     }
   };
@@ -453,7 +452,7 @@ export default function AdminPage() {
         <form onSubmit={handleSubmit(handleCandidateSearch)}>
           <>
             <div className="row">
-              <div className="col-md-6 p-2">
+              <div className="col-md-3 p-2">
                 <input
                   type="text"
                   {...register("cedula")}
@@ -462,11 +461,15 @@ export default function AdminPage() {
                   placeholder="Cedula EJ: V123456789"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-md-3 p-2">
                 <button className="btn btn-primary" type="submit">
                   Buscar
                 </button>
+                <a className="btn btn-primary ml-2" onClick={async ()=> await fetchCandidateData()}>
+                  Refrescar
+                </a>
               </div>
+  
             </div>
           </>
         </form>
@@ -525,7 +528,7 @@ export default function AdminPage() {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <Link
-                    href={`/admin/candidateProfile/${item._id}`}
+                    href={`/admin/candidateProfile/${item.candidatoData._id}`}
                     className="btn btn-primary btn-md py-2 px-4 rounded text-white"
                   >
                     Ver Perfil
