@@ -6,6 +6,7 @@ import Documento from "@/models/documentos";
 
 import upload from "@/helpers/upload";
 
+connect();
 
 export const POST = async (request: NextRequest) => {
     try {
@@ -212,3 +213,7 @@ export const POST = async (request: NextRequest) => {
         return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
     }
 }
+
+
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
