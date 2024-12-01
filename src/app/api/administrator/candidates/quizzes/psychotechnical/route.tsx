@@ -19,9 +19,6 @@ export async function POST(request: NextRequest) {
                             pregunta: {
                                 type: FunctionDeclarationSchemaType.STRING,
                             },
-                            tipoPregunta:{
-                                type: FunctionDeclarationSchemaType.STRING
-                            },
                             respuestas: {
                                 type: FunctionDeclarationSchemaType.ARRAY,
                                 items: {
@@ -33,6 +30,9 @@ export async function POST(request: NextRequest) {
                             },
                             respuestaCorrecta: {
                                 type: FunctionDeclarationSchemaType.STRING,
+                            },
+                            tipoPregunta:{
+                                type: FunctionDeclarationSchemaType.STRING
                             },
                         },
                     },
@@ -49,14 +49,15 @@ export async function POST(request: NextRequest) {
         resolución de conflictos, 
         empatía, 
         adaptabilidad 
-        y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple y las de desarrollo solo necesito 
-        la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre 5 de seleccion, 5 de desarrollo
+        y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple, siempre por favor, no las dejes vacias y las de desarrollo solo necesito 
+        la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre que son 5 preguntas de seleccion multiple, y 5 preguntas de desarrollo
         `;
 
         let result = await model.generateContent(prompt)
         let preguntas: any = JSON.parse(result.response.text());
         
         return NextResponse.json({ message: 'Consulta creada exitosamente', success: true, preguntas:preguntas })
+
     } catch (error) {
         console.log(error)
         return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })

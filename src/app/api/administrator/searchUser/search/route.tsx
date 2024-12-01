@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
         candidatoData = await Candidato.findOne({ idUsuario: user._id })
         console.log(candidatoData._id);
         pfp = await Documento.findOne({idUsuario: user._id, contentType: { $ne: 'application/pdf' }})
-        console.log(pfp)
         data = [{ personaData: data, usuarioData: user, candidatoData: candidatoData, documentosData:pfp }]
         
         const response = NextResponse.json({

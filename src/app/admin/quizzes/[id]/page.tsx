@@ -98,8 +98,6 @@ export default function Quizzes({ params }: any) {
     };
 
     useEffect(() => {
-        generateQuestions()
-        //load the table
         getquizzes()
     }, [!quiz])
 
@@ -110,7 +108,6 @@ export default function Quizzes({ params }: any) {
 
     const handleSubmitQuiz = async (data: any) => {
         try {
-
             const response = await axios.post('/api/administrator/candidates/quizzes/save/', { preguntas: data.quiz, dificultad: data.dificultad, idCandidato: data.idCandidato, tituloCuestionario: data.tituloCuestionario })
             toast.success("Cuestionario generado", {
                 position: "top-right",
@@ -254,7 +251,7 @@ export default function Quizzes({ params }: any) {
                             <label htmlFor="">Tipo de cuestionario</label>
                             <select onChange={(e: any) => setTypeQuiz(e.target.value)} className='form-control'>
                                 <option value="normal">Normal</option>
-                                <option value="PsicoTecnica" disabled>PsicoTecnico</option>
+                                <option value="PsicoTecnica">PsicoTecnico</option>
                             </select>
 
                         </div>
@@ -272,7 +269,6 @@ export default function Quizzes({ params }: any) {
                     <h2 className=' text-center hidden' >Cargando Preguntas</h2>
                 ) : (
                     typeQuiz === 'normal' ? <>
-
                         <form className='form' onSubmit={handleSubmit(handleSubmitQuiz)} >
                             <div className="row">
                                 <div className="col-md-6">
@@ -297,13 +293,6 @@ export default function Quizzes({ params }: any) {
                                 </div> : ''}
 
                                 <div className="col-md-12 mt-3 ">
-                                    {/* <button
-                                   type="button"
-                                   onClick={() => appendQuiz({ pregunta: "", respuestas: [{ respuesta: "" }], respuestaCorrecta: "" })}
-                                   className="bg-green-500 text-white px-4 py-2 rounded-md mb-4"
-                               >
-                                   Agregar pregunta
-                               </button> */}
                                     {fieldQuiz.map((field: any, index: number) => {
                                         return (
                                             <div key={field.id}>
@@ -373,7 +362,7 @@ export default function Quizzes({ params }: any) {
                                 </div>
                             </Modal.Body>
                         </Modal>
-                    </> : <Psicotecnic idCandidato={id} />
+                    </> : <Psicotecnic idCandidato={id} dificultad={dificultad} />
                 )}
             </div>
 

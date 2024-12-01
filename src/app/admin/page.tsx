@@ -625,6 +625,9 @@ export default function AdminPage() {
                 <button className="btn btn-primary" type="submit">
                   Buscar
                 </button>
+                <a className="btn btn-primary ml-2" onClick={async ()=> await fetchEnterpriseData()}>
+                  Refrescar
+                </a>
               </div>
             </div>
           </>

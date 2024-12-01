@@ -66,7 +66,6 @@ export async function POST(request: NextRequest) {
         const skip = (page - 1) * PER_PAGE;
 
         let data = await Candidato.aggregate(q).skip(skip)
-        console.log(data)
         const count = await Candidato.countDocuments()
         const pageCount = count / PER_PAGE;
 
