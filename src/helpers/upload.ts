@@ -1,13 +1,14 @@
 import { fileSizeValidator } from "./fileValidator";
 import { Readable } from "stream";
 import mongoose from "mongoose";
+import { connect } from "@/dbConfig/dbConfig";
 /**
  * @param File
  * @param bucketName
  * upload functions for images or docs to mongoDB buckets
  */
 export default async function upload(file: File, bucketName: String, context: String) {
-
+  await connect ();
   const mongodbUrl: any = process.env.MONGO_URI
   await mongoose.connect(mongodbUrl)
   //we treat the image
