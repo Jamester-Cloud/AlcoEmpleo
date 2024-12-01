@@ -26,7 +26,7 @@ export const POST = async (request: NextRequest) => {
         switch (dataType) {
             //funciona con redes
             case 'datosPersonales':
-                console.log(formData)
+                
                 if (formData.get('profilePicture') as File || formData.get('profilePicture[]') as File){
                     const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
                     let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
@@ -68,7 +68,7 @@ export const POST = async (request: NextRequest) => {
                 await Persona.updateOne(filter, update)
                 break;
             case 'perfil':
-                console.log(formData);
+                console.log(formData)
                 if (formData.get('perfil[CV]')) {
 
                     let file = formData.get('perfil[CV]') as File
@@ -77,6 +77,8 @@ export const POST = async (request: NextRequest) => {
                         idUsuario: formData.get('idUsuario'),
                         bucketName: 'candidateDocuments'
                     }
+
+                    console.log(filter)
 
                     let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
 
@@ -91,6 +93,8 @@ export const POST = async (request: NextRequest) => {
                             bucketName: "candidateDocuments",
                         }
                     }
+
+                    console.log(update);
 
                     await Documento.updateOne(filter, update, { upsert: true })
                 }

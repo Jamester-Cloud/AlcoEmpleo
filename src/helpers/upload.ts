@@ -1,7 +1,5 @@
-import { revalidatePath } from "next/cache";
-import { fileValidator, fileSizeValidator } from "./fileValidator";
+import { fileSizeValidator } from "./fileValidator";
 import { Readable } from "stream";
-import { connect } from "@/dbConfig/dbConfig";
 import mongoose from "mongoose";
 /**
  * @param File
