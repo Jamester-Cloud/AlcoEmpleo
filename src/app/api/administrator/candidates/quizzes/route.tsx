@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
                                     }
                                 }
                             },
-                            correcta: {
+                            respuestaCorrecta: {
                                 type: FunctionDeclarationSchemaType.STRING,
                             },
                         },

@@ -115,7 +115,7 @@ export default function SignUpForm(props: any) {
             setIsInvalid(false)
         }
 
-        if (!/^[JGCVE][0-9]{7,8}$/.test(value) && value !== '' && name == "cedula") {
+        if (!/^[JGCVE][0-9]{7,9}$/.test(value) && value !== '' && name == "cedula") {
             setIsInvalid(false)
             setHasTyped(true);
 

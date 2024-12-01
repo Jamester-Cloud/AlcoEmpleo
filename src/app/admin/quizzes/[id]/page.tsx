@@ -49,7 +49,7 @@ export default function Quizzes({ params }: any) {
             quiz: []
         }
 
-        defaultValues.quiz = quiz?.map((item: any) => { return { pregunta: item.pregunta, respuestas: item.respuestas.map((item: any) => { return { respuesta: item.respuesta } }), respuestaCorrecta: item.correcta } })
+        defaultValues.quiz = quiz?.map((item: any) => { return { pregunta: item.pregunta, respuestas: item.respuestas.map((item: any) => { return { respuesta: item.respuesta } }), respuestaCorrecta: item.respuestaCorrecta || item.respuestas[0].respuesta } })
 
         reset({ ...defaultValues })
     }, [quiz])
