@@ -367,7 +367,7 @@ export default function SignUpForm(props: any) {
 
                                         </form>
                                         <div className="text-center">
-                                            <button type="button" onClick={onSignup} disabled={buttonDisabled} className="btn btn-primary btn-block">Crear cuenta</button>
+                                            <button type="button" onClick={onSignup} className="btn btn-primary btn-block">Crear cuenta</button>
 
                                             <ToastContainer
                                                 position="top-right"
