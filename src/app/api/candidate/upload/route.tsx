@@ -17,6 +17,7 @@ export const POST = async (request: NextRequest) => {
         const formData = request.headers.get('content-type') === 'application/json' ? await request.json() : await request.formData()
         let dataType = request.headers.get('content-type') === 'application/json' ? formData.dataType : formData.get('dataType')
         console.log(dataType)
+        
         switch (dataType) {
             //funciona con redes
             case 'datosPersonales':
@@ -62,6 +63,7 @@ export const POST = async (request: NextRequest) => {
                 await Persona.updateOne(filter, update)
                 break;
             case 'perfil':
+                console.log(formData);
                 if (formData.get('perfil[CV]')) {
 
                     let file = formData.get('perfil[CV]') as File
