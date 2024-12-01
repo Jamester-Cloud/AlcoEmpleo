@@ -1,3 +1,4 @@
+"use server"
 import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
@@ -215,5 +216,4 @@ export const POST = async (request: NextRequest) => {
 }
 
 
-export const revalidate = 0;
-export const dynamic = 'force-dynamic';
+//export const revalidate = 0;
