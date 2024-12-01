@@ -1,4 +1,3 @@
-"use server"
 import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import { connect } from "@/dbConfig/dbConfig";
