@@ -1,8 +1,10 @@
 "use server"
+import { connect } from "@/dbConfig/dbConfig";
+connect();
 import { NextRequest, NextResponse } from "next/server";
 import Candidato from '@/models/candidato';
 import Persona from "@/models/personaModel";
-import { connect } from "@/dbConfig/dbConfig";
+
 import Documento from "@/models/documentos";
 
 import upload from "@/helpers/upload";
