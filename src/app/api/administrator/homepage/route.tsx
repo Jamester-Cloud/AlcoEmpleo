@@ -22,3 +22,5 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
     }
 }
+
+export const revalidate = 0;

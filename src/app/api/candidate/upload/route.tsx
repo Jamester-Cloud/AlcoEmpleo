@@ -210,6 +210,7 @@ export const POST = async (request: NextRequest) => {
         console.log("error is", error)
         return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
     }
-
-    //Aca debo actualizar la info del candidato con la imagen y el CV
 }
+
+
+export const revalidate = 0;

@@ -19,3 +19,6 @@ export async function POST(request: NextRequest) {
         console.log(error);
     }
 }
+
+
+export const revalidate = 0;

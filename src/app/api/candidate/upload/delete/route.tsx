@@ -98,3 +98,6 @@ export async function POST(request: NextRequest) {
 
     //Aca debo actualizar la info del candidato con la imagen y el CV
 }
+
+
+export const revalidate = 0;
