@@ -61,3 +61,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })
     }
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;

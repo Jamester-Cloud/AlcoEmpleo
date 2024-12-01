@@ -1,4 +1,3 @@
-"use server"
 import { NextRequest, NextResponse } from "next/server";
 import OfertaTrabajo from "@/models/ofertaTrabajo";
 import { connect } from "@/dbConfig/dbConfig";
@@ -29,3 +28,6 @@ export async function POST(request: NextRequest) {
 
     //Aca debo actualizar la info del candidato con la imagen y el CV
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;

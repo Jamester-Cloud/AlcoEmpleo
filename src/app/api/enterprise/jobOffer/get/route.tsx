@@ -1,8 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
 import OfertaTrabajo from "@/models/ofertaTrabajo";
 import { NextRequest, NextResponse } from "next/server";
-import Empresa from "@/models/empresas";
-import { getDataFromToken } from "@/helpers/getDataFromToken";
 connect()
 
 
@@ -29,3 +27,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
     }
 }
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
