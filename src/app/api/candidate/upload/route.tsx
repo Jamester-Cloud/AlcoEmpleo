@@ -7,9 +7,10 @@ import Documento from "@/models/documentos";
 
 import upload from "@/helpers/upload";
 
-connect();
+
 
 export const POST = async (request: NextRequest) => {
+    await connect();
     try {
 
         let filter;
