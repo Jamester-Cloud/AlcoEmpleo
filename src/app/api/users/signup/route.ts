@@ -36,6 +36,8 @@ export async function POST(request: NextRequest) {
         type = formData.get('type')
         estado = formData.get('estado')
 
+        console.log(formData)
+
         let idRol: any;
         //Check if user already exists
         const userEmail = await User.findOne({ email: email })

@@ -61,7 +61,7 @@ export default function SignUpForm(props: any) {
     };
     //SignUp function
     const onSignup = async () => {
-        console.log(selectedAdImages)
+
         try {
             setLoading(true)
             console.log(userData);
@@ -83,7 +83,7 @@ export default function SignUpForm(props: any) {
 
             setTimeout(() => {
                 if (response.status === 200) router.push("/login")
-            }, 2000);
+            }, 1000);
 
         } catch (error: any) {
             toast.error(`Error en el registro del usuario: ${error.response.data.error} `, {
@@ -100,6 +100,9 @@ export default function SignUpForm(props: any) {
             console.log("sign up failed", error.error);
         } finally {
             setLoading(false);
+            setTimeout(() => {
+                router.push("/login")
+            }, 1000);
         }
 
     }
@@ -171,7 +174,7 @@ export default function SignUpForm(props: any) {
 
                                         <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{loading ? 'Enviando datos...' : type}</p>
 
-                                        <form className="mx-1 mx-md-4">
+                                        {loading ? 'Enviando datos...' : <form className="mx-1 mx-md-4">
 
                                             {type === 'Empresas' ? <div className="d-flex flex-row align-items-center mb-4">
 
@@ -365,7 +368,7 @@ export default function SignUpForm(props: any) {
                                                 </div>
                                             </div>
 
-                                        </form>
+                                        </form>}
                                         <div className="text-center">
                                             <button type="button" onClick={onSignup} className="btn btn-primary btn-block">Crear cuenta</button>
 

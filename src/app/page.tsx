@@ -239,8 +239,6 @@ export default function Home() {
       <CarouselMultiAsociados/> 
 
       </Container>
-    
- 
       
       <Contact telefonos={homePageData.homePage[0].celular} direccionFisica={homePageData.homePage[0].direccion} politicaPrivacidad={homePageData.homePage[0].politicaPrivacidad} />
       <Footer />
