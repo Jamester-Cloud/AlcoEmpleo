@@ -38,23 +38,26 @@ export async function POST(request: NextRequest) {
           },
         },
       });
+
+      
     }
-    // filter = { _id: idQuiz }
-    // update = { $set: { calificacion: calificacion, respuestasCandidato: respuestasCandidatos, finalizada: true } }
+    //Si no es solo un cuestionario mas a ser guardado y evaluado
+    filter = { _id: idQuiz }
+    update = { $set: { calificacion: calificacion, respuestasCandidato: respuestasCandidatos, finalizada: true } }
 
-    // await Cuestionario.updateOne(filter, update);
+    await Cuestionario.updateOne(filter, update);
 
-    // const candidato: any = await Cuestionario.findOne({ _id: idQuiz })
+    const candidato: any = await Cuestionario.findOne({ _id: idQuiz })
 
-    // filter = { _id: candidato.idCandidato }
-    // update = {
-    //     $set: {
-    //         "perfil.calificaciones": calificacion
-    //     }
-    // }
-    // console.log(filter)
-    // console.log(update)
-    // await Candidato.updateOne(filter, update)
+    filter = { _id: candidato.idCandidato }
+    update = {
+        $set: {
+            "perfil.calificaciones": calificacion
+        }
+    }
+    console.log(filter)
+    console.log(update)
+    await Candidato.updateOne(filter, update)
     return NextResponse.json({ message: "Cuestionario guardado exitosamente" });
   } catch (error) {
     console.log(error);

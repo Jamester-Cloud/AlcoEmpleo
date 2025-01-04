@@ -44,13 +44,13 @@ export default function Cabecera() {
                 href="/signup/candidate"
                 className="block px-2 py-1 text-white hover:opacity-50 text-decoration-none"
               >
-                Candidatos
+                Regístrate candidato
               </Link>
               <Link
                 href="/signup/enterprise"
                 className="block px-2 py-1 text-white hover:opacity-50 text-decoration-none"
               >
-                Empresas
+                Regístrate empresa
               </Link>
               <Link
                 href="/login"
@@ -69,18 +69,21 @@ export default function Cabecera() {
             Inicio
           </Link>
           <Link
+            target="blank"
             href="/signup/candidate"
             className="p-2 text-dark text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
           >
-            Candidatos
+            Regístrate candidato
           </Link>
           <Link
+            target="blank"
             href="/signup/enterprise"
             className="p-2 text-dark text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
           >
-            Empresas
+            Regístrate empresa
           </Link>
           <Link
+            target="blank"
             href="/login"
             className="btn btn-primary text-white h-10 rounded-pill hover:bg-primary-dark transition-all duration-300"
           >
