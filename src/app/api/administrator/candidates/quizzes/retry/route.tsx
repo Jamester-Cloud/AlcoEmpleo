@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
         let { idCandidato, idQuizz, dificultad } = reqJson;
         //console.log(reqJson)
         //Consultar el cuestionario, luego actualizar sus respuestas y preguntas
-        const cuestionario = await Cuestionario.findOne({ _id: idQuizz })
         const candidato = await Candidato.findOne({ _id: idCandidato })
         //console.log(cuestionario)
         let cargoDeseado = candidato.perfil.puestoDeseado;
@@ -68,7 +67,6 @@ export async function POST(request: NextRequest) {
             }
         }
         console.log(filter), console.log(update);
-        //console.log(preguntas)
         //re-generando el cuestionario
         await Cuestionario.updateOne(filter, update);
 

@@ -44,9 +44,9 @@ export async function POST(request: NextRequest) {
         if (type === 'Empresas') idRol = await Rol.findOne({ rol: type })
         if (type === 'Candidatos') idRol = await Rol.findOne({ rol: type })
         //Validations
-        if (userEmail) return NextResponse.json({ error: "Email duplicado en la base de datos" }, { status: 400 })
+        if (userEmail) return NextResponse.json({ error: "Este email ya existe, por favor registra otro" }, { status: 400 })
 
-        if (persona) return NextResponse.json({ error: "cedula/rif duplicado en la base de datos" }, { status: 400 })
+        if (persona) return NextResponse.json({ error: "Cedula/rif ya se en el sistema" }, { status: 400 })
         //hash passwords
         const salt = await bcryptjs.genSalt(10)
 
@@ -66,7 +66,8 @@ export async function POST(request: NextRequest) {
 
         const newUser = new User({
             email: email,
-            password: hashedPassword, fechaIngreso: new Date(),
+            password: hashedPassword, 
+            fechaIngreso: new Date(),
             idPersona: savedPersona._id,
             idRol: idRol._id
         })
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
             console.log("Logo registrado exitosamente")
         }
 
-        return NextResponse.json({ message: 'User created succesfully', success: true })
+        return NextResponse.json({ message: 'User created successfully', success: true })
 
     } catch (error: any) {
         console.log(error)

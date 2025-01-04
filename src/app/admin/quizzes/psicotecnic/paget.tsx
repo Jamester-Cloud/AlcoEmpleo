@@ -54,10 +54,9 @@ export function Psicotecnic(props: any) {
     });
 
     const handleForm = async (data: any) => {
-        console.log(data)
         //merge the data
         let preguntas = data.quiz.concat(data.quizPsicoTecnico)
-        console.log(preguntas)
+        
         try {
             const res = await axios.post('/api/administrator/candidates/quizzes/save/psychotechnical/', {preguntas:preguntas, dificultad:props.dificultad, idCandidato:props.idCandidato, tituloCuestionario: data.tituloCuestionario })
             if(res.status == 200) toast.success(res.data.message)
