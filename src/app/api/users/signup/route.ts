@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
 
-        if (formData.get('type') === 'Empresas' && formData.get('logo[]') != 'noLogo') {
+        if (formData.get('type') === 'Empresas' && (formData.get('logo[]') != 'noLogo' || !formData.get('logo[]')) ) {
             logoPicture = formData.get('logo[]') as File
             let idLogo = await upload(logoPicture, 'enterprisesBucket', 'Enterprise logo')
 

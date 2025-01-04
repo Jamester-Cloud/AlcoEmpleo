@@ -61,7 +61,6 @@ export default function SignUpForm(props: any) {
     };
     //SignUp function
     const onSignup = async () => {
-
         try {
             setLoading(true)
             console.log(userData);
