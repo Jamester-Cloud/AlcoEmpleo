@@ -87,30 +87,29 @@ export async function POST(request: NextRequest) {
             esDestacado:false
         })
 
-        console.log(savedUser._id);
-
         //determina la procedencia del usuario
         type === 'Empresas' ? await newEmpresa.save() : await newCandidato.save()
 
-        if (formData.get('type') === 'Empresas' && (formData.get('logo[]') != 'noLogo' || formData.get('logo[]')) ) {
-            logoPicture = formData.get('logo[]') as File
-            let idLogo = await upload(logoPicture, 'enterprisesBucket', 'Enterprise logo')
+        // if (formData.get('logo') !== 'noLogo' || formData.get('logo') ) {
+        //     console.log(formData.get('logo'))
+        //     logoPicture = formData.get('logo') as File
+        //     let idLogo = await upload(logoPicture, 'enterprisesBucket', 'Enterprise logo')
 
-            update = {
-                $set: {
-                    idUsuario: savedUser._id,
-                    filename: logoPicture.name,
-                    idArchivo: idLogo,
-                    originalname: logoPicture.name,
-                    contentType: logoPicture.type,
-                    size: logoPicture.size,
-                    bucketName: "enterprisesBucket",
-                }
-            }
+        //     update = {
+        //         $set: {
+        //             idUsuario: savedUser._id,
+        //             filename: logoPicture.name,
+        //             idArchivo: idLogo,
+        //             originalname: logoPicture.name,
+        //             contentType: logoPicture.type,
+        //             size: logoPicture.size,
+        //             bucketName: "enterprisesBucket",
+        //         }
+        //     }
 
-            await Documento.updateOne({ idUsuario: savedUser._id, bucketName: "enterprisesBucket" }, update, { upsert: true })
-            console.log("Logo registrado exitosamente")
-        }
+        //     await Documento.updateOne({ idUsuario: savedUser._id, bucketName: "enterprisesBucket" }, update, { upsert: true })
+        //     console.log("Logo registrado exitosamente")
+        // }
 
         return NextResponse.json({ message: 'User created successfully', success: true })
 

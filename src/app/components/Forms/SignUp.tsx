@@ -63,9 +63,9 @@ export default function SignUpForm(props: any) {
     const onSignup = async () => {
         try {
             setLoading(true)
-            console.log(userData);
+
             const response = await axios.post("/api/users/signup",
-                { ...userData, type, logo: type === 'Empresas' ? selectedAdImages : 'noLogo' },
+                { ...userData, type, logo: type === 'Empresas' ? selectedAdImages.length > 0 ? selectedAdImages : 'noLogo' : 'noLogo' },
                 { headers: { 'content-type': 'multipart/form-data' } })
 
             toast.success('Registro exitoso!', {
@@ -99,9 +99,6 @@ export default function SignUpForm(props: any) {
             console.log("sign up failed", error.error);
         } finally {
             setLoading(false);
-            setTimeout(() => {
-                router.push("/login")
-            }, 1000);
         }
 
     }
@@ -211,37 +208,6 @@ export default function SignUpForm(props: any) {
                                                 </div>
 
                                             </div>}
-
-                                            {type === 'Empresas' ? <div className="d-flex flex-row align-items-center mb-4">
-
-                                                <fieldset>
-                                                    <div className="mb-3">
-                                                        <p className="mb-0">
-                                                            Sube tu logo empresarial{" "}
-                                                            <sup>
-                                                                <i className="fa-solid fa-asterisk fa-sm AdAstric"></i>
-                                                            </sup>
-                                                        </p>
-                                                        <input
-                                                            type="file"
-                                                            onChange={handleAdimages}
-                                                            multiple
-                                                            accept=".jpg, .jpeg, .png"
-                                                            className="BrowseImageInput form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                        />
-                                                        {AdImageInputErr && (
-                                                            <p className="px-3 text-danger">
-                                                                Por favor Selecciona una imagen por favor
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                </fieldset>
-
-                                            </div> : <>
-
-                                            </>}
-
-
 
                                             {type === 'Empresas' ? <div className="d-flex flex-row align-items-center mb-4">
                                                 <i className="fas fa-user fa-lg me-3 fa-fw"></i>
