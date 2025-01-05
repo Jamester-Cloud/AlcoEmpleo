@@ -187,6 +187,7 @@ export default function Home() {
   <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Columna del texto */}
         <div className="flex flex-col justify-center bg-blue-950 text-white p-8">
+        <h4 className="p-2">¿Buscas el mejor candidato para tu empresa?</h4>
           <div className="mb-6 flex items-center">
             <div className="bg-white w-20 h-20 md:w-24 md:h-24 rounded-full flex-shrink-0 mr-4 flex justify-center items-center">
               <p className="text-gray-800 text-4xl md:text-5xl mt-3">
@@ -194,7 +195,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h2 className="text-base md:text-lg font-bold">
+              <h2 className="text-base md:text-md font-bold">
                 {homePageData.homePage[0].secciones[4].texto}
               </h2>
             </div>
@@ -206,7 +207,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h2 className="text-base md:text-lg font-bold">
+              <h2 className="text-base md:text-md font-bold">
                 {homePageData.homePage[0].secciones[5].texto}
               </h2>
             </div>

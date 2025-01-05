@@ -40,7 +40,7 @@ export function CarouselMultiAsociados(props: any) {
 
   return (
     <div className="text-left py-6">
-      <h3 className="ml-3 font-bold text-cyan-500">Empresas <br /> que Confían en Nosotros</h3>
+      <h3 className="ml-3 font-bold text-cyan-500">Empresas <br /> que confían en nosotros</h3>
       <Carousel responsive={responsive} infinite={true}>
         {data.map((item:any, i:number) => (
           <div key={i} className="flex justify-center items-center h-60">
