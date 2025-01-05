@@ -365,7 +365,7 @@ export default function DataModal(props: any) {
                             </div>
 
                             <div className="col-md-6"><label className="labels">Telefono</label><input type="text"
-                                className="form-control" defaultValue={data?.telefono} placeholder="Telefono Ej:+581234567"  {...register("telefono")} />
+                                className="form-control" defaultValue={`+58${data?.telefono}`} placeholder="Telefono Ej:+581234567"  {...register("telefono")} />
                             </div>
 
                             <div className="col-md-12"><label className="labels">Dirección</label>

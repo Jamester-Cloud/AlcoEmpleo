@@ -96,7 +96,7 @@ export default function Home() {
                 ¡Aumenta la posibilidad de encontrar{" "}
                 <span className="text-blue-500">trabajo!</span>
               </h4>
-              <button onClick={() => router.push('/signup/enterprise')} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+              <button onClick={() => router.push('/signup/candidate')} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
                 Registrarse
               </button>
             </div>
