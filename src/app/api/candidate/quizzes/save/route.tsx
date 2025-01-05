@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
     const quiz = await Cuestionario.findOne({ _id: idQuiz });
     console.log(quiz);
     console.log(respuestasCandidatos);
+    
     if (quiz.tipo === "Psicotecnico") {
       const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
       let model = genAI.getGenerativeModel({

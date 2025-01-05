@@ -34,7 +34,7 @@ export default function CabeceraAdmin({
             await axios.get("/api/users/logout");
             localStorage.clear();
             router.push("/login");
-         
+
         } catch (error: any) {
             console.log(error.message);
         }
@@ -72,7 +72,7 @@ export default function CabeceraAdmin({
                         Cerrar Sesion
                     </a>
                 </nav>
-                <Link className="navbar-brand" href="/candidate">
+                <Link className="navbar-brand" target="blank" href="/candidate">
                     <Image
                         width={50}
                         height={80}
@@ -89,6 +89,7 @@ export default function CabeceraAdmin({
                 {showMenu && (
                     <div ref={menuRef} className="absolute right-0 bg-white text-center shadow-lg z-10 w-auto rounded-md mt-5 py-2 px-2 mx-4 flex flex-col">
                         <Link
+                            target="blank"
                             href="/candidate/edit"
                             className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
                             id="dropdownUser1"
@@ -97,6 +98,7 @@ export default function CabeceraAdmin({
                             Ver Perfil
                         </Link>
                         <a
+                            
                             className="btn btn-outline btn-warning text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer"
                             onClick={() => { handleOptionClick(); logout(); }}
                         >

@@ -51,7 +51,7 @@ export default function CabeceraCandidato({
     };
   }, [menuRef]);
 
-  const [userData, setData]:any = useState();
+  const [userData, setData]: any = useState();
 
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/me");
@@ -72,7 +72,7 @@ export default function CabeceraCandidato({
           <FontAwesomeIcon icon={faBars} color="white" width={30} height={30} />
         </button>
       </div>
-      <div style={{marginLeft:"15%"}} className="flex items-left ml-auto text-white mr-auto space-x-4">
+      <div style={{ marginLeft: "15%" }} className="flex items-left ml-auto text-white mr-auto space-x-4">
         {userData?.personaData?.nombre} {userData?.personaData?.apellido}
       </div>
       <div className="flex items-center ml-auto space-x-4">
@@ -84,7 +84,7 @@ export default function CabeceraCandidato({
             Cerrar Sesion
           </a>
         </nav>
-        <Link className="navbar-brand" href="/candidate">
+        <Link className="navbar-brand" target="blank" href="/candidate">
           <Image
             width={50}
             height={80}
@@ -101,6 +101,7 @@ export default function CabeceraCandidato({
         {showMenu && (
           <div ref={menuRef} className="absolute right-0 bg-white text-center shadow-lg z-10 w-auto rounded-md mt-5 py-2 px-2 mx-4 flex flex-col">
             <Link
+              target="blank"
               href="/candidate/oportunidades"
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               id="dropdownUser1"
@@ -109,6 +110,7 @@ export default function CabeceraCandidato({
               Oportunidades
             </Link>
             <Link
+              target="blank"
               href="/candidate/quizz"
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               id="dropdownUser1"
@@ -117,6 +119,7 @@ export default function CabeceraCandidato({
               Cuestionarios
             </Link>
             <Link
+              target="blank"
               href="/candidate/subscription"
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               id="dropdownUser1"
@@ -125,6 +128,7 @@ export default function CabeceraCandidato({
               Subscripcion
             </Link>
             <Link
+              target="blank"
               href="/candidate/edit"
               className="btn btn-outline btn-primary text-decoration-none transition-opacity duration-300 hover:opacity-50 cursor-pointer mb-2"
               id="dropdownUser1"

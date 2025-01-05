@@ -18,7 +18,7 @@ export function CarouselMulti(props: any) {
   let { candidates, idProfilePicture } = props
   console.log(candidates)
   const whatsappMessage = encodeURIComponent(
-    "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
+    "Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil."
   );
 
  

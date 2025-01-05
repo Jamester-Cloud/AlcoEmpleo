@@ -24,7 +24,7 @@ export default function EnterpriseProfilePage({ params }: any) {
 
   const [isVisible, setIsVisible] = useState(false);
   const whatsappMessage = encodeURIComponent(
-    "Hola Contacto desde AlcoEmpleo, estamos Interesados en tu perfil"
+    "Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil."
   );
 
   const [isPremium, setIsPremium] = useState<boolean | null>(null);

@@ -49,8 +49,6 @@ export default function SubscriptionPage() {
     let whatsappMessage = encodeURIComponent(
       `Saludos!, Somos la Empresa, ${data.nombre} . Adjunto la informacion de mi pago, con referencia: ${data.referencia}, hecho en: ${data.proccesor} con un monto de: ${data.monto}`
     );
-
-  
     
     window.open(
       `https://wa.me/${paymentData.pagowhatsapp}?text=${whatsappMessage}`

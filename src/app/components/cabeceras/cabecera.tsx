@@ -35,24 +35,28 @@ export default function Cabecera() {
           {showMenu && (
             <div className="absolute right-0 bg-primary text-center rounded-md shadow-lg z-10 w-full">
               <Link
+                target="blank"
                 href="/"
                 className="block px-4 py-2 text-white hover:opacity-50 text-decoration-none cursor-pointer"
               >
                 Inicio
               </Link>
               <Link
+                target="blank"
                 href="/signup/candidate"
                 className="block px-2 py-1 text-white hover:opacity-50 text-decoration-none"
               >
                 Regístrate candidato
               </Link>
               <Link
+                target="blank"
                 href="/signup/enterprise"
                 className="block px-2 py-1 text-white hover:opacity-50 text-decoration-none"
               >
                 Regístrate empresa
               </Link>
               <Link
+                target="blank"
                 href="/login"
                 className="btn btn-primary text-white h-10 rounded-pill hover:bg-primary-dark transition-all duration-300"
               >
