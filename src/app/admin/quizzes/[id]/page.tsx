@@ -90,8 +90,19 @@ export default function Quizzes({ params }: any) {
                 setQuiz(response.data.preguntas);
                 setCargoDeseado(response.data.cargoDeseado);
             }
-        } catch (error) {
-            console.error('Error fetching questions:', error);
+        } catch (error:any) {
+            console.error('Error es', error.message);
+            toast.error("Cuestionario no generado, contacte a soporte tecnico", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
         } finally {
             setLoading(false); // Termina la carga
         }

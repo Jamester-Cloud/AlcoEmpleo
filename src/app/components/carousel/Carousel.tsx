@@ -52,9 +52,9 @@ export default function ListCarousel(props: any) {
     >
       {slides.map((slide, slideIndex) => (
         <Carousel.Item key={slideIndex} className="align-items-center">
-          <div className="flex justify-center flex-wrap">
+          <div className="flex justify-center container-fluid flex-wrap">
             {slide.map((item: any) => (
-              <div key={item._id} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center">
+              <div key={item._id} className="p-2 w-full h-100 sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center">
                 <CardCandidate data={item} className="w-full max-w-xs" />
               </div>
             ))}

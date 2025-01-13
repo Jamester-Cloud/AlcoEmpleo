@@ -41,16 +41,16 @@ export async function POST(request: NextRequest) {
         });
 
         let prompt = `
-        Crea un instrumento de evaluación con 5 preguntas de selección múltiple y 5 preguntas de desarrollo que sirva para medir con fines corporativos las habilidades blandas, 
-        en forma precisa, específicamente que nos permita precisar el nivel que posee una persona en cuanto a sus habilidades de:
-        comunicación efectiva, 
-        liderazgo, 
-        trabajo en equipo, 
-        resolución de conflictos, 
-        empatía, 
-        adaptabilidad 
-        y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple, siempre por favor, no las dejes vacias y las de desarrollo solo necesito 
-        la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre que son 5 preguntas de seleccion multiple, y 5 preguntas de desarrollo
+            Crea un instrumento de evaluación con 5 preguntas de selección múltiple y 5 preguntas de desarrollo que sirva para medir con fines corporativos las habilidades blandas, 
+            en forma precisa, específicamente que nos permita precisar el nivel que posee una persona en cuanto a sus habilidades de:
+            comunicación efectiva, 
+            liderazgo, 
+            trabajo en equipo, 
+            resolución de conflictos, 
+            empatía, 
+            adaptabilidad 
+            y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple, siempre por favor, no las dejes vacias y las de desarrollo solo necesito 
+            la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre que son 5 preguntas de seleccion multiple, y 5 preguntas de desarrollo
         `;
 
         let result = await model.generateContent(prompt)

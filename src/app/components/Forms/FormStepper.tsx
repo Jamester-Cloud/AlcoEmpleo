@@ -73,6 +73,7 @@ export const FormStepper = (props: any) => {
   };
 
   const goNext = async (formData: any) => {
+    console.log(formData);  
     data?.map((item: any, key: number) => {
       if (item.page === step && item.respuestas.length > 0) {
         console.log(item.respuestaCorrecta == formData.respuestasCandidato);

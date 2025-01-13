@@ -53,12 +53,18 @@ export async function POST(request: NextRequest) {
         `;
 
         let result = await model.generateContent(prompt)
+        console.log(result);
         let preguntas: any = JSON.parse(result.response.text());
 
         return NextResponse.json({ message: 'Consulta creada exitosamente', preguntas: preguntas, success: true, cargoDeseado: cargoDeseado })
-    } catch (error) {
-        console.log(error)
-        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })
+    } catch (error:any) {
+        console.log(error.statusText)
+        if(error.statusText === 'Too Many Requests') {
+            return NextResponse.json({ message: 'Demasiadas peticiones al modelo gemini, por favor reintente mas tarde. Modelo congestionado', success: false }, { status: 204 })
+        }else{
+            return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 204 })
+        }
+        
     }
 }
 

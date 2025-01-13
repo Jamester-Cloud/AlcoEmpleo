@@ -10,18 +10,17 @@ export default function CardCandidate(props: any) {
   const whatsappMessage = encodeURIComponent("Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil.");
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center max-w-xs mx-auto">
+    <div style={{maxHeight:"50%"}} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center max-w-xs mx-auto">
       <div className="bg-green-500 text-white rounded-full px-2 py-1 mb-4 text-xs flex items-center">
         <FontAwesomeIcon icon={faGraduationCap} className="mr-1" />
         Perfil certificado
       </div>
-      <div className="w-24 h-24 mb-4">
+      <div className="w-24 img-fluid h-24 mb-4">
         <Image
-          width={96}
-          height={96}
+          //style={{objectFit:"cover"}}
           alt="Profile Image"
           src={data?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${data.documentos.idArchivo}` : '/Imagen-card.png'}
-          className="rounded-full"
+          className="rounded-full img-fluid"
         />
       </div>
       <h4 className="text-lg font-bold mb-2">
