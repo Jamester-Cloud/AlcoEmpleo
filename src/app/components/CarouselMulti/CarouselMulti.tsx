@@ -14,19 +14,16 @@ interface Props {
 }
 
 export function CarouselMulti(props: any) {
-
-  let { candidates, idProfilePicture } = props
-  console.log(candidates)
+  let { candidates, idProfilePicture } = props;
+  console.log(candidates);
   const whatsappMessage = encodeURIComponent(
     "Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil."
   );
 
- 
   if (!candidates || candidates.length === 0) {
     return (
-      //  Dejo este Div Vacio para que no se vea feo el HomePage al no haber candidatos Premiums 
-      <div >
-      </div>
+      //  Dejo este Div Vacio para que no se vea feo el HomePage al no haber candidatos Premiums
+      <div></div>
     );
   }
 
@@ -52,41 +49,50 @@ export function CarouselMulti(props: any) {
       infinite={true}
     >
       {candidates?.map((candidato: any, index: number) => (
-        <div key={index} className="flex justify-center  ">
-          <Card className="w-64 max-w-64 min-w-64 h-64 rounded-lg shadow-md ">
-            <Card.Header className=" text-center ">
-            <span className="badge  bg-green-500  rounded-pill  ">
+        <div key={index} className="flex flex-wrap justify-center">
+          <Card className="w-64 max-w-64 min-w-64 h-72 max-h-96 min-h-96 rounded-lg shadow-md ">
+            <Card.Header className=" text-center h-full">
+              <span className="badge  bg-green-500  rounded-pill  ">
                 <FontAwesomeIcon icon={faCheckCircle} /> Verificado
               </span>
               <div className="  flex items-center justify-center">
                 <Image
-                  src={candidato?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}` : '/Imagen-card.png'}
+                  src={
+                    candidato?.documentos?.idArchivo
+                      ? `/api/candidate/profilePic?idArchivo=${candidato.documentos.idArchivo}`
+                      : "/Imagen-card.png"
+                  }
                   height={96}
                   width={96}
-                  className=" rounded-full"
-              
+                  className=" max-h-96 rounded-full"
                   alt="Logo"
                 />
               </div>
-              <h4 className="mb-2">
+              <p className="mb-1 text-xl font-bold">
                 {candidato.personaData.nombre} {candidato.personaData.apellido}
-              </h4>
-              <p className="text-muted mb-4">
+              </p>
+              <p className="text-muted mb-2">
                 {candidato.Candidato.perfil.puestoDeseado}
               </p>
-              <div className="text-muted mb-4">
+              <div className="text-muted mb-2">
                 <FontAwesomeIcon icon={faLocation} /> Venezuela
               </div>
-              <div className="flex gap-2 ">
-                <button type="button" className="btn btn-success btn-sm rounded">
+              <div className="flex gap-2 mt-auto absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                <button
+                  type="button"
+                  className="btn btn-success btn-sm rounded"
+                >
                   <Link
                     href={`https://wa.me/${candidato.personaData.telefono}?text=${whatsappMessage}`}
-                    className="mdi mdi-whatsapp  text-decoration-none btn btn-success text-white text-xs rounded flex items-center"
+                    className="mdi mdi-whatsapp text-decoration-none btn btn-success text-white text-xs rounded flex items-center"
                   >
                     Enviar mensaje
                   </Link>
                 </button>
-                <button type="button" className="btn btn-primary btn-sm rounded">
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm rounded"
+                >
                   <Link
                     href={`/enterprise/candidateProfile/${candidato._id}`}
                     className="btn btn-primary text-white text-xs rounded"
@@ -96,7 +102,6 @@ export function CarouselMulti(props: any) {
                 </button>
               </div>
             </Card.Header>
-       
           </Card>
         </div>
       ))}

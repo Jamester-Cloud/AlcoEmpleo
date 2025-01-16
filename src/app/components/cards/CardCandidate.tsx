@@ -10,12 +10,12 @@ export default function CardCandidate(props: any) {
   const whatsappMessage = encodeURIComponent("Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil.");
 
   return (
-    <div style={{maxHeight:"50%"}} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center max-w-xs mx-auto">
+    <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center text-center  max-h-ms max-w-xs mx-auto">
       <div className="bg-green-500 text-white rounded-full px-2 py-1 mb-4 text-xs flex items-center">
         <FontAwesomeIcon icon={faGraduationCap} className="mr-1" />
         Perfil certificado
       </div>
-      <div className="w-24 img-fluid h-24 mb-4">
+      <div className="max-h-96 rounded-full">
         <Image
           //style={{objectFit:"cover"}}
           alt="Profile Image"
@@ -31,14 +31,14 @@ export default function CardCandidate(props: any) {
         <FontAwesomeIcon icon={faLocationDot} className="mr-1" />
         Venezuela
       </div>
-      <div className="flex space-x-2">
+      <div className="flex-grow"></div>
+      <div className="flex space-x-2 mt-4">
         <a
           target="_blank"
           href={`https://wa.me/${data?.personaData?.telefono}?text=${whatsappMessage}`}
           className="btn btn-success text-white text-xs py-2 px-4 rounded flex items-center"
         >
           <FontAwesomeIcon icon={faMessage} className="mr-1" />
-
           Enviar mensaje
         </a>
         <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary text-white text-xs py-2 px-4 rounded">
