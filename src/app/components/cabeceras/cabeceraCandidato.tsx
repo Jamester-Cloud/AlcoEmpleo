@@ -72,9 +72,9 @@ export default function CabeceraCandidato({
           <FontAwesomeIcon icon={faBars} color="white" width={30} height={30} />
         </button>
       </div>
-      <div style={{ marginLeft: "15%" }} className="flex items-left ml-auto text-white mr-auto space-x-4">
+      {/* <div style={{ marginLeft: "15%" }} className="flex items-left ml-auto text-white mr-auto space-x-4">
         {userData?.personaData?.nombre} {userData?.personaData?.apellido}
-      </div>
+      </div> */}
       <div className="flex items-center ml-auto space-x-4">
         <nav className="hidden md:flex md:flex-column space-x-4">
           <a
