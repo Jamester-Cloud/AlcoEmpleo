@@ -283,7 +283,7 @@ export default function UserCandidate() {
       </div>
 
       {/* Experiencias */}
-      <div className="container mx-auto mt-5 p-4">
+      {/* <div className="container mx-auto mt-5 p-4">
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Experiencias Laborales</h2>
           <div className="flex space-x-2">
@@ -329,9 +329,9 @@ export default function UserCandidate() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
       {/* Formaciones academicas */}
-      <div className="container mx-auto mt-5 p-4">
+      {/* <div className="container mx-auto mt-5 p-4">
         <div className="flex justify-between items-center border-b border-black pb-4 mb-4">
           <h2 className="text-xl font-semibold">Educación</h2>
           <div className="flex space-x-2">
@@ -379,7 +379,7 @@ export default function UserCandidate() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Habilidades */}
       <div className="container mx-auto mt-5 p-4">

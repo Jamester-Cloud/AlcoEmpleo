@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
         let { idCandidato, dificultad, preguntas, tituloCuestionario } = reqJson;
 
-        console.log(reqJson);
+        //console.log(reqJson);
 
         await new Cuestionario({
             idCandidato:idCandidato,

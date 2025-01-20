@@ -164,7 +164,7 @@ export const FormStepper = (props: any) => {
                     {...register("pregunta")}
                     value={item.pregunta}
                   />
-                  <input type="text" value={item.respuestaCorrecta} />
+                  <input type="hidden" value={item.respuestaCorrecta} />
 
                   {/* Botón siguiente */}
                   <div className="mt-5 flex justify-center sm:justify-end">

@@ -236,10 +236,10 @@ export default function Quizzes({ params }: any) {
                         </table>
                     </>
                 )
-                break;
+          
 
             default:
-                break;
+        
         }
     }
 

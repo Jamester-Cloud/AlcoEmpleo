@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     typescript: {
-        ignoreBuildErrors: false
+        ignoreBuildErrors: false,
+        reactStrictMode:true
     },
 };
 
