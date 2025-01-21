@@ -42,7 +42,7 @@ export default function ListCarousel(props: any) {
     <Carousel 
       activeIndex={index} 
       onSelect={handleSelect} 
-      className="relative mt-10 pt-10 mb-10 pb-10 bg-slate-400"
+      className="relative  pt-10 pb-10 bg-slate-400"
       nextIcon={
         <span className="carousel-control-next-icon bg-gray-800 rounded-full p-3" />
       }
@@ -54,7 +54,7 @@ export default function ListCarousel(props: any) {
         <Carousel.Item key={slideIndex} className="align-items-center">
           <div className="flex justify-center flex-wrap">
             {slide.map((item: any) => (
-              <div key={item._id} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center">
+              <div key={item._id} className="pl-2 pr-2 pt-0 pb-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex justify-center">
                 <CardCandidate data={item} className="w-full max-w-xs" />
               </div>
             ))}
