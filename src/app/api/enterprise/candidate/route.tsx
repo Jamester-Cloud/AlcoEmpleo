@@ -1,26 +1,27 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-connect()
 
+connect();
 
 export async function POST(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
-    const reqJson = await request.json()
-    console.log(reqJson)
+    const reqJson = await request.json();
+    console.log(reqJson);
+
     const candidato: any = await Candidato.aggregate([
-      { $match: { $expr: { $eq: ['$_id', { $toObjectId: reqJson.id }] } } },
+      { $match: { $expr: { $eq: ["$_id", { $toObjectId: reqJson.id }] } } },
       {
         $lookup: {
           from: "users",
           localField: "idUsuario",
           foreignField: "_id",
-          as: "usuarioData"
-        }
+          as: "usuarioData",
+        },
       },
       {
-        $unwind: "$usuarioData"
+        $unwind: "$usuarioData",
       },
 
       {
@@ -28,54 +29,110 @@ export async function POST(request: NextRequest) {
           from: "personas",
           localField: "usuarioData.idPersona",
           foreignField: "_id",
-          as: "personaData"
-        }
+          as: "personaData",
+        },
       },
       {
-        $unwind: "$personaData"
+        $unwind: "$personaData",
       },
       {
         $lookup: {
           from: "documentos",
           localField: "usuarioData._id",
           foreignField: "idUsuario",
-          as: "documentosData"
-        }
+          as: "documentosData",
+        },
       },
       {
-        $unwind: "$documentosData"
+        $unwind: "$documentosData",
       },
       {
         $project: {
           usuarioData: "$usuarioData",
-          "candidato": "$$ROOT",
-          "documentos": "$documentosData",
-          "personaData":"$personaData"
-        }
+          candidato: "$$ROOT",
+          documentos: "$documentosData",
+          personaData: "$personaData",
+        },
       },
-    ])
+    ]);
+    const candidatoNoDocs: any = await Candidato.aggregate([
+      { $match: { $expr: { $eq: ["$_id", { $toObjectId: reqJson.id }] } } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "idUsuario",
+          foreignField: "_id",
+          as: "usuarioData",
+        },
+      },
+      {
+        $unwind: "$usuarioData",
+      },
 
-    //console.log(candidato)
-    let pdf = candidato.filter((item: any) => { if (item.documentos.contentType == 'application/pdf') return item.documentos.idArchivo })
-    let profilePicture = candidato.filter((item: any) => { if (item.documentos.contentType != 'application/pdf') return item.documentos.idArchivo })
+      {
+        $lookup: {
+          from: "personas",
+          localField: "usuarioData.idPersona",
+          foreignField: "_id",
+          as: "personaData",
+        },
+      },
+      {
+        $unwind: "$personaData",
+      },
+      {
+        $project: {
+          usuarioData: "$usuarioData",
+          candidato: "$$ROOT",
+          personaData: "$personaData",
+        },
+      },
+    ]);
 
-    console.log("Cv ", pdf);
-    console.log("ProfilePicture ", profilePicture);
+    console.log("candidato con documentos: ", candidato)
+    console.log("candidato con documentos: ", candidatoNoDocs)
+    //el candidato puede ser uno sin documentos disponibles
+    if (!candidato.lenght) {
+      console.log("Sin documentos")
+      const response = NextResponse.json({
+        message: "Succesfull data retrieving",
+        success: true,
+        noDocs:true,
+        data: candidatoNoDocs,
+      });
 
-    const response = NextResponse.json({
-      message: "Succesfull data retrieving",
-      success: true,
-      data: candidato,
-      cv: pdf,
-      profilePicture: profilePicture
-    })
+      return response;
+    } else {
+      //console.log(candidato)
+      let pdf = candidato.filter((item: any) => {
+        if (item.documentos.contentType == "application/pdf")
+          return item.documentos.idArchivo;
+      });
+      let profilePicture = candidato.filter((item: any) => {
+        if (item.documentos.contentType != "application/pdf")
+          return item.documentos.idArchivo;
+      });
 
-    return response;
+      console.log("Cv ", pdf);
+      console.log("ProfilePicture ", profilePicture);
 
+      const response = NextResponse.json({
+        message: "Succesfull data retrieving",
+        success: true,
+        data: candidato,
+        cv: pdf,
+        profilePicture: profilePicture,
+      });
+
+      return response;
+    }
   } catch (error: any) {
-    return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
+    return NextResponse.json(
+      { error: error + " and error is:" + error.message },
+      { status: 500 }
+    );
   }
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;

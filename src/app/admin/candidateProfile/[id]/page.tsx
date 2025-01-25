@@ -43,13 +43,13 @@ export default function AdministratorProfilePage({ params }: any) {
       const response = await axios.post("/api/enterprise/candidate", {
         id: id,
       });
-
-      setCv(response?.data?.cv[0]?.documentos?.idArchivo)
-      setProfilePicture(response.data.profilePicture[0].documentos.idArchivo)
+      
+      // setCv(response?.data?.cv[0]?.documentos?.idArchivo)
+      // setProfilePicture(response.data.profilePicture[0].documentos.idArchivo)
 
       setData(response.data.data[0]);
 
-      console.log(response.data);
+      console.log("Perfil del usuario",response.data);
     } catch (error) {
       console.log("Peticion errada", error);
     }

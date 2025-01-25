@@ -1,7 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-import { Types } from "mongoose";
+
 connect()
 
 
