@@ -45,8 +45,6 @@ export async function POST(request: NextRequest) {
             idPersona: user.idPersona,
             rol: rol == 'admin' ? rol : rol.rol
         }
-
-        console.log(tokenData)
         //create token
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
 

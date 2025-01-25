@@ -29,7 +29,7 @@ export default function LogInForm() {
             localStorage.setItem('idUsuario', response.data.idUsuario)
             localStorage.setItem('isPremium', response.data.isPremium)
             localStorage.setItem('idPersona', response.data.idPersona)
-        
+            
 
             let rol = response.data.userRol
             console.log(rol)
@@ -111,7 +111,7 @@ export default function LogInForm() {
                     <label className="form-check-label" htmlFor="form2Example31"> Remember me </label>
                 </div> */}
                     <button type="button" onClick={onLogin} disabled={!buttonDisabled} className="btn btn-primary btn-block">Iniciar sesion</button>
-                    {/* <Link href=""><p className="mt-3">¿Olvido su contraseña?</p></Link> */}
+                    <Link href="/verifyEmail"><p className="mt-3">¿Olvido su contraseña?</p></Link>
                     <ToastContainer
                         position="top-right"
                         autoClose={5000}

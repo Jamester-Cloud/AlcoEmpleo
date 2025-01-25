@@ -89,11 +89,8 @@ export async function POST(request: NextRequest) {
       },
     ]);
 
-    console.log("candidato con documentos: ", candidato)
-    console.log("candidato con documentos: ", candidatoNoDocs)
     //el candidato puede ser uno sin documentos disponibles
     if (!candidato.lenght) {
-      console.log("Sin documentos")
       const response = NextResponse.json({
         message: "Succesfull data retrieving",
         success: true,
@@ -112,9 +109,6 @@ export async function POST(request: NextRequest) {
         if (item.documentos.contentType != "application/pdf")
           return item.documentos.idArchivo;
       });
-
-      console.log("Cv ", pdf);
-      console.log("ProfilePicture ", profilePicture);
 
       const response = NextResponse.json({
         message: "Succesfull data retrieving",

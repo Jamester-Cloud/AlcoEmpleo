@@ -7,8 +7,7 @@ import Candidato from '@/models/candidato'
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import Rol from "@/models/userRolModel";
-import upload from "@/helpers/upload";
-import Documento from "@/models/documentos";
+
 
 
 connect()
@@ -17,9 +16,6 @@ export async function POST(request: NextRequest) {
     try {
         let logoPicture: any
         const formData = await request.formData()
-
-        console.log(formData);
-        let update;
 
         let email, password: any, cedula, nombres, apellidos, direccion, genero, telefono, razonSocial, rif, type, estado
 
