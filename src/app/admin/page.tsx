@@ -489,7 +489,7 @@ export default function AdminPage() {
             {candidates?.map((item: any, key: number) => (
               <tr key={key}>
                 <td>
-                  <Image className="rounded-full m-2" src={item?.documentosData?.idArchivo ? `/api/candidate/profilePic?idArchivo=${item?.documentosData?.idArchivo}` : '/AlcoLogo.png'} alt={""} width={80} height={80} />
+                  <Image className="rounded-full m-2" src={'/AlcoLogo.png'} alt={""} width={80} height={80} />
                   {item.personaData.cedula}
                 </td>
                 <td className="py-2 px-4 border-b">
