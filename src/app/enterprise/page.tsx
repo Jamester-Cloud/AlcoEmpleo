@@ -256,9 +256,12 @@ export default function CandidateSearch() {
           Descubra su próximo paso profesional, trabajo independiente o pasantía
         </p>
         {premiumsData === undefined || premiumsData.length === 0 ? (
-          <div className=" font-bold">No hay Candidatos Premiums Registrados</div>
+          <div className="font-bold">No hay Candidatos Premiums Registrados</div>
         ) : (
-          <ListCarousel data={premiumsData} />
+          <>
+            <ListCarousel data={premiumsData.slice(0, Math.ceil(premiumsData.length / 2))} />
+            <ListCarousel data={premiumsData.slice(Math.ceil(premiumsData.length / 2))} />
+          </>
         )}
 
       </div>
@@ -269,18 +272,6 @@ export default function CandidateSearch() {
             onClick={() => prevPageCandidatePremium(pageCandidateNormal - 1)}
             disabled={pageCandidateNormal == 1}
           />
-          {/* {Array(parseInt(pagePremiumsCandidateCount))
-            .fill(null)
-            .map((_, key) => {
-              return (
-                <Pagination.Item
-                  key={key}
-                  onClick={() => goToPagePremiumCandidate(key + 1)}
-                >
-                  {key + 1}
-                </Pagination.Item>
-              );
-            })} */}
           <Pagination.Next
             onClick={() => nextPageCandidatePremium(pageCandidateNormal + 1)}
             disabled={pageCandidateNormal == pageNormalCandidateCount}
