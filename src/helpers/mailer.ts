@@ -5,19 +5,18 @@ import bcryptjs from 'bcryptjs'
 export const sendEmail = async ({ email, emailType, userId }: any) => {
     try {
         //create a hashed token
-        const hashedToken = await bcryptjs.hash(userId.toString(), 10)
+        //const hashedToken = await bcryptjs.hash(userId.toString(), 10)
 
 
-        if (emailType === "VERIFY") {
-            await User.findByIdAndUpdate(userId,
-                { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 })
-        } else if (emailType === "RESET") {
-            await User.findByIdAndUpdate(userId,
-                { forgotPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 })
-        }
+        // if (emailType === "VERIFY") {
+        //     await User.findByIdAndUpdate(userId,
+        //         { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 })
+        // } else if (emailType === "RESET") {
+        //     await User.findByIdAndUpdate(userId,
+        //         { forgotPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 })
+        // }
 
-
-        await User.findByIdAndUpdate(userId, { forgotPasswordToken: hashedToken, forgotPasswordTokenExpire: Date.now() + 3600000 })
+        //await User.findByIdAndUpdate(userId, { })
 
         var transport = nodemailer.createTransport({
             host: "mail.alcolegaltech.com",
@@ -34,8 +33,9 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
             subject: emailType === "VERIFY" ? "Verify your email" : "Reset your password",
             html: `<p>Saludos cordiales. 
             Recibimos una solicitud para restablecer su contraseña de su cuenta de alcoempleo.com.
-            <a href="${process.env.DOMAIN}/verifyEmail?token=${hashedToken}">here</a> to ${emailType === "VERIFY" ? "verify your email" : "reset your password"}
-            or copy and paste the link below in your browser. <br> ${process.env.DOMAIN}/verifyEmail?token=${hashedToken}
+            Para cambiar su contraseña o recuperar la misma, haz clic en el siguiente enlace:
+            <a href="${process.env.DOMAIN}/verifyEmail?token=${"dasdsad"}">Aquí</a> to ${emailType === "VERIFY" ? "verify your email" : "reset your password"}
+            or copia y pega el enlace en tu navegador. <br> ${process.env.DOMAIN}/verifyEmail?token=${"asdasdas"}
             </p>`
         }
 
