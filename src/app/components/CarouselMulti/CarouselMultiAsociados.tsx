@@ -16,7 +16,7 @@ export function CarouselMultiAsociados(props: any) {
 
   const fetchData = async () => {
     const res = await axios.post('/api/administrator/homepage')
-    if(res.status === 200) console.log("sucessful"), setData(res.data.homePage[0].logos_asociados), console.log(res.data)
+    if(res.status === 200) console.log("sucessful"), setData(res.data.homePage[0].logos_asociados)
   }
 
   const responsive = {
