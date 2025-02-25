@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
           documentos: "$documentosData"
         }
       },
-    ]).limit(20)
+    ]).limit(50)
     
 
     // trae solo los candidatos que tengan foto de perfil
