@@ -29,7 +29,6 @@ export const POST = async (request: NextRequest) => {
                 if (formData.get('profilePicture') as File || formData.get('profilePicture[]') as File){
                     const profilePicture = formData.get('profilePicture') as File || formData.get('profilePicture[]') as File
                     let idProfilePic = await upload(profilePicture, "candidateProfilePics", 'Foto de perfil del candidatos');
-                    console.log("Proceso de guardado de documentos finalizado")
     
                     filter = {
                         idUsuario: formData.get('idUsuario'),
@@ -76,8 +75,6 @@ export const POST = async (request: NextRequest) => {
                         idUsuario: formData.get('idUsuario'),
                         bucketName: 'candidateDocuments'
                     }
-
-                    console.log(filter)
 
                     let idCv = await upload(file, "candidateDocuments", 'Curriculum Vitae del candidato');
 

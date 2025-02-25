@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     {
         "cedula": query.cedula ? query.cedula : query.riff
     }
-    let pfp;
+    let profilePicture;
     try {
 
         data = await Persona.findOne(q)
@@ -30,9 +30,8 @@ export async function POST(request: NextRequest) {
         user = await User.findOne({ idPersona: data._id })
         
         candidatoData = await Candidato.findOne({ idUsuario: user._id })
-        console.log(candidatoData._id);
-        pfp = await Documento.findOne({idUsuario: user._id, contentType: { $ne: 'application/pdf' }})
-        data = [{ personaData: data, usuarioData: user, candidatoData: candidatoData, documentosData:pfp }]
+        profilePicture = await Documento.findOne({idUsuario: user._id, contentType: { $ne: 'application/pdf' }})
+        data = [{ personaData: data, usuarioData: user, candidatoData: candidatoData, documentosData:profilePicture }]
         
         const response = NextResponse.json({
             message: "Succesfull data retrieve",

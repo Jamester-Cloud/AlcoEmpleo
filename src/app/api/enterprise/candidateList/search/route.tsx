@@ -2,21 +2,20 @@ import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
-connect()
-
+connect();
 
 export async function POST(request: NextRequest) {
+  const reqJson = await request.json();
 
-  const reqJson = await request.json()
-
-  let { cargo, location } = reqJson
-
-
+  let { cargo, location } = reqJson;
 
   let objectLocationId;
-  if (location) objectLocationId = Types.ObjectId.createFromHexString(location)
-  const PER_PAGE = 5
+  if (location) objectLocationId = Types.ObjectId.createFromHexString(location);
+  const PER_PAGE = 5;
   try {
+    if (!cargo && !location) {
+      
+    }
 
     const candidatePremiums: any = await Candidato.aggregate([
       {
@@ -24,48 +23,57 @@ export async function POST(request: NextRequest) {
           index: "testDinamicSearch",
           text: {
             query: cargo,
-            path: "perfil.puestoDeseado"
+            path: "perfil.puestoDeseado",
           },
-        }
+        },
       },
       {
         $match: {
           $or: [
-            { "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') }, },
-            { "idRegion": objectLocationId, },
-            { "esDestacado": true }
-          ]
-        }
+            { "perfil.puestoDeseado": { $regex: new RegExp(cargo, "i") } },
+            { idRegion: objectLocationId },
+            { esDestacado: true },
+          ],
+        },
+      },
+      {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData",
+        },
       },
       {
         $lookup: {
           from: "users",
           localField: "idUsuario",
           foreignField: "_id",
-          as: "usuarioData"
-        }
+          as: "usuarioData",
+        },
       },
       {
-        $unwind: "$usuarioData"
+        $unwind: "$usuarioData",
       },
       {
         $project: {
-          "Candidato": "$$ROOT",
-          idPersona: "$usuarioData.idPersona",
-        }
+          Candidato: "$$ROOT",
+          usuarioData: 1,
+          documentosData: 1,
+        },
       },
       {
         $lookup: {
           from: "personas",
           localField: "idPersona",
           foreignField: "_id",
-          as: "personaData"
-        }
+          as: "personaData",
+        },
       },
       {
-        $unwind: "$personaData"
-      }
-    ])
+        $unwind: "$personaData",
+      },
+    ]);
 
     const paginatedQuery: any = await Candidato.aggregate([
       {
@@ -73,56 +81,62 @@ export async function POST(request: NextRequest) {
           index: "testDinamicSearch",
           text: {
             query: cargo,
-            path: "perfil.puestoDeseado"
+            path: "perfil.puestoDeseado",
           },
-        }
+        },
       },
       {
         $match: {
-          "perfil.puestoDeseado": { $regex: new RegExp(cargo, 'i') },
-          "idRegion": objectLocationId,
-          "esDestacado": false
-        }
+          "perfil.puestoDeseado": { $regex: new RegExp(cargo, "i") },
+          idRegion: objectLocationId,
+          esDestacado: false,
+        },
       },
       {
         $lookup: {
           from: "users",
           localField: "idUsuario",
           foreignField: "_id",
-          as: "usuarioData"
-        }
+          as: "usuarioData",
+        },
       },
       {
-        $unwind: "$usuarioData"
+        $unwind: "$usuarioData",
+      },
+      {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData",
+        },
+      },
+      {
+        $unwind: "$documentosData",
       },
       {
         $project: {
-          "candidato": "$$ROOT",
+          candidato: "$$ROOT",
           idPersona: "$usuarioData.idPersona",
-        }
+          documentos: "$documentosData",
+        },
       },
       {
         $lookup: {
           from: "personas",
           localField: "idPersona",
           foreignField: "_id",
-          as: "personaData"
-        }
+          as: "personaData",
+        },
       },
       {
-        $unwind: "$personaData"
-      }
-    ])
+        $unwind: "$personaData",
+      },
+    ]);
 
-    const count = await Candidato.countDocuments({ esDestacado: false })
-
+    const count = await Candidato.countDocuments({ esDestacado: false });
     const pageCount = count / PER_PAGE;
-
     //let mappedData = mapper(candidato);
-
-
-
-
     const response = NextResponse.json({
       message: "Succesfull data retrieve",
       success: true,
@@ -132,15 +146,18 @@ export async function POST(request: NextRequest) {
         pageCount,
       },
       paginatedQuery,
-    })
+    });
     //console.log("hello world")
 
     return response;
-
   } catch (error: any) {
-    return NextResponse.json({ error: error + " and error is:" + error.message }, { status: 500 })
+    console.log(error);
+    return NextResponse.json(
+      { error: error + " and error is:" + error.message },
+      { status: 500 }
+    );
   }
 }
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;

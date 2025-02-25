@@ -18,6 +18,8 @@ export default function CardCandidate(props: any) {
       <div className="max-h-96 rounded-full">
         <Image
           //style={{objectFit:"cover"}}
+          width={100}
+          height={100}
           alt="Profile Image"
           src={data?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${data.documentos.idArchivo}` : '/Imagen-card.png'}
           className="rounded-full img-fluid"

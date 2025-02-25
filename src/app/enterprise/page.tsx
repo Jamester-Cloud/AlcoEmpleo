@@ -78,7 +78,7 @@ export default function CandidateSearch() {
   // };
 
   const nextPageCandidateNormal = async (nextPage: number) => {
-    console.log("Pagina siguiente");
+
     const candidateData = await axios.post(
       "/api/enterprise/candidateList", { page: nextPage }
     );
@@ -104,7 +104,6 @@ export default function CandidateSearch() {
   };
   
   const nextPageCandidatePremium = async (nextPage: number) => {
-    console.log("Pagina siguiente");
     const response: any = await axios.post(
       "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
     );
@@ -155,8 +154,10 @@ export default function CandidateSearch() {
   };
 
   useEffect(() => {
-    fetchNormalCandidates()
-  }, [!candidatesNormal])
+    if(!candidatesNormal){
+      fetchNormalCandidates();
+    }
+  }, [candidatesNormal])
 
   useEffect(() => {
     const loadPremiumData = async () => {
@@ -180,12 +181,10 @@ export default function CandidateSearch() {
   }, [regions]);
 
   const handleSubmitFilter = async (data: any) => {
-    console.log(data);
     let filter = { cargo: data.cargo || '', location: data?.idRegion?.value || '', page: page };
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
-        response.data
         setPremiumsData(response.data.candidatePremiums);
         setCandidateNormal(response.data.paginatedQuery);
       }
@@ -298,7 +297,7 @@ export default function CandidateSearch() {
                     <div className="flex-shrink-0">
                       <a href="#">
                         <Image
-                          src={item.documentosData.idArchivo ? `/api/candidate/profilePic?idArchivo=${item.documentosData.idArchivo}` : "/Imagen-card.png"}
+                          src={item?.documentosData?.idArchivo ? `/api/candidate/profilePic?idArchivo=${item.documentosData.idArchivo}` : "/Imagen-card.png"}
                           width={100}
                           height={100}
                           alt=""
