@@ -1,3 +1,4 @@
 {
-    "workbench.activityBar.iconClickBehavior": "toggle"
+    "workbench.activityBar.iconClickBehavior": "toggle",
+    "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

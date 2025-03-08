@@ -1,11 +1,10 @@
-import React, { Ref, useEffect } from "react";
-import Link from "next/link";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation"
 import axios from "axios"
 import Image from "next/image";
 import Select from "react-select";
 import { ToastContainer, toast, Bounce } from 'react-toastify';
-
+import { useForm } from "react-hook-form";
 
 export default function SignUpForm(props: any) {
 

@@ -46,7 +46,7 @@ export function CarouselMultiAsociados(props: any) {
           <div key={i} className="flex justify-center items-center h-60">
             <div className="flex justify-center items-center">
               <Image
-                src={`${item.logo.ruta}`}
+                src={item.logo.ruta ? item.logo.ruta : "/AlcoLogo.png"}
                 width={400}
                 alt="Asociados GRUPO ALCO"
                 height={300}
