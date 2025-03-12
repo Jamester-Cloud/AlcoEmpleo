@@ -27,3 +27,9 @@ export interface PaymentData {
   pagocedula?: string;
   monto?: string;
 }
+
+
+export interface Request {
+  url: string;
+  data: any;
+}

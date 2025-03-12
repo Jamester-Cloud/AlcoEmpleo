@@ -32,11 +32,18 @@ const userSchema = new mongoose.Schema({
         type: Types.ObjectId,
         required: [true, "IdRol requerido para relacionar al usuario con un rol especifico"]
     },
+    preguntas:[
+        {
+            pregunta: String,
+            respuesta: String
+        }
+    ],
     forgotPasswordToken: String,
     forgotPasswordTokenExpire: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
     fechaIngreso: Date,
+    firstTimeLogin:{type:Boolean, default:true},
     estatus: { type: Boolean, default: true }
 
 })

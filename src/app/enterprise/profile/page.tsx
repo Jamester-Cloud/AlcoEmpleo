@@ -4,7 +4,6 @@ import axios from "axios";
 import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
 import { Modal } from "react-bootstrap";
-import Footer from "@/app/components/Footer/footer";
 import {
   faCheckCircle,
 
