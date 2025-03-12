@@ -31,5 +31,5 @@ export interface PaymentData {
 
 export interface Request {
   url: string;
-  data: any;
+  data: Object | undefined;
 }

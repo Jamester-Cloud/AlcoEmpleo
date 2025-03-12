@@ -3,6 +3,7 @@ import { Request } from "@/app/interfaces/types";
 export async function requestHandler(req: Request, type: string) {
   let response;
   if (type === "post") {
+    console.log(req.data);
     response = await axios.post(req.url, req.data);
   }
   if (type === "get") {

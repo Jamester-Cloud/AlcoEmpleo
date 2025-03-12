@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 import { useForm } from "react-hook-form";
-import InputTextSearch from "../components/inputs/inputTextSearch";
 import { requestHandler } from "@/helpers/axiosRequest";
-
+import { ToastContainer, toast, Bounce } from "react-toastify";
 const RecoverPassword: React.FC = () => {
+  const [preguntas, setPreguntas] = React.useState([]);
   const { register, handleSubmit } = useForm({
     defaultValues: {
       emailSearch:"",
@@ -16,22 +16,30 @@ const RecoverPassword: React.FC = () => {
   });
   const onEmailSubmit = async (data: any) => {
     try {
-      const user = requestHandler(data, "get");
-    } catch (error) {
+      const res = await requestHandler({
+        url: '/api/users/passwordRecovery/findUser/',
+        data: {email: data.emailSearch},
+      }, "post");
+
+      if(res?.status == 200){
+        setPreguntas(res.data.user.preguntas);
+      }
+    } catch (error:any) {
       console.log(error);
+      toast.error("Error:", error.message);
     }
   };
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <h1 className="text-center mb-4">Recuperacíon de cuenta</h1>
       <form onSubmit={handleSubmit(onEmailSubmit)} className="card p-4 mb-5">
         <div className="row mb-3">
           <div className="col-8">
-            <InputTextSearch {...register("emailSearch", {required:"Campo obligatorio"})} placeholder="Email de usuario" />
+          <input {...register("emailSearch", {required:"Campo obligatorio"})} type="text" className="form-control" />
           </div>
           <div className="col-4">
-            <button type="button" className="btn btn-primary w-50">
-              Buscar usuario
+            <button type="submit" className="btn btn-primary w-50">
+              Buscar
             </button>
           </div>
         </div>
@@ -63,6 +71,18 @@ const RecoverPassword: React.FC = () => {
           </div> */}
         </div>
         {/* <button type="submit" className="btn btn-primary w-100">Recover Password</button> */}
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </form>
     </div>
   );
