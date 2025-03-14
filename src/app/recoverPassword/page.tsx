@@ -3,11 +3,13 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { requestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+
 const RecoverPassword: React.FC = () => {
   const [user, setUser] = React.useState<any>({
     preguntas: [],
     email: "",
     hasQuestions: false,
+    isFirstTimeLogin:true
   });
 
   const [toggleForm, setToggleForm] = React.useState<boolean>(false);
@@ -46,15 +48,14 @@ const RecoverPassword: React.FC = () => {
         setToggleForm(true);
       }
     } catch (error: any) {
-      console.log(error.response.data.error);
       let message = error.response.data.error;
       setUser({ preguntas: [], hasQuestions: false });
       setToggleForm(false);
       toast.error(`Error: ${message}`);
     }
   };
+
   const submitQuestions = async (data: any) => {
-    console.log(data);
     try {
       const res = await requestHandler(
         {
@@ -66,6 +67,9 @@ const RecoverPassword: React.FC = () => {
 
       if (res?.status == 200) {
         setToggleForm(true);
+        setUser({...user, isFirstTimeLogin:res.data.user.firstTimeLogin})
+        toast.success("Se han guardado las preguntas exitosamente");
+        
       }
     } catch (error: any) {
       toast.error(`Error: ${error}`);
@@ -113,7 +117,7 @@ const RecoverPassword: React.FC = () => {
           <form onSubmit={handleSubmit(submitQuestions)}>
             {!user.hasQuestions ? (
               <>
-                {fields.map((field, i:number) => (
+                {fields.map((field, i: number) => (
                   <>
                     <div key={i} className="card p-4 mb-3">
                       <div className="mb-3">
@@ -140,12 +144,10 @@ const RecoverPassword: React.FC = () => {
               </>
             ) : (
               <>
-              {/* aca colocamos las preguntas si existen, y ponemos al usuario a responderlas */}
+                {/* aca colocamos las preguntas si existen, y ponemos al usuario a responderlas */}
                 <div className="card p-4 mb-3">
                   <div className="mb-3">
-                    <label htmlFor="question1" className="form-label">
-      
-                    </label>
+                    <label htmlFor="question1" className="form-label"></label>
                     {/* respuesta */}
                     <input
                       type="text"
@@ -170,6 +172,53 @@ const RecoverPassword: React.FC = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const RecoverForm:React.FC = () => {
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      emailSearch: "",
+      questions: [
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+      ],
+    },
+  });
+
+  const submitPass = (data:any) =>{
+    console.log(data);
+  }
+  return (
+    <form onSubmit={handleSubmit(submitPass)}>
+      <div className="row mb-3">
+        <div className="col-8">
+          <input
+            {...register("emailSearch", { required: "Campo obligatorio" })}
+            type="text"
+            className="form-control"
+          />
+        </div>
+        <div className="col-4">
+          <button type="submit" className="btn btn-primary btn-block btn-md">
+            Buscar
+          </button>
+        </div>
+      </div>
+      {/* <button type="submit" className="btn btn-primary w-100">Recover Password</button> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </form>
   );
 };
 

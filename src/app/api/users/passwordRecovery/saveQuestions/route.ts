@@ -7,17 +7,22 @@ export async function POST(request: NextRequest) {
     await connect();
 
     const reqJson = await request.json();
-    
+
     let { preguntas, email } = reqJson;
     console.log("preguntas: ", preguntas, "Email:", email);
+
+    preguntas = preguntas.map((pregunta: any) => {
+      return { pregunta: pregunta.question, respuesta: pregunta.answer };
+    });
 
     let filter = { email: email },
       update = { preguntas: preguntas, firstTimeLogin: false };
 
+    const user = User.findOne(filter);
     await User.updateOne(filter, update);
 
     return NextResponse.json(
-      { message: "Preguntas guardadas" },
+      { message: "Preguntas guardadas", user:user },
       { status: 200 }
     );
   } catch (error: any) {
