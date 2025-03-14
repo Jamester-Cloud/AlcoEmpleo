@@ -8,7 +8,7 @@ export default function layout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className="">
+        <div className="container-fluid">
             <Cabecera />
             <Spinner />
             {children}

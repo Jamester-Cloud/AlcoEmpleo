@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { requestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 const RecoverPassword: React.FC = () => {
@@ -12,15 +12,21 @@ const RecoverPassword: React.FC = () => {
 
   const [toggleForm, setToggleForm] = React.useState<boolean>(false);
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, control } = useForm({
     defaultValues: {
       emailSearch: "",
-      question1: "",
-      answer1: "",
-      question2: "",
-      answer2: "",
+      questions: [
+        { question: "", answer: "" },
+        { question: "", answer: "" },
+      ],
     },
   });
+
+  const { fields } = useFieldArray({
+    name: "questions",
+    control,
+  });
+
   const onEmailSubmit = async (data: any) => {
     try {
       const res = await requestHandler(
@@ -48,30 +54,26 @@ const RecoverPassword: React.FC = () => {
     }
   };
   const submitQuestions = async (data: any) => {
+    console.log(data);
     try {
       const res = await requestHandler(
         {
           url: "/api/users/passwordRecovery/saveQuestions/",
-          data: { email: data.emailSearch },
+          data: { preguntas: data.questions, email: user.email },
         },
         "post"
       );
 
       if (res?.status == 200) {
-        setUser({
-          preguntas: res.data.user.preguntas,
-          email: res.data.user.email,
-          hasQuestions: res.data.user.preguntas.length > 0 ? true : false,
-        });
         setToggleForm(true);
       }
     } catch (error: any) {
-      toast.error(`Error: ${error.response.data.error}`);
+      toast.error(`Error: ${error}`);
     }
   };
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="p-5">
       <h1 className="text-center mb-4">Recuperacíon de cuenta</h1>
       <div className="card p-4 mb-5">
         <form onSubmit={handleSubmit(onEmailSubmit)}>
@@ -110,54 +112,39 @@ const RecoverPassword: React.FC = () => {
         {toggleForm && (
           <form onSubmit={handleSubmit(submitQuestions)}>
             {!user.hasQuestions ? (
-              <div className="card p-4 mb-3">
-                <div className="mb-3">
-                  <label htmlFor="question1" className="form-label">
-                    Pregunta 1
-                  </label>
-                  {/* Pregunta */}
-                  <input
-                    type="text"
-                    className="form-control mb-3"
-                    id="question1"
-                    name="question1"
-                    placeholder="Ingrese una pregunta de seguridad"
-                  />
-                  {/* respuesta */}
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="question1"
-                    name="question1"
-                    placeholder="Ingrese una respuesta"
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="question2" className="form-label">
-                    Pregunta 2
-                  </label>
-                  {/* Pregunta */}
-                  <input
-                    type="text"
-                    className="form-control mb-3"
-                    placeholder="Ingrese una pregunta de seguridad"
-                  />
-                  {/* respuesta */}
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="question2"
-                    name="question2"
-                    placeholder="Ingrese una respuesta"
-                  />
-                </div>
-              </div>
+              <>
+                {fields.map((field, i:number) => (
+                  <>
+                    <div key={i} className="card p-4 mb-3">
+                      <div className="mb-3">
+                        {/* Pregunta */}
+                        <input
+                          className="form-control mb-3"
+                          {...register(`questions.${i}.question`, {
+                            required: "Campo obligatorio",
+                          })}
+                          placeholder="Ingrese una pregunta de seguridad"
+                        />
+                        {/* respuesta */}
+                        <input
+                          className="form-control"
+                          {...register(`questions.${i}.answer`, {
+                            required: "Campo obligatorio",
+                          })}
+                          placeholder="Ingrese una respuesta"
+                        />
+                      </div>
+                    </div>
+                  </>
+                ))}
+              </>
             ) : (
               <>
+              {/* aca colocamos las preguntas si existen, y ponemos al usuario a responderlas */}
                 <div className="card p-4 mb-3">
                   <div className="mb-3">
                     <label htmlFor="question1" className="form-label">
-                      Pregunta 1
+      
                     </label>
                     {/* respuesta */}
                     <input
@@ -168,22 +155,17 @@ const RecoverPassword: React.FC = () => {
                       placeholder="Ingrese una respuesta"
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="question2" className="form-label">
-                      Pregunta 2
-                    </label>
-                    {/* respuesta */}
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="question2"
-                      name="question2"
-                      placeholder="Ingrese una respuesta"
-                    />
-                  </div>
                 </div>
               </>
             )}
+            <div className="col-4">
+              <button
+                type="submit"
+                className="btn btn-primary btn-block btn-md"
+              >
+                Enviar
+              </button>
+            </div>
           </form>
         )}
       </div>

@@ -7,8 +7,13 @@ export async function POST(request: NextRequest) {
     await connect();
 
     const reqJson = await request.json();
+    
     let { preguntas, email } = reqJson;
-    let filter = { email: email }, update = { preguntas: preguntas };
+    console.log("preguntas: ", preguntas, "Email:", email);
+
+    let filter = { email: email },
+      update = { preguntas: preguntas, firstTimeLogin: false };
+
     await User.updateOne(filter, update);
 
     return NextResponse.json(
