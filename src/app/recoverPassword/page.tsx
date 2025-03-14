@@ -68,6 +68,7 @@ const RecoverPassword: React.FC = () => {
       if (res?.status == 200) {
         setToggleForm(true);
         setUser({...user, isFirstTimeLogin:res.data.user.firstTimeLogin})
+        setToggleForm(false)
         toast.success("Se han guardado las preguntas exitosamente");
         
       }
@@ -178,11 +179,9 @@ const RecoverPassword: React.FC = () => {
 const RecoverForm:React.FC = () => {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
-      emailSearch: "",
-      questions: [
-        { question: "", answer: "" },
-        { question: "", answer: "" },
-      ],
+      password: "",
+      verifyPassword:""
+
     },
   });
 
@@ -194,7 +193,7 @@ const RecoverForm:React.FC = () => {
       <div className="row mb-3">
         <div className="col-8">
           <input
-            {...register("emailSearch", { required: "Campo obligatorio" })}
+            {...register("password", { required: "Campo obligatorio" })}
             type="text"
             className="form-control"
           />
