@@ -80,17 +80,18 @@ const RecoverPassword: React.FC = () => {
   return (
     <div className="p-5">
       <h1 className="text-center mb-4">Recuperacíon de cuenta</h1>
-      <div className="card p-4 mb-5">
+      <div className="card p-5 mb-5">
         <form onSubmit={handleSubmit(onEmailSubmit)}>
-          <div className="row mb-3">
-            <div className="col-8">
+          <div className="row justify-content-center ml-3 mb-3">
+            <div className="col-5">
               <input
                 {...register("emailSearch", { required: "Campo obligatorio" })}
                 type="text"
+                placeholder="Ingrese su email"
                 className="form-control"
               />
             </div>
-            <div className="col-4">
+            <div className="col-3">
               <button
                 type="submit"
                 className="btn btn-primary btn-block btn-md"
@@ -176,7 +177,7 @@ const RecoverPassword: React.FC = () => {
   );
 };
 
-const RecoverForm:React.FC = () => {
+const RecoverForm:React.FC = (props) => {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       password: "",
