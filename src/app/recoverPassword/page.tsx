@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { requestHandler } from "@/helpers/axiosRequest";
+import { axiosRequestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const RecoverPassword: React.FC = () => {
@@ -9,7 +9,7 @@ const RecoverPassword: React.FC = () => {
     preguntas: [],
     email: "",
     hasQuestions: false,
-    isFirstTimeLogin:true
+    isFirstTimeLogin: true,
   });
 
   const [toggleForm, setToggleForm] = React.useState<boolean>(false);
@@ -31,7 +31,7 @@ const RecoverPassword: React.FC = () => {
 
   const onEmailSubmit = async (data: any) => {
     try {
-      const res = await requestHandler(
+      const res = await axiosRequestHandler(
         {
           url: "/api/users/passwordRecovery/findUser/",
           data: { email: data.emailSearch },
@@ -55,9 +55,12 @@ const RecoverPassword: React.FC = () => {
     }
   };
 
+  //React useEffect
+  React.useEffect(() => {}, [user.isFirstTimeLogin]);
+
   const submitQuestions = async (data: any) => {
     try {
-      const res = await requestHandler(
+      const res = await axiosRequestHandler(
         {
           url: "/api/users/passwordRecovery/saveQuestions/",
           data: { preguntas: data.questions, email: user.email },
@@ -66,11 +69,13 @@ const RecoverPassword: React.FC = () => {
       );
 
       if (res?.status == 200) {
-        setToggleForm(true);
-        setUser({...user, isFirstTimeLogin:res.data.user.firstTimeLogin})
-        setToggleForm(false)
+        setUser({
+          ...user,
+          hasQuestions: true,
+          isFirstTimeLogin: res.data.user.firstTimeLogin,
+        });
+        setToggleForm(false);
         toast.success("Se han guardado las preguntas exitosamente");
-        
       }
     } catch (error: any) {
       toast.error(`Error: ${error}`);
@@ -177,24 +182,33 @@ const RecoverPassword: React.FC = () => {
   );
 };
 
-const RecoverForm:React.FC = (props) => {
+const RecoverForm: React.FC = (props) => {
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
       password: "",
-      verifyPassword:""
-
+      verifyPassword: "",
     },
   });
 
-  const submitPass = (data:any) =>{
+  const submitPass = (data: any) => {
     console.log(data);
-  }
+  };
   return (
     <form onSubmit={handleSubmit(submitPass)}>
       <div className="row mb-3">
         <div className="col-8">
           <input
+            placeholder="Nueva contraseña"
             {...register("password", { required: "Campo obligatorio" })}
+            type="text"
+            className="form-control"
+          />
+        </div>
+
+        <div className="col-8">
+          <input
+            placeholder="repita nueva contraseña"
+            {...register("verifyPassword", { required: "Campo obligatorio" })}
             type="text"
             className="form-control"
           />
