@@ -13,10 +13,6 @@ export async function POST(request: NextRequest) {
   if (location) objectLocationId = Types.ObjectId.createFromHexString(location);
   const PER_PAGE = 5;
   try {
-    if (!cargo && !location) {
-      
-    }
-
     const candidatePremiums: any = await Candidato.aggregate([
       {
         $search: {

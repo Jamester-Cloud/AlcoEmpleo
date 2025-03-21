@@ -1,22 +1,27 @@
 import { connect } from "@/dbConfig/dbConfig";
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/userModel";
+import Persona from "@/models/personaModel";
 
 export async function POST(request: NextRequest) {
   try {
     await connect();
 
     const reqJson = await request.json();
-    let { email } = reqJson;
-    
+    let { email, cedula } = reqJson;
+    //got to do a query to persona
     const user = await User.findOne({ email: email });
+    const persona = await Persona.findOne({ cedula: cedula });
     
-    if (!user) {
-        return NextResponse.json({ error: "No se encontro usuario" }, { status: 400 })
+    if (!user || !persona) {
+      return NextResponse.json(
+        { error: "No se encontro el usuario" },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json(
-      { message: "Usuario encontrado", user:user },
+      { message: "Usuario encontrado", user: user },
       { status: 200 }
     );
   } catch (error: any) {

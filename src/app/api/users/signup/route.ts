@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
         if (persona) return NextResponse.json({ error: "Cedula/rif ya se en el sistema" }, { status: 400 })
         //hash passwords
         const salt = await bcryptjs.genSalt(10)
-
         const hashedPassword = await bcryptjs.hash(password, salt)
         //storing abstract table first
         const newPersona = new Persona({
@@ -60,7 +59,6 @@ export async function POST(request: NextRequest) {
         })
 
         const savedPersona = await newPersona.save()
-        console.log("Persona registrada en la base de datos")
 
         const newUser = new User({
             email: email,

@@ -48,7 +48,5 @@ export const config = {
         '/candidate/edit',
         '/admin',
         '/admin/:id',
-        '/passwordRecovery',
-        '/passwordRecovery/passwordForm'
     ]
 }
