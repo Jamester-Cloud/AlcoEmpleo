@@ -11,6 +11,7 @@ const RecoverPassword: React.FC = () => {
   const [user, setUser] = React.useState<any>({
     preguntas: [],
     email: "",
+    rut: "",
     hasQuestions: false,
     isFirstTimeLogin: true,
   });
@@ -48,12 +49,13 @@ const RecoverPassword: React.FC = () => {
    *
    * @param {object} data
    */
-  const onEmailSubmit = async (data: any) => {
+  const onEmailSubmit = async () => {
+    console.log(user);
     try {
       const res = await axiosRequestHandler(
         {
           url: "/api/users/passwordRecovery/findUser/",
-          data: { email: data.emailSearch, cedula: data.rut },
+          data: { email: user.email, cedula: user.rut },
         },
         "post"
       );
@@ -64,12 +66,19 @@ const RecoverPassword: React.FC = () => {
           email: res.data.user.email,
           hasQuestions: res.data.user.preguntas.length > 0 ? true : false,
         });
+        reset({
+          preguntas: [
+            { pregunta: "", respuesta: "" },
+            { pregunta: "", respuesta: "" },
+          ],
+        });
         setToggleForm(true);
       }
     } catch (error: any) {
       let message = error.response.data.error;
       setUser({ preguntas: [], hasQuestions: false });
       setToggleForm(false);
+      reset();
       toast.error(`Error: ${message}`);
     }
   };
@@ -166,11 +175,11 @@ const RecoverPassword: React.FC = () => {
       <h1 className="text-center mb-4">Recuperacíon de cuenta</h1>
 
       <div className="card p-5 mb-5">
-        <form onSubmit={handleSubmit(onEmailSubmit)}>
+        <form>
           <div className="row justify-content-center ml-3 mb-3">
             <div className="col-4">
               <input
-                {...register("emailSearch", { required: "Campo obligatorio" })}
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
                 type="text"
                 placeholder="Ingrese su email registrado al momento de crear la cuenta"
                 className="form-control"
@@ -178,7 +187,7 @@ const RecoverPassword: React.FC = () => {
             </div>
             <div className="col-4">
               <input
-                {...register("rut", { required: "Campo obligatorio" })}
+                onChange={(e) => setUser({ ...user, rut: e.target.value })}
                 type="text"
                 placeholder="Ingrese su cedula de identidad"
                 className="form-control"
@@ -186,7 +195,8 @@ const RecoverPassword: React.FC = () => {
             </div>
             <div className="col-3">
               <button
-                type="submit"
+                type="button"
+                onClick={() => (async () => await onEmailSubmit())()}
                 className="btn btn-primary btn-block btn-md"
               >
                 Buscar
