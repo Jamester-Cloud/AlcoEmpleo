@@ -4,16 +4,18 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { axiosRequestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { isAuthenticated } from "@/lib/jwtTokenControl";
 const RecoverPassword: React.FC = () => {
-  
   const router = useRouter();
-  
+
   const [user, setUser] = React.useState<any>({
     preguntas: [],
     email: "",
     hasQuestions: false,
     isFirstTimeLogin: true,
   });
+
+  const [isAuthenticated, setisAuthenticated] = React.useState<boolean>(false);
 
   const [toggleForm, setToggleForm] = React.useState<boolean>(false);
 
@@ -101,18 +103,48 @@ const RecoverPassword: React.FC = () => {
 
   const checkQuestions = async (data: any) => {
     try {
-    const res = await axiosRequestHandler( {
-      url: "/api/users/passwordRecovery/checkQuestions/",
-      data: {
-        preguntas: data.preguntas,
-        email: user.email,
-        password: data.password,
-      },
-    },
-    "post");      
-    } catch (error) {
+      const res = await axiosRequestHandler(
+        {
+          url: "/api/users/passwordRecovery/checkQuestions",
+          data: {
+            preguntas: data.preguntas,
+            email: user.email,
+          },
+        },
+        "post"
+      );
+      if (res?.status === 200) {
+        toast.success("Preguntas correctas, puede actualizar la contraseña");
+        setisAuthenticated(true);
+        setToggleForm(false);
+      }
+      if (res?.status == 203) {
+        toast.error("Preguntas erradas");
+      }
+    } catch (error: any) {
       console.log(error);
+      toast.error(`Error ${error}`);
+    }
+  };
 
+  const updatePassword = async (data: any) => {
+    try {
+      const res = await axiosRequestHandler(
+        {
+          url: "/api/users/passwordRecovery/",
+          data: {
+            password: data.password,
+            email: user.email,
+          },
+        },
+        "post"
+      );
+      if (res?.status === 200) {
+        toast.success("Usuario actualizado, ya puede iniciar sesion");
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(`Error ${error}`);
     }
   };
 
@@ -120,12 +152,12 @@ const RecoverPassword: React.FC = () => {
     if (user.preguntas.length > 0 && !user.isFirstTimeLogin) {
       let defaultValues = {
         preguntas: user.preguntas.map((question: any) => {
-          return {pregunta: question.pregunta };
+          return { pregunta: question.pregunta };
         }),
       };
-      console.log("preguntas",defaultValues);
+      console.log("preguntas", defaultValues);
       //reset the form with the questions
-      reset({ ...defaultValues});
+      reset({ ...defaultValues });
     }
   }, [user.isFirstTimeLogin, user.preguntas]);
 
@@ -180,7 +212,6 @@ const RecoverPassword: React.FC = () => {
           <>
             {!user.hasQuestions ? (
               <form onSubmit={handleSubmit(submitQuestions)}>
-                
                 {fields.map((field, i: number) => (
                   <>
                     <div key={i} className="card p-4 mb-3">
@@ -247,20 +278,20 @@ const RecoverPassword: React.FC = () => {
                     <label htmlFor="question1" className="form-label"></label>
                     {/* respuesta */}
                     {fields.map((field, i: number) => (
-                    <div key={i} className="card p-4 mb-3">
-                      <div className="mb-3">
-                        <p>{field.pregunta}</p>
-                        {/* respuesta */}
-                        <input
-                          className="form-control"
-                          {...register(`preguntas.${i}.respuesta`, {
-                            required: "Campo obligatorio",
-                          })}
-                          placeholder="Ingrese una respuesta"
-                        />
+                      <div key={i} className="card p-4 mb-3">
+                        <div className="mb-3">
+                          <p>{field.pregunta}</p>
+                          {/* respuesta */}
+                          <input
+                            className="form-control"
+                            {...register(`preguntas.${i}.respuesta`, {
+                              required: "Campo obligatorio",
+                            })}
+                            placeholder="Ingrese una respuesta"
+                          />
+                        </div>
                       </div>
-                    </div>
-                ))}
+                    ))}
                   </div>
                   <div className="col-4">
                     <button
@@ -276,7 +307,40 @@ const RecoverPassword: React.FC = () => {
           </>
         )}
 
-
+        {isAuthenticated && (
+          <form onSubmit={handleSubmit(updatePassword)}>
+            <p>Actualizar contraseña</p>
+            <div className="card p-4 mb-3">
+              <div className="mb-3">
+                <input
+                  className="form-control mb-3"
+                  type="password"
+                  {...register(`password`, {
+                    required: "Campo obligatorio",
+                    validate: (value) =>
+                      value === watch("verifyPassword") ||
+                      "Las contraseñas no coinciden",
+                  })}
+                  placeholder="Ingrese una nueva contraseña"
+                />
+                <input
+                  className="form-control"
+                  type="password"
+                  {...register("verifyPassword", {
+                    required: "Campo obligatorio",
+                  })}
+                  placeholder="Confirme su nueva contraseña"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-block btn-md"
+              >
+                Actualizar contraseña
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
