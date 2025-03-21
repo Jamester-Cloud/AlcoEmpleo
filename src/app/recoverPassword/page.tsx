@@ -88,13 +88,12 @@ const RecoverPassword: React.FC = () => {
       );
 
       if (res?.status == 200) {
-        setUser({
-          ...user,
-          hasQuestions: true,
-          isFirstTimeLogin: res.data.user.firstTimeLogin,
-        });
+        setToggleForm(true);
         setToggleForm(false);
-        toast.success("Se han guardado las preguntas exitosamente");
+        toast.success(
+          "Se han guardado las preguntas exitosamente. Usuario Actualizado"
+        );
+        router.push("/login");
       }
     } catch (error: any) {
       toast.error(`Error: ${error}`);
@@ -253,60 +252,6 @@ const RecoverPassword: React.FC = () => {
         )}
       </div>
     </div>
-  );
-};
-
-const RecoverForm: React.FC = (props) => {
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      password: "",
-      verifyPassword: "",
-    },
-  });
-
-  const submitPass = (data: any) => {
-    console.log(data);
-  };
-  return (
-    <form onSubmit={handleSubmit(submitPass)}>
-      <div className="row mb-3">
-        <div className="col-8">
-          <input
-            placeholder="Nueva contraseña"
-            {...register("password", { required: "Campo obligatorio" })}
-            type="text"
-            className="form-control"
-          />
-        </div>
-
-        <div className="col-8">
-          <input
-            placeholder="repita nueva contraseña"
-            {...register("verifyPassword", { required: "Campo obligatorio" })}
-            type="text"
-            className="form-control"
-          />
-        </div>
-        <div className="col-4">
-          <button type="submit" className="btn btn-primary btn-block btn-md">
-            Buscar
-          </button>
-        </div>
-      </div>
-      {/* <button type="submit" className="btn btn-primary w-100">Recover Password</button> */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-    </form>
   );
 };
 
