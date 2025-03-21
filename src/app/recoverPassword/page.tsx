@@ -5,7 +5,9 @@ import { axiosRequestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useRouter } from "next/navigation";
 const RecoverPassword: React.FC = () => {
+  
   const router = useRouter();
+  
   const [user, setUser] = React.useState<any>({
     preguntas: [],
     email: "",
@@ -97,17 +99,33 @@ const RecoverPassword: React.FC = () => {
     }
   };
 
-  const checkQuestions = async (data: any) => {};
+  const checkQuestions = async (data: any) => {
+    try {
+    const res = await axiosRequestHandler( {
+      url: "/api/users/passwordRecovery/checkQuestions/",
+      data: {
+        preguntas: data.preguntas,
+        email: user.email,
+        password: data.password,
+      },
+    },
+    "post");      
+    } catch (error) {
+      console.log(error);
+
+    }
+  };
 
   React.useEffect(() => {
-    if (user.preguntas.length > 0 && user.isFirstTimeLogin) {
+    if (user.preguntas.length > 0 && !user.isFirstTimeLogin) {
       let defaultValues = {
         preguntas: user.preguntas.map((question: any) => {
-          return { ...question, question: question.pregunta };
+          return {pregunta: question.pregunta };
         }),
       };
+      console.log("preguntas",defaultValues);
       //reset the form with the questions
-      reset({ ...defaultValues });
+      reset({ ...defaultValues});
     }
   }, [user.isFirstTimeLogin, user.preguntas]);
 
@@ -162,6 +180,7 @@ const RecoverPassword: React.FC = () => {
           <>
             {!user.hasQuestions ? (
               <form onSubmit={handleSubmit(submitQuestions)}>
+                
                 {fields.map((field, i: number) => (
                   <>
                     <div key={i} className="card p-4 mb-3">
@@ -186,6 +205,7 @@ const RecoverPassword: React.FC = () => {
                     </div>
                   </>
                 ))}
+
                 <p>Actualizar contraseña</p>
                 <div className="card p-4 mb-3">
                   <div className="mb-3">
@@ -226,13 +246,21 @@ const RecoverPassword: React.FC = () => {
                   <div className="mb-3">
                     <label htmlFor="question1" className="form-label"></label>
                     {/* respuesta */}
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="question1"
-                      name="question1"
-                      placeholder="Ingrese una respuesta"
-                    />
+                    {fields.map((field, i: number) => (
+                    <div key={i} className="card p-4 mb-3">
+                      <div className="mb-3">
+                        <p>{field.pregunta}</p>
+                        {/* respuesta */}
+                        <input
+                          className="form-control"
+                          {...register(`preguntas.${i}.respuesta`, {
+                            required: "Campo obligatorio",
+                          })}
+                          placeholder="Ingrese una respuesta"
+                        />
+                      </div>
+                    </div>
+                ))}
                   </div>
                   <div className="col-4">
                     <button
@@ -247,6 +275,8 @@ const RecoverPassword: React.FC = () => {
             )}
           </>
         )}
+
+
       </div>
     </div>
   );
