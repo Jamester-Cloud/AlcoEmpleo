@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Request } from "@/app/interfaces/types";
-export async function requestHandler(req: Request, type: string) {
+export async function axiosRequestHandler(req: Request, type: string) {
   let response;
   if (type === "post") {
     console.log(req.data);

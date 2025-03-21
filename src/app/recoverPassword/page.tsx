@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
-import { requestHandler } from "@/helpers/axiosRequest";
+import { axiosRequestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useRouter } from "next/navigation"
 const RecoverPassword: React.FC = () => {
@@ -46,7 +46,7 @@ const RecoverPassword: React.FC = () => {
    */
   const onEmailSubmit = async (data: any) => {
     try {
-      const res = await requestHandler(
+      const res = await axiosRequestHandler(
         {
           url: "/api/users/passwordRecovery/findUser/",
           data: { email: data.emailSearch, cedula: data.rut },
@@ -70,9 +70,12 @@ const RecoverPassword: React.FC = () => {
     }
   };
 
+  //React useEffect
+  React.useEffect(() => {}, [user.isFirstTimeLogin]);
+
   const submitQuestions = async (data: any) => {
     try {
-      const res = await requestHandler(
+      const res = await axiosRequestHandler(
         {
           url: "/api/users/passwordRecovery/saveQuestions/",
           data: {
@@ -85,12 +88,13 @@ const RecoverPassword: React.FC = () => {
       );
 
       if (res?.status == 200) {
-        setToggleForm(true);
+        setUser({
+          ...user,
+          hasQuestions: true,
+          isFirstTimeLogin: res.data.user.firstTimeLogin,
+        });
         setToggleForm(false);
-        toast.success(
-          "Se han guardado las preguntas exitosamente. Usuario Actualizado"
-        );
-        router.push("/login");
+        toast.success("Se han guardado las preguntas exitosamente");
       }
     } catch (error: any) {
       toast.error(`Error: ${error}`);
@@ -249,6 +253,60 @@ const RecoverPassword: React.FC = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const RecoverForm: React.FC = (props) => {
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      password: "",
+      verifyPassword: "",
+    },
+  });
+
+  const submitPass = (data: any) => {
+    console.log(data);
+  };
+  return (
+    <form onSubmit={handleSubmit(submitPass)}>
+      <div className="row mb-3">
+        <div className="col-8">
+          <input
+            placeholder="Nueva contraseña"
+            {...register("password", { required: "Campo obligatorio" })}
+            type="text"
+            className="form-control"
+          />
+        </div>
+
+        <div className="col-8">
+          <input
+            placeholder="repita nueva contraseña"
+            {...register("verifyPassword", { required: "Campo obligatorio" })}
+            type="text"
+            className="form-control"
+          />
+        </div>
+        <div className="col-4">
+          <button type="submit" className="btn btn-primary btn-block btn-md">
+            Buscar
+          </button>
+        </div>
+      </div>
+      {/* <button type="submit" className="btn btn-primary w-100">Recover Password</button> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </form>
   );
 };
 
