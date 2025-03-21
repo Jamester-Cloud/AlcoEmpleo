@@ -3,7 +3,7 @@ import React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { axiosRequestHandler } from "@/helpers/axiosRequest";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 const RecoverPassword: React.FC = () => {
   const router = useRouter();
   const [user, setUser] = React.useState<any>({
@@ -70,9 +70,6 @@ const RecoverPassword: React.FC = () => {
     }
   };
 
-  //React useEffect
-  React.useEffect(() => {}, [user.isFirstTimeLogin]);
-
   const submitQuestions = async (data: any) => {
     try {
       const res = await axiosRequestHandler(
@@ -88,12 +85,12 @@ const RecoverPassword: React.FC = () => {
       );
 
       if (res?.status == 200) {
-        setToggleForm(true);
-        setToggleForm(false);
         toast.success(
-          "Se han guardado las preguntas exitosamente. Usuario Actualizado"
+          "Se han guardado las preguntas exitosamente. Usuario Actualizado, redireccionando..."
         );
-        router.push("/login");
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
       }
     } catch (error: any) {
       toast.error(`Error: ${error}`);
