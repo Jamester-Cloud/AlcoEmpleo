@@ -31,16 +31,9 @@ export default function SignUpForm(props: any) {
       estado: "",
     },
   });
-
   const router = useRouter();
-
-  const [userData, setUserData] = React.useState(data);
-  
   //states
-  const [isInvalid, setIsInvalid] = React.useState(false);
-  const [hasTyped, setHasTyped] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [repeatedPassword, setRepeatedPassword] = React.useState("");
   const [selectedAdImages, setSelectedAdImages]: any = React.useState([]);
   const [regions, setRegions] = React.useState<any>();
 
@@ -313,9 +306,7 @@ export default function SignUpForm(props: any) {
                               maxLength={14}
                               id="telefono"
                               className={
-                                hasTyped && !isInvalid
-                                  ? "form-control is-invalid t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  : "form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                "form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               }
                             />
                             <label className="form-label" htmlFor="telefono">
@@ -373,19 +364,7 @@ export default function SignUpForm(props: any) {
                               }
                             />
 
-                            <label
-                              className={
-                                repeatedPassword == userData?.password
-                                  ? ""
-                                  : "text-danger"
-                              }
-                              htmlFor="passwordrep"
-                            >
-                              {" "}
-                              {repeatedPassword == userData?.password
-                                ? "Verificación"
-                                : "Las contraseñas no coinciden"}
-                            </label>
+                            <label htmlFor="passwordrep">Verificación</label>
                             <br />
                             {errors.passwordrep && (
                               <span className="text-danger">
