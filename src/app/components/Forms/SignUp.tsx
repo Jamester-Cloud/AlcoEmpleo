@@ -35,21 +35,16 @@ export default function SignUpForm(props: any) {
   const router = useRouter();
 
   const [userData, setUserData] = React.useState(data);
-  //Email
-  const isValidEmail =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  
   //states
   const [isInvalid, setIsInvalid] = React.useState(false);
   const [hasTyped, setHasTyped] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [repeatedPassword, setRepeatedPassword] = React.useState("");
-  const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [selectedAdImages, setSelectedAdImages]: any = React.useState([]);
   const [regions, setRegions] = React.useState<any>();
-  const [selectedLocation, setSelectedLocation] = React.useState<any>("");
 
   const sendData = async (data: any) => {
-    console.log(data);
     try {
       setLoading(true);
       const response = await axios.post(
@@ -124,8 +119,6 @@ export default function SignUpForm(props: any) {
       })();
     }
   }, [regions]);
-
-
 
   return (
     <section className="">
