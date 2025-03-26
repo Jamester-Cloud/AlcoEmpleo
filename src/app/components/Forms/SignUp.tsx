@@ -48,48 +48,14 @@ export default function SignUpForm(props: any) {
   const [regions, setRegions] = React.useState<any>();
   const [selectedLocation, setSelectedLocation] = React.useState<any>("");
 
-  const sendData = (data: any) => {
+  const sendData = async (data: any) => {
     console.log(data);
-  };
-
-  const fetchRegions = async () => {
-    try {
-      const response = await axios.get("/api/enterprise/candidate/regions");
-      if (response.status === 200) return { regions: response.data.regiones };
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (!regions) {
-      (async () => {
-        try {
-          const dataRegions: any = await fetchRegions();
-          setRegions(dataRegions.regions);
-        } catch (err: any) {
-          console.error("Error al cargar la Region", err);
-        }
-      })();
-    }
-  }, [regions]);
-
-  const handleLocationChange = (selectedOption: any) => {
-    setSelectedLocation(selectedOption);
-    setUserData({
-      ...userData,
-      estado: selectedOption ? selectedOption.value : "",
-    });
-  };
-  //SignUp function
-  const onSignup = async () => {
     try {
       setLoading(true);
-
       const response = await axios.post(
         "/api/users/signup",
         {
-          ...userData,
+          ...data,
           type,
           logo:
             type === "Empresas"
@@ -100,22 +66,18 @@ export default function SignUpForm(props: any) {
         },
         { headers: { "content-type": "multipart/form-data" } }
       );
-
-      toast.success("Registro exitoso!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-
-      setTimeout(() => {
-        if (response.status === 200) router.push("/login");
-      }, 1000);
+      if (response.status === 200)
+        toast.success("Registro exitoso!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
     } catch (error: any) {
       toast.error(
         `Error en el registro del usuario: ${error.response.data.error} `,
@@ -134,41 +96,36 @@ export default function SignUpForm(props: any) {
       console.log("sign up failed", error.error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
     }
   };
 
-  const onHandleInputChange = ({ target: { name, value } }: any) => {
-    let newValue = value;
-    setUserData({ ...userData, [name]: newValue });
-    setHasTyped(true);
-    setIsInvalid(newValue ? true : false);
-
-    if (!/^[JGCV][0-9]{9}$/.test(value) && value !== "" && name == "rif") {
-      setIsInvalid(false);
-    }
-
-    if (
-      !/^[JGCVE][0-9]{7,9}$/.test(value) &&
-      value !== "" &&
-      name == "cedula"
-    ) {
-      setIsInvalid(false);
-      setHasTyped(true);
-    }
-
-    if (
-      (name == "nombres" || name == "apellidos") &&
-      !/^[a-zA-Z ]*$/.test(value)
-    ) {
-      setIsInvalid(false);
-      setHasTyped(true);
-    }
-
-    if (!isValidEmail.test(value) && name == "email") {
-      setHasTyped(true);
-      setIsInvalid(false);
+  const fetchRegions = async () => {
+    try {
+      const response = await axios.get("/api/enterprise/candidate/regions");
+      if (response.status === 200) return { regions: response.data.regiones };
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al traer las localidades, contacte a soporte tecnico");
     }
   };
+
+  useEffect(() => {
+    if (!regions) {
+      (async () => {
+        try {
+          const dataRegions: any = await fetchRegions();
+          setRegions(dataRegions.regions);
+        } catch (err: any) {
+          console.error("Error al cargar la Region", err);
+        }
+      })();
+    }
+  }, [regions]);
+
+
 
   return (
     <section className="">
@@ -287,7 +244,6 @@ export default function SignUpForm(props: any) {
                                   required: "Este campo es obligatorio",
                                 })}
                                 type="text"
-                                onChange={onHandleInputChange}
                                 id="nombres"
                                 className={
                                   "form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -310,7 +266,6 @@ export default function SignUpForm(props: any) {
                                 type="text"
                                 id="apellidos"
                                 {...register("apellidos", { required: true })}
-                                onChange={onHandleInputChange}
                                 className={
                                   "form-control t-2 w-full  border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 }
@@ -363,7 +318,6 @@ export default function SignUpForm(props: any) {
                                 required: "Este campo es obligatorio",
                               })}
                               maxLength={14}
-                              onChange={onHandleInputChange}
                               id="telefono"
                               className={
                                 hasTyped && !isInvalid
@@ -461,7 +415,9 @@ export default function SignUpForm(props: any) {
                                   placeholder="Ubicación"
                                   isClearable={true}
                                   className="w-75"
-                                  onChange={(( value ) => props.field.onChange(value))}
+                                  onChange={(value) =>
+                                    props.field.onChange(value)
+                                  }
                                   menuPortalTarget={document?.body}
                                   styles={{
                                     menuPortal: (base) => ({
@@ -502,7 +458,7 @@ export default function SignUpForm(props: any) {
                             <br />
                             {errors.direccion && (
                               <span className="text-danger ml-3 mb-3">
-                              {errors.direccion.message}
+                                {errors.direccion.message}
                               </span>
                             )}
                           </div>
