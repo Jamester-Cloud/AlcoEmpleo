@@ -10,11 +10,13 @@ type FormValues = {
 };
 
 export const FormStepper = (props: any) => {
+
   let { data, idCandidato, idQuiz } = props;
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [respuestasCandidatos, setRespuestasCandidato]: any = useState([]);
   const [puntuacion, setPuntacion] = useState(data?.length || 5);
+  
   const nextStep = () => {
     setStep(step + 1); // Move to the next step
   };

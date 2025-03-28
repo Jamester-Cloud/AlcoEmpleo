@@ -150,6 +150,9 @@ const RecoverPassword: React.FC = () => {
       );
       if (res?.status === 200) {
         toast.success("Usuario actualizado, ya puede iniciar sesion");
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
       }
     } catch (error: any) {
       console.log(error);
