@@ -36,15 +36,10 @@ export async function POST(request: NextRequest) {
     let { calificacion, respuestasCandidatos, idQuiz, idCandidato } = reqJson;
     const quiz = await Cuestionario.findOne({ _id: idQuiz });
     const candidato = await Candidato.findOne({ _id: idCandidato });
-    console.log(quiz);
-    console.log(candidato);
-    console.log(respuestasCandidatos);
 
     if (quiz.tipo === "Psicotecnico") {
 
-      // al guardar, se debe evaluar las respuestas del candidato, por el cuestionario
-      // el modelo debe hacer esto
-      let prompt = `Tomando como base el perfil ideal de  una persona para el cargo de  analiza las  respuestas de desarrollo de este candidato  y en una escala del 1 al 5, determina cuál es satisfactoria y cual no. Recuerda dar una calificacion numerica solamente, no necesitamos mas nada `
+      let prompt = `Tomando como base el perfil ideal de una persona para el cargo de  analiza las  respuestas de desarrollo de este candidato  y en una escala del 1 al 5, determina cuál es satisfactoria y cual no. Recuerda dar una calificacion numerica solamente, no necesitamos mas nada `
       let result = await model.generateContent(prompt)
       let calificacionFinal: any = JSON.parse(result.response.text());
       
