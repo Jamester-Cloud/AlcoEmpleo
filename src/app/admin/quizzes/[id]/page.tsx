@@ -83,7 +83,7 @@ export default function Quizzes({ params }: any) {
     });
 
     const generateQuestions = async () => {
-        setLoading(true);
+        //setLoading(true);
         try {
             const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
             if (response.status === 200) {
@@ -104,7 +104,7 @@ export default function Quizzes({ params }: any) {
                 transition: Bounce,
             });
         } finally {
-            setLoading(false); // Termina la carga
+            //setLoading(false); // Termina la carga
         }
     };
 
@@ -134,8 +134,9 @@ export default function Quizzes({ params }: any) {
             setTimeout(() => {
                 if (response.status == 200) router.push("/admin")
             }, 3000);
-        } catch (error) {
-            toast.error("Cuestionario no generado, contacte a soporte tecnico", {
+        } catch (error: any) {
+            const errorMessage = error?.message || "Error al generar el cuestionario";
+            toast.error( `${errorMessage}, contacte a soporte tecnico`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -250,7 +251,7 @@ export default function Quizzes({ params }: any) {
                     <h1 className=' text-center'>Generando Datos por IA</h1>
                 ) : (
                     <>
-                        <h6 className='mt-3'>Generar Quiz: {cargoDeseadoCandidato || (<p className='text-danger'>Debe Especificar un cargo para poder generar</p>)}</h6>
+                        <h6 className='mt-3'>Generar Quiz</h6>
                         <div className="col-md-6">
                             <label htmlFor="">Dificultad</label>
                             <select onChange={(e: any) => setDificultad(e.target.value)} className='form-control'>
