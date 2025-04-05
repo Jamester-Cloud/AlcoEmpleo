@@ -12,7 +12,7 @@ export async function deepSeekQuizGenerator(
   dificulty: string
 ) {
   let result;
-  console.log(jobTitle, quizType, dificulty);
+  console.log(jobTitle='', quizType, dificulty);
   const client = new OpenAI({
     apiKey: process.env.QUIZ_KEY,
     baseURL: "https://api.deepseek.com",

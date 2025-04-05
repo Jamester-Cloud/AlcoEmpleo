@@ -12,20 +12,18 @@ export async function POST(request: NextRequest) {
 
     const candidato = await Candidato.findOne({ _id: idCandidato });
     let cargoDeseado = candidato.perfil.puestoDeseado;
+    
     if (!cargoDeseado)
       return NextResponse.json(
         { message: "Error, no hay cargo para generar", success: false },
         { status: 500 }
       );
-
           
     const quiz = await deepSeekQuizGenerator(
       cargoDeseado,
       "Normal",
       dificultad
     );
-    console.log("Cargo", cargoDeseado);
-    console.log(quiz);
 
     return NextResponse.json({
       message: "Consulta creada exitosamente",

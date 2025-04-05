@@ -1,66 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI, FunctionDeclarationSchemaType } from '@google/generative-ai'
-
+import { deepSeekQuizGenerator } from "@/services/deepsekAI";
 
 export async function POST(request: NextRequest) {
     try {
         
-        const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
-
-        let model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
-            generationConfig: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: FunctionDeclarationSchemaType.ARRAY,
-                    items: {
-                        type: FunctionDeclarationSchemaType.OBJECT,
-                        properties: {
-                            pregunta: {
-                                type: FunctionDeclarationSchemaType.STRING,
-                            },
-                            respuestas: {
-                                type: FunctionDeclarationSchemaType.ARRAY,
-                                items: {
-                                    type: FunctionDeclarationSchemaType.OBJECT,
-                                    properties: {
-                                        respuesta: { type: FunctionDeclarationSchemaType.STRING }
-                                    }
-                                }
-                            },
-                            respuestaCorrecta: {
-                                type: FunctionDeclarationSchemaType.STRING,
-                            },
-                            tipoPregunta:{
-                                type: FunctionDeclarationSchemaType.STRING
-                            },
-                        },
-                    },
-                },
-            }
-        });
-
-        let prompt = `
-            Crea un instrumento de evaluación con 5 preguntas de selección múltiple y 5 preguntas de desarrollo que sirva para medir con fines corporativos las habilidades blandas, 
-            en forma precisa, específicamente que nos permita precisar el nivel que posee una persona en cuanto a sus habilidades de:
-            comunicación efectiva, 
-            liderazgo, 
-            trabajo en equipo, 
-            resolución de conflictos, 
-            empatía, 
-            adaptabilidad 
-            y honestidad. Asegurate de incluir la respuesta correcta dentro de las preguntas de seleccion multiple, siempre por favor, no las dejes vacias y las de desarrollo solo necesito 
-            la pregunta para que el candidato la responda. Tambien necesito que me categorizes el tipo de pregunta, si es "seleccionMultiple" o "Psicotecnica" manten esos valores por peticion, recordando siempre que son 5 preguntas de seleccion multiple, y 5 preguntas de desarrollo
-        `;
-
-        let result = await model.generateContent(prompt)
-        let preguntas: any = JSON.parse(result.response.text());
+        const preguntas = await deepSeekQuizGenerator("", "Psicotecnico", "Normal")
+        console.log(preguntas);
         
-        return NextResponse.json({ message: 'Consulta creada exitosamente', success: true, preguntas:preguntas })
+        return NextResponse.json({ message: 'Cuestionario generado exitosamente', preguntas:preguntas.evaluacion, success: true })
 
     } catch (error) {
         console.log(error)
-        return NextResponse.json({ message: 'Consulta creada erroneamente', success: false }, { status: 500 })
+        return NextResponse.json({ message: 'Error en la peticion', success: false }, { status: 500 })
     }
 }
 
