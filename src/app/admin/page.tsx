@@ -380,10 +380,21 @@ export default function AdminPage() {
     }
   };
   const handleCandidateSearch = async (data: any) => {
-    if (data.cedula == "") return false;
+    if (data.cedula == "") toast.error("Campo vacio", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
     const search = await axios.post("/api/administrator/searchUser/search", {
       query: { cedula: data.cedula },
     });
+    console.log(search)
     if (search.status == 200) {
       setCandidates(search.data.data);
     }
@@ -574,7 +585,7 @@ export default function AdminPage() {
                   </button>
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <Link href={`/admin/quizzes/${item._id}`} className="btn btn-info text-white text-xs py-2 px-4 rounded">
+                  <Link href={`/admin/quizzes/${item.candidatoData._id}`} className="btn btn-info text-white text-xs py-2 px-4 rounded">
                     Generar Cuestionario
                   </Link>
 

@@ -1,7 +1,7 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-import deepSeekQuizGenerator from "@/services/deepsekAI";
+import {deepSeekQuizGenerator} from "@/services/deepsekAI";
 connect();
 
 export async function POST(request: NextRequest) {
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           message:
-            "Demasiadas peticiones al modelo gemini, por favor reintente mas tarde. Modelo congestionado",
+            "Demasiadas peticiones al modelo de ia, por favor reintente mas tarde. Modelo congestionado",
           success: false,
         },
         { status: 204 }

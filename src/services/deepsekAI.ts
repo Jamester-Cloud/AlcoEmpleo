@@ -6,7 +6,7 @@ import OpenAI from "openai";
  * @param dificulty 
  * @returns object with quiz questions and answers
  */
-export default async function deepSeekQuizGenerator(
+export async function deepSeekQuizGenerator(
   jobTitle: string,
   quizType: string,
   dificulty: string
@@ -75,4 +75,15 @@ export default async function deepSeekQuizGenerator(
   const {message:{content}} = result.choices[0];
   const quiz = JSON.parse(content || '{}')
   return quiz;
+}
+
+
+/** 
+ *@param answers
+* @param candidateId
+* @param quizId
+* @return object with quiz calification 
+*/ 
+export async function deepSeekQuizEvaluator(){
+
 }
