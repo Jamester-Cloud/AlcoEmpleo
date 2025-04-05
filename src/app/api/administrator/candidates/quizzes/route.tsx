@@ -19,17 +19,18 @@ export async function POST(request: NextRequest) {
       );
 
           
-    let preguntas = await deepSeekQuizGenerator(
+    const quiz = await deepSeekQuizGenerator(
       cargoDeseado,
       "Normal",
       dificultad
     );
     console.log("Cargo", cargoDeseado);
-    console.log(preguntas);
+    console.log(quiz);
 
     return NextResponse.json({
       message: "Consulta creada exitosamente",
       success: true,
+      preguntas:quiz.preguntas,
       cargoDeseado: cargoDeseado,
     });
   } catch (error: any) {
