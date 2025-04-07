@@ -5,7 +5,6 @@ export async function POST(request: NextRequest) {
     try {
         
         const preguntas = await deepSeekQuizGenerator("", "Psicotecnico", "Normal")
-        console.log(preguntas);
         
         return NextResponse.json({ message: 'Cuestionario generado exitosamente', preguntas:preguntas.evaluacion, success: true })
 

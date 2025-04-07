@@ -1,9 +1,16 @@
 import OpenAI from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env.QUIZ_KEY,
+  baseURL: "https://api.deepseek.com",
+  dangerouslyAllowBrowser: true,
+});
+
 /**
- * 
- * @param jobTitle 
- * @param quizType 
- * @param dificulty 
+ *
+ * @param jobTitle
+ * @param quizType
+ * @param dificulty
  * @returns object with quiz questions and answers
  */
 export async function deepSeekQuizGenerator(
@@ -12,12 +19,6 @@ export async function deepSeekQuizGenerator(
   dificulty: string
 ) {
   let result;
-  console.log(jobTitle='', quizType, dificulty);
-  const client = new OpenAI({
-    apiKey: process.env.QUIZ_KEY,
-    baseURL: "https://api.deepseek.com",
-    dangerouslyAllowBrowser: true,
-  });
 
   if (quizType === "Psicotecnico") {
     result = await client.chat.completions.create({
@@ -72,18 +73,35 @@ export async function deepSeekQuizGenerator(
     });
   }
 
-  const {message:{content}} = result.choices[0];
-  const quiz = JSON.parse(content || '{}')
+  const {
+    message: { content },
+  } = result.choices[0];
+  const quiz = JSON.parse(content || "{}");
   return quiz;
 }
 
-
-/** 
+/**
  *@param answers
-* @param candidateId
-* @param quizId
-* @return object with quiz calification 
-*/ 
-export async function deepSeekQuizEvaluator(){
-
+ * @param candidateId
+ * @param quizId
+ * @return object with quiz calification
+ */
+export async function deepSeekPsychoQuizEvaluator(answers: any) {
+  let calification;
+  calification = await client.chat.completions.create({
+    messages: [
+      {
+        role: "system",
+        content:
+          "Solo necesito que evalues y devuelvas un solo numero como calificacion, nada mas. del 1 al 5",
+      },
+      {
+        role: "user",
+        content: `
+          Tomando como base el perfil ideal en una examen psicotecnico de una persona analiza las respuestas:${answers},  de este candidato  y en una escala del 1 al 5, determina cuál es satisfactoria y cual no. Recuerda dar una calificacion numerica solamente, no necesitamos mas nada 
+          seran 10 preguntas y 10 respuestas, calificalas en base a un promedio de 5,`,
+      },
+    ],
+    model: "deepseek-chat",
+  });
 }
