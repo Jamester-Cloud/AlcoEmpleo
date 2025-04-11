@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import { useRouter } from "next/navigation";
 type FormValues = {
   respuestasCandidato: string;
   page: number;
@@ -12,11 +11,11 @@ type FormValues = {
 export const FormStepper = (props: any) => {
 
   let { data, idCandidato, idQuiz } = props;
-  const router = useRouter();
   const [step, setStep] = useState(1);
   const [respuestasCandidatos, setRespuestasCandidato]: any = useState([]);
   const [puntuacion, setPuntacion] = useState(data?.length || 5);
-  
+  const [isQuizCompleted, setisQuizCompleted] = useState(false);
+
   const nextStep = () => {
     setStep(step + 1); // Move to the next step
   };
@@ -31,9 +30,6 @@ export const FormStepper = (props: any) => {
     control,
     register,
     handleSubmit,
-    getValues,
-    reset,
-    formState: { errors },
   } = methods;
 
   const sendData = async () => {
@@ -44,20 +40,21 @@ export const FormStepper = (props: any) => {
         calificacion: puntuacion,
         idQuiz: idQuiz,
       });
-      toast.success("Cuestionario completado", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
-    //   setTimeout(() => {
-    //     if (response.status == 200) router.push("/candidate/quizz");
-    //   }, 3000);
+      if (response.status == 200) {
+        toast.success("Cuestionario completado", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        setisQuizCompleted(true);
+        setPuntacion(response.data.calificacion);
+      }
     } catch (error) {
       toast.error("Error en red, contacte a soporte tecnico", {
         position: "top-right",
@@ -70,15 +67,13 @@ export const FormStepper = (props: any) => {
         theme: "light",
         transition: Bounce,
       });
-      console.log("Error");
     }
   };
 
   const goNext = async (formData: any) => {
-    console.log(formData);  
+    console.log(formData);
     data?.map((item: any, key: number) => {
       if (item.page === step && item.respuestas.length > 0) {
-        console.log(item.respuestaCorrecta == formData.respuestasCandidato);
         item.respuestaCorrecta != formData.respuestasCandidato
           ? setPuntacion(puntuacion - 1)
           : false;
@@ -90,13 +85,13 @@ export const FormStepper = (props: any) => {
             correcta: item.respuestaCorrecta === formData.respuestasCandidato,
           },
         ]);
-      } else if(item.page === step && item.respuestas.length == 0) {
+      } else if (item.page === step && item.respuestas.length == 0) {
         setRespuestasCandidato([
           ...respuestasCandidatos,
           {
             respuesta: formData.respuestasCandidato,
             pregunta: item.pregunta,
-            tipo:'Desarrollo'
+            tipo: "Desarrollo",
           },
         ]);
       }
@@ -199,8 +194,25 @@ export const FormStepper = (props: any) => {
               );
             })}
             <p className="text-xl font-bold text-gray-800">
-              Presiona enviar, para guardar tus respuestas y conocer tu calificacíon
+              Presiona enviar, para guardar tus respuestas y conocer tu
+              calificacíon
             </p>
+
+            {isQuizCompleted && (
+              <>
+                <p>
+                  Tu calificacion es: {puntuacion}. Se ha guardado el
+                  cuestionario. Puedes volver a intentarlo desde el menu de
+                  cuestionarios
+                </p>
+                <button
+                onClick={()=> history.back()}
+                className="w-50 py-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75"
+              >
+                Volver
+              </button>
+              </>
+            )}
             {/* <p className="text-red-500"> Al presionar reintentar, ¡Tus respuestas no se guardarán!</p> */}
 
             {/* Botón enviar */}

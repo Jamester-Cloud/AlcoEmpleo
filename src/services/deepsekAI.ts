@@ -88,20 +88,36 @@ export async function deepSeekQuizGenerator(
  */
 export async function deepSeekPsychoQuizEvaluator(answers: any) {
   let calification;
+  let puntaje = 5;
+  //tengo que retornar las respuestas de desarrollo para que se evaluen por separado
+  const respuestas = answers
+    .filter((item: any) => item.tipo === "Desarrollo")
+    .map((item: any) => {
+      return `la pregunta es : ${item.pregunta} y la respuesta es:${item.respuesta}` 
+    });
+    console.log("Estas son las respuestas:", respuestas)
   calification = await client.chat.completions.create({
     messages: [
       {
         role: "system",
-        content:
-          "Solo necesito que evalues y devuelvas un solo numero como calificacion, nada mas. del 1 al 5",
+        content: `
+        ${respuestas} puedes analizar estas preguntas junto con sus respuestas y  del 1 al 5 en general por el conjunto de datos darme una calificacion.
+        `,
       },
       {
         role: "user",
-        content: `
-          Tomando como base el perfil ideal en una examen psicotecnico de una persona analiza las respuestas:${answers},  de este candidato  y en una escala del 1 al 5, determina cuál es satisfactoria y cual no. Recuerda dar una calificacion numerica solamente, no necesitamos mas nada 
-          seran 10 preguntas y 10 respuestas, calificalas en base a un promedio de 5,`,
+        content: `En el contexto de un examen psicotecnico para un puesto laboral, teniendo estos datos:
+           ${respuestas} puedes evaluar estas preguntas y respuestas del 1 al 5 en general por el conjunto de datos y devolver un numero del 1 al 5 solo un numero, ej: 2, dependiendo del tipo de respuesta, si las respuestas no te convencen, coloca un 1`,
       },
     ],
     model: "deepseek-chat",
   });
+
+  const {
+    message: { content },
+  } = calification.choices[0];
+  let calificacion = content
+  return Number(calificacion)
+  
+
 }

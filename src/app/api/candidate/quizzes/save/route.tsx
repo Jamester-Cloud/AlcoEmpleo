@@ -2,30 +2,8 @@ import { connect } from "@/dbConfig/dbConfig";
 import Cuestionario from "@/models/cuestionarios";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  GoogleGenerativeAI,
-  FunctionDeclarationSchemaType,
-} from "@google/generative-ai";
+import { deepSeekPsychoQuizEvaluator } from "@/services/deepsekAI";
 connect();
-const genAI = new GoogleGenerativeAI(`${process.env.QUIZ_KEY}`);
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  generationConfig: {
-    responseMimeType: "application/json",
-    responseSchema: {
-      type: FunctionDeclarationSchemaType.NUMBER,
-      items: {
-        type: FunctionDeclarationSchemaType.OBJECT,
-        properties: {
-          calificacion: {
-            type: FunctionDeclarationSchemaType.NUMBER,
-          },
-
-        },
-      },
-    },
-  },
-});
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,37 +16,57 @@ export async function POST(request: NextRequest) {
     const candidato = await Candidato.findOne({ _id: idCandidato });
 
     if (quiz.tipo === "Psicotecnico") {
+      const calificationPsicotecnica = await deepSeekPsychoQuizEvaluator(
+        respuestasCandidatos
+      );
 
-      let prompt = `Tomando como base el perfil ideal de una persona para el cargo de  analiza las  respuestas de desarrollo de este candidato  y en una escala del 1 al 5, determina cuál es satisfactoria y cual no. Recuerda dar una calificacion numerica solamente, no necesitamos mas nada `
-      let result = await model.generateContent(prompt)
-      let calificacionFinal: any = JSON.parse(result.response.text());
-      
-      filter = { _id: candidato.idCandidato }
+      let califacionCuestionarioNormal = calificacion;
+      const calificacionTotal =
+        parseInt(califacionCuestionarioNormal) + calificationPsicotecnica;
+
+      console.log("Calificacion psicotecnica", calificationPsicotecnica);
+      console.log("Calificacion total: ", calificacionTotal);
+
+      filter = { _id: idQuiz };
       update = {
         $set: {
-          "perfil.calificaciones": calificacionFinal
-        }
-      }
+          calificacion: calificacionTotal,
+          respuestasCandidato: respuestasCandidatos,
+          finalizada: true,
+        },
+      };
 
-      await Candidato.updateOne(filter, update)
-      return NextResponse.json({ message: "Cuestionario guardado exitosamente" });
+      await Cuestionario.updateOne(filter, update);
+
+      return NextResponse.json({
+        message: "Cuestionario completado exitosamente",
+        calificacion: calificacionTotal,
+      });
     }
-    //Si no es solo un cuestionario mas a ser guardado y evaluado
-    filter = { _id: idQuiz }
-    update = { $set: { calificacion: calificacion, respuestasCandidato: respuestasCandidatos, finalizada: true } }
+    //Si no, es solo un cuestionario mas a ser guardado y evaluado
+    filter = { _id: idQuiz };
+    update = {
+      $set: {
+        calificacion: calificacion,
+        respuestasCandidato: respuestasCandidatos,
+        finalizada: true,
+      },
+    };
 
     await Cuestionario.updateOne(filter, update);
 
-    filter = { _id: candidato.idCandidato }
+    filter = { _id: candidato.idCandidato };
     update = {
       $set: {
-        "perfil.calificaciones": calificacion
-      }
-    }
-    console.log(filter)
-    console.log(update)
-    await Candidato.updateOne(filter, update)
-    return NextResponse.json({ message: "Cuestionario guardado exitosamente" });
+        "perfil.calificaciones": calificacion,
+      },
+    };
+
+    await Candidato.updateOne(filter, update);
+    return NextResponse.json({
+      message: "Cuestionario guardado exitosamente",
+      calificacion: calificacion,
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json({
