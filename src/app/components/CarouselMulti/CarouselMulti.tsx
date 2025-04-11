@@ -93,7 +93,7 @@ export function CarouselMulti({ candidates }: Props) {
                   className="bg-blue-500 text-white text-xs py-2 px-4 rounded"
                 >
                   <Link
-                    href={`/enterprise/candidateProfile/${candidato._id}`}
+                    href={`/profileCandidate/${candidato._id}`}
                     className="text-white text-xs"
                   >
                     Ver Perfil

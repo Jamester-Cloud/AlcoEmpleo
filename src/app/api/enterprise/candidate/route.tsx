@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
         },
       },
     ]);
+    //No tiene documentos
     const candidatoNoDocs: any = await Candidato.aggregate([
       { $match: { $expr: { $eq: ["$_id", { $toObjectId: reqJson.id }] } } },
       {
@@ -88,9 +89,10 @@ export async function POST(request: NextRequest) {
         },
       },
     ]);
+    console.log(candidato);
 
     //el candidato puede ser uno sin documentos disponibles
-    if (!candidato.lenght) {
+    if (!candidato) {
       const response = NextResponse.json({
         message: "Succesfull data retrieving",
         success: true,
