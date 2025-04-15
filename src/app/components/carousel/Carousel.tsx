@@ -5,7 +5,6 @@ import CardCandidate from "../cards/CardCandidate";
 
 export default function ListCarousel(props: any) {
   const { data } = props;
-  console.log(data);
   const [index, setIndex] = useState(0);
   const [itemsPerSlide, setItemsPerSlide] = useState(1);
 

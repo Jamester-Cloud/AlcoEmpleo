@@ -7,6 +7,7 @@ import Image from "next/image";
 
 export default function CardCandidate(props: any) {
   const { data } = props;
+  // console.log("Datos en la tarjeta: ",data)
   const whatsappMessage = encodeURIComponent("Saludos, te estamos contactando a través de la página de Alcoempleos. Nos interesó tu perfil.");
 
   return (

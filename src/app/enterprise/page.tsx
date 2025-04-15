@@ -132,7 +132,6 @@ export default function CandidateSearch() {
       const response: any = await axios.post(
         "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
       );
-      console.log("Response Data:", response.data); // <-- Agrega esto
       if (response.status === 200)
         return {
           candidatosPremiums: response.data.dataCandidatosPremium,
@@ -180,13 +179,24 @@ export default function CandidateSearch() {
     }
   }, [regions]);
 
+
   const handleSubmitFilter = async (data: any) => {
     let filter = { cargo: data.cargo || '', location: data?.idRegion?.value || '', page: page };
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
-        setPremiumsData(response.data.candidatePremiums);
-        setCandidateNormal(response.data.paginatedQuery);
+        let premiumCandidates = response.data.candidatePremiums.map((item:any)=>{
+          return {...item, documentos: 
+            item.documentos.filter((doc: any) => doc.contentType != 'application/pdf').reduce((prev: any, curr: any) => {return curr})
+          }
+        })
+        let normalCandidates = response.data.paginatedQuery.map((item:any)=>{
+          return {...item, documentos:item.documentos.contentType != 'application/pdf'? item.documentos : null}
+        })
+        console.log("Normal Candidates:", normalCandidates)
+        setPremiumsData(premiumCandidates);
+
+        setCandidateNormal(normalCandidates);
       }
     } catch (err) {
       console.log(err);
@@ -252,7 +262,7 @@ export default function CandidateSearch() {
           Contrata personas para tu negocio
         </h3>
         <p className="text-sm text-blue-900 md:text-lg my-2">
-          Descubra su próximo paso profesional, trabajo independiente o pasantía
+          Descubra su próximo candidato para trabajo, independiente o pasantía
         </p>
         {premiumsData === undefined || premiumsData.length === 0 ? (
           <div className="font-bold">No hay Candidatos Premiums Registrados</div>
