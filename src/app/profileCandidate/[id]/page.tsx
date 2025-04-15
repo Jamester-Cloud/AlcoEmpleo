@@ -27,6 +27,7 @@ export default function EnterpriseProfilePage({ params }: any) {
   );
 
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
+  
   useEffect(() => {
     const isPremiumFromStorage = localStorage.getItem('isPremium') === 'true';
     setIsPremium(isPremiumFromStorage);

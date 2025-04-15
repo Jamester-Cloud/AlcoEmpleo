@@ -4,16 +4,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 connect();
 
+
+
 export async function POST(request: NextRequest) {
   const reqJson = await request.json();
-
   let { cargo, location } = reqJson;
 
   let objectLocationId;
   if (location) objectLocationId = Types.ObjectId.createFromHexString(location);
   const PER_PAGE = 5;
   try {
-    const candidatePremiums: any = await Candidato.aggregate([
+    let candidatePremiums: any = await Candidato.aggregate([
       {
         $search: {
           index: "testDinamicSearch",
@@ -25,19 +26,8 @@ export async function POST(request: NextRequest) {
       },
       {
         $match: {
-          $or: [
-            { "perfil.puestoDeseado": { $regex: new RegExp(cargo, "i") } },
-            { idRegion: objectLocationId },
-            { esDestacado: true },
-          ],
-        },
-      },
-      {
-        $lookup: {
-          from: "documentos",
-          localField: "usuarioData._id",
-          foreignField: "idUsuario",
-          as: "documentosData",
+          esDestacado: true,
+          idRegion: objectLocationId,
         },
       },
       {
@@ -52,10 +42,19 @@ export async function POST(request: NextRequest) {
         $unwind: "$usuarioData",
       },
       {
+        $lookup: {
+          from: "documentos",
+          localField: "usuarioData._id",
+          foreignField: "idUsuario",
+          as: "documentosData",
+        },
+      },
+      {
         $project: {
           Candidato: "$$ROOT",
           usuarioData: 1,
-          documentosData: 1,
+          idPersona: "$usuarioData.idPersona",
+          documentos: "$documentosData",
         },
       },
       {
@@ -71,7 +70,7 @@ export async function POST(request: NextRequest) {
       },
     ]);
 
-    const paginatedQuery: any = await Candidato.aggregate([
+    let paginatedQuery: any = await Candidato.aggregate([
       {
         $search: {
           index: "testDinamicSearch",
@@ -143,11 +142,9 @@ export async function POST(request: NextRequest) {
       },
       paginatedQuery,
     });
-    //console.log("hello world")
 
     return response;
   } catch (error: any) {
-    console.log(error);
     return NextResponse.json(
       { error: error + " and error is:" + error.message },
       { status: 500 }
