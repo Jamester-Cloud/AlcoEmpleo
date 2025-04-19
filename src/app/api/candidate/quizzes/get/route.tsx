@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
     try {
         //planeo hacer el paginado aca
         const cuestionario = await Cuestionario.findById(idQuizz); 
-        console.log(cuestionario.idCandidato) 
         //console.log(cuestionario);
         let quiz = cuestionario.preguntas.map((item: any, key: number) => {
             return { page: key + 1, pregunta: item.pregunta, respuestas: item.respuestas, respuestaCorrecta: item.respuestaCorrecta }

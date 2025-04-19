@@ -78,67 +78,86 @@ export default function CandidateSearch() {
   // };
 
   const nextPageCandidateNormal = async (nextPage: number) => {
-
-    const candidateData = await axios.post(
-      "/api/enterprise/candidateList", { page: nextPage }
-    );
-    setCandidateNormal(candidateData.data.data);
-    setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
-
-    if (candidateData.status == 200) {
-      setPageCandidateNormal(nextPage);
+    try {
+      const candidateData = await axios.post(
+        "/api/enterprise/candidateList", 
+        { page: nextPage }
+      );
+      
+      if (candidateData.status === 200) {
+        setPageCandidateNormal(nextPage);
+        setCandidateNormal(candidateData.data.data);
+        setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
+      }
+    } catch (error) {
+      console.error("Error al cambiar de página:", error);
     }
   };
 
   const prevPageCandidateNormal = async (prevPage: number) => {
-    console.log("Pagina previa");
-    const enterpriseData = await axios.post(
-      "/api/enterprise/candidateList",
-      { page: prevPage }
-    );
-    setCandidateNormal(enterpriseData.data.data);
-    setPageNormalCandidateCount(enterpriseData.data.pagination.pageCount);
-    if (enterpriseData.status == 200) {
-      setPageCandidateNormal(prevPage);
+    try {
+      const candidateData = await axios.post(
+        "/api/enterprise/candidateList",
+        { page: prevPage }
+      );
+      
+      if (candidateData.status === 200) {
+        setPageCandidateNormal(prevPage);
+        setCandidateNormal(candidateData.data.data);
+        setPageNormalCandidateCount(candidateData.data.pagination.pageCount);
+      }
+    } catch (error) {
+      console.error("Error al cambiar de página:", error);
     }
   };
   
   const nextPageCandidatePremium = async (nextPage: number) => {
-    const response: any = await axios.post(
-      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
-    );
-    setCandidateNormal(response.data.data);
-    setPagePremiumsCandidateCount(response.data.pagination.pageCount);
-
-    if (response.status == 200) {
-      setPageCandidateNormal(nextPage);
+    try {
+      const response: any = await axios.post(
+        "/api/enterprise/candidateList/premiums/pagination", 
+        { page: nextPage }
+      );
+      
+      if (response.status === 200) {
+        setPageCandidatePremiums(nextPage);
+        setPremiumsData(response.data.dataCandidatosPremium);
+        setPagePremiumsCandidateCount(response.data.pagination.pageCount);
+      }
+    } catch (error) {
+      console.error("Error al cambiar de página premium:", error);
     }
   };
 
   const prevPageCandidatePremium = async (prevPage: number) => {
-    console.log("Pagina previa");
-    const response: any = await axios.post(
-      "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
-    );
-    setCandidatePremiums(response.data.data);
-    setPagePremiumsCandidateCount(response.data.pagination.pageCount);
-    if (response.status == 200) {
-      setPageCandidatePremiums(prevPage);
+    try {
+      const response: any = await axios.post(
+        "/api/enterprise/candidateList/premiums/pagination", 
+        { page: prevPage }
+      );
+      
+      if (response.status === 200) {
+        setPageCandidatePremiums(prevPage);
+        setPremiumsData(response.data.dataCandidatosPremium);
+        setPagePremiumsCandidateCount(response.data.pagination.pageCount);
+      }
+    } catch (error) {
+      console.error("Error al cambiar de página premium:", error);
     }
   };
 
   const fetchPremiumCandidates = async () => {
     try {
       const response: any = await axios.post(
-        "/api/enterprise/candidateList/premiums/pagination", { page: pageCandidatePremiums }
+        "/api/enterprise/candidateList/premiums/pagination", 
+        { page: pageCandidatePremiums }
       );
-      if (response.status === 200)
-        return {
-          candidatosPremiums: response.data.dataCandidatosPremium,
-          candidatosTotales: parseInt(response.data.pagination.count),
-        };
+      
+      if (response.status === 200) {
+        setPremiumsData(response.data.dataCandidatosPremium);
+        setPagePremiumsCandidateCount(response.data.pagination.pageCount);
+      }
     } catch (error) {
-      console.error(error);
+      console.error("Error al cargar candidatos premium:", error);
     }
   };
 
@@ -160,8 +179,7 @@ export default function CandidateSearch() {
 
   useEffect(() => {
     const loadPremiumData = async () => {
-      const premiumData = await fetchPremiumCandidates();
-      setPremiumsData(premiumData ? premiumData.candidatosPremiums : []);
+      await fetchPremiumCandidates();
     };
     loadPremiumData();
   }, []);
@@ -185,17 +203,18 @@ export default function CandidateSearch() {
     try {
       const response = await axios.post('/api/enterprise/candidateList/search', filter);
       if (response.status === 200) {
+
         let premiumCandidates = response.data.candidatePremiums.map((item:any)=>{
           return {...item, documentos: 
             item.documentos.filter((doc: any) => doc.contentType != 'application/pdf').reduce((prev: any, curr: any) => {return curr})
           }
         })
+
         let normalCandidates = response.data.paginatedQuery.map((item:any)=>{
           return {...item, documentos:item.documentos.contentType != 'application/pdf'? item.documentos : null}
         })
-        console.log("Normal Candidates:", normalCandidates)
-        setPremiumsData(premiumCandidates);
 
+        setPremiumsData(premiumCandidates);
         setCandidateNormal(normalCandidates);
       }
     } catch (err) {
@@ -278,12 +297,12 @@ export default function CandidateSearch() {
         {/* Paginado para candidatos premiums */}
         <Pagination>
           <Pagination.Prev
-            onClick={() => prevPageCandidatePremium(pageCandidateNormal - 1)}
-            disabled={pageCandidateNormal == 1}
+            onClick={() => prevPageCandidatePremium(pageCandidatePremiums - 1)}
+            disabled={pageCandidatePremiums == 1}
           />
           <Pagination.Next
-            onClick={() => nextPageCandidatePremium(pageCandidateNormal + 1)}
-            disabled={pageCandidateNormal == pageNormalCandidateCount}
+            onClick={() => nextPageCandidatePremium(pageCandidatePremiums + 1)}
+            disabled={pageCandidatePremiums == pagePremiumsCandidateCount}
           />
         </Pagination>
       </div>

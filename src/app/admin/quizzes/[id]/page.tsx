@@ -83,7 +83,7 @@ export default function Quizzes({ params }: any) {
     });
 
     const generateQuestions = async () => {
-        //setLoading(true);
+        setLoading(true);
         try {
             const response = await axios.post('/api/administrator/candidates/quizzes', { idCandidato: id, dificultad: dificultad });
             if (response.status === 200) {
@@ -104,7 +104,7 @@ export default function Quizzes({ params }: any) {
                 transition: Bounce,
             });
         } finally {
-            //setLoading(false); // Termina la carga
+            setLoading(false); // Termina la carga
         }
     };
 

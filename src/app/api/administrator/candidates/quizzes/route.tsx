@@ -28,9 +28,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: "Consulta creada exitosamente",
       success: true,
-      preguntas:quiz.preguntas,
+      preguntas:quiz.evaluacion,
       cargoDeseado: cargoDeseado,
     });
+    
   } catch (error: any) {
     console.log(error.statusText);
     if (error.statusText === "Too Many Requests") {

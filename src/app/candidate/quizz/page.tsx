@@ -106,7 +106,7 @@ export default function Quizzes() {
                                         {item.dificultad}
                                     </td>
                                     <td className="py-2 px-4 border-b">
-                                        {item.calificacion} Estrellas
+                                        {item.tipo === 'Psicotecnico' ? `${item.calificacion}/10 Estrellas` : `${item.calificacion}/5 Estrellas`}
                                     </td>
                                     <td className="py-2 px-4 border-b">
                                         {item.finalizada ? 'Completado' : 'Sin Completar'}

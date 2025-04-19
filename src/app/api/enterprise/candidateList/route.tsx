@@ -1,32 +1,22 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
+import { PipelineStage } from "mongoose";
 connect()
 
-
 export async function POST(request: NextRequest) {
-  //aca trae los candidatos normales
   const reqJson = await request.json()
-
   let { page } = reqJson;
+  const PER_PAGE = 5
+  page = Number(page) || 1
 
-  const PER_PAGE = 10
-  page = Math.max(0, page) 
   try {
-    //Consulta desde candidatos hasta personas. esto es para candidato normal
-    const skip = (page - 1) * PER_PAGE;
+    const skip = Math.max(0, (page - 1) * PER_PAGE);
 
-    //console.log(skip)
-
-    let count = await Candidato.aggregate([
+    const pipeline: PipelineStage[] = [
       {
         $match: {
-          "esDestacado": false,
-        },
-      },
-      {
-        $sort: {
-          "perfil.calificaciones": -1
+          esDestacado: false
         }
       },
       {
@@ -38,7 +28,10 @@ export async function POST(request: NextRequest) {
         }
       },
       {
-        $unwind: "$usuarioData"
+        $unwind: {
+          path: "$usuarioData",
+          preserveNullAndEmptyArrays: false
+        }
       },
       {
         $lookup: {
@@ -49,7 +42,10 @@ export async function POST(request: NextRequest) {
         }
       },
       {
-        $unwind: "$personaData"
+        $unwind: {
+          path: "$personaData",
+          preserveNullAndEmptyArrays: false
+        }
       },
       {
         $lookup: {
@@ -60,83 +56,60 @@ export async function POST(request: NextRequest) {
         }
       },
       {
-        $unwind: "$documentosData"
+        $unwind: {
+          path: "$documentosData",
+          preserveNullAndEmptyArrays: false
+        }
+      },
+      {
+        $match: {
+          "documentosData.contentType": { $ne: "application/pdf" }
+        }
       },
       {
         $project: {
           "Candidato": "$$ROOT",
           usuarioData: "$usuarioData",
           personaData: "$personaData",
-          "documentosData": "$documentosData"
+          documentosData: {idArchivo:"$documentosData.idArchivo"},
+          sortOrder: { 
+            $cond: {
+              if: { $gt: ["$perfil.calificaciones", null] },
+              then: "$perfil.calificaciones",
+              else: 0
+            }
+          },
+          _id: 1
         }
-      },
-    ])
-    //planeo hacer el paginado aca
-    let paginatedQuery = await Candidato.aggregate([
-      {
-        $match: {
-          "esDestacado": false,
-        },
       },
       {
         $sort: {
-          "perfil.calificaciones": -1
+          "sortOrder": -1,
+          "_id": 1
         }
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "idUsuario",
-          foreignField: "_id",
-          as: "usuarioData"
-        }
-      },
-      {
-        $unwind: "$usuarioData"
-      },
-      {
-        $lookup: {
-          from: "personas",
-          localField: "usuarioData.idPersona",
-          foreignField: "_id",
-          as: "personaData"
-        }
-      },
-      {
-        $unwind: "$personaData"
-      },
-      {
-        $lookup: {
-          from: "documentos",
-          localField: "usuarioData._id",
-          foreignField: "idUsuario",
-          as: "documentosData"
-        }
-      },
-      {
-        $unwind: "$documentosData"
-      },
-      {
-        $project: {
-          "Candidato": "$$ROOT",
-          usuarioData: "$usuarioData",
-          personaData: "$personaData",
-          documentosData: "$documentosData"
-        }
-      },
-    ]).skip(skip).limit(PER_PAGE)
-  
-    //filtros para solo traerme los candidatos y sus fotos de perfil
-    paginatedQuery = paginatedQuery.filter((filter) => filter.documentosData.contentType != "application/pdf")
-    // aplicando el mismo filtro para count
-    count = count.filter((filter) => filter.documentosData.contentType != "application/pdf")
+      }
+    ];
 
-    const pageCount = count.length / PER_PAGE;
+    // Para obtener el conteo total
+    const countPipeline: PipelineStage[] = [...pipeline, { $count: "total" }];
+    const countResult = await Candidato.aggregate(countPipeline);
+    const totalCount = countResult[0]?.total || 0;
+
+    // Para obtener los resultados paginados
+    const paginatedPipeline: PipelineStage[] = [
+      ...pipeline,
+      { $skip: skip },
+      { $limit: PER_PAGE }
+    ];
+
+    const paginatedQuery = await Candidato.aggregate(paginatedPipeline);
+
+    const pageCount = Math.ceil(totalCount / PER_PAGE);
 
     const response = NextResponse.json({
       message: "Succesfull data retrieve",
       pagination: {
-        count: count.length,
+        count: totalCount,
         pageCount: pageCount,
       },
       data: paginatedQuery,

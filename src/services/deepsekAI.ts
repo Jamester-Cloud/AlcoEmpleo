@@ -27,7 +27,7 @@ export async function deepSeekQuizGenerator(
         {
           role: "system",
           content:
-            "Necesito datos en json asi: [{pregunta:'', respuestas:[{respuesta}], respuestaCorrecta:'', tipoPregunta:''}], solo eso",
+            "Necesito datos en json asi: {evaluacion:[{pregunta:'', respuestas:[{respuesta}], respuestaCorrecta:'', tipoPregunta:''}]}, solo eso. Manten el formato por favor",
         },
         {
           role: "user",
@@ -54,7 +54,7 @@ export async function deepSeekQuizGenerator(
         {
           role: "system",
           content:
-            "Necesito datos en json asi: [{pregunta:'', respuestas:[{respuesta}], respuestaCorrecta:''}], solo eso",
+            "Necesito datos en json asi: evaluacion:{[{pregunta:'', respuestas:[{respuesta}], respuestaCorrecta:''}]}, solo eso. Manten el formato por favor",
         },
         {
           role: "user",

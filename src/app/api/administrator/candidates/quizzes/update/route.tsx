@@ -31,11 +31,13 @@ export async function POST(request: NextRequest) {
             },
 
         ]);
+        
+        const puestoDeseado = cuestionario[0].candidatoData.perfil.puestoDeseado
 
         const response = NextResponse.json({
             quiz: cuestionario[0].cuestionario,
             idCandidato: cuestionario[0].candidatoData._id,
-            cargoDeseado: cuestionario[0]?.candidatoData?.perfil?.puestoDeseado ? cuestionario[0].candidatoData.perfil.puestoDeseado : null
+            cargoDeseado: cuestionario[0]?.candidatoData?.perfil?.puestoDeseado ? puestoDeseado : null
         })
         return response;
 
