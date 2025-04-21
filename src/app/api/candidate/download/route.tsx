@@ -8,11 +8,10 @@ export async function GET(request: NextRequest) {
     const mongodbUrl: any = process.env.MONGO_URI
 
     await mongoose.connect(mongodbUrl)
+    
     try {
-        console.log(idArchivo)
 
-
-        let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'candidateDocuments' })
+        let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db!, { bucketName: 'candidateDocuments' })
 
         let archivo = await gfs.find({ _id: Types.ObjectId.createFromHexString(idArchivo) }).toArray()
 
