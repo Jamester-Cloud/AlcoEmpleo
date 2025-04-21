@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function Quizzes({ params }: any) {
   const router = useRouter();
 
-  let { id:any } = use(params);
+  let { id }:any = use(params);
 
   const [quiz, setQuiz]: any = useState();
   const [idCandidato, setCandidato] = useState();
