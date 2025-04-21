@@ -22,6 +22,10 @@ export default async function upload(file: File, bucketName: String, context: St
 
   if(!fileSizeValidator(file.size)) return 'Archivo muy pesado para la DB';
 
+  if (!db) {
+    throw new Error('Database connection not established');
+  }
+
   let bucket = new mongoose.mongo.GridFSBucket(db, {
     bucketName: `${bucketName}`,
   });
