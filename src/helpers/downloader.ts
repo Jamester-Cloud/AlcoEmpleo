@@ -11,7 +11,7 @@ export default async function downloader(idArchivo: string, bucketName: String) 
 
     await mongoose.connect(mongodbUrl)
 
-    let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: `${bucketName}` })
+    let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db!, { bucketName: `${bucketName}` })
 
     let downloadStream: any = gfs.openDownloadStream(Types.ObjectId.createFromHexString(idArchivo))
 
