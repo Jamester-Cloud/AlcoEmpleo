@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import axios from "axios";
 import { useForm, useFieldArray } from "react-hook-form";
 import Image from "next/image";
@@ -29,7 +29,7 @@ type FormValues = {
 export default function UserProfile({ params }: any) {
 
 
-  let { id } = params;
+  let { id }:any = use(params);
 
   const methods = useForm<FormValues>({
     defaultValues: {

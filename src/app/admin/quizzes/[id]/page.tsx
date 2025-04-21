@@ -26,7 +26,7 @@ export default function Quizzes({ params }: any) {
 
     const router = useRouter()
 
-    let { id } = params;
+    let { id }:any = React.use(params);
     //Questions
     const [quiz, setQuiz]: any = useState();
     const [typeQuiz, setTypeQuiz] = useState("normal")

@@ -1,5 +1,4 @@
 "use client";
-import CabeceraEmpresa from "@/app/components/cabeceras/cabeceraEmpresa";
 import {
   faClipboard,
   faCopy,
@@ -11,12 +10,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Link from "next/link";
 
 export default function AdministratorProfilePage({ params }: any) {
 
-  let { id } = params;
+  let { id }:any = use(params);
   const [data, setData]: any = useState();
 
   const [cv, setCv]: any = useState();

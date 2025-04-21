@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import axios from "axios";
 import { FormStepper } from "@/app/components/Forms/FormStepper";
 import { useRouter } from "next/navigation";
@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function Quizzes({ params }: any) {
   const router = useRouter();
 
-  let { id } = params;
+  let { id:any } = use(params);
 
   const [quiz, setQuiz]: any = useState();
   const [idCandidato, setCandidato] = useState();
