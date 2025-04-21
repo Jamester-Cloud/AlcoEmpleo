@@ -18,20 +18,18 @@ export async function POST(request: NextRequest) {
 
     let { idUsuario, userType, requestType } = reqJson;
 
-    let update;
+    let update = { $set: { "isPremium": false }};
     let filter;
 
     try {
         session.startTransaction()
-        console.log(reqJson);
         filter = { _id: Types.ObjectId.createFromHexString(idUsuario) }
         // primero debo verificar si ya tiene subscripcion y si no, creo una 
         //aparte de eso debo destacar al candidato
         let isSubscribed: any = await Subscripcion.findOne({ idUsuario: idUsuario })
-        console.log(isSubscribed)
         // si hay subscripcion
         if (isSubscribed && isSubscribed.estatus == true) {
-            console.log(isSubscribed)
+
             //Esta subscrito y esta activo y su usuario ya es premium (entonces se procede a una revocacion)
             if (requestType == false) {
                 console.log("Revocando subscripcion")
@@ -57,6 +55,7 @@ export async function POST(request: NextRequest) {
                 update = { $set: { "isPremium": true } }
             }
         }
+
         await User.updateOne(filter, update).session(session);
 
         const response = NextResponse.json({
