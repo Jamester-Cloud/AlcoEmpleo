@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
 
 
-        let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'candidateProfilePics' })
+        let gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db!, { bucketName: 'candidateProfilePics' })
 
         let downloadStream: any = gfs.openDownloadStream(Types.ObjectId.createFromHexString(idArchivo))
 
