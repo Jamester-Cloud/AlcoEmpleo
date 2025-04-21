@@ -1,10 +1,7 @@
 "use client";
-import { ToastContainer, toast, Bounce } from "react-toastify";
 import Image from 'next/image';
 import { useRouter } from "next/navigation"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "react-bootstrap/Pagination";
+
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -43,8 +40,6 @@ export default function Quizzes() {
     const retryQuizz = async (idCandidato: string, idQuizz: string) => {
         
         setLoading(idQuizz); // Establecer el estado de carga para el id del cuestionario
-        console.log(idCandidato)
-        console.log(idQuizz)
 
         try {
             let res = await axios.post('/api/administrator/candidates/quizzes/retry', { idCandidato: idCandidato, idQuizz: idQuizz, dificultad:'media' })
@@ -53,7 +48,7 @@ export default function Quizzes() {
                 router.push(`/candidate/quizz/${idQuizz}`)
             }
         } catch (error) {
-
+            console.log(error);
         }
     }
 

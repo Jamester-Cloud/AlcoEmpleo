@@ -22,6 +22,7 @@ export default function CardCandidate(props: any) {
           width={100}
           height={100}
           alt="Profile Image"
+          unoptimized
           src={data?.documentos?.idArchivo ? `/api/candidate/profilePic?idArchivo=${data.documentos.idArchivo}` : '/Imagen-card.png'}
           className="rounded-full img-fluid"
         />
