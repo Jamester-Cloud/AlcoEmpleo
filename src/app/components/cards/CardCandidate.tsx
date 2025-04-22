@@ -45,7 +45,7 @@ export default function CardCandidate(props: any) {
           <FontAwesomeIcon icon={faMessage} className="mr-1" />
           Enviar mensaje
         </a>
-        <Link href={`/enterprise/candidateProfile/${data._id}`} className="btn btn-primary text-white text-xs py-2 px-4 rounded">
+        <Link href={`/enterprise/candidateProfile/${data._id}`} target="_blank" className="btn btn-primary text-white text-xs py-2 px-4 rounded">
           Ver Perfil
         </Link>
       </div>

@@ -82,6 +82,7 @@ export function CarouselMulti({ candidates }: Props) {
                   className="bg-green-500 text-white text-xs py-2 px-4 rounded"
                 >
                   <Link
+                    target="_blank"
                     href={`https://wa.me/${candidato.personaData.telefono}?text=${whatsappMessage}`}
                     className="text-white text-xs flex items-center"
                   >

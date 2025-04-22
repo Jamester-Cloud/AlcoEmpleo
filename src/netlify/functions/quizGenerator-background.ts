@@ -3,7 +3,8 @@ import { deepSeekQuizGenerator } from "@/services/deepsekAI";
 
 
 export default async (req: Request, context: Context) => {
-    console.log(req)
-    console.log(context)
+    console.log("quizGenerator-background")
+    const json = await req.json();
+    console.log(json);
     return new Response("Hello, world!")
 }
