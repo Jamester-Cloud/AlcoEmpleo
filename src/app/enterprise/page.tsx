@@ -27,7 +27,7 @@ export default function CandidateSearch() {
   const [regions, setRegions] = React.useState<any>();
   const [premiumsData, setPremiumsData] = React.useState<any>();
   //pagination normal
-  const [candidatesNormal, setCandidateNormal]: any = React.useState();
+  const [candidatesNormal, setCandidateNormal]: any = React.useState([]);
   const [pageCandidateNormal, setPageCandidateNormal] = React.useState(1);
   const [pageNormalCandidateCount, setPageNormalCandidateCount]: any = React.useState(1);
   //paginacion premium
@@ -319,8 +319,8 @@ export default function CandidateSearch() {
           <hr className="my-4" />
           <div className="candidate-list">
 
-            {candidatesNormal?.map((item: any) => (
-              <div className="card mt-4" key={item._id}>
+            {candidatesNormal?.map((item: any, idx:number) => (
+              <div className="card mt-4" key={idx}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">

@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         preguntas: preguntas.evaluacion,
       },
     };
+    
     //re-generando el cuestionario
     await Cuestionario.updateOne(filter, update);
 

@@ -17,9 +17,9 @@ export default function Quizzes() {
     const router = useRouter()
 
     const [quizz, setQuizzes]: any = useState();
-   
+
     const [isPremium, setIsPremium] = useState<boolean | null>(null); // Estado para isPremium
-    const [loading, setLoading] = useState<string | null>(null); 
+    const [loading, setLoading] = useState<string | null>(null);
 
     const methods = useForm<FormValues>({
         defaultValues: {
@@ -29,22 +29,17 @@ export default function Quizzes() {
     });
 
     const {
-        control,
-        register,
-        handleSubmit,
-        getValues,
-        reset,
         formState: { errors },
     } = methods;
 
     const retryQuizz = async (idCandidato: string, idQuizz: string) => {
-        
         setLoading(idQuizz); // Establecer el estado de carga para el id del cuestionario
-
         try {
-            let res = await axios.post('/api/administrator/candidates/quizzes/retry', { idCandidato: idCandidato, idQuizz: idQuizz, dificultad:'media' })
-            if (res.status == 200){
-                //Redireccionar con el id del quiz hacia el nuevo cuestionario generado
+            let res = await axios.post('/api/administrator/candidates/quizzes/retry', 
+                { idCandidato: idCandidato, idQuizz: idQuizz, dificultad:'media' }
+            )
+
+            if (res.status == 200) {
                 router.push(`/candidate/quizz/${idQuizz}`)
             }
         } catch (error) {
@@ -59,7 +54,6 @@ export default function Quizzes() {
         if (isPremiumFromStorage) {
             const res = await axios.post('/api/candidate/quizzes', { idUsuario: localStorage?.getItem('idUsuario') });
             if (res.status === 200) {
-                console.log(res)
                 setQuizzes(res.data.cuestionarios);
             }
         }
@@ -80,72 +74,67 @@ export default function Quizzes() {
                     </p>
                 ) : (
                     <div className="overflow-x-auto ">
-                    <table className="min-w-full bg-white shadow-md rounded mb-4">
-                        <thead>
-                            <tr>
-                                <th className="py-2 px-4 border-b"></th>
-                                <th className="py-2 px-4 border-b">Dificultad</th>
-                                <th className="py-2 px-4 border-b">Calificación</th>
-                                <th className="py-2 px-4 border-b">Estado</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {quizz?.map((item: any, key: number) => (
-                                <tr key={key}>
-                                    <td>
-                                        <Image className="rounded-full m-2" src={"/AlcoLogo.png"} alt={""} width={80} height={80} />
-                                        {item.tituloCuestionario}
-                                    </td>
-                                    <td className="py-2 px-4 border-b text-capitalize">
-                                        {item.dificultad}
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.tipo === 'Psicotecnico' ? `${item.calificacion}/10 Estrellas` : `${item.calificacion}/5 Estrellas`}
-                                    </td>
-                                    <td className="py-2 px-4 border-b">
-                                        {item.finalizada ? 'Completado' : 'Sin Completar'}
-                                    </td>
-                                    <td className="py-2 px-4 border-b" style={{ textDecoration: "none" }}>
-                                        {item.finalizada ? (
-                                            <>
-                                                Completado
-                                                {isPremium && (
-                                                        loading === item._id ? (
-                                                            <button className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md" disabled>
-                                                                Cargando...
-                                                            </button>
-                                                        ) : (
-                                                            <button
-                                                                style={{ textDecoration: 'none' }}
-                                                                onClick={() => retryQuizz(item.idCandidato, item._id)}
-                                                                className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md"
-                                                            >
-                                                                Reintentar
-                                                            </button>
-                                                        )
-                                                    )}
-                                            </>
-                                        ) : (
-                                            <Link style={{ textDecoration: 'none' }} href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                                                Completar
-                                            </Link>
-                                        )}
-                                    </td>
+                        <table className="min-w-full bg-white shadow-md rounded mb-4">
+                            <thead>
+                                <tr>
+                                    <th className="py-2 px-4 border-b"></th>
+                                    <th className="py-2 px-4 border-b">Dificultad</th>
+                                    <th className="py-2 px-4 border-b">Calificación</th>
+                                    <th className="py-2 px-4 border-b">Estado</th>
+                                    <th></th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {quizz?.map((item: any, key: number) => (
+                                    <tr key={key}>
+                                        <td>
+                                            <Image className="rounded-full m-2" src={"/AlcoLogo.png"} alt={""} width={80} height={80} />
+                                            {item.tituloCuestionario}
+                                        </td>
+                                        <td className="py-2 px-4 border-b text-capitalize">
+                                            {item.dificultad}
+                                        </td>
+                                        <td className="py-2 px-4 border-b">
+                                            {item.tipo === 'Psicotecnico' ? `${item.calificacion}/10 Estrellas` : `${item.calificacion}/5 Estrellas`}
+                                        </td>
+                                        <td className="py-2 px-4 border-b">
+                                            {item.finalizada ? 'Completado' : 'Sin Completar'}
+                                        </td>
+                                        <td className="py-2 px-4 border-b" style={{ textDecoration: "none" }}>
+                                            {item.finalizada ? (
+                                                <>
+                                                    Completado
+                                                    {isPremium && (
+                                                        <button
+                                                            style={{ textDecoration: 'none' }}
+                                                            onClick={() => retryQuizz(item.idCandidato, item._id)}
+                                                            className="bg-blue-500 ml-5 text-white px-4 py-2 rounded-md"
+                                                        >
+                                                            Reintentar
+                                                        </button>
+
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <Link style={{ textDecoration: 'none' }} href={`/candidate/quizz/${item._id}`} className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                                    Completar
+                                                </Link>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
 
                     </div>
                 )}
 
-        {/* Paginación (comentada por ahora) */}
-        {/* <Pagination>
+                {/* Paginación (comentada por ahora) */}
+                {/* <Pagination>
             // Paginación aquí
         </Pagination> */}
-    </div>
-</div>
+            </div>
+        </div>
 
     );
 }
