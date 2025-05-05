@@ -64,6 +64,7 @@ export const POST = async (request: NextRequest) => {
                 }
 
                 await Persona.updateOne(filter, update)
+                
                 break;
             case 'perfil':
                 console.log(formData)

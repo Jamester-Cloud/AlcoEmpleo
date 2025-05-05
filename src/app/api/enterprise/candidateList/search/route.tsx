@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 connect();
 
-
-
 export async function POST(request: NextRequest) {
   const reqJson = await request.json();
   let { cargo, location } = reqJson;
@@ -129,6 +127,15 @@ export async function POST(request: NextRequest) {
       },
     ]);
 
+    //console.log("candidatos normales", paginatedQuery);
+    //en esta ruta solo necesito mandar las fotos de perfil y ya para esta busqueda
+    candidatePremiums = candidatePremiums.filter(
+      (item: any) => item.documentos.contentType !== "application/pdf"
+    );
+    paginatedQuery = paginatedQuery.filter(
+      (item: any) => item.documentos.contentType !== "application/pdf"
+    );
+
     const count = await Candidato.countDocuments({ esDestacado: false });
     const pageCount = count / PER_PAGE;
     //let mappedData = mapper(candidato);
@@ -145,6 +152,7 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json(
       { error: error + " and error is:" + error.message },
       { status: 500 }

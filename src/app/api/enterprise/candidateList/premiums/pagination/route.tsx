@@ -121,12 +121,12 @@ export async function POST(request: NextRequest) {
                     "documentos": "$documentosData"
                 }
             },
-        ]).skip(skip).limit(10)
+        ]).skip(skip).limit(30)
 
 
         //filtros para solo traerme los candidatos y sus fotos de perfil
         candidatosPremiums = candidatosPremiums.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
-        console.log(candidatosPremiums.length)
+
         //  aplicando el mismo filtro para count
         count = count.filter((item: any) => { return item.documentos.contentType != 'application/pdf' })
 
@@ -137,8 +137,10 @@ export async function POST(request: NextRequest) {
             pagination: {
                 count: count.length,
                 pageCount: pageCount,
+                roundedLength: Math.ceil(candidatosPremiums.length / 2),
             },
             dataCandidatosPremium: candidatosPremiums,
+            
             success: true,
         })
 

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     let page = query.page
     const PER_PAGE = query.limit;
 
-    let q = [
+    let queries = [
         {
             $lookup: {
                 from: "users",
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
         const skip = (page - 1) * PER_PAGE;
 
-        let data: any = await Empresa.aggregate(q).skip(skip).limit(PER_PAGE);
+        let data: any = await Empresa.aggregate(queries).skip(skip).limit(PER_PAGE);
         const count: number = await Empresa.countDocuments();
         const pageCount: any = count / PER_PAGE;
         const response = NextResponse.json({

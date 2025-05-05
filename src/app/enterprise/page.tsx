@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import axios from "axios";
 import ListCarousel from "../components/carousel/Carousel";
+import { CarouselMulti } from "../components/CarouselMulti/CarouselMulti";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "react-bootstrap/Pagination";
@@ -16,10 +17,9 @@ import {
 import Select from "react-select";
 
 type FormValues = {
-  cargo: string
-  idRegion: string,
-}
-
+  cargo: string;
+  idRegion: string;
+};
 
 export default function CandidateSearch() {
   // States
@@ -29,39 +29,38 @@ export default function CandidateSearch() {
   //pagination normal
   const [candidatesNormal, setCandidateNormal]: any = React.useState([]);
   const [pageCandidateNormal, setPageCandidateNormal] = React.useState(1);
-  const [pageNormalCandidateCount, setPageNormalCandidateCount]: any = React.useState(1);
-  //paginacion premium
-  const [candidatesPremiums, setCandidatePremiums]: any = React.useState();
+  const [pageNormalCandidateCount, setPageNormalCandidateCount]: any =
+    React.useState(1);
   const [pageCandidatePremiums, setPageCandidatePremiums] = React.useState(1);
-  const [pagePremiumsCandidateCount, setPagePremiumsCandidateCount]: any = React.useState(1);
-
+  const [pagePremiumsCandidateCount, setPagePremiumsCandidateCount]: any =
+    React.useState(1);
 
   const fetchNormalCandidates = async () => {
     try {
-      const res = await axios.post('/api/enterprise/candidateList', { page: pageCandidateNormal })
+      const res = await axios.post("/api/enterprise/candidateList", {
+        page: pageCandidateNormal,
+      });
       if (res.status == 200) {
-        
         setCandidateNormal(res.data.data);
         setPageNormalCandidateCount(res.data.pagination.pageCount);
-        
       }
     } catch (error) {
-      console.error(Error)
+      console.error(error);
     }
-  }
+  };
 
   const methods = useForm<FormValues>({
     defaultValues: {
       cargo: "",
-      idRegion: ""
-    }
+      idRegion: "",
+    },
   });
 
   const {
     control,
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = methods;
 
   //Normal control page
@@ -79,11 +78,10 @@ export default function CandidateSearch() {
 
   const nextPageCandidateNormal = async (nextPage: number) => {
     try {
-      const candidateData = await axios.post(
-        "/api/enterprise/candidateList", 
-        { page: nextPage }
-      );
-      
+      const candidateData = await axios.post("/api/enterprise/candidateList", {
+        page: nextPage,
+      });
+
       if (candidateData.status === 200) {
         setPageCandidateNormal(nextPage);
         setCandidateNormal(candidateData.data.data);
@@ -96,11 +94,10 @@ export default function CandidateSearch() {
 
   const prevPageCandidateNormal = async (prevPage: number) => {
     try {
-      const candidateData = await axios.post(
-        "/api/enterprise/candidateList",
-        { page: prevPage }
-      );
-      
+      const candidateData = await axios.post("/api/enterprise/candidateList", {
+        page: prevPage,
+      });
+
       if (candidateData.status === 200) {
         setPageCandidateNormal(prevPage);
         setCandidateNormal(candidateData.data.data);
@@ -110,14 +107,14 @@ export default function CandidateSearch() {
       console.error("Error al cambiar de página:", error);
     }
   };
-  
+
   const nextPageCandidatePremium = async (nextPage: number) => {
     try {
       const response: any = await axios.post(
-        "/api/enterprise/candidateList/premiums/pagination", 
+        "/api/enterprise/candidateList/premiums/pagination",
         { page: nextPage }
       );
-      
+
       if (response.status === 200) {
         setPageCandidatePremiums(nextPage);
         setPremiumsData(response.data.dataCandidatosPremium);
@@ -131,10 +128,10 @@ export default function CandidateSearch() {
   const prevPageCandidatePremium = async (prevPage: number) => {
     try {
       const response: any = await axios.post(
-        "/api/enterprise/candidateList/premiums/pagination", 
+        "/api/enterprise/candidateList/premiums/pagination",
         { page: prevPage }
       );
-      
+
       if (response.status === 200) {
         setPageCandidatePremiums(prevPage);
         setPremiumsData(response.data.dataCandidatosPremium);
@@ -148,10 +145,10 @@ export default function CandidateSearch() {
   const fetchPremiumCandidates = async () => {
     try {
       const response: any = await axios.post(
-        "/api/enterprise/candidateList/premiums/pagination", 
+        "/api/enterprise/candidateList/premiums/pagination",
         { page: pageCandidatePremiums }
       );
-      
+
       if (response.status === 200) {
         setPremiumsData(response.data.dataCandidatosPremium);
         setPagePremiumsCandidateCount(response.data.pagination.pageCount);
@@ -160,7 +157,6 @@ export default function CandidateSearch() {
       console.error("Error al cargar candidatos premium:", error);
     }
   };
-
 
   const fetchRegions = async () => {
     try {
@@ -172,16 +168,11 @@ export default function CandidateSearch() {
   };
 
   useEffect(() => {
-    if(!candidatesNormal){
-      fetchNormalCandidates();
-    }
-  }, [candidatesNormal])
-
-  useEffect(() => {
-    const loadPremiumData = async () => {
+    const loadCandidateData = async () => {
       await fetchPremiumCandidates();
+      await fetchNormalCandidates();
     };
-    loadPremiumData();
+    loadCandidateData();
   }, []);
 
   useEffect(() => {
@@ -189,6 +180,7 @@ export default function CandidateSearch() {
       (async () => {
         try {
           const dataRegions: any = await fetchRegions();
+          console.log(dataRegions.regions);
           setRegions(dataRegions.regions);
         } catch (err: any) {
           console.error("Error al cargar los datos del usuario", err);
@@ -197,22 +189,42 @@ export default function CandidateSearch() {
     }
   }, [regions]);
 
-
   const handleSubmitFilter = async (data: any) => {
-    let filter = { cargo: data.cargo || '', location: data?.idRegion?.value || '', page: page };
+    let filter = {
+      cargo: data.cargo || "",
+      location: data?.idRegion?.value || "",
+      page: page,
+    };
     try {
-      const response = await axios.post('/api/enterprise/candidateList/search', filter);
+      //TODO: poner paginado al buscar candidatos tambien
+      const response = await axios.post(
+        "/api/enterprise/candidateList/search",
+        filter
+      );
       if (response.status === 200) {
-
-        let premiumCandidates = response.data.candidatePremiums.map((item:any)=>{
-          return {...item, documentos: 
-            item.documentos.filter((doc: any) => doc.contentType != 'application/pdf').reduce((prev: any, curr: any) => {return curr})
+        console.log(response.data);
+        let premiumCandidates = response.data.candidatePremiums.map(
+          (item: any) => {
+            return {
+              ...item,
+              documentos: item.documentos
+                .filter((doc: any) => doc.contentType != "application/pdf")
+                .reduce((prev: any, curr: any) => {
+                  return curr;
+                }),
+            };
           }
-        })
+        );
 
-        let normalCandidates = response.data.paginatedQuery.map((item:any)=>{
-          return {...item, documentos:item.documentos.contentType != 'application/pdf'? item.documentos : null}
-        })
+        let normalCandidates = response.data.paginatedQuery.map((item: any) => {
+          return {
+            ...item,
+            documentos:
+              item.documentos.contentType != "application/pdf"
+                ? item.documentos
+                : null,
+          };
+        });
 
         setPremiumsData(premiumCandidates);
         setCandidateNormal(normalCandidates);
@@ -221,7 +233,6 @@ export default function CandidateSearch() {
       console.log(err);
     }
   };
-
 
   return (
     <section className="w-full">
@@ -252,24 +263,53 @@ export default function CandidateSearch() {
                     <input
                       placeholder="Cargo"
                       className="w-full form-control"
-                      {...register('cargo')}
+                      {...register("cargo")}
                     />
                   </div>
                   <div className="flex items-center z-3">
                     <Controller
                       name="idRegion"
                       control={control}
-                      render={({ field }) => <Select isClearable className="w-full"
-                        {...field}
-                        options={regions}
-                      />}
+                      render={(props: any) => (
+                        <Select
+                          instanceId={"region"}
+                          client="react"
+                          {...props}
+                          id="estado"
+                          options={regions}
+                          placeholder="Ubicación"
+                          isClearable={true}
+                          className="w-75"
+                          suppressHydrationWarning
+                          onChange={(value) => props.field.onChange(value)}
+                          styles={{
+                            menuPortal: (base) => ({
+                              ...base,
+                              zIndex: 9999,
+                            }),
+                          }}
+                        />
+                      )}
                     />
                   </div>
                 </div>
-                <div className="flex justify-center mt-4 w-full max-w-lg">
-                  <button type="submit" className="btn btn-primary">
-                    Buscar
-                  </button>
+                <div className="row flex justify-center mt-4 w-full max-w-lg">
+                  <div className="col-md-6">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        fetchNormalCandidates(), fetchPremiumCandidates();
+                      }}
+                    >
+                      Reiniciar
+                    </button>
+                  </div>
+                  <div className="col-md-6">
+                    <button type="submit" className="btn btn-primary ">
+                      Buscar
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
@@ -284,28 +324,21 @@ export default function CandidateSearch() {
           Descubra su próximo candidato para trabajo, independiente o pasantía
         </p>
         {premiumsData === undefined || premiumsData.length === 0 ? (
-          <div className="font-bold">No hay Candidatos Premiums Registrados</div>
+          <div className="font-bold">
+            No hay Candidatos Premiums Registrados
+          </div>
         ) : (
           <>
-            <ListCarousel data={premiumsData.slice(0, Math.ceil(premiumsData.length / 2))} />
-            <ListCarousel data={premiumsData.slice(Math.ceil(premiumsData.length / 2))} />
+            <ListCarousel
+              data={premiumsData.slice(0, Math.ceil(premiumsData.length / 2))}
+            />
+            <ListCarousel
+              data={premiumsData.slice(Math.ceil(premiumsData.length / 2))}
+            />
           </>
         )}
+      </div>
 
-      </div>
-      <div className="text-center mr-5">
-        {/* Paginado para candidatos premiums */}
-        <Pagination>
-          <Pagination.Prev
-            onClick={() => prevPageCandidatePremium(pageCandidatePremiums - 1)}
-            disabled={pageCandidatePremiums == 1}
-          />
-          <Pagination.Next
-            onClick={() => nextPageCandidatePremium(pageCandidatePremiums + 1)}
-            disabled={pageCandidatePremiums == pagePremiumsCandidateCount}
-          />
-        </Pagination>
-      </div>
       <div className="w-full text-left ">
         <h3 className="p-2 text-center text-lg text-blue-900 md:text-2xl font-bold">
           Otros candidatos
@@ -318,18 +351,17 @@ export default function CandidateSearch() {
         <div className="w-full md:w-11/12">
           <hr className="my-4" />
           <div className="candidate-list">
-
-            {candidatesNormal?.map((item: any, idx:number) => (
+            {candidatesNormal?.map((item: any, idx: number) => (
               <div className="card mt-4" key={idx}>
                 <div className="bg-slate-200 card-body">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <a href="#">
                         <Image
-                          src={item?.documentosData?.idArchivo ? `/api/candidate/profilePic?idArchivo=${item.documentosData.idArchivo}` : "/Imagen-card.png"}
+                          src={"/AlcoLogo.png"}
                           width={100}
                           height={100}
-                          alt=""
+                          alt="Candidato"
                           className="w-32 h-32 rounded-full"
                         />
                       </a>
@@ -337,7 +369,8 @@ export default function CandidateSearch() {
                     <div className="flex-grow ml-4">
                       <h5 className="text-lg font-bold">
                         <a className="text-blue-900" href="#">
-                          {item?.personaData?.nombre}  {item?.personaData?.apellido}
+                          {item?.personaData?.nombre}{" "}
+                          {item?.personaData?.apellido}
                         </a>
                         <span className="badge bg-success rounded-full ml-4">
                           <FontAwesomeIcon icon={faCheckCircle} /> Verificado
