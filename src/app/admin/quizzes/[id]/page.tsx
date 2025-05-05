@@ -91,8 +91,8 @@ export default function Quizzes({ params }: any) {
                 setCargoDeseado(response.data.cargoDeseado);
             }
         } catch (error:any) {
-            console.error('Error es', error.message);
-            toast.error("Cuestionario no generado, contacte a soporte tecnico", {
+            toast.error(`Cuestionario no generado, error es: ${error.response.data.message}`, {
+            //console.error('Error es', error.response.data.message);
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
