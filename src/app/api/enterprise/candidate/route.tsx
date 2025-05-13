@@ -1,14 +1,13 @@
 import { connect } from "@/dbConfig/dbConfig";
 import Candidato from "@/models/candidato";
 import { NextRequest, NextResponse } from "next/server";
-
+import Cuestionario from "@/models/cuestionarios";
 connect();
 
 export async function POST(request: NextRequest) {
   try {
     //Consulta desde candidatos hasta personas
     const reqJson = await request.json();
-    console.log(reqJson);
 
     const candidato: any = await Candidato.aggregate([
       { $match: { $expr: { $eq: ["$_id", { $toObjectId: reqJson.id }] } } },
@@ -48,7 +47,6 @@ export async function POST(request: NextRequest) {
       },
       {
         $project: {
-          usuarioData: "$usuarioData",
           candidato: "$$ROOT",
           documentos: "$documentosData",
           personaData: "$personaData",
@@ -89,14 +87,19 @@ export async function POST(request: NextRequest) {
         },
       },
     ]);
-    console.log(candidato);
 
+    //const cuestionarios: any = await Cuestionario.findOne({idCandidato: reqJson.id});
+    const cuestionarios: any = await Cuestionario.find({
+      idCandidato: reqJson.id,
+      //tipo: { $in: ["psicotecnico", "normal"] }, // Asegúrate que coincida con el valor exacto en la BD
+    });
+    console.log(cuestionarios);
     //el candidato puede ser uno sin documentos disponibles
     if (!candidato) {
       const response = NextResponse.json({
         message: "Succesfull data retrieving",
         success: true,
-        noDocs:true,
+        noDocs: true,
         data: candidatoNoDocs,
       });
 
@@ -115,7 +118,7 @@ export async function POST(request: NextRequest) {
       const response = NextResponse.json({
         message: "Succesfull data retrieving",
         success: true,
-        data: candidato,
+        candidate: candidato,
         cv: pdf,
         profilePicture: profilePicture,
       });

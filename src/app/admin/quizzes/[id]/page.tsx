@@ -155,24 +155,27 @@ export default function Quizzes({ params }: any) {
         "/api/administrator/candidates/quizzes/save/",
         {
           preguntas: data.quiz,
-          dificultad: data.dificultad,
-          idCandidato: data.idCandidato,
+          dificultad: dificultad,
+          idCandidato:id,
           tituloCuestionario: data.tituloCuestionario,
         }
       );
-      toast.success("Cuestionario generado", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      if (response.status == 200) {
+        toast.success("Cuestionario generado", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+
       setTimeout(() => {
-        if (response.status == 200) router.push("/admin");
+        //if (response.status == 200) router.push("/admin");
       }, 3000);
     } catch (error: any) {
       const errorMessage = error?.message || "Error al generar el cuestionario";
@@ -196,25 +199,22 @@ export default function Quizzes({ params }: any) {
       id: idCandidato,
     });
     if (res.status == 200) {
-      console.log("El perfil del candidato es: ", res.data.candidate.perfil);
-      if (!res.data.candidate.perfil.puestoDeseado) {
-        toast.error(
-          "El Candidato no tiene un cargo definido",
-          {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            transition: Bounce,
-          }
-        ),
+      //console.log("El perfil del candidato es: ", res.data.candidate.perfil);
+      if (!res.data.candidate[0]?.candidato.perfil?.puestoDeseado) {
+        toast.error("El Candidato no tiene un cargo definido", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        }),
           setCargoDeseado("Sin Cargo");
       } else {
-        setCargoDeseado(res.data.candidate.perfil.puestoDeseado);
+        setCargoDeseado(res.data.candidate[0]?.candidato.perfil.puestoDeseado);
       }
     }
   };

@@ -1,5 +1,4 @@
 import { connect } from "@/dbConfig/dbConfig";
-import Candidato from "@/models/candidato";
 import Cuestionario from "@/models/cuestionarios";
 import { NextRequest, NextResponse } from "next/server";
 connect()
@@ -9,13 +8,14 @@ export async function POST(request: NextRequest) {
         const reqJson = await request.json()
 
         let { idCandidato, dificultad, preguntas, tituloCuestionario } = reqJson;
-        
+        console.log(reqJson)
         await new Cuestionario({
             idCandidato:idCandidato,
             preguntas:preguntas,
             dificultad:dificultad,
             tituloCuestionario:tituloCuestionario,
             calificacion:0,
+            tipo:'Normal',
             finalizada:false
         }).save()
 

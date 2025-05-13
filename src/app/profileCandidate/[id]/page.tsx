@@ -46,7 +46,7 @@ export default function EnterpriseProfilePage({ params }: any) {
 
       setCv(response?.data?.cv[0]?.documentos?.idArchivo)
       setProfilePicture(response.data.profilePicture[0].documentos.idArchivo)
-      setData(response.data.data[0]);
+      setData(response.data.candidate[0]);
 
     } catch (error) {
       console.log("Peticion errada", error);
