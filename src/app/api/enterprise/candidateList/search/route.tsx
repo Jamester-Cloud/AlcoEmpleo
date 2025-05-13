@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       {
         $search: {
           index: "testDinamicSearch",
-          text: {
+          phrase: {
             query: cargo,
             path: "perfil.puestoDeseado",
           },
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
         },
       },
       {
-        $unwind: "$usuarioData",
+        $unwind: {path:"$usuarioData", preserveNullAndEmptyArrays:true},
       },
       {
         $lookup: {
@@ -64,15 +64,15 @@ export async function POST(request: NextRequest) {
         },
       },
       {
-        $unwind: "$personaData",
+        $unwind: {path:"$personaData", preserveNullAndEmptyArrays:true},
       },
     ]);
 
-    let paginatedQuery: any = await Candidato.aggregate([
+    let normalCandidates: any = await Candidato.aggregate([
       {
         $search: {
           index: "testDinamicSearch",
-          text: {
+          phrase: {
             query: cargo,
             path: "perfil.puestoDeseado",
           },
@@ -80,7 +80,6 @@ export async function POST(request: NextRequest) {
       },
       {
         $match: {
-          "perfil.puestoDeseado": { $regex: new RegExp(cargo, "i") },
           idRegion: objectLocationId,
           esDestacado: false,
         },
@@ -94,7 +93,7 @@ export async function POST(request: NextRequest) {
         },
       },
       {
-        $unwind: "$usuarioData",
+        $unwind: {path:"$usuarioData", preserveNullAndEmptyArrays:true},
       },
       {
         $lookup: {
@@ -105,7 +104,7 @@ export async function POST(request: NextRequest) {
         },
       },
       {
-        $unwind: "$documentosData",
+        $unwind: {path:"$documentosData", preserveNullAndEmptyArrays:true},
       },
       {
         $project: {
@@ -122,17 +121,18 @@ export async function POST(request: NextRequest) {
           as: "personaData",
         },
       },
-      {
-        $unwind: "$personaData",
-      },
+      { $unwind: { path: "$personaData", preserveNullAndEmptyArrays: true } },
     ]);
 
-    //console.log("candidatos normales", paginatedQuery);
+    console.log("candidatos normales", normalCandidates);
     //en esta ruta solo necesito mandar las fotos de perfil y ya para esta busqueda
     candidatePremiums = candidatePremiums.filter(
       (item: any) => item.documentos.contentType !== "application/pdf"
     );
-    paginatedQuery = paginatedQuery.filter(
+
+    
+
+    normalCandidates = normalCandidates.filter(
       (item: any) => item.documentos.contentType !== "application/pdf"
     );
 
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
         count,
         pageCount,
       },
-      paginatedQuery,
+      paginatedQuery:normalCandidates,
     });
 
     return response;

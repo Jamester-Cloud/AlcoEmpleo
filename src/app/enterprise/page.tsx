@@ -216,7 +216,7 @@ export default function CandidateSearch() {
           }
         );
 
-        let normalCandidates = response.data.paginatedQuery.map((item: any) => {
+        let normalCandidates = response.data?.paginatedQuery?.map((item: any) => {
           return {
             ...item,
             documentos:
