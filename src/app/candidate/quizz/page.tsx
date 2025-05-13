@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
+import SmallSpinner from "@/app/components/Spinner/smallSpinner";
 import MoonLoader from "react-spinners/MoonLoader";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -128,14 +128,7 @@ export default function Quizzes() {
                           {isPremium &&
                             (loading ? (
                               <div className="sweet-loading">
-                                <MoonLoader
-                                  color="#576FE3" // Simplificado el color
-                                  loading={loading}
-                                  cssOverride={override}
-                                  aria-label="Loading Spinner"
-                                  data-testid="loader"
-                                  size={60}
-                                />
+                                <SmallSpinner loading={loading} />
                               </div>
                             ) : (
                               <button

@@ -7,7 +7,7 @@ const override: CSSProperties = {
  
 };
 
-export default function Spinner({loading}: {loading: boolean}) {
+export default function SmallSpinner({loading}: {loading: boolean}) {
   return (
         <div className="sweet-loading">
           <MoonLoader
