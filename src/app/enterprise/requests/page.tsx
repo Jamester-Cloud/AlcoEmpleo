@@ -95,6 +95,7 @@ export default function Request() {
                                                 <Link
                                                     href={`/enterprise/candidateProfile/${item.idCandidato}`}
                                                     className="mdi text-white text-decoration-none"
+                                                    target="_blank"
                                                 >
                                                     Ver Perfil
                                                 </Link>

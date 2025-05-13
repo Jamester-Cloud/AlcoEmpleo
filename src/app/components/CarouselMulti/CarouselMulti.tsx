@@ -96,6 +96,7 @@ export function CarouselMulti({ candidates }: Props) {
                   <Link
                     href={`/profileCandidate/${candidato._id}`}
                     className="text-white text-xs"
+                    target="_blank"
                   >
                     Ver Perfil
                   </Link>
